@@ -3,7 +3,9 @@ namespace Jobzy.Data.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
 
+    using Jobzy.Common;
     using Jobzy.Data.Common.Models;
 
     using Microsoft.AspNetCore.Identity;
@@ -18,9 +20,30 @@ namespace Jobzy.Data.Models
             this.Logins = new HashSet<IdentityUserLogin<string>>();
         }
 
-        public string Name { get; set; }
+        [Required]
+        [MaxLength(24)]
+        public string FirstName { get; set; }
 
-        public string Tagline { get; set; }
+        [Required]
+        [MaxLength(24)]
+        public string LastName { get; set; }
+
+        [Required]
+        public UserTypes UserType { get; set; }
+
+        [Range(0, 5)]
+        public int Rating { get; set; }
+
+        [Required]
+        [MaxLength(4096)]
+        public string Description { get; set; }
+
+        [Required]
+        public string Location { get; set; }
+
+        public bool IsVerified { get; set; }
+
+        public string ProfileImageUrl { get; set; }
 
         // Audit info
         public DateTime CreatedOn { get; set; }

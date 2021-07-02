@@ -24,6 +24,14 @@
         {
         }
 
+        public DbSet<Job> Jobs { get; set; }
+
+        public DbSet<Tag> Tags { get; set; }
+
+        public DbSet<Freelancer> Freelancers { get; set; }
+
+        public DbSet<Employer> Employers { get; set; }
+
         public DbSet<Setting> Settings { get; set; }
 
         public override int SaveChanges() => this.SaveChanges(true);
@@ -58,7 +66,7 @@
 
             // Set global query filter for not deleted entities only
             var deletableEntityTypes = entityTypes
-                .Where(et => et.ClrType != null && typeof(IDeletableEntity).IsAssignableFrom(et.ClrType));
+                .Where(et => et.ClrType != null && typeof(IDeletableEntity).IsAssignableFrom(et.ClrType) && et.BaseType == null);
             foreach (var deletableEntityType in deletableEntityTypes)
             {
                 var method = SetIsDeletedQueryFilterMethod.MakeGenericMethod(deletableEntityType.ClrType);
