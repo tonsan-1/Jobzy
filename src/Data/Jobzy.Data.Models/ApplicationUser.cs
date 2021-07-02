@@ -18,6 +18,10 @@ namespace Jobzy.Data.Models
             this.Logins = new HashSet<IdentityUserLogin<string>>();
         }
 
+        public string Name { get; set; }
+
+        public string Tagline { get; set; }
+
         // Audit info
         public DateTime CreatedOn { get; set; }
 
