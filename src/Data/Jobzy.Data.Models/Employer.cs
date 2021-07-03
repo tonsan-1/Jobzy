@@ -6,10 +6,10 @@
     {
         public Employer()
         {
-            this.Tags = new List<Tag>();
+            this.EmployerTags = new List<EmployerTag>();
         }
 
-        public List<Tag> Tags { get; set; }
+        public List<EmployerTag> EmployerTags { get; set; }
 
         // implement more properties such as
         // Open Jobs, Reviews..etc

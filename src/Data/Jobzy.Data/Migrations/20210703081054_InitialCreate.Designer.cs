@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Jobzy.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210702140339_InitialCreate")]
+    [Migration("20210703081054_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -178,6 +178,50 @@ namespace Jobzy.Data.Migrations
                     b.HasDiscriminator<string>("Discriminator").HasValue("ApplicationUser");
                 });
 
+            modelBuilder.Entity("Jobzy.Data.Models.EmployerTag", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("EmployerId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EmployerId");
+
+                    b.ToTable("EmployerTags");
+                });
+
+            modelBuilder.Entity("Jobzy.Data.Models.FreelancerTag", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("FreelancerId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FreelancerId");
+
+                    b.ToTable("FreelancerTags");
+                });
+
             modelBuilder.Entity("Jobzy.Data.Models.Job", b =>
                 {
                     b.Property<int>("Id")
@@ -224,6 +268,28 @@ namespace Jobzy.Data.Migrations
                     b.ToTable("Jobs");
                 });
 
+            modelBuilder.Entity("Jobzy.Data.Models.JobTag", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("JobId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("JobId");
+
+                    b.ToTable("JobTags");
+                });
+
             modelBuilder.Entity("Jobzy.Data.Models.Setting", b =>
                 {
                     b.Property<int>("Id")
@@ -254,38 +320,6 @@ namespace Jobzy.Data.Migrations
                     b.HasIndex("IsDeleted");
 
                     b.ToTable("Settings");
-                });
-
-            modelBuilder.Entity("Jobzy.Data.Models.Tag", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("EmployerId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("FreelancerId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int?>("JobId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Text")
-                        .IsRequired()
-                        .HasMaxLength(25)
-                        .HasColumnType("nvarchar(25)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("EmployerId");
-
-                    b.HasIndex("FreelancerId");
-
-                    b.HasIndex("JobId");
-
-                    b.ToTable("Tags");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -409,6 +443,20 @@ namespace Jobzy.Data.Migrations
                     b.HasDiscriminator().HasValue("Freelancer");
                 });
 
+            modelBuilder.Entity("Jobzy.Data.Models.EmployerTag", b =>
+                {
+                    b.HasOne("Jobzy.Data.Models.Employer", null)
+                        .WithMany("EmployerTags")
+                        .HasForeignKey("EmployerId");
+                });
+
+            modelBuilder.Entity("Jobzy.Data.Models.FreelancerTag", b =>
+                {
+                    b.HasOne("Jobzy.Data.Models.Freelancer", null)
+                        .WithMany("FreelancerTags")
+                        .HasForeignKey("FreelancerId");
+                });
+
             modelBuilder.Entity("Jobzy.Data.Models.Job", b =>
                 {
                     b.HasOne("Jobzy.Data.Models.Employer", "Employer")
@@ -418,18 +466,10 @@ namespace Jobzy.Data.Migrations
                     b.Navigation("Employer");
                 });
 
-            modelBuilder.Entity("Jobzy.Data.Models.Tag", b =>
+            modelBuilder.Entity("Jobzy.Data.Models.JobTag", b =>
                 {
-                    b.HasOne("Jobzy.Data.Models.Employer", null)
-                        .WithMany("Tags")
-                        .HasForeignKey("EmployerId");
-
-                    b.HasOne("Jobzy.Data.Models.Freelancer", null)
-                        .WithMany("Tags")
-                        .HasForeignKey("FreelancerId");
-
                     b.HasOne("Jobzy.Data.Models.Job", null)
-                        .WithMany("Tags")
+                        .WithMany("JobTags")
                         .HasForeignKey("JobId");
                 });
 
@@ -495,17 +535,17 @@ namespace Jobzy.Data.Migrations
 
             modelBuilder.Entity("Jobzy.Data.Models.Job", b =>
                 {
-                    b.Navigation("Tags");
+                    b.Navigation("JobTags");
                 });
 
             modelBuilder.Entity("Jobzy.Data.Models.Employer", b =>
                 {
-                    b.Navigation("Tags");
+                    b.Navigation("EmployerTags");
                 });
 
             modelBuilder.Entity("Jobzy.Data.Models.Freelancer", b =>
                 {
-                    b.Navigation("Tags");
+                    b.Navigation("FreelancerTags");
                 });
 #pragma warning restore 612, 618
         }

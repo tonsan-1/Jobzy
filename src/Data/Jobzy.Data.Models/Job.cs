@@ -10,7 +10,7 @@
     {
         public Job()
         {
-            this.Tags = new List<Tag>();
+            this.JobTags = new List<JobTag>();
         }
 
         public int Id { get; set; }
@@ -44,6 +44,6 @@
 
         public Employer Employer { get; set; }
 
-        public List<Tag> Tags { get; set; }
+        public List<JobTag> JobTags { get; set; }
     }
 }

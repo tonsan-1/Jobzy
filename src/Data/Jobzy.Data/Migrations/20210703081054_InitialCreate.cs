@@ -189,6 +189,46 @@ namespace Jobzy.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "EmployerTags",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Text = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
+                    EmployerId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EmployerTags", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_EmployerTags_AspNetUsers_EmployerId",
+                        column: x => x.EmployerId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "FreelancerTags",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Text = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
+                    FreelancerId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FreelancerTags", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_FreelancerTags_AspNetUsers_FreelancerId",
+                        column: x => x.FreelancerId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Jobs",
                 columns: table => new
                 {
@@ -216,33 +256,19 @@ namespace Jobzy.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Tags",
+                name: "JobTags",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Text = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
-                    EmployerId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    FreelancerId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     JobId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Tags", x => x.Id);
+                    table.PrimaryKey("PK_JobTags", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Tags_AspNetUsers_EmployerId",
-                        column: x => x.EmployerId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Tags_AspNetUsers_FreelancerId",
-                        column: x => x.FreelancerId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Tags_Jobs_JobId",
+                        name: "FK_JobTags_Jobs_JobId",
                         column: x => x.JobId,
                         principalTable: "Jobs",
                         principalColumn: "Id",
@@ -299,29 +325,29 @@ namespace Jobzy.Data.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_EmployerTags_EmployerId",
+                table: "EmployerTags",
+                column: "EmployerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_FreelancerTags_FreelancerId",
+                table: "FreelancerTags",
+                column: "FreelancerId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Jobs_EmployerId",
                 table: "Jobs",
                 column: "EmployerId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_JobTags_JobId",
+                table: "JobTags",
+                column: "JobId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Settings_IsDeleted",
                 table: "Settings",
                 column: "IsDeleted");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Tags_EmployerId",
-                table: "Tags",
-                column: "EmployerId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Tags_FreelancerId",
-                table: "Tags",
-                column: "FreelancerId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Tags_JobId",
-                table: "Tags",
-                column: "JobId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -342,10 +368,16 @@ namespace Jobzy.Data.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Settings");
+                name: "EmployerTags");
 
             migrationBuilder.DropTable(
-                name: "Tags");
+                name: "FreelancerTags");
+
+            migrationBuilder.DropTable(
+                name: "JobTags");
+
+            migrationBuilder.DropTable(
+                name: "Settings");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

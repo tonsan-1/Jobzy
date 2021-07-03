@@ -7,13 +7,13 @@
     {
         public Freelancer()
         {
-            this.Tags = new List<Tag>();
+            this.FreelancerTags = new List<FreelancerTag>();
         }
 
         [Range(3, 150)]
         public int HourlyRate { get; set; }
 
-        public List<Tag> Tags { get; set; }
+        public List<FreelancerTag> FreelancerTags { get; set; }
 
         // implement more properties such as
         // Jobs Done, Job Success, Recommendation percentage, Skills, Attachments, Work History

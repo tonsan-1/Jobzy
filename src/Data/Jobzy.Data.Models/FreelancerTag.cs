@@ -2,7 +2,7 @@
 {
     using System.ComponentModel.DataAnnotations;
 
-    public class Tag
+    public class FreelancerTag
     {
         public int Id { get; set; }
 
