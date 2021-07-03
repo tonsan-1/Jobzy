@@ -12,6 +12,13 @@
                 <h4>Use a local account to log in.</h4>
                 <hr />
                 <div asp-validation-summary="All" class="text-danger"></div>
+
+                <div class="form-group">
+                    <label asp-for="Input.Username"></label>
+                    <input asp-for="Input.Username" class="form-control" />
+                    <span asp-validation-for="Input.Username" class="text-danger"></span>
+                </div>
+
                 <div class="form-group">
                     <label asp-for="Input.Email"></label>
                     <input asp-for="Input.Email" class="form-control" />
@@ -55,37 +62,43 @@
 
 
             <div class="login-register-page">
-                <!-- Welcome Text -->
                 <div class="welcome-text">
                     <h3>We're glad to see you again!</h3>
-                    <span>Don't have an account? <a href="pages-register.html">Sign Up!</a></span>
+                    <span>Don't have an account? <a href="Register">Sign Up!</a></span>
                 </div>
 
-                <!-- Form -->
-                <form method="post" id="login-form">
+                <form id="login-form" method="post">
+                    <div asp-validation-summary="All" class="text-danger"></div>
+
+                    <div class="input-with-icon-left">
+                        <i class="icon-material-outline-account-circle"></i>
+                        <input asp-for="Input.Username" type="text" class="input-text with-border" placeholder="Username" required />
+                        <span asp-validation-for="Input.Username" class="text-danger"></span>
+                    </div>
+
                     <div class="input-with-icon-left">
                         <i class="icon-material-baseline-mail-outline"></i>
-                        <input type="text" class="input-text with-border" name="emailaddress" id="emailaddress" placeholder="Email Address" required />
+                        <input asp-for="Input.Email" type="text" class="input-text with-border" placeholder="Email Address" required />
+                        <span asp-validation-for="Input.Email" class="text-danger"></span>
                     </div>
 
                     <div class="input-with-icon-left">
                         <i class="icon-material-outline-lock"></i>
-                        <input type="password" class="input-text with-border" name="password" id="password" placeholder="Password" required />
+                        <input asp-for="Input.Password" type="password" class="input-text with-border" placeholder="Password" required />
+                        <span asp-validation-for="Input.Password" class="text-danger"></span>
                     </div>
+
                     <a href="#" class="forgot-password">Forgot Password?</a>
                 </form>
 
-                <!-- Button -->
-                <button class="button full-width button-sliding-icon ripple-effect margin-top-10" type="submit" form="login-form">Log In <i class="icon-material-outline-arrow-right-alt"></i></button>
+                <button class="button full-width button-sliding-icon ripple-effect margin-top-10" form="login-form" type="submit">Log In <i class="icon-material-outline-arrow-right-alt"></i></button>
 
-                <!-- Social Login -->
                 <div class="social-login-separator"><span>or</span></div>
                 <div class="social-login-buttons">
                     <button class="facebook-login ripple-effect"><i class="icon-brand-facebook-f"></i> Log In via Facebook</button>
                     <button class="google-login ripple-effect"><i class="icon-brand-google-plus-g"></i> Log In via Google+</button>
                 </div>
             </div>
-
         </div>
     </div>
 </div>

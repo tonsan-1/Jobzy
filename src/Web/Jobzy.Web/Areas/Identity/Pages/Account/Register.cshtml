@@ -1,5 +1,6 @@
 ﻿@page
 @model RegisterModel
+@using Jobzy.Common
 @{
     ViewData["Title"] = "Register";
 }
@@ -33,48 +34,69 @@
 <div class="container">
     <div class="row">
         <div class="col-xl-5 offset-xl-3">
-
             <div class="login-register-page">
                 <!-- Welcome Text -->
                 <div class="welcome-text">
                     <h3 style="font-size: 26px;">Let's create your account!</h3>
-                    <span>Already have an account? <a href="pages-login.html">Log In!</a></span>
+                    <span>Already have an account? <a href="Login">Log In!</a></span>
                 </div>
 
                 <!-- Account Type -->
                 <div class="account-type">
                     <div>
-                        <input type="radio" name="account-type-radio" id="freelancer-radio" class="account-type-radio" checked />
-                        <label for="freelancer-radio" class="ripple-effect-dark"><i class="icon-material-outline-account-circle"></i> Freelancer</label>
+                        <input asp-for="Input.UserType" value="@UserType.Freelancer" type="radio" id="freelancer-radio" class="account-type-radio" checked />
+                        <label asp-for="Input.UserType" for="freelancer-radio" class="ripple-effect-dark"><i class="icon-material-outline-account-circle"></i> Freelancer</label>
                     </div>
 
                     <div>
-                        <input type="radio" name="account-type-radio" id="employer-radio" class="account-type-radio" />
-                        <label for="employer-radio" class="ripple-effect-dark"><i class="icon-material-outline-business-center"></i> Employer</label>
+                        <input asp-for="Input.UserType" value="@UserType.Employer" type="radio" id="employer-radio" class="account-type-radio" />
+                        <label asp-for="Input.UserType" for="employer-radio" class="ripple-effect-dark"><i class="icon-material-outline-business-center"></i> Employer</label>
                     </div>
                 </div>
 
+                <div asp-validation-summary="All" class="text-danger"></div>
+
                 <!-- Form -->
-                <form method="post" id="register-account-form">
+                <form asp-route-returnUrl="@Model.ReturnUrl" method="post" id="register-form">
+
+                    <div class="input-with-icon-left">
+                        <i class="icon-material-outline-account-circle"></i>
+                        <input asp-for="Input.Name" type="text" class="input-text with-border" placeholder="Full Name" required />
+                    </div>
+                    <span asp-validation-for="Input.Name" class="text-danger"></span>
+
+
+                    <div class="input-with-icon-left">
+                        <i class="icon-material-outline-account-circle"></i>
+                        <input asp-for="Input.Username" type="text" class="input-text with-border" placeholder="Username" required />
+                    </div>
+                    <span asp-validation-for="Input.Username" class="text-danger"></span>
+
+
                     <div class="input-with-icon-left">
                         <i class="icon-material-baseline-mail-outline"></i>
-                        <input type="text" class="input-text with-border" name="emailaddress-register" id="emailaddress-register" placeholder="Email Address" required />
+                        <input asp-for="Input.Email" type="text" class="input-text with-border" placeholder="Email Address" required />
                     </div>
+                    <span asp-validation-for="Input.Email" class="text-danger"></span>
+
 
                     <div class="input-with-icon-left" title="Should be at least 8 characters long" data-tippy-placement="bottom">
                         <i class="icon-material-outline-lock"></i>
-                        <input type="password" class="input-text with-border" name="password-register" id="password-register" placeholder="Password" required />
+                        <input asp-for="Input.Password" type="password" class="input-text with-border" placeholder="Password" required />
                     </div>
+                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+
 
                     <div class="input-with-icon-left">
                         <i class="icon-material-outline-lock"></i>
-                        <input type="password" class="input-text with-border" name="password-repeat-register" id="password-repeat-register" placeholder="Repeat Password" required />
+                        <input asp-for="Input.ConfirmPassword" type="password" class="input-text with-border" placeholder="Repeat Password" required />
                     </div>
+                    <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+
+                    <button class="button full-width button-sliding-icon ripple-effect margin-top-10" type="submit" form="register-form">Register <i class="icon-material-outline-arrow-right-alt"></i></button>
                 </form>
 
                 <!-- Button -->
-                <button class="button full-width button-sliding-icon ripple-effect margin-top-10" type="submit" form="login-form">Register <i class="icon-material-outline-arrow-right-alt"></i></button>
-
                 <!-- Social Login -->
                 <div class="social-login-separator"><span>or</span></div>
                 <div class="social-login-buttons">

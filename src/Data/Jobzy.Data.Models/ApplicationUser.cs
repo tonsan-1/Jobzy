@@ -5,7 +5,6 @@ namespace Jobzy.Data.Models
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
-    using Jobzy.Common;
     using Jobzy.Data.Common.Models;
 
     using Microsoft.AspNetCore.Identity;
@@ -21,24 +20,15 @@ namespace Jobzy.Data.Models
         }
 
         [Required]
-        [MaxLength(24)]
-        public string FirstName { get; set; }
-
-        [Required]
-        [MaxLength(24)]
-        public string LastName { get; set; }
-
-        [Required]
-        public UserTypes UserType { get; set; }
+        [MaxLength(100)]
+        public string Name { get; set; }
 
         [Range(0, 5)]
         public int Rating { get; set; }
 
-        [Required]
         [MaxLength(4096)]
         public string Description { get; set; }
 
-        [Required]
         public string Location { get; set; }
 
         public bool IsVerified { get; set; }
