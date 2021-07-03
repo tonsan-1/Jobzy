@@ -3,10 +3,13 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>@this.ViewData["Title"] - @GlobalConstants.SystemName</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="~/css/site.min.css"/>
+    <link rel="stylesheet" href="~/css/style.css">  
+    <link rel="stylesheet" href="~/css/colors/blue.css">
 </head>
 <body>
     <header>
@@ -34,25 +37,76 @@
             </div>
         </nav>
     </header>
-    
+
     <div class="container">
         <partial name="_CookieConsentPartial" />
         <main role="main" class="pb-3">
             @this.RenderBody()
         </main>
     </div>
-    
+
     <footer class="border-top footer text-muted">
         <div class="container">
             &copy; @DateTime.Now.Year - @GlobalConstants.SystemName - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
 
-    <script src="~/lib/jquery/dist/jquery.min.js" asp-append-version="true"></script>
-    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js" asp-append-version="true"></script>
-    <script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js" asp-append-version="true"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js" asp-append-version="true"></script>
-    <script src="~/js/site.min.js" asp-append-version="true"></script>
+    <!-- Scripts
+    ================================================== -->
+    <script src="~/js/jquery-3.6.0.min.js"></script>
+    <script src="~/js/jquery-migrate-3.3.2.min.js"></script>
+    <script src="~/js/mmenu.min.js"></script>
+    <script src="~/js/tippy.all.min.js"></script>
+    <script src="~/js/simplebar.min.js"></script>
+    <script src="~/js/bootstrap-slider.min.js"></script>
+    <script src="~/js/bootstrap-select.min.js"></script>
+    <script src="~/js/snackbar.js"></script>
+    <script src="~/js/clipboard.min.js"></script>
+    <script src="~/js/counterup.min.js"></script>
+    <script src="~/js/magnific-popup.min.js"></script>
+    <script src="~/js/slick.min.js"></script>
+    <script src="~/js/custom.js"></script>
+
+    <!-- Snackbar // documentation: https://www.polonel.com/snackbar/ -->
+    <script>
+        // Snackbar for user status switcher
+        $('#snackbar-user-status label').click(function () {
+            Snackbar.show({
+                text: 'Your status has been changed!',
+                pos: 'bottom-center',
+                showAction: false,
+                actionText: "Dismiss",
+                duration: 3000,
+                textColor: '#fff',
+                backgroundColor: '#383838'
+            });
+        });
+    </script>
+
+
+    <!-- Google Autocomplete -->
+    <script>
+        function initAutocomplete() {
+            var options = {
+                types: ['(cities)'],
+                // componentRestrictions: {country: "us"}
+            };
+
+            var input = document.getElementById('autocomplete-input');
+            var autocomplete = new google.maps.places.Autocomplete(input, options);
+        }
+
+        // Autocomplete adjustment for homepage
+        if ($('.intro-banner-search-form')[0]) {
+            setTimeout(function () {
+                $(".pac-container").prependTo(".intro-search-field.with-autocomplete");
+            }, 300);
+        }
+
+    </script>
+
+    <!-- Google API -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=&libraries=places&callback=initAutocomplete"></script>
     @await this.RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

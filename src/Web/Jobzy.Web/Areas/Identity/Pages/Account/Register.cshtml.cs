@@ -22,18 +22,21 @@ namespace Jobzy.Web.Areas.Identity.Pages.Account
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly RoleManager<ApplicationRole> roleManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
 
         public RegisterModel(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
+            RoleManager<ApplicationRole> roleManager,
             ILogger<RegisterModel> logger,
             IEmailSender emailSender)
         {
             this._userManager = userManager;
             this._signInManager = signInManager;
             this._logger = logger;
+            this.roleManager = roleManager;
             this._emailSender = emailSender;
         }
 
