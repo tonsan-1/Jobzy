@@ -1,4 +1,9 @@
 ﻿@using Jobzy.Common
+@using Jobzy.Data.Models
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> signInManager
+@inject UserManager<ApplicationUser> userManager
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,44 +18,178 @@
 
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">@GlobalConstants.SystemName</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                    <partial name="_LoginPartial" />
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Settings" asp-action="Index">Settings</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
+    <div id="wrapper">
+        <header id="header-container" class="fullwidth">
+            <!-- Header -->
+            <div id="header">
+                <div class="container">
+                    <!-- Left Side Content -->
+                    <div class="left-side">
+
+                        <!-- Logo -->
+                        <div id="logo">
+                            <a href="/"><img src="~/images/logo.png" alt=""></a>
+                        </div>
+
+                        <!-- Main Navigation -->
+                        <nav id="navigation">
+                            <ul id="responsive">
+                                @if (this.signInManager.IsSignedIn(User))
+                                {
+                                    @if (this.User.IsInRole("Freelancer"))
+                                    {
+                                        <li>
+                                            <a href="#">Find Work</a>
+                                            <ul class="dropdown-nav">
+                                                <li>
+                                                    <a href="#">Browse Jobs</a>
+                                                    <ul class="dropdown-nav">
+                                                        <li><a href="jobs-list-layout-full-page-map.html">Full Page List + Map</a></li>
+                                                        <li><a href="jobs-grid-layout-full-page-map.html">Full Page Grid + Map</a></li>
+                                                        <li><a href="jobs-grid-layout-full-page.html">Full Page Grid</a></li>
+                                                        <li><a href="jobs-list-layout-1.html">List Layout 1</a></li>
+                                                        <li><a href="jobs-list-layout-2.html">List Layout 2</a></li>
+                                                        <li><a href="jobs-grid-layout.html">Grid Layout</a></li>
+                                                    </ul>
+                                                </li>
+
+                                                <li>
+                                                    <a href="browse-companies.html">Browse Companies</a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    }
+                                    @if (this.User.IsInRole("Employer"))
+                                    {
+                                        <li>
+                                            <a href="#">Find Talent</a>
+                                            <ul class="dropdown-nav">
+                                                <li>
+                                                    <a href="#">Find a Freelancer</a>
+                                                    <ul class="dropdown-nav">
+                                                        <li><a href="freelancers-grid-layout-full-page.html">Full Page Grid</a></li>
+                                                        <li><a href="freelancers-grid-layout.html">Grid Layout</a></li>
+                                                        <li><a href="freelancers-list-layout-1.html">List Layout 1</a></li>
+                                                        <li><a href="freelancers-list-layout-2.html">List Layout 2</a></li>
+                                                    </ul>
+                                                </li>
+                                                <li><a href="single-freelancer-profile.html">Freelancer Profile</a></li>
+                                                <li><a href="dashboard-post-a-job.html">Post a Job</a></li>
+                                                <li><a href="dashboard-post-a-task.html">Post a Task</a></li>
+                                            </ul>
+                                        </li>
+                                    }
+                                }
+                                @if (!this.signInManager.IsSignedIn(User))
+                                {
+                                    <li>
+                                        <a href="/Login">Login</a>
+                                    </li>
+
+                                    <li>
+                                        <a href="/Register">Sign up</a>
+                                    </li>
+                                }
+                            </ul>
+                        </nav>
+                        <div class="clearfix"></div>
+                        <!-- Main Navigation / End -->
+
+                    </div>
+                    <!-- Left Side Content / End -->
+                    <!-- Right Side Content / End -->
+
+                    <div class="right-side">
+                        @if (this.signInManager.IsSignedIn(User))
+                        {
+                            var user = await userManager.GetUserAsync(User);
+                            var fullName = user.Name;
+                            var username = user.UserName;
+                            var role = User.IsInRole("Freelancer") ? "Freelancer" : "Employer";
+
+                            <!-- User Menu -->
+                            <div class="header-widget">
+
+                                <!-- Messages -->
+                                <div class="header-notifications user-menu">
+                                    <div class="header-notifications-trigger">
+                                        <a href="#"><div class="user-avatar status-invisible"><img src="~/images/user-avatar-small-01.jpg" alt=""></div></a>
+                                    </div>
+
+                                    <!-- Dropdown -->
+                                    <div class="header-notifications-dropdown">
+
+                                        <!-- User Status -->
+                                        <div class="user-status">
+
+                                            <!-- User Name / Avatar -->
+                                            <div class="user-details">
+                                                <div class="user-avatar status-invisible"><img src="~/images/user-avatar-small-01.jpg" alt=""></div>
+                                                <div class="user-name">
+                                                  @fullName<span>@role</span>
+                                                </div>
+                                            </div>
+
+                                            <!-- User Status Switcher -->
+                                            <div class="status-switch" id="snackbar-user-status">
+                                                <label class="user-online">Online</label>
+                                                <label class="user-invisible current-status">Invisible</label>
+                                                <!-- Status Indicator -->
+                                                <span class="status-indicator" aria-hidden="true"></span>
+                                            </div>
+                                        </div>
+
+                                        <ul class="user-menu-small-nav">
+                                            <li><a href="dashboard.html"><i class="icon-material-outline-dashboard"></i> Dashboard</a></li>
+                                            <li><a href="dashboard-settings.html"><i class="icon-material-outline-settings"></i> Settings</a></li>
+                                            <li><a href="Identity/Account/Logout"><i class="icon-material-outline-power-settings-new"></i> Logout</a></li>
+                                        </ul>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        }
+
+                        <!-- Mobile Navigation Button -->
+                        <span class="mmenu-trigger">
+                            <button class="hamburger hamburger--collapse" type="button">
+                                <span class="hamburger-box">
+                                    <span class="hamburger-inner"></span>
+                                </span>
+                            </button>
+                        </span>
+                    </div>
+                    <!-- Right Side Content / End -->
                 </div>
             </div>
-        </nav>
-    </header>
+            <!-- Header / End -->
+        </header>
+        <div class="clearfix"></div>
 
-    <div class="container">
-        <partial name="_CookieConsentPartial" />
-        <main role="main" class="pb-3">
-            @this.RenderBody()
-        </main>
-    </div>
-
-    <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; @DateTime.Now.Year - @GlobalConstants.SystemName - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            <div class="margin-top-70"></div>
+            <partial name="_CookieConsentPartial" />
+            <main role="main" class="pb-3">
+                @this.RenderBody()
+            </main>
+            <div class="margin-top-70"></div>
         </div>
-    </footer>
+
+        <div class="clearfix"></div>
+
+        <div id="footer">
+            <div class="footer-bottom-section">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xl-12">
+                            © 2019 <strong>Hireo</strong>. All Rights Reserved.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Scripts
     ================================================== -->
@@ -108,6 +247,7 @@
 
     <!-- Google API -->
     <script src="https://maps.googleapis.com/maps/api/js?key=&libraries=places&callback=initAutocomplete"></script>
+
     @await this.RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
