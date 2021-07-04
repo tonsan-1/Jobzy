@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Jobzy.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210703123238_InitialCreate")]
+    [Migration("20210704144100_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -219,6 +219,9 @@ namespace Jobzy.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<decimal>("Budget")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<DateTime>("DatePosted")
                         .HasColumnType("datetime2");
 
@@ -230,21 +233,20 @@ namespace Jobzy.Data.Migrations
                     b.Property<string>("EmployerId")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("FreelancerId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<bool>("IsClosed")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsPaymentDenied")
+                        .HasColumnType("bit");
+
                     b.Property<int>("JobCategory")
                         .HasColumnType("int");
 
                     b.Property<int>("JobType")
                         .HasColumnType("int");
-
-                    b.Property<string>("Location")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal>("MaxSalary")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal>("MinSalary")
-                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -254,6 +256,8 @@ namespace Jobzy.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("EmployerId");
+
+                    b.HasIndex("FreelancerId");
 
                     b.ToTable("Jobs");
                 });
@@ -278,6 +282,36 @@ namespace Jobzy.Data.Migrations
                     b.HasIndex("JobId");
 
                     b.ToTable("JobTags");
+                });
+
+            modelBuilder.Entity("Jobzy.Data.Models.Proposal", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(4096)
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FreelancerId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int?>("JobId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("SentDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FreelancerId");
+
+                    b.HasIndex("JobId");
+
+                    b.ToTable("Proposal");
                 });
 
             modelBuilder.Entity("Jobzy.Data.Models.Setting", b =>
@@ -435,16 +469,20 @@ namespace Jobzy.Data.Migrations
 
             modelBuilder.Entity("Jobzy.Data.Models.EmployerTag", b =>
                 {
-                    b.HasOne("Jobzy.Data.Models.Employer", null)
+                    b.HasOne("Jobzy.Data.Models.Employer", "Employer")
                         .WithMany("EmployerTags")
                         .HasForeignKey("EmployerId");
+
+                    b.Navigation("Employer");
                 });
 
             modelBuilder.Entity("Jobzy.Data.Models.FreelancerTag", b =>
                 {
-                    b.HasOne("Jobzy.Data.Models.Freelancer", null)
+                    b.HasOne("Jobzy.Data.Models.Freelancer", "Freelancer")
                         .WithMany("FreelancerTags")
                         .HasForeignKey("FreelancerId");
+
+                    b.Navigation("Freelancer");
                 });
 
             modelBuilder.Entity("Jobzy.Data.Models.Job", b =>
@@ -453,14 +491,37 @@ namespace Jobzy.Data.Migrations
                         .WithMany()
                         .HasForeignKey("EmployerId");
 
+                    b.HasOne("Jobzy.Data.Models.Freelancer", "Freelancer")
+                        .WithMany()
+                        .HasForeignKey("FreelancerId");
+
                     b.Navigation("Employer");
+
+                    b.Navigation("Freelancer");
                 });
 
             modelBuilder.Entity("Jobzy.Data.Models.JobTag", b =>
                 {
-                    b.HasOne("Jobzy.Data.Models.Job", null)
+                    b.HasOne("Jobzy.Data.Models.Job", "Job")
                         .WithMany("JobTags")
                         .HasForeignKey("JobId");
+
+                    b.Navigation("Job");
+                });
+
+            modelBuilder.Entity("Jobzy.Data.Models.Proposal", b =>
+                {
+                    b.HasOne("Jobzy.Data.Models.Freelancer", "Freelancer")
+                        .WithMany()
+                        .HasForeignKey("FreelancerId");
+
+                    b.HasOne("Jobzy.Data.Models.Job", "Job")
+                        .WithMany("Proposals")
+                        .HasForeignKey("JobId");
+
+                    b.Navigation("Freelancer");
+
+                    b.Navigation("Job");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -526,6 +587,8 @@ namespace Jobzy.Data.Migrations
             modelBuilder.Entity("Jobzy.Data.Models.Job", b =>
                 {
                     b.Navigation("JobTags");
+
+                    b.Navigation("Proposals");
                 });
 
             modelBuilder.Entity("Jobzy.Data.Models.Employer", b =>

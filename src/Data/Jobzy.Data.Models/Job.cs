@@ -8,12 +8,11 @@
 
     public class Job
     {
-        public Job()
-        {
-            this.JobTags = new List<JobTag>();
-        }
-
         public int Id { get; set; }
+
+        public Employer Employer { get; set; }
+
+        public Freelancer Freelancer { get; set; }
 
         [Required]
         [MaxLength(50)]
@@ -25,25 +24,23 @@
         [Required]
         public JobCategories JobCategory { get; set; }
 
-        [Range(5000, 300000)]
-        public decimal MinSalary { get; set; }
-
-        [Range(6000, 1000000)]
-        public decimal MaxSalary { get; set; }
-
         [Required]
-        public string Location { get; set; }
+        [DataType(DataType.Currency)]
+        public decimal Budget { get; set; }
 
         [Required]
         [MaxLength(4096)]
         public string Description { get; set; }
 
-        public DateTime DatePosted { get; set; }
+        [DataType(DataType.DateTime)]
+        public DateTime DatePosted { get; set; } = DateTime.UtcNow;
 
-        public string EmployerId { get; set; }
+        public bool IsClosed { get; set; } = false;
 
-        public Employer Employer { get; set; }
+        public bool IsPaymentDenied { get; set; } = false;
 
-        public List<JobTag> JobTags { get; set; }
+        public List<Proposal> Proposals { get; set; } = new List<Proposal>();
+
+        public List<JobTag> JobTags { get; set; } = new List<JobTag>();
     }
 }

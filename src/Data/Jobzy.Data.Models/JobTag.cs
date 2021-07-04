@@ -9,5 +9,7 @@
         [Required]
         [MaxLength(25)]
         public string Text { get; set; }
+
+        public Job Job { get; set; }
     }
 }
