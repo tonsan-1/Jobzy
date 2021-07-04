@@ -6,30 +6,30 @@
 }
 
 @*<div class="row">
-    <div class="col-md-4">
-        <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
-            <h4>Create a new account.</h4>
-            <hr />
-            <div asp-validation-summary="All" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Input.Email"></label>
-                <input asp-for="Input.Email" class="form-control" />
-                <span asp-validation-for="Input.Email" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Input.Password"></label>
-                <input asp-for="Input.Password" class="form-control" />
-                <span asp-validation-for="Input.Password" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Input.ConfirmPassword"></label>
-                <input asp-for="Input.ConfirmPassword" class="form-control" />
-                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
-            </div>
-            <button type="submit" class="btn btn-primary">Register</button>
-        </form>
-    </div>
-</div>*@
+        <div class="col-md-4">
+            <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
+                <h4>Create a new account.</h4>
+                <hr />
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Input.Email"></label>
+                    <input asp-for="Input.Email" class="form-control" />
+                    <span asp-validation-for="Input.Email" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Input.Password"></label>
+                    <input asp-for="Input.Password" class="form-control" />
+                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Input.ConfirmPassword"></label>
+                    <input asp-for="Input.ConfirmPassword" class="form-control" />
+                    <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                </div>
+                <button type="submit" class="btn btn-primary">Register</button>
+            </form>
+        </div>
+    </div>*@
 
 <div class="container">
     <div class="row">
@@ -41,57 +41,55 @@
                     <span>Already have an account? <a href="Login">Log In!</a></span>
                 </div>
 
-                <!-- Account Type -->
-                <div class="account-type">
-                    <div>
-                        <input asp-for="Input.UserType" value="@UserType.Freelancer" type="radio" id="freelancer-radio" class="account-type-radio" checked />
-                        <label asp-for="Input.UserType" for="freelancer-radio" class="ripple-effect-dark"><i class="icon-material-outline-account-circle"></i> Freelancer</label>
-                    </div>
-
-                    <div>
-                        <input asp-for="Input.UserType" value="@UserType.Employer" type="radio" id="employer-radio" class="account-type-radio" />
-                        <label asp-for="Input.UserType" for="employer-radio" class="ripple-effect-dark"><i class="icon-material-outline-business-center"></i> Employer</label>
-                    </div>
-                </div>
-
                 <div asp-validation-summary="All" class="text-danger"></div>
 
                 <!-- Form -->
                 <form asp-route-returnUrl="@Model.ReturnUrl" method="post" id="register-form">
+                    <div class="account-type">
+                        <div>
+                            <input asp-for="Input.UserType" value="@UserType.Freelancer" type="radio" id="freelancer-radio" class="account-type-radio"/>
+                            <label asp-for="Input.UserType" for="freelancer-radio" class="ripple-effect-dark"><i class="icon-material-outline-account-circle"></i> Freelancer</label>
+                        </div>
+
+                        <div>
+                            <input asp-for="Input.UserType" value="@UserType.Employer" type="radio" id="employer-radio" class="account-type-radio" />
+                            <label asp-for="Input.UserType" for="employer-radio" class="ripple-effect-dark"><i class="icon-material-outline-business-center"></i> Employer</label>
+                        </div>
+                    </div>
 
                     <div class="input-with-icon-left">
                         <i class="icon-material-outline-account-circle"></i>
                         <input asp-for="Input.Name" type="text" class="input-text with-border" placeholder="Full Name" required />
+                        <span asp-validation-for="Input.Name" class="text-danger"></span>
                     </div>
-                    <span asp-validation-for="Input.Name" class="text-danger"></span>
 
 
                     <div class="input-with-icon-left">
                         <i class="icon-material-outline-account-circle"></i>
                         <input asp-for="Input.Username" type="text" class="input-text with-border" placeholder="Username" required />
+                        <span asp-validation-for="Input.Username" class="text-danger"></span>
                     </div>
-                    <span asp-validation-for="Input.Username" class="text-danger"></span>
 
 
                     <div class="input-with-icon-left">
                         <i class="icon-material-baseline-mail-outline"></i>
                         <input asp-for="Input.Email" type="text" class="input-text with-border" placeholder="Email Address" required />
+                        <span asp-validation-for="Input.Email" class="text-danger"></span>
                     </div>
-                    <span asp-validation-for="Input.Email" class="text-danger"></span>
 
 
                     <div class="input-with-icon-left" title="Should be at least 8 characters long" data-tippy-placement="bottom">
                         <i class="icon-material-outline-lock"></i>
                         <input asp-for="Input.Password" type="password" class="input-text with-border" placeholder="Password" required />
+                        <span asp-validation-for="Input.Password" class="text-danger"></span>
                     </div>
-                    <span asp-validation-for="Input.Password" class="text-danger"></span>
 
 
                     <div class="input-with-icon-left">
                         <i class="icon-material-outline-lock"></i>
                         <input asp-for="Input.ConfirmPassword" type="password" class="input-text with-border" placeholder="Repeat Password" required />
+                        <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
                     </div>
-                    <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
 
                     <button class="button full-width button-sliding-icon ripple-effect margin-top-10" type="submit" form="register-form">Register <i class="icon-material-outline-arrow-right-alt"></i></button>
                 </form>
@@ -108,6 +106,23 @@
         </div>
     </div>
 </div>
+
+<script>
+    let freelancerInput = document.getElementById("freelancer-radio");
+    let employerInput = document.getElementById("employer-radio");
+
+    freelancerInput.setAttribute("checked", true);
+
+    employerInput.addEventListener("click", () => {
+        freelancerInput.removeAttribute("checked");
+        employerInput.setAttribute("checked", true);
+    })
+
+    freelancerInput.addEventListener("click", () => {
+        employerInput.removeAttribute("checked");
+        freelancerInput.setAttribute("checked", true);
+    })
+</script>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
