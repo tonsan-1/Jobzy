@@ -18,4 +18,9 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\Data\Jobzy.Data.Models\Jobzy.Data.Models.csproj" />
+    <ProjectReference Include="..\..\Web\Jobzy.Web.ViewModels\Jobzy.Web.ViewModels.csproj" />
+  </ItemGroup>
+
 </Project>
