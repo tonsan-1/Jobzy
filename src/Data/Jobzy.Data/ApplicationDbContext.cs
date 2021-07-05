@@ -38,6 +38,8 @@
 
         public DbSet<Proposal> Proposals { get; set; }
 
+        public DbSet<Balance> Balances { get; set; }
+
         public DbSet<Setting> Settings { get; set; }
 
         public override int SaveChanges() => this.SaveChanges(true);
