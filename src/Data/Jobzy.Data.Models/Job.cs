@@ -19,10 +19,10 @@
         public string Title { get; set; }
 
         [Required]
-        public JobTypes JobType { get; set; }
+        public JobType JobType { get; set; }
 
         [Required]
-        public JobCategories JobCategory { get; set; }
+        public JobCategory JobCategory { get; set; }
 
         [Required]
         [DataType(DataType.Currency)]

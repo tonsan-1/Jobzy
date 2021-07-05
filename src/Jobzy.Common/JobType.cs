@@ -1,6 +1,6 @@
 ﻿namespace Jobzy.Common
 {
-    public enum JobTypes
+    public enum JobType
     {
         FullTime = 0,
         PartTime = 1,

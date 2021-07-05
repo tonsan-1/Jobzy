@@ -75,3 +75,4 @@ _[Ss]cripts
 *.nupkg
 *.ncrunchsolution
 *.dot[Cc]over
+src/Services/Jobzy.Services/GlobalSuppressions.cs

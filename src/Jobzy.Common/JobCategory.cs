@@ -1,6 +1,6 @@
 ﻿namespace Jobzy.Common
 {
-    public enum JobCategories
+    public enum JobCategory
     {
         ItAndComputers = 0,
         HumanResources = 1,
