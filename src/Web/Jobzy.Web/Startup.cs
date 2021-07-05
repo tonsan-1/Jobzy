@@ -8,7 +8,9 @@
     using Jobzy.Data.Models;
     using Jobzy.Data.Repositories;
     using Jobzy.Data.Seeding;
+    using Jobzy.Services;
     using Jobzy.Services.Data;
+    using Jobzy.Services.Interfaces;
     using Jobzy.Services.Mapping;
     using Jobzy.Services.Messaging;
     using Jobzy.Web.ViewModels;
@@ -65,6 +67,8 @@
             // Application services
             services.AddTransient<IEmailSender, NullMessageSender>();
             services.AddTransient<ISettingsService, SettingsService>();
+            services.AddTransient<IJobManager, JobManager>();
+            services.AddTransient<IFreelancePlatform, FreelancePlatform>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
