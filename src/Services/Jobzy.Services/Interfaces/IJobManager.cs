@@ -7,6 +7,6 @@
 
     public interface IJobManager
     {
-        public Task AddAsync(JobInputModel model, Employer employer);
+        Task AddAsync(JobInputModel model, Employer employer);
     }
 }
