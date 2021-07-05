@@ -1,14 +1,47 @@
 ﻿namespace Jobzy.Web.Controllers
 {
+    using System.Threading.Tasks;
+
+    using Jobzy.Data.Models;
+    using Jobzy.Services.Interfaces;
+    using Jobzy.Web.ViewModels.Job;
     using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
 
     public class DashboardController : BaseController
     {
-        [Authorize(Roles = "Administrator, Employer")]
-        public IActionResult PostJob()
+        private readonly IFreelancePlatform freelancePlatform;
+        private readonly UserManager<ApplicationUser> userManager;
+
+        public DashboardController(
+            IFreelancePlatform freelancePlatform,
+            UserManager<ApplicationUser> userManager)
         {
-            return this.View();
+            this.freelancePlatform = freelancePlatform;
+            this.userManager = userManager;
+        }
+
+        [Authorize(Roles = "Administrator, Employer")]
+        public IActionResult PostJob() => this.View();
+
+        [HttpPost]
+        [Authorize(Roles = "Administrator, Employer")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> PostJob(JobInputModel input)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                return null;
+            }
+
+            if (!(await this.userManager.GetUserAsync(this.User) is Employer currentUser))
+            {
+                return this.Forbid();
+            }
+
+            await this.freelancePlatform.JobManager.AddAsync(input, currentUser);
+            return this.Redirect("/");
         }
     }
 }
