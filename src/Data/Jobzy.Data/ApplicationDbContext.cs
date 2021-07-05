@@ -36,6 +36,8 @@
 
         public DbSet<EmployerTag> EmployerTags { get; set; }
 
+        public DbSet<Proposal> Proposals { get; set; }
+
         public DbSet<Setting> Settings { get; set; }
 
         public override int SaveChanges() => this.SaveChanges(true);
