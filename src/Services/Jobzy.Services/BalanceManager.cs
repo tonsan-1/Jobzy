@@ -1,6 +1,7 @@
 ﻿namespace Jobzy.Services
 {
     using System;
+    using System.Linq;
     using System.Threading.Tasks;
 
     using Jobzy.Data.Common.Repositories;
@@ -11,14 +12,10 @@
     public class BalanceManager : IBalanceManager
     {
         private readonly IRepository<Balance> repository;
-        private readonly UserManager<ApplicationUser> userManager;
 
-        public BalanceManager(
-            IRepository<Balance> repository,
-            UserManager<ApplicationUser> userManager)
+        public BalanceManager(IRepository<Balance> repository)
         {
             this.repository = repository;
-            this.userManager = userManager;
         }
 
         public async Task<bool> AddFundsAsync(Balance balance, decimal amount)

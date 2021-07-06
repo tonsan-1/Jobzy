@@ -54,9 +54,7 @@
         {
             var user = await this.userManager.GetUserAsync(this.User);
 
-            var balance = new Balance { User = user };
-
-            await this.freelancePlatform.BalanceManager.AddFundsAsync(balance, money);
+            await this.freelancePlatform.BalanceManager.AddFundsAsync(user.Balance, money);
 
             return this.Json("WORKS");
         }
