@@ -1,0 +1,22 @@
+﻿@model Jobzy.Data.Models.Balance
+
+
+<div class="container">
+
+    <div class="row">
+        <form id="add-funds" method="post">
+            <div asp-validation-summary="All" class="text-danger"></div>
+
+            <div class="form-group">
+                <label asp-for="Money">Add Funds</label>
+                <input type="number" asp-for="Money" class="form-control" />
+                @*<span asp-validation-for="Input.Username" class="text-danger"></span>*@
+            </div>
+
+            <div class="form-group">
+                <button form="add-funds" type="submit" class="btn btn-primary">Add Funds</button>
+            </div>
+        </form>
+    </div>
+</div>
+

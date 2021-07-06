@@ -43,5 +43,22 @@
             await this.freelancePlatform.JobManager.AddAsync(input, currentUser);
             return this.Redirect("/");
         }
+
+        [Authorize(Roles = "Administrator, Employer")]
+        public IActionResult AddFunds() => this.View();
+
+        [HttpPost]
+        [Authorize(Roles = "Administrator, Employer")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddFunds(decimal money)
+        {
+            var user = await this.userManager.GetUserAsync(this.User);
+
+            var balance = new Balance { User = user };
+
+            await this.freelancePlatform.BalanceManager.AddFundsAsync(balance, money);
+
+            return this.Json("WORKS");
+        }
     }
 }
