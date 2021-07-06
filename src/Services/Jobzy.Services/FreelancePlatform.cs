@@ -4,11 +4,16 @@
 
     public class FreelancePlatform : IFreelancePlatform
     {
-        public IJobManager JobManager { get; }
-
-        public FreelancePlatform(IJobManager jobManager)
+        public FreelancePlatform(
+            IJobManager jobManager,
+            IBalanceManager balanceManager)
         {
             this.JobManager = jobManager;
+            this.BalanceManager = balanceManager;
         }
+
+        public IJobManager JobManager { get; }
+
+        public IBalanceManager BalanceManager { get; }
     }
 }

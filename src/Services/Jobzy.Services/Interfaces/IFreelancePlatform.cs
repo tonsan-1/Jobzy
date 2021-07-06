@@ -3,5 +3,7 @@
     public interface IFreelancePlatform
     {
         IJobManager JobManager { get; }
+
+        IBalanceManager BalanceManager { get; }
     }
 }

@@ -6,6 +6,6 @@
 
     public interface IBalanceManager
     {
-        Task<bool> AddMoneyAsync(Balance balance, decimal amount);
+        Task<bool> AddFundsAsync(Balance balance, decimal amount);
     }
 }
