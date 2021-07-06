@@ -26,6 +26,9 @@ namespace Jobzy.Data.Models
         [Range(0, 5)]
         public int Rating { get; set; }
 
+        [Required]
+        public Balance Balance { get; set; }
+
         [MaxLength(4096)]
         public string Description { get; set; }
 
