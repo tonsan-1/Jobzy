@@ -10,12 +10,12 @@
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
 
-    public class JobController : Controller
+    public class JobsController : Controller
     {
         private readonly IFreelancePlatformManager freelancePlatformManager;
         private readonly UserManager<ApplicationUser> userManager;
 
-        public JobController(
+        public JobsController(
             IFreelancePlatformManager freelancePlatformManager,
             UserManager<ApplicationUser> userManager)
         {
