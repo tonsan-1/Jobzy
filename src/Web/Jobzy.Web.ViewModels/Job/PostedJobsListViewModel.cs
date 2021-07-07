@@ -7,7 +7,7 @@
 
     public class PostedJobsListViewModel : IMapFrom<Job>
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
 
         public string Title { get; set; }
 
