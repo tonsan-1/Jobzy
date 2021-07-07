@@ -36,12 +36,13 @@
 
         [Route("/Dashboard/Jobs/Add")]
         [Authorize(Roles = "Administrator, Employer")]
-        public IActionResult AddJob() => this.View();
+        public IActionResult Add() => this.View();
 
         [HttpPost]
+        [Route("/Dashboard/Jobs/Add")]
         [Authorize(Roles = "Administrator, Employer")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddJob(JobInputModel input)
+        public async Task<IActionResult> Add(JobInputModel input)
         {
             if (!this.ModelState.IsValid)
             {
