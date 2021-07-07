@@ -8,7 +8,7 @@
     using global::Jobzy.Services.Interfaces;
     using Jobzy.Data.Models;
     using Jobzy.Services.Mapping;
-    using Jobzy.Web.ViewModels.Job;
+    using Jobzy.Web.ViewModels.Jobs;
 
     public class JobManager : IJobManager
     {
@@ -43,6 +43,16 @@
                 .ToList();
 
             return jobs;
+        }
+
+        public SingleJobViewModel GetJobById(string id)
+        {
+            var job = this.repository.All()
+                .Where(x => x.Id == id)
+                .To<SingleJobViewModel>()
+                .FirstOrDefault();
+
+            return job;
         }
     }
 }

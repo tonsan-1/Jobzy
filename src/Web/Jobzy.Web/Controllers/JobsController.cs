@@ -5,7 +5,7 @@
 
     using Jobzy.Data.Models;
     using Jobzy.Services.Interfaces;
-    using Jobzy.Web.ViewModels.Job;
+    using Jobzy.Web.ViewModels.Jobs;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
@@ -21,6 +21,15 @@
         {
             this.freelancePlatformManager = freelancePlatformManager;
             this.userManager = userManager;
+        }
+
+        [Route("/Jobs/{id}")]
+        [Authorize(Roles = "Administrator, Employer, Freelancer")]
+        public IActionResult GetJob(string id)
+        {
+            var job = this.freelancePlatformManager.JobManager.GetJobById(id);
+
+            return this.View(job);
         }
 
         [Route("/Dashboard/Jobs/MyJobs")]

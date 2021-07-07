@@ -1,4 +1,4 @@
-﻿namespace Jobzy.Web.ViewModels.Job
+﻿namespace Jobzy.Web.ViewModels.Jobs
 {
     using System;
 

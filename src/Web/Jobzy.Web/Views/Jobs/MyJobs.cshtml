@@ -1,4 +1,4 @@
-﻿@model List<Jobzy.Web.ViewModels.Job.PostedJobsListViewModel>
+﻿@model List<Jobzy.Web.ViewModels.Jobs.PostedJobsListViewModel>
 <!-- Dashboard Container -->
 <div class="dashboard-container">
     <partial name="DashboardPartial" />
@@ -37,7 +37,7 @@
 
                                                 <!-- Details -->
                                                 <div class="job-listing-description">
-                                                    <h3 class="job-listing-title"><a asp-controller="Job" asp-action="GetJob" asp->@job.Title</a> <span class="dashboard-status-button green">Open</span></h3>
+                                                    <h3 class="job-listing-title"><a asp-controller="Jobs" asp-action="GetJob" asp-route-id="@job.Id" asp->@job.Title</a> <span class="dashboard-status-button green">Open</span></h3>
 
                                                     <!-- Job Listing Footer -->
                                                     <div class="job-listing-footer">
