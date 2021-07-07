@@ -6,7 +6,6 @@
     using global::Jobzy.Services.Interfaces;
     using Jobzy.Data.Models;
     using Jobzy.Web.ViewModels.Job;
-    using Microsoft.AspNetCore.Identity;
 
     public class JobManager : IJobManager
     {

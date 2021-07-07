@@ -24,6 +24,8 @@
         {
         }
 
+        public DbSet<Administrator> Administrator { get; set; }
+
         public DbSet<Job> Jobs { get; set; }
 
         public DbSet<JobTag> JobTags { get; set; }
