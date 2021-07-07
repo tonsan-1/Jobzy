@@ -1,5 +1,6 @@
 ﻿namespace Jobzy.Services.Interfaces
 {
+    using System.Collections.Generic;
     using System.Threading.Tasks;
 
     using Jobzy.Data.Models;
@@ -8,5 +9,7 @@
     public interface IJobManager
     {
         Task AddAsync(JobInputModel model, Employer employer);
+
+        IEnumerable<PostedJobsListViewModel> GetAllUserJobPosts(string userId);
     }
 }

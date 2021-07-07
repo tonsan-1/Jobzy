@@ -59,6 +59,16 @@
         }
 
         [Authorize(Roles = "Administrator, Employer")]
+        public async Task<IActionResult> ManageJob()
+        {
+            var user = await this.userManager.GetUserAsync(this.User);
+
+            var jobs = this.freelancePlatformManager.JobManager.GetAllUserJobPosts(user.Id);
+
+            return this.View(jobs);
+        }
+
+        [Authorize(Roles = "Administrator, Employer")]
         public IActionResult AddFunds() => this.View();
 
         [HttpPost]

@@ -1,10 +1,13 @@
 ﻿namespace Jobzy.Services
 {
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
 
     using global::Jobzy.Data.Common.Repositories;
     using global::Jobzy.Services.Interfaces;
     using Jobzy.Data.Models;
+    using Jobzy.Services.Mapping;
     using Jobzy.Web.ViewModels.Job;
 
     public class JobManager : IJobManager
@@ -30,6 +33,16 @@
 
             await this.repository.AddAsync(job);
             await this.repository.SaveChangesAsync();
+        }
+
+        public IEnumerable<PostedJobsListViewModel> GetAllUserJobPosts(string userId)
+        {
+            var jobs = this.repository.All()
+                .Where(x => x.Employer.Id == userId)
+                .To<PostedJobsListViewModel>()
+                .ToList();
+
+            return jobs;
         }
     }
 }
