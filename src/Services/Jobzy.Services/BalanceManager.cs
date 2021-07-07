@@ -7,7 +7,6 @@
     using Jobzy.Data.Common.Repositories;
     using Jobzy.Data.Models;
     using Jobzy.Services.Interfaces;
-    using Microsoft.AspNetCore.Identity;
 
     public class BalanceManager : IBalanceManager
     {
@@ -18,12 +17,15 @@
             this.repository = repository;
         }
 
-        public async Task<bool> AddFundsAsync(Balance balance, decimal amount)
+        public async Task<bool> AddFundsAsync(string userId, decimal amount)
         {
             if (amount < 0)
             {
                 throw new ArgumentException("The amount of replenishment must be greater than 0", nameof(amount));
             }
+
+            var balance = this.repository.All()
+                .FirstOrDefault(x => x.UserId == userId);
 
             if (balance is null)
             {
