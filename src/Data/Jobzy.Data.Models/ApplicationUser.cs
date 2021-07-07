@@ -24,7 +24,7 @@ namespace Jobzy.Data.Models
         public string Name { get; set; }
 
         [Range(0, 5)]
-        public int Rating { get; set; }
+        public double Rating { get; set; }
 
         [Required]
         public Balance Balance { get; set; }
