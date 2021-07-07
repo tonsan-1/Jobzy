@@ -187,11 +187,29 @@ namespace Jobzy.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Balances",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Money = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Balances", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Balances_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "EmployerTags",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Text = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
                     EmployerId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
@@ -210,8 +228,7 @@ namespace Jobzy.Data.Migrations
                 name: "FreelancerTags",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Text = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
                     FreelancerId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
@@ -230,8 +247,7 @@ namespace Jobzy.Data.Migrations
                 name: "Jobs",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     EmployerId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     FreelancerId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     Title = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
@@ -264,10 +280,9 @@ namespace Jobzy.Data.Migrations
                 name: "JobTags",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Text = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
-                    JobId = table.Column<int>(type: "int", nullable: true)
+                    JobId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -281,27 +296,26 @@ namespace Jobzy.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Proposal",
+                name: "Proposals",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", maxLength: 4096, nullable: false),
                     SentDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     FreelancerId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    JobId = table.Column<int>(type: "int", nullable: true)
+                    JobId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Proposal", x => x.Id);
+                    table.PrimaryKey("PK_Proposals", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Proposal_AspNetUsers_FreelancerId",
+                        name: "FK_Proposals_AspNetUsers_FreelancerId",
                         column: x => x.FreelancerId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Proposal_Jobs_JobId",
+                        name: "FK_Proposals_Jobs_JobId",
                         column: x => x.JobId,
                         principalTable: "Jobs",
                         principalColumn: "Id",
@@ -358,6 +372,12 @@ namespace Jobzy.Data.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Balances_UserId",
+                table: "Balances",
+                column: "UserId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_EmployerTags_EmployerId",
                 table: "EmployerTags",
                 column: "EmployerId");
@@ -383,13 +403,13 @@ namespace Jobzy.Data.Migrations
                 column: "JobId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Proposal_FreelancerId",
-                table: "Proposal",
+                name: "IX_Proposals_FreelancerId",
+                table: "Proposals",
                 column: "FreelancerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Proposal_JobId",
-                table: "Proposal",
+                name: "IX_Proposals_JobId",
+                table: "Proposals",
                 column: "JobId");
 
             migrationBuilder.CreateIndex(
@@ -416,6 +436,9 @@ namespace Jobzy.Data.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Balances");
+
+            migrationBuilder.DropTable(
                 name: "EmployerTags");
 
             migrationBuilder.DropTable(
@@ -425,7 +448,7 @@ namespace Jobzy.Data.Migrations
                 name: "JobTags");
 
             migrationBuilder.DropTable(
-                name: "Proposal");
+                name: "Proposals");
 
             migrationBuilder.DropTable(
                 name: "Settings");

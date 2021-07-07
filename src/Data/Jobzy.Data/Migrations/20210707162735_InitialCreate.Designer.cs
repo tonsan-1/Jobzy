@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Jobzy.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210705061256_ProposalsFix")]
-    partial class ProposalsFix
+    [Migration("20210707162735_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -168,12 +168,30 @@ namespace Jobzy.Data.Migrations
                     b.HasDiscriminator<string>("Discriminator").HasValue("ApplicationUser");
                 });
 
+            modelBuilder.Entity("Jobzy.Data.Models.Balance", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<decimal>("Money")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
+                    b.ToTable("Balances");
+                });
+
             modelBuilder.Entity("Jobzy.Data.Models.EmployerTag", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("EmployerId")
                         .HasColumnType("nvarchar(450)");
@@ -192,10 +210,8 @@ namespace Jobzy.Data.Migrations
 
             modelBuilder.Entity("Jobzy.Data.Models.FreelancerTag", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("FreelancerId")
                         .HasColumnType("nvarchar(450)");
@@ -214,10 +230,8 @@ namespace Jobzy.Data.Migrations
 
             modelBuilder.Entity("Jobzy.Data.Models.Job", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<decimal>("Budget")
                         .HasColumnType("decimal(18,2)");
@@ -264,13 +278,11 @@ namespace Jobzy.Data.Migrations
 
             modelBuilder.Entity("Jobzy.Data.Models.JobTag", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.Property<int?>("JobId")
-                        .HasColumnType("int");
+                    b.Property<string>("JobId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Text")
                         .IsRequired()
@@ -286,10 +298,8 @@ namespace Jobzy.Data.Migrations
 
             modelBuilder.Entity("Jobzy.Data.Models.Proposal", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -299,8 +309,8 @@ namespace Jobzy.Data.Migrations
                     b.Property<string>("FreelancerId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int?>("JobId")
-                        .HasColumnType("int");
+                    b.Property<string>("JobId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("SentDate")
                         .HasColumnType("datetime2");
@@ -450,6 +460,13 @@ namespace Jobzy.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("Jobzy.Data.Models.Administrator", b =>
+                {
+                    b.HasBaseType("Jobzy.Data.Models.ApplicationUser");
+
+                    b.HasDiscriminator().HasValue("Administrator");
+                });
+
             modelBuilder.Entity("Jobzy.Data.Models.Employer", b =>
                 {
                     b.HasBaseType("Jobzy.Data.Models.ApplicationUser");
@@ -465,6 +482,17 @@ namespace Jobzy.Data.Migrations
                         .HasColumnType("int");
 
                     b.HasDiscriminator().HasValue("Freelancer");
+                });
+
+            modelBuilder.Entity("Jobzy.Data.Models.Balance", b =>
+                {
+                    b.HasOne("Jobzy.Data.Models.ApplicationUser", "User")
+                        .WithOne("Balance")
+                        .HasForeignKey("Jobzy.Data.Models.Balance", "UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Jobzy.Data.Models.EmployerTag", b =>
@@ -577,6 +605,9 @@ namespace Jobzy.Data.Migrations
 
             modelBuilder.Entity("Jobzy.Data.Models.ApplicationUser", b =>
                 {
+                    b.Navigation("Balance")
+                        .IsRequired();
+
                     b.Navigation("Claims");
 
                     b.Navigation("Logins");

@@ -1,10 +1,11 @@
 ﻿namespace Jobzy.Data.Models
 {
+    using System;
     using System.ComponentModel.DataAnnotations;
 
     public class JobTag
     {
-        public int Id { get; set; }
+        public string Id { get; set; } = Guid.NewGuid().ToString();
 
         [Required]
         [MaxLength(25)]
