@@ -68,7 +68,7 @@
             services.AddTransient<IEmailSender, NullMessageSender>();
             services.AddTransient<ISettingsService, SettingsService>();
             services.AddTransient<IJobManager, JobManager>();
-            services.AddTransient<IFreelancePlatform, FreelancePlatform>();
+            services.AddTransient<IFreelancePlatformManager, FreelancePlatformManager>();
             services.AddTransient<IBalanceManager, BalanceManager>();
         }
 

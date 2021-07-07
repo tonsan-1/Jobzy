@@ -2,9 +2,9 @@
 {
     using Jobzy.Services.Interfaces;
 
-    public class FreelancePlatform : IFreelancePlatform
+    public class FreelancePlatformManager : IFreelancePlatformManager
     {
-        public FreelancePlatform(
+        public FreelancePlatformManager(
             IJobManager jobManager,
             IBalanceManager balanceManager)
         {

@@ -1,6 +1,6 @@
 ﻿namespace Jobzy.Services.Interfaces
 {
-    public interface IFreelancePlatform
+    public interface IFreelancePlatformManager
     {
         IJobManager JobManager { get; }
 

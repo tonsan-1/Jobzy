@@ -12,14 +12,14 @@
 
     public class DashboardController : BaseController
     {
-        private readonly IFreelancePlatform freelancePlatform;
+        private readonly IFreelancePlatformManager freelancePlatformManager;
         private readonly UserManager<ApplicationUser> userManager;
 
         public DashboardController(
-            IFreelancePlatform freelancePlatform,
+            IFreelancePlatformManager freelancePlatformManager,
             UserManager<ApplicationUser> userManager)
         {
-            this.freelancePlatform = freelancePlatform;
+            this.freelancePlatformManager = freelancePlatformManager;
             this.userManager = userManager;
         }
 
@@ -41,12 +41,12 @@
                 return this.Forbid();
             }
 
-            var freelancePlatformBalance = await this.freelancePlatform.BalanceManager.GetFreelancePlatformBalanceAsync();
-            var currentUserBalance = this.freelancePlatform.BalanceManager.FindById(currentUser.Id);
+            var freelancePlatformBalance = await this.freelancePlatformManager.BalanceManager.GetFreelancePlatformBalanceAsync();
+            var currentUserBalance = this.freelancePlatformManager.BalanceManager.FindById(currentUser.Id);
 
             try
             {
-                await this.freelancePlatform.BalanceManager.TransferMoneyAsync(
+                await this.freelancePlatformManager.BalanceManager.TransferMoneyAsync(
                     currentUserBalance, freelancePlatformBalance, input.Budget);
             }
             catch (Exception e)
@@ -54,7 +54,7 @@
                 throw new ArgumentException("Error");
             }
 
-            await this.freelancePlatform.JobManager.AddAsync(input, currentUser);
+            await this.freelancePlatformManager.JobManager.AddAsync(input, currentUser);
             return this.Redirect("/");
         }
 
@@ -68,7 +68,7 @@
         {
             var user = await this.userManager.GetUserAsync(this.User);
 
-            await this.freelancePlatform.BalanceManager.AddFundsAsync(user.Id, money);
+            await this.freelancePlatformManager.BalanceManager.AddFundsAsync(user.Id, money);
 
             return this.Json("WORKS");
         }
