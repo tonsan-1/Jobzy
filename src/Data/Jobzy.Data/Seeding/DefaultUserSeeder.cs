@@ -25,6 +25,7 @@
                     Name = "Stoyan Kostadinov",
                     UserName = "tonsan1",
                     Email = "admin@admin.com",
+                    Balance = new Balance(),
                 };
 
                 var result = await userManager.CreateAsync(admin, "123456");
