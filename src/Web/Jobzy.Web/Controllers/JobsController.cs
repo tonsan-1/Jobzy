@@ -24,12 +24,21 @@
         }
 
         [Route("/Jobs/{id}")]
-        [Authorize(Roles = "Administrator, Employer, Freelancer")]
+        [Authorize(Roles = "Administrator, Freelancer")]
         public IActionResult GetJob(string id)
         {
             var job = this.freelancePlatformManager.JobManager.GetJobById(id);
 
             return this.View(job);
+        }
+
+        [Route("/Jobs/All")]
+        [Authorize(Roles = "Administrator, Freelancer")]
+        public IActionResult All()
+        {
+            var jobs = this.freelancePlatformManager.JobManager.GetAllJobPosts();
+
+            return this.View(jobs);
         }
 
         [Route("/Dashboard/Jobs/MyJobs")]

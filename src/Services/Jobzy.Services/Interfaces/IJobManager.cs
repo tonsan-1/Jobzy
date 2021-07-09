@@ -10,7 +10,9 @@
     {
         Task AddAsync(JobInputModel model, Employer employer);
 
-        IEnumerable<PostedJobsListViewModel> GetAllUserJobPosts(string userId);
+        IEnumerable<UserJobsListViewModel> GetAllUserJobPosts(string userId);
+
+        IEnumerable<AllJobsListViewModel> GetAllJobPosts();
 
         SingleJobViewModel GetJobById(string id);
     }

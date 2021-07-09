@@ -16,7 +16,7 @@
                             <ul>
                                 <li><a href="single-company-profile.html"><i class="icon-material-outline-business"></i>@Model.EmployerName</a></li>
                                 <li><div class="star-rating" data-rating="@Model.EmployerRating"></div></li>
-                                <li><img class="flag" src="/images/flags/gb.svg" alt="">@Model.EmployerLocation</li>
+                                <li><img class="flag" src="/images/flags/bg.svg" alt="">@Model.EmployerLocation</li>
                                 <li><div class="verified-badge-with-title">Verified</div></li>
                             </ul>
                         </div>
@@ -128,23 +128,23 @@
                             <ul>
                                 <li>
                                     <i class="icon-material-outline-location-on"></i>
-                                    <span>Location</span>
-                                    <h5>London, United Kingdom</h5>
+                                    <span>Employer Location</span>
+                                    <h5>@Model.EmployerLocation</h5>
                                 </li>
                                 <li>
                                     <i class="icon-material-outline-business-center"></i>
                                     <span>Job Type</span>
-                                    <h5>Full Time</h5>
+                                    <h5>@Model.JobType</h5>
                                 </li>
                                 <li>
                                     <i class="icon-material-outline-local-atm"></i>
-                                    <span>Salary</span>
-                                    <h5>$35k - $38k</h5>
+                                    <span>Budget</span>
+                                    <h5>$@Model.Budget</h5>
                                 </li>
                                 <li>
                                     <i class="icon-material-outline-access-time"></i>
                                     <span>Date Posted</span>
-                                    <h5>2 days ago</h5>
+                                    <h5>@Model.DateFormatted</h5>
                                 </li>
                             </ul>
                         </div>
@@ -153,7 +153,7 @@
 
                 <!-- Sidebar Widget -->
                 <div class="sidebar-widget">
-                    <h3>Bookmark or Share</h3>
+                    <h3>Bookmark</h3>
 
                     <!-- Bookmark Button -->
                     <button class="bookmark-button margin-bottom-25">
@@ -162,25 +162,6 @@
                         <span class="bookmarked-text">Bookmarked</span>
                     </button>
 
-                    <!-- Copy URL -->
-                    <div class="copy-url">
-                        <input id="copy-url" type="text" value="" class="with-border">
-                        <button class="copy-url-button ripple-effect" data-clipboard-target="#copy-url" title="Copy to Clipboard" data-tippy-placement="top"><i class="icon-material-outline-file-copy"></i></button>
-                    </div>
-
-                    <!-- Share Buttons -->
-                    <div class="share-buttons margin-top-25">
-                        <div class="share-buttons-trigger"><i class="icon-feather-share-2"></i></div>
-                        <div class="share-buttons-content">
-                            <span>Interesting? <strong>Share It!</strong></span>
-                            <ul class="share-buttons-icons">
-                                <li><a href="#" data-button-color="#3b5998" title="Share on Facebook" data-tippy-placement="top"><i class="icon-brand-facebook-f"></i></a></li>
-                                <li><a href="#" data-button-color="#1da1f2" title="Share on Twitter" data-tippy-placement="top"><i class="icon-brand-twitter"></i></a></li>
-                                <li><a href="#" data-button-color="#dd4b39" title="Share on Google Plus" data-tippy-placement="top"><i class="icon-brand-google-plus-g"></i></a></li>
-                                <li><a href="#" data-button-color="#0077b5" title="Share on LinkedIn" data-tippy-placement="top"><i class="icon-brand-linkedin-in"></i></a></li>
-                            </ul>
-                        </div>
-                    </div>
                 </div>
 
             </div>

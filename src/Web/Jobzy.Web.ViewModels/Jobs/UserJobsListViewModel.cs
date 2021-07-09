@@ -5,7 +5,7 @@
     using Jobzy.Data.Models;
     using Jobzy.Services.Mapping;
 
-    public class PostedJobsListViewModel : IMapFrom<Job>
+    public class UserJobsListViewModel : IMapFrom<Job>
     {
         public string Id { get; set; }
 

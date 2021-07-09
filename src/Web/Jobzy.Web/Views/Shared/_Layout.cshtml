@@ -11,7 +11,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>@this.ViewData["Title"] - @GlobalConstants.SystemName</title>
 
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
     <link rel="stylesheet" href="~/css/site.min.css" />
     <link rel="stylesheet" href="~/css/style.css">
     <link rel="stylesheet" href="~/css/colors/blue.css">
@@ -42,15 +42,7 @@
                                             <a href="#">Find Work</a>
                                             <ul class="dropdown-nav">
                                                 <li>
-                                                    <a href="#">Browse Jobs</a>
-                                                    <ul class="dropdown-nav">
-                                                        <li><a href="jobs-list-layout-full-page-map.html">Full Page List + Map</a></li>
-                                                        <li><a href="jobs-grid-layout-full-page-map.html">Full Page Grid + Map</a></li>
-                                                        <li><a href="jobs-grid-layout-full-page.html">Full Page Grid</a></li>
-                                                        <li><a href="jobs-list-layout-1.html">List Layout 1</a></li>
-                                                        <li><a href="jobs-list-layout-2.html">List Layout 2</a></li>
-                                                        <li><a href="jobs-grid-layout.html">Grid Layout</a></li>
-                                                    </ul>
+                                                    <a asp-controller="Jobs" asp-action="All">Browse Jobs</a>
                                                 </li>
 
                                                 <li>
@@ -128,7 +120,7 @@
                                             <div class="user-details">
                                                 <div class="user-avatar status-invisible"><img src="~/images/user-avatar-small-01.jpg" alt=""></div>
                                                 <div class="user-name">
-                                                  @fullName<span>@role</span>
+                                                    @fullName<span>@role</span>
                                                 </div>
                                             </div>
 
@@ -144,7 +136,7 @@
                                         <ul class="user-menu-small-nav">
                                             <li><a href="dashboard.html"><i class="icon-material-outline-dashboard"></i> Dashboard</a></li>
                                             <li><a href="dashboard-settings.html"><i class="icon-material-outline-settings"></i> Settings</a></li>
-                                            <li><a href="Identity/Account/Logout"><i class="icon-material-outline-power-settings-new"></i> Logout</a></li>
+                                            <li><a asp-route="/Identity/Account/Logout"><i class="icon-material-outline-power-settings-new"></i> Logout</a></li>
                                         </ul>
 
                                     </div>
@@ -169,10 +161,8 @@
         </header>
         <div class="clearfix"></div>
 
-        <div>
-            <partial name="_CookieConsentPartial" />
-                @this.RenderBody()
-        </div>
+        <partial name="_CookieConsentPartial" />
+        @this.RenderBody()
 
         <div class="clearfix"></div>
 

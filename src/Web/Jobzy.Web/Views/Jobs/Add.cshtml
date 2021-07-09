@@ -24,7 +24,7 @@
                 <div class="col-xl-12">
                     <div class="dashboard-box margin-top-0">
 
-                        <form method="post" asp-controller="Job" asp-action="AddJob"> 
+                        <form method="post" asp-route="/Dashboard/Jobs/Add"> 
                             <!-- Headline -->
                             <div class="headline">
                                 <h3><i class="icon-feather-folder-plus"></i> Job Submission Form</h3>
@@ -99,7 +99,7 @@
                                     </div>
 
                                     <div class="col-xl-12">
-                                        <button asp-action="Add" asp-controller="Job" type="submit" class="button ripple-effect big margin-top-30"><i class="icon-feather-plus"></i> Add a Job</button>
+                                        <button asp-route="/Dashboard/Jobs/Add" type="submit" class="button ripple-effect big margin-top-30"><i class="icon-feather-plus"></i> Add a Job</button>
                                     </div>
                                 </div>
                             </div>

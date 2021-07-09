@@ -35,11 +35,21 @@
             await this.repository.SaveChangesAsync();
         }
 
-        public IEnumerable<PostedJobsListViewModel> GetAllUserJobPosts(string userId)
+        public IEnumerable<AllJobsListViewModel> GetAllJobPosts()
+        {
+            var jobs = this.repository.All()
+                .Where(x => !x.IsClosed && !x.IsDeleted)
+                .To<AllJobsListViewModel>()
+                .ToList();
+
+            return jobs;
+        }
+
+        public IEnumerable<UserJobsListViewModel> GetAllUserJobPosts(string userId)
         {
             var jobs = this.repository.All()
                 .Where(x => x.Employer.Id == userId)
-                .To<PostedJobsListViewModel>()
+                .To<UserJobsListViewModel>()
                 .ToList();
 
             return jobs;
