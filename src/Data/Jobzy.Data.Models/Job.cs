@@ -37,6 +37,8 @@
 
         public bool IsClosed { get; set; } = false;
 
+        public bool IsDeleted { get; set; } = false;
+
         public bool IsPaymentDenied { get; set; } = false;
 
         public List<Proposal> Proposals { get; set; } = new List<Proposal>();
