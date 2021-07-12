@@ -74,6 +74,15 @@
             return this.View(proposals);
         }
 
+        [HttpPost]
+        [Route("/Dashboard/Jobs/ManageCandidates/{id}")]
+        [Authorize(Roles = "Administrator, Employer")]
+        public IActionResult ApproveCandidate(string jobId, string freelancerId)
+        {
+
+            return this.Json("Works");
+        }
+
         [Route("/Dashboard/Jobs/Add")]
         [Authorize(Roles = "Administrator, Employer")]
         public IActionResult Add() => this.View();

@@ -9,6 +9,8 @@
 
         public string JobTitle { get; set; }
 
+        public string FreelancerId { get; set; }
+
         public string FreelancerName { get; set; }
 
         public string FreelancerEmail { get; set; }

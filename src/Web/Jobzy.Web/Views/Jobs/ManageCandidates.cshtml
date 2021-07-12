@@ -5,6 +5,8 @@
     var CandidatesString = Model.Count == 1 ? $"{Model.Count} Candidate" : $"{Model.Count} Candidates";
     var jobTitle = Model.Select(x => x.JobTitle).First().ToString();
     var jobId = Model.Select(x => x.JobId).First().ToString();
+    var freelancerId = "";
+    var freelancerName = "";
 }
 
 <div class="dashboard-container">
@@ -72,8 +74,8 @@
 
                                                     <!-- Buttons -->
                                                     <div class="buttons-to-right always-visible margin-top-25 margin-bottom-5">
-                                                        <a href="#" class="button ripple-effect"><i class="icon-feather-file-text"></i> Download CV</a>
-                                                        <a href="#small-dialog" class="popup-with-zoom-anim button dark ripple-effect"><i class="icon-feather-mail"></i> Send Message</a>
+                                                        <a href="#small-dialog" onclick="@(freelancerId = candidate.FreelancerId); @(freelancerName = candidate.FreelancerName);" class="popup-with-zoom-anim button green ripple-effect"><i class="icon-material-outline-check"></i>Approve Candidate</a>
+                                                        <a href="#" class="button dark ripple-effect"><i class="icon-feather-mail"></i> Send Message</a>
                                                         <a href="#" class="button gray ripple-effect ico" title="Remove Candidate" data-tippy-placement="top"><i class="icon-feather-trash-2"></i></a>
                                                     </div>
                                                 </div>
@@ -91,6 +93,7 @@
     </div>
     <!-- Dashboard Content / End -->
 </div>
+
 <!-- Send Direct Message Popup
 ================================================== -->
 <div id="small-dialog" class="zoom-anim-dialog mfp-hide dialog-with-tabs">
@@ -99,7 +102,7 @@
     <div class="sign-in-form">
 
         <ul class="popup-tabs-nav">
-            <li><a href="#tab">Send Message</a></li>
+            <li><a href="#tab">Approve Candidate</a></li>
         </ul>
 
         <div class="popup-tabs-container">
@@ -109,16 +112,17 @@
 
                 <!-- Welcome Text -->
                 <div class="welcome-text">
-                    <h3>Direct Message To Sindy</h3>
+                    <h3>Are you sure you want to work with <br /> @freelancerName?</h3>
                 </div>
 
                 <!-- Form -->
-                <form method="post" id="send-pm">
-                    <textarea name="textarea" cols="10" placeholder="Message" class="with-border" required></textarea>
+                <form asp-action="ManageCandidates" asp-controller="Jobs" method="post" id="send-pm">
+                    <input type="text" hidden name="jobId" value="@jobId" />
+                    <input type="text" hidden name="freelancerId" value="@freelancerId" />
                 </form>
 
                 <!-- Button -->
-                <button class="button full-width button-sliding-icon ripple-effect" type="submit" form="send-pm">Send <i class="icon-material-outline-arrow-right-alt"></i></button>
+                <button  class="button full-width button-sliding-icon ripple-effect" type="submit" form="send-pm">Yes! <i class="icon-material-outline-arrow-right-alt"></i></button>
 
             </div>
 
@@ -126,3 +130,4 @@
     </div>
 </div>
 <!-- Send Direct Message Popup / End -->
+
