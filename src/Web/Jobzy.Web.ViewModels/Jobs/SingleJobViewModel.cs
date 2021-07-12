@@ -1,12 +1,15 @@
 ﻿namespace Jobzy.Web.ViewModels.Jobs
 {
+    using System;
+
     using Jobzy.Common;
     using Jobzy.Data.Models;
     using Jobzy.Services.Mapping;
-    using System;
 
     public class SingleJobViewModel : IMapFrom<Job>
     {
+        public string Id { get; set; }
+
         public string Title { get; set; }
 
         public string JobType { get; set; }

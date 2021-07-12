@@ -14219,6 +14219,7 @@ text-overflow: ellipsis; */
 /* Apply Now Button */
 a.apply-now-button {
 	background-color: #66676b;
+	text-decoration-color: #fff;
 	color: #fff;
 	text-align: center;
 	font-size: 18px;
@@ -14236,6 +14237,7 @@ a.apply-now-button:hover {
 }
 
 a.apply-now-button i {
+	color: #fff;
 	font-size: 22px;
 	position: relative;
 	line-height: 0;
@@ -14243,6 +14245,10 @@ a.apply-now-button i {
 	margin-left: 5px;
 }
 
+.input-text-area {
+	height: 200px;
+	width: 200px;
+}
 /* Single Job Map */
 #single-job-map-container {
 	position: relative;

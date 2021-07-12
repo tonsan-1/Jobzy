@@ -12,7 +12,7 @@
         [Display(Name = "Proposal")]
         public string Description { get; set; }
 
-        public DateTime SentDate { get; set; }
+        public DateTime SentDate => DateTime.UtcNow;
 
         public Freelancer Freelancer { get; set; }
 

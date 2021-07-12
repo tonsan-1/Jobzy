@@ -1,6 +1,5 @@
 ﻿@using Jobzy.Web.ViewModels.Jobs
 @model SingleJobViewModel
-
 <!-- Titlebar
 ================================================== -->
 <div class="single-page-header" data-background-image="/images/single-job.jpg">
@@ -170,6 +169,7 @@
     </div>
 </div>
 
+
 <!-- Apply for a job popup
 ================================================== -->
 <div id="small-dialog" class="zoom-anim-dialog mfp-hide dialog-with-tabs">
@@ -192,7 +192,7 @@
                 </div>
 
                 <!-- Form -->
-                <form method="post" id="apply-now-form">
+                <form method="post" id="apply-now-form" asp-controller="Jobs" asp-action="SendProposal">
 
                     <div class="input-with-icon-left">
                         <i class="icon-material-outline-account-circle"></i>

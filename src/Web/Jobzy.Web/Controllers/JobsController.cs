@@ -41,6 +41,14 @@
             return this.View(jobs);
         }
 
+        [HttpPost]
+        [Authorize(Roles = "Administrator, Freelancer")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> SendProposal()
+        {
+            return this.Redirect("/");
+        }
+
         [Route("/Dashboard/Jobs/MyJobs")]
         [Authorize(Roles = "Administrator, Employer")]
         public async Task<IActionResult> MyJobs()
