@@ -5,5 +5,7 @@
         IJobManager JobManager { get; }
 
         IBalanceManager BalanceManager { get; }
+
+        IProposalManager ProposalManager { get; }
     }
 }

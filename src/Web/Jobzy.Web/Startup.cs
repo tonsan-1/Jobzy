@@ -70,6 +70,7 @@
             services.AddTransient<IJobManager, JobManager>();
             services.AddTransient<IFreelancePlatformManager, FreelancePlatformManager>();
             services.AddTransient<IBalanceManager, BalanceManager>();
+            services.AddTransient<IProposalManager, ProposalManager>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

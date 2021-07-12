@@ -1,0 +1,64 @@
+﻿@using Jobzy.Data.Models
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<ApplicationUser> userManager
+
+@{
+    var user = await userManager.GetUserAsync(this.User);
+
+    var name = user.Name;
+    var email = user.Email;
+}
+
+<!-- Apply for a job popup
+================================================== -->
+<div id="small-dialog" class="zoom-anim-dialog mfp-hide dialog-with-tabs">
+
+    <!--Tabs -->
+    <div class="sign-in-form">
+
+        <ul class="popup-tabs-nav">
+            <li><a href="#tab">Apply Now</a></li>
+        </ul>
+
+        <div class="popup-tabs-container">
+
+            <!-- Tab -->
+            <div class="popup-tab-content" id="tab">
+
+                <!-- Welcome Text -->
+                <div class="welcome-text">
+                    <h3>Attach a CV to your application</h3>
+                </div>
+
+                <!-- Form -->
+                <form method="post" id="apply-now-form" asp-controller="Jobs" asp-action="SendProposal">
+
+                    <div class="input-with-icon-left">
+                        <i class="icon-material-outline-account-circle"></i>
+                        <input type="text" class="input-text with-border" placeholder="@name" disabled />
+                    </div>
+
+                    <div class="input-with-icon-left">
+                        <i class="icon-material-baseline-mail-outline"></i>
+                        <input type="text" class="input-text with-border" placeholder="@email" disabled />
+                    </div>
+
+                    <div class="uploadButton">
+                        <input class="uploadButton-input" type="file" accept="image/*, application/pdf" id="upload-cv" />
+                        <label class="uploadButton-button ripple-effect" for="upload-cv">Select File</label>
+                        <span class="uploadButton-file-name">Upload your CV / resume relevant file. <br> Max. file size: 50 MB.</span>
+                    </div>
+
+                    <input type="text" hidden name="jobId" value="@ViewData["jobId"]" />
+
+                </form>
+
+                <!-- Button -->
+                <button class="button margin-top-35 full-width button-sliding-icon ripple-effect" type="submit" form="apply-now-form">Apply Now <i class="icon-material-outline-arrow-right-alt"></i></button>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- Apply for a job popup / End -->

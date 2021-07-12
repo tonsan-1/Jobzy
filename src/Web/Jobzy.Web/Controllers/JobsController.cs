@@ -24,12 +24,25 @@
         }
 
         [Route("/Jobs/{id}")]
-        [Authorize(Roles = "Administrator, Freelancer")]
+        [Authorize(Roles = "Administrator, Freelancer, Employer")]
         public IActionResult GetJob(string id)
         {
             var job = this.freelancePlatformManager.JobManager.GetJobById(id);
 
             return this.View(job);
+        }
+
+        [HttpPost]
+        [Route("/Jobs/{id}")]
+        [Authorize(Roles = "Administrator, Freelancer")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> SendProposal(string jobId)
+        {
+            var user = await this.userManager.GetUserAsync(this.User);
+
+            await this.freelancePlatformManager.ProposalManager.AddAsync(jobId, user.Id);
+
+            return this.Redirect("/");
         }
 
         [Route("/Jobs/All")]
@@ -41,14 +54,6 @@
             return this.View(jobs);
         }
 
-        [HttpPost]
-        [Authorize(Roles = "Administrator, Freelancer")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> SendProposal()
-        {
-            return this.Redirect("/");
-        }
-
         [Route("/Dashboard/Jobs/MyJobs")]
         [Authorize(Roles = "Administrator, Employer")]
         public async Task<IActionResult> MyJobs()
@@ -58,6 +63,15 @@
             var jobs = this.freelancePlatformManager.JobManager.GetAllUserJobPosts(user.Id);
 
             return this.View(jobs);
+        }
+
+        [Route("/Dashboard/Jobs/ManageCandidates/{id}")]
+        [Authorize(Roles = "Administrator, Employer")]
+        public IActionResult ManageCandidates(string id)
+        {
+            var proposals = this.freelancePlatformManager.ProposalManager.GetJobProposals(id);
+
+            return this.View(proposals);
         }
 
         [Route("/Dashboard/Jobs/Add")]
