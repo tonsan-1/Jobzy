@@ -1,5 +1,5 @@
 ﻿@using Jobzy.Web.ViewModels.Jobs
-@model List<JobProposalsViewModel>
+@model List<JobOfferViewModel>
 
 
 @{
@@ -94,7 +94,7 @@
                                             </div>
                                         </li>
                                         <partial name="~/Views/Shared/AcceptOfferPartial.cshtml" 
-                                                 model="@new JobProposalsViewModel 
+                                                 model="@new JobOfferViewModel 
                                                 { 
                                                     DialogNumber = dialogNumber,
                                                     Id = offer.Id,
