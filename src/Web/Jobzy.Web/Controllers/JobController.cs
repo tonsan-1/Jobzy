@@ -10,12 +10,12 @@
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
 
-    public class JobsController : Controller
+    public class JobController : Controller
     {
         private readonly IFreelancePlatformManager freelancePlatformManager;
         private readonly UserManager<ApplicationUser> userManager;
 
-        public JobsController(
+        public JobController(
             IFreelancePlatformManager freelancePlatformManager,
             UserManager<ApplicationUser> userManager)
         {
@@ -23,7 +23,6 @@
             this.userManager = userManager;
         }
 
-        [Route("/Jobs/{id}")]
         [Authorize(Roles = "Administrator, Freelancer, Employer")]
         public IActionResult GetJob(string id)
         {
@@ -33,7 +32,6 @@
         }
 
         [HttpPost]
-        [Route("/Jobs/{id}")]
         [Authorize(Roles = "Administrator, Freelancer")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> SendProposal(string jobId, int fixedPrice, int deliveryDays)
@@ -54,7 +52,6 @@
             return this.View(jobs);
         }
 
-        [Route("/Dashboard/Jobs/MyJobs")]
         [Authorize(Roles = "Administrator, Employer")]
         public async Task<IActionResult> MyJobs()
         {
@@ -65,14 +62,15 @@
             return this.View(jobs);
         }
 
-        [Route("/Dashboard/Jobs/ManageCandidates/{id}")]
         [Authorize(Roles = "Administrator, Employer")]
-        public IActionResult ManageCandidates(string id)
+        public IActionResult Offer(string id)
         {
             var proposals = this.freelancePlatformManager.ProposalManager.GetJobProposals(id);
 
             return this.View(proposals);
         }
+
+
 
         [Authorize(Roles = "Administrator, Employer")]
         public IActionResult AcceptOfferPartial()
@@ -80,21 +78,10 @@
             return this.PartialView();
         }
 
-        [HttpPost]
-        [Route("/Dashboard/Jobs/ManageCandidates/{id}")]
-        [Authorize(Roles = "Administrator, Employer")]
-        public IActionResult ApproveCandidate(string jobId, string freelancerId)
-        {
-
-            return this.Json("Works");
-        }
-
-        [Route("/Dashboard/Jobs/Add")]
         [Authorize(Roles = "Administrator, Employer")]
         public IActionResult Add() => this.View();
 
         [HttpPost]
-        [Route("/Dashboard/Jobs/Add")]
         [Authorize(Roles = "Administrator, Employer")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Add(JobInputModel input)

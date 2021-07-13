@@ -1,6 +1,9 @@
-﻿<!-- Bid Acceptance Popup
+﻿@model Jobzy.Web.ViewModels.Jobs.JobProposalsViewModel
+<!-- Bid Acceptance Popup
 ================================================== -->
-<div id="small-dialog-1" class="zoom-anim-dialog mfp-hide dialog-with-tabs">
+
+
+<div id="@(Model.DialogNumber-1)" class="zoom-anim-dialog mfp-hide small-dialog-1">
 
     <!--Tabs -->
     <div class="sign-in-form">
@@ -16,27 +19,27 @@
 
                 <!-- Welcome Text -->
                 <div class="welcome-text">
-                    <h3>Accept Offer From @ViewData["freelancerName"]</h3>
+                   <h3>Accept Offer From @Model.FreelancerName</h3>
+                   
                     <div class="bid-acceptance margin-top-15">
-                        $@ViewData["offerPrice"]
+                        $@Model.FixedPrice
                     </div>
 
                 </div>
 
-                <form id="terms">
+                <form id="accept-offer-form" asp-action="">
                     <div class="radio">
                         <input id="radio-1" name="radio" type="radio" required>
                         <label for="radio-1"><span class="radio-label"></span>  I have read and agree to the Terms and Conditions</label>
                     </div>
-
-                    <input type="text" hidden name="freelancerId" value="">
+                    
+                    <input type="text" hidden name="proposalId" value="@Model.Id">
                 </form>
 
                 <!-- Button -->
-                <button class="margin-top-15 button full-width button-sliding-icon ripple-effect" type="submit" form="terms">Accept <i class="icon-material-outline-arrow-right-alt"></i></button>
+                <button class="margin-top-15 button w-100 button-sliding-icon ripple-effect" type="submit" form="accept-offer-form">Accept <i class="icon-material-outline-arrow-right-alt"></i></button>
 
             </div>
-
         </div>
     </div>
 </div>

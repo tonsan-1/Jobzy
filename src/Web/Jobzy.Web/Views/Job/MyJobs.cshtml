@@ -54,7 +54,7 @@
                                 <div class="buttons-to-right always-visible">
                                     @if (job.ProposalsCount > 0)
                                     {
-                                        <a asp-action="ManageCandidates" asp-controller="Jobs" asp-route-id="@job.Id" class="button ripple-effect"><i class="icon-material-outline-supervisor-account"></i> Manage Candidates <span class="button-info">@job.ProposalsCount</span></a>
+                                        <a asp-action="Offer" asp-controller="Jobs" asp-route-id="@job.Id" class="button ripple-effect"><i class="icon-material-outline-supervisor-account"></i> Manage Candidates <span class="button-info">@job.ProposalsCount</span></a>
                                     }
                                     else
                                     {

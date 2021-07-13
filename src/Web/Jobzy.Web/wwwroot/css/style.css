@@ -10183,7 +10183,7 @@ button.mfp-close {
 }
 
 #small-dialog .mfp-close,
-#small-dialog-1 .mfp-close,
+.small-dialog-1 .mfp-close,
 #small-dialog-2 .mfp-close,
 #small-dialog-3 .mfp-close,
 #small-dialog-4 .mfp-close,
@@ -10195,7 +10195,7 @@ button.mfp-close {
 
 /* Popup close button*/
 #sign-in-dialog .mfp-close,
-#small-dialog-1 .mfp-close,
+.small-dialog-1 .mfp-close,
 #small-dialog-2 .mfp-close,
 #small-dialog-3 .mfp-close,
 #small-dialog-4 .mfp-close,
@@ -10210,7 +10210,7 @@ button.mfp-close {
 }
 
 #sign-in-dialog .mfp-close:hover,
-#small-dialog-1 .mfp-close:hover,
+.small-dialog-1 .mfp-close:hover,
 #small-dialog-2 .mfp-close:hover,
 #small-dialog-3 .mfp-close:hover,
 #small-dialog-4 .mfp-close:hover,
@@ -10336,7 +10336,7 @@ button.mfp-close {
 
 /* Popup */
 #sign-in-dialog,
-#small-dialog-1,
+.small-dialog-1,
 #small-dialog-2,
 #small-dialog-3,
 #small-dialog-4,
@@ -10727,7 +10727,7 @@ img.mfp-img {
 .popup-tab-content p:last-child { margin-bottom: 0; }
 
 .dialog-with-tabs#sign-in-dialog,
-.dialog-with-tabs#small-dialog-1,
+.small-dialog-1,
 .dialog-with-tabs#small-dialog-2,
 .dialog-with-tabs#small-dialog-3,
 .dialog-with-tabs#small-dialog-4,
@@ -10741,7 +10741,7 @@ img.mfp-img {
 /* Close Button Adjustments*/
 #sign-in-dialog.dialog-with-tabs .mfp-close,
 #small-dialog.dialog-with-tabs .mfp-close,
-#small-dialog-1.dialog-with-tabs .mfp-close,
+.small-dialog-1 .mfp-close,
 #small-dialog-2.dialog-with-tabs .mfp-close,
 #small-dialog-3.dialog-with-tabs .mfp-close,
 #small-dialog-4.dialog-with-tabs .mfp-close {
@@ -10756,7 +10756,7 @@ img.mfp-img {
 }
 
 #sign-in-dialog.dialog-with-tabs .mfp-close:hover,
-#small-dialog-1.dialog-with-tabs .mfp-close:hover,
+.small-dialog-1 .mfp-close:hover,
 #small-dialog-2.dialog-with-tabs .mfp-close:hover,
 #small-dialog-3.dialog-with-tabs .mfp-close:hover,
 #small-dialog-4.dialog-with-tabs .mfp-close:hover,
@@ -11037,7 +11037,7 @@ img.mfp-img {
 
 	#sign-in-dialog.dialog-with-tabs .mfp-close,
 	#small-dialog.dialog-with-tabs .mfp-close,
-	#small-dialog-1.dialog-with-tabs .mfp-close,
+	.small-dialog-1 .mfp-close,
 	#small-dialog-2.dialog-with-tabs .mfp-close,
 	#small-dialog-3.dialog-with-tabs .mfp-close,
 	#small-dialog-4.dialog-with-tabs .mfp-close {

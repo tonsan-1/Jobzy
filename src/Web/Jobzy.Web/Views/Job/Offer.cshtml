@@ -6,8 +6,7 @@
     var offerString = Model.Count == 1 ? $"{Model.Count} Offer" : $"{Model.Count} Offers";
     var jobTitle = Model.Select(x => x.JobTitle).First().ToString();
     var jobId = Model.Select(x => x.JobId).First().ToString();
-
-    var index = 0;
+    var dialogNumber = 9;
 }
 
 <div>
@@ -85,14 +84,23 @@
 
                                                         <!-- Buttons -->
                                                         <div class="buttons-to-right always-visible margin-top-25 margin-bottom-0">
-                                                            <a href="#small-dialog-1" id="@(index++)" class="popup-with-zoom-anim button ripple-effect"><i class="icon-material-outline-check"></i> Accept Offer</a>
+                                                            <a href="#@(dialogNumber++)" class="popup-with-zoom-anim button ripple-effect"><i class="icon-material-outline-check"></i> Accept Offer</a>
                                                             <a href="#small-dialog-2" class="popup-with-zoom-anim button dark ripple-effect"><i class="icon-feather-mail"></i> Send Message</a>
                                                             <a href="#" class="button gray ripple-effect ico" title="Remove Bid" data-tippy-placement="top"><i class="icon-feather-trash-2"></i></a>
                                                         </div>
+
                                                     </div>
                                                 </div>
                                             </div>
                                         </li>
+                                        <partial name="~/Views/Shared/AcceptOfferPartial.cshtml" 
+                                                 model="@new JobProposalsViewModel 
+                                                { 
+                                                    DialogNumber = dialogNumber,
+                                                    Id = offer.Id,
+                                                    FixedPrice = offer.FixedPrice,
+                                                    FreelancerName = offer.FreelancerName,
+                                                }"/>
                                     }
                                 </ul>
                             </div>
@@ -109,4 +117,7 @@
 </div>
 <!-- Wrapper / End -->
 
-<partial name="~/Views/Shared/_AcceptOfferPartial.cshtml" />
+<script>
+
+</script>
+
