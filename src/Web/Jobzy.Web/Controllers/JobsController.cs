@@ -36,11 +36,11 @@
         [Route("/Jobs/{id}")]
         [Authorize(Roles = "Administrator, Freelancer")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> SendProposal(string jobId)
+        public async Task<IActionResult> SendProposal(string jobId, int fixedPrice, int deliveryDays)
         {
             var user = await this.userManager.GetUserAsync(this.User);
 
-            await this.freelancePlatformManager.ProposalManager.AddAsync(jobId, user.Id);
+            await this.freelancePlatformManager.ProposalManager.AddAsync(jobId, user.Id, fixedPrice, deliveryDays);
 
             return this.Redirect("/");
         }

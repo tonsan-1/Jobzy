@@ -19,12 +19,14 @@
             this.repository = repository;
         }
 
-        public async Task AddAsync(string jobId, string userId)
+        public async Task AddAsync(string jobId, string userId, decimal fixedPrice, int deliveryDays)
         {
             var proposal = new Proposal
             {
                 JobId = jobId,
                 FreelancerId = userId,
+                FixedPrice = fixedPrice,
+                DeliveryDays = deliveryDays,
             };
 
             await this.repository.AddAsync(proposal);

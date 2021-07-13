@@ -7,7 +7,7 @@
 
     public interface IProposalManager
     {
-        Task AddAsync(string jobId, string userId);
+        Task AddAsync(string jobId, string userId, decimal fixedPrice, int deliveryDays);
 
         IEnumerable<JobProposalsViewModel> GetJobProposals(string jobId);
     }
