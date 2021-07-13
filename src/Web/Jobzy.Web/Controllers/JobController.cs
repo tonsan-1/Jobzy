@@ -71,7 +71,14 @@
             return this.View(proposals);
         }
 
+        [HttpPost]
+        [Route("/Job/Offers/")]
+        [Authorize(Roles = "Administrator, Employer")]
+        public IActionResult AcceptOffer(string offerId)
+        {
 
+            return this.Redirect("/");
+        }
 
         [Authorize(Roles = "Administrator, Employer")]
         public IActionResult AcceptOfferPartial()
