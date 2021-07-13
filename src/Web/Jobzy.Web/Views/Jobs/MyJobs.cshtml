@@ -51,11 +51,18 @@
                                         </div>
 
                                         <!-- Buttons -->
-                                        <div class="buttons-to-right always-visible">
-                                            <a asp-action="ManageCandidates" asp-controller="Jobs" asp-route-id="@job.Id" class="button ripple-effect"><i class="icon-material-outline-supervisor-account"></i> Manage Candidates <span class="button-info">@job.ProposalsCount</span></a>
-                                            <a href="#" class="button gray ripple-effect ico" title="Edit" data-tippy-placement="top"><i class="icon-feather-edit"></i></a>
-                                            <a href="#" class="button gray ripple-effect ico" title="Remove" data-tippy-placement="top"><i class="icon-feather-trash-2"></i></a>
-                                        </div>
+                                <div class="buttons-to-right always-visible">
+                                    @if (job.ProposalsCount > 0)
+                                    {
+                                        <a asp-action="ManageCandidates" asp-controller="Jobs" asp-route-id="@job.Id" class="button ripple-effect"><i class="icon-material-outline-supervisor-account"></i> Manage Candidates <span class="button-info">@job.ProposalsCount</span></a>
+                                    }
+                                    else
+                                    {
+                                        <a class="button gray"><i class="icon-material-outline-supervisor-account"></i> No Candidates</a>
+                                    }
+                                    <a href="#" class="button gray ripple-effect ico" title="Edit" data-tippy-placement="top"><i class="icon-feather-edit"></i></a>
+                                    <a href="#" class="button gray ripple-effect ico" title="Remove" data-tippy-placement="top"><i class="icon-feather-trash-2"></i></a>
+                                </div>
                                     }
                                 </li>
                             </ul>

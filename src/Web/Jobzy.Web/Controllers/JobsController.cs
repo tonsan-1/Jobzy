@@ -83,6 +83,9 @@
             return this.Json("Works");
         }
 
+        [Route("/Jobs/TestContract")]
+        public IActionResult TestContract() => this.View();
+
         [Route("/Dashboard/Jobs/Add")]
         [Authorize(Roles = "Administrator, Employer")]
         public IActionResult Add() => this.View();
