@@ -5,6 +5,10 @@
 
     public class JobProposalsViewModel : IMapFrom<Proposal>
     {
+        public decimal FixedPrice { get; set; }
+
+        public int DeliveryDays { get; set; }
+
         public string JobId { get; set; }
 
         public string JobTitle { get; set; }
@@ -15,7 +19,7 @@
 
         public string FreelancerEmail { get; set; }
 
-        public string FreelancerRating { get; set; }
+        public double FreelancerRating { get; set; }
 
         public string FreelancerProfileImageUrl { get; set; }
     }

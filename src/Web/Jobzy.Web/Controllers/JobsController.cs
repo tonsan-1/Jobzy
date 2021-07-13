@@ -74,6 +74,12 @@
             return this.View(proposals);
         }
 
+        [Authorize(Roles = "Administrator, Employer")]
+        public IActionResult AcceptOfferPartial()
+        {
+            return this.PartialView();
+        }
+
         [HttpPost]
         [Route("/Dashboard/Jobs/ManageCandidates/{id}")]
         [Authorize(Roles = "Administrator, Employer")]
@@ -82,9 +88,6 @@
 
             return this.Json("Works");
         }
-
-        [Route("/Jobs/TestContract")]
-        public IActionResult TestContract() => this.View();
 
         [Route("/Dashboard/Jobs/Add")]
         [Authorize(Roles = "Administrator, Employer")]

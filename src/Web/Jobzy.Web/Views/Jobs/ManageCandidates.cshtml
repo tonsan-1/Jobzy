@@ -3,34 +3,25 @@
 
 
 @{
-    var CandidatesString = Model.Count == 1 ? $"{Model.Count} Candidate" : $"{Model.Count} Candidates";
+    var offerString = Model.Count == 1 ? $"{Model.Count} Offer" : $"{Model.Count} Offers";
     var jobTitle = Model.Select(x => x.JobTitle).First().ToString();
     var jobId = Model.Select(x => x.JobId).First().ToString();
-    var freelancerId = "";
-    var freelancerName = "";
+
+    var index = 0;
 }
 
+<div>
     <div class="dashboard-container">
         <partial name="DashboardPartial" />
 
         <!-- Dashboard Content
-            ================================================== -->
+        ================================================== -->
         <div class="dashboard-content-container" data-simplebar>
             <div class="dashboard-content-inner">
 
                 <!-- Dashboard Headline -->
                 <div class="dashboard-headline">
-                    <h3>Manage Candidates</h3>
-                    <span class="margin-top-7">Job Applications for <a asp-action="GetJob" asp-controller="Jobs" asp-route-id="@jobId">@jobTitle</a></span>
-
-                    <!-- Breadcrumbs -->
-                    <nav id="breadcrumbs" class="dark">
-                        <ul>
-                            <li><a href="#">Home</a></li>
-                            <li><a href="#">Dashboard</a></li>
-                            <li>Manage Candidates</li>
-                        </ul>
-                    </nav>
+                    <span class="margin-top-7">Offers for <a asp-action="GetJob" asp-controller="Jobs" asp-route-id="@jobId">@jobTitle</a></span>
                 </div>
 
                 <!-- Row -->
@@ -42,12 +33,19 @@
 
                             <!-- Headline -->
                             <div class="headline">
-                                <h3><i class="icon-material-outline-supervisor-account"></i>@CandidatesString</h3>
+                                <h3><i class="icon-material-outline-supervisor-account"></i>@offerString</h3>
+                                <div class="sort-by">
+                                    <select class="selectpicker hide-tick">
+                                        <option>Highest First</option>
+                                        <option>Lowest First</option>
+                                        <option>Fastest First</option>
+                                    </select>
+                                </div>
                             </div>
 
                             <div class="content">
                                 <ul class="dashboard-box-list">
-                                    @foreach (var candidate in Model)
+                                    @foreach (var offer in Model)
                                     {
                                         <li>
                                             <!-- Overview -->
@@ -57,27 +55,39 @@
                                                     <!-- Avatar -->
                                                     <div class="freelancer-avatar">
                                                         <div class="verified-badge"></div>
-                                                        <a href="#"><img src="~/images/user-avatar-big-03.jpg" alt=""></a>
+                                                        <a href="#"><img src="~/images/user-avatar-big-02.jpg" alt=""></a>
                                                     </div>
 
                                                     <!-- Name -->
                                                     <div class="freelancer-name">
-                                                        <h4><a href="#">@candidate.FreelancerName<img class="flag" src="~/images/flags/bg.svg" alt=""></a></h4>
+                                                        <h4><a href="#">@offer.FreelancerName <img class="flag" src="~/images/flags/bg.svg" alt="" title="Bulgaria" data-tippy-placement="top"></a></h4>
 
                                                         <!-- Details -->
-                                                        <span class="freelancer-detail-item"><a href="#"><i class="icon-feather-mail"></i>@candidate.FreelancerEmail</a></span>
-                                                        @*<span class="freelancer-detail-item"><i class="icon-feather-phone"></i> (+61) 123-456-789</span>*@
+                                                        <span class="freelancer-detail-item"><i class="icon-feather-mail"></i> @offer.FreelancerEmail</span>
 
                                                         <!-- Rating -->
                                                         <div class="freelancer-rating">
-                                                            <div class="star-rating" data-rating="@candidate.FreelancerRating"></div>
+                                                            @if (offer.FreelancerRating == 0)
+                                                            {
+                                                                <div class="company-not-rated" data-rating="@offer.FreelancerRating">Not rated</div>
+                                                            }
+                                                            else
+                                                            {
+                                                                <div class="star-rating" data-rating="@offer.FreelancerRating"></div>
+                                                            }
                                                         </div>
 
+                                                        <!-- Bid Details -->
+                                                        <ul class="dashboard-task-info bid-info">
+                                                            <li><strong>$@offer.FixedPrice</strong><span>Fixed Price</span></li>
+                                                            <li><strong>@offer.DeliveryDays Days</strong><span>Delivery Time</span></li>
+                                                        </ul>
+
                                                         <!-- Buttons -->
-                                                        <div class="buttons-to-right always-visible margin-top-25 margin-bottom-5">
-                                                            <a href="#small-dialog" onclick="@(freelancerId = candidate.FreelancerId); @(freelancerName = candidate.FreelancerName);" class="popup-with-zoom-anim button green ripple-effect"><i class="icon-material-outline-check"></i>Approve Candidate</a>
-                                                            <a href="#" class="button dark ripple-effect"><i class="icon-feather-mail"></i> Send Message</a>
-                                                            <a href="#" class="button gray ripple-effect ico" title="Remove Candidate" data-tippy-placement="top"><i class="icon-feather-trash-2"></i></a>
+                                                        <div class="buttons-to-right always-visible margin-top-25 margin-bottom-0">
+                                                            <a href="#small-dialog-1" id="@(index++)" class="popup-with-zoom-anim button ripple-effect"><i class="icon-material-outline-check"></i> Accept Offer</a>
+                                                            <a href="#small-dialog-2" class="popup-with-zoom-anim button dark ripple-effect"><i class="icon-feather-mail"></i> Send Message</a>
+                                                            <a href="#" class="button gray ripple-effect ico" title="Remove Bid" data-tippy-placement="top"><i class="icon-feather-trash-2"></i></a>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -88,46 +98,15 @@
                             </div>
                         </div>
                     </div>
+
                 </div>
                 <!-- Row / End -->
+                <div class="dashboard-footer-spacer" style="padding-top: 162px;"></div>
             </div>
         </div>
         <!-- Dashboard Content / End -->
     </div>
+</div>
+<!-- Wrapper / End -->
 
-    <!-- Send Direct Message Popup
-    ================================================== -->
-    <div id="small-dialog" class="zoom-anim-dialog mfp-hide dialog-with-tabs">
-
-        <!--Tabs -->
-        <div class="sign-in-form">
-
-            <ul class="popup-tabs-nav">
-                <li><a href="#tab">Approve Candidate</a></li>
-            </ul>
-
-            <div class="popup-tabs-container">
-
-                <!-- Tab -->
-                <div class="popup-tab-content" id="tab">
-
-                    <!-- Welcome Text -->
-                    <div class="welcome-text">
-                        <h3>Are you sure you want to work with <br /> @freelancerName?</h3>
-                    </div>
-
-                    <!-- Form -->
-                    <form asp-action="ManageCandidates" asp-controller="Jobs" method="post" id="send-pm">
-                        <input type="text" hidden name="jobId" value="@jobId" />
-                        <input type="text" hidden name="freelancerId" value="@freelancerId" />
-                    </form>
-
-                    <!-- Button -->
-                    <button class="button full-width button-sliding-icon ripple-effect" type="submit" form="send-pm">Yes, I'm sure! <i class="icon-material-outline-arrow-right-alt"></i></button>
-
-                </div>
-
-            </div>
-        </div>
-    </div>
-    <!-- Send Direct Message Popup / End -->
+<partial name="~/Views/Shared/_AcceptOfferPartial.cshtml" />
