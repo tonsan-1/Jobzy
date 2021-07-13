@@ -7,18 +7,18 @@
         public FreelancePlatformManager(
             IJobManager jobManager,
             IBalanceManager balanceManager,
-            IProposalManager proposalManager)
+            IOfferManager offerManager)
         {
             this.JobManager = jobManager;
             this.BalanceManager = balanceManager;
-            this.ProposalManager = proposalManager;
+            this.OfferManager = offerManager;
         }
 
         public IJobManager JobManager { get; }
 
         public IBalanceManager BalanceManager { get; }
 
-        public IProposalManager ProposalManager { get; }
+        public IOfferManager OfferManager { get; }
 
     }
 }

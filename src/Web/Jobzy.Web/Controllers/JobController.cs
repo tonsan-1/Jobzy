@@ -43,11 +43,11 @@
         [HttpPost]
         [Authorize(Roles = "Administrator, Freelancer")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> SendProposal(string jobId, int fixedPrice, int deliveryDays)
+        public async Task<IActionResult> SendOffer(string jobId, int fixedPrice, int deliveryDays)
         {
             var user = await this.userManager.GetUserAsync(this.User);
 
-            await this.freelancePlatformManager.ProposalManager.AddAsync(jobId, user.Id, fixedPrice, deliveryDays);
+            await this.freelancePlatformManager.OfferManager.AddAsync(jobId, user.Id, fixedPrice, deliveryDays);
 
             return this.Redirect("/");
         }
@@ -66,9 +66,9 @@
         [Authorize(Roles = "Administrator, Employer")]
         public IActionResult Offers(string id)
         {
-            var proposals = this.freelancePlatformManager.ProposalManager.GetJobProposals(id);
+            var offers = this.freelancePlatformManager.OfferManager.GetJobOffers(id);
 
-            return this.View(proposals);
+            return this.View(offers);
         }
 
         [HttpPost]

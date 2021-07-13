@@ -3,7 +3,7 @@
     using Jobzy.Data.Models;
     using Jobzy.Services.Mapping;
 
-    public class JobProposalsViewModel : IMapFrom<Proposal>
+    public class JobOfferViewModel : IMapFrom<Offer>
     {
         public string Id { get; set; }
 

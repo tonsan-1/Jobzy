@@ -6,6 +6,6 @@
 
         IBalanceManager BalanceManager { get; }
 
-        IProposalManager ProposalManager { get; }
+        IOfferManager OfferManager { get; }
     }
 }

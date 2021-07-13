@@ -41,7 +41,7 @@
 
         public bool IsPaymentDenied { get; set; } = false;
 
-        public List<Proposal> Proposals { get; set; } = new List<Proposal>();
+        public List<Offer> Offers{ get; set; } = new List<Offer>();
 
         public List<JobTag> JobTags { get; set; } = new List<JobTag>();
     }

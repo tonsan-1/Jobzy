@@ -3,7 +3,7 @@
     using System;
     using System.ComponentModel.DataAnnotations;
 
-    public class Proposal
+    public class Offer
     {
         public string Id { get; set; } = Guid.NewGuid().ToString();
 

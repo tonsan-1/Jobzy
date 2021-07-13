@@ -38,7 +38,7 @@
 
         public DbSet<EmployerTag> EmployerTags { get; set; }
 
-        public DbSet<Proposal> Proposals { get; set; }
+        public DbSet<Offer> Offers { get; set; }
 
         public DbSet<Balance> Balances { get; set; }
 

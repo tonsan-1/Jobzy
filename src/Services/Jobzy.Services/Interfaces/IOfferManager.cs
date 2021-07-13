@@ -5,10 +5,10 @@
 
     using Jobzy.Web.ViewModels.Jobs;
 
-    public interface IProposalManager
+    public interface IOfferManager
     {
         Task AddAsync(string jobId, string userId, decimal fixedPrice, int deliveryDays);
 
-        IEnumerable<JobProposalsViewModel> GetJobProposals(string jobId);
+        IEnumerable<JobOfferViewModel> GetJobOffers(string jobId);
     }
 }

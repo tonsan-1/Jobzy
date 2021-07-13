@@ -10,18 +10,18 @@
     using Jobzy.Services.Mapping;
     using Jobzy.Web.ViewModels.Jobs;
 
-    public class ProposalManager : IProposalManager
+    public class OfferManager : IOfferManager
     {
-        private readonly IRepository<Proposal> repository;
+        private readonly IRepository<Offer> repository;
 
-        public ProposalManager( IRepository<Proposal> repository)
+        public OfferManager( IRepository<Offer> repository)
         {
             this.repository = repository;
         }
 
         public async Task AddAsync(string jobId, string userId, decimal fixedPrice, int deliveryDays)
         {
-            var proposal = new Proposal
+            var offer = new Offer
             {
                 JobId = jobId,
                 FreelancerId = userId,
@@ -29,18 +29,18 @@
                 DeliveryDays = deliveryDays,
             };
 
-            await this.repository.AddAsync(proposal);
+            await this.repository.AddAsync(offer);
             await this.repository.SaveChangesAsync();
         }
 
-        public IEnumerable<JobProposalsViewModel> GetJobProposals(string jobId)
+        public IEnumerable<JobOfferViewModel> GetJobOffers(string jobId)
         {
-            var proposals = this.repository.All()
+            var offers = this.repository.All()
                 .Where(x => x.JobId == jobId)
-                .To<JobProposalsViewModel>()
+                .To<JobOfferViewModel>()
                 .ToList();
 
-            return proposals;
+            return offers;
         }
     }
 }
