@@ -1,135 +1,107 @@
-﻿<!-- Dashboard Container -->
-<div class="dashboard-container">
+﻿<!-- Titlebar
+================================================== -->
+<div class="single-page-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="text-center p-lg-4">
+                        <div class="salary-type">Contract Status</div>
+                        <div class="margin-top-15"></div>
+                        <div class="bid-acceptance">Ongoing</div>
+                    </div>
 
-    <partial name="DashboardPartial" />
+                    <div class="text-center">
+                        <h3 class="contract-id-text">Contract #12dqwdasd12-asdas12d3-asdas12d23d</h3>
+                    </div>
 
-    <!-- Dashboard Content
-        ================================================== -->
-    <div class="dashboard-content-container" data-simplebar>
-        <div class="dashboard-content-inner">
+                    <div class="text-center p-lg-4">
+                        <div class="salary-type">Contract Budget</div>
+                        <div class="margin-top-15"></div>
+                        <div class="bid-acceptance">$4,500</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-            <!-- Row -->
-            <div class="row">
+<!-- Page Content
+================================================== -->
+<div class="container">
+    <div class="countdown blue margin-bottom-70 py-lg-4">6 days, 23 hours left</div>
 
-                <!-- Dashboard Box -->
-                <div class="col-xl-12">
-                    <div class="dashboard-box margin-top-0">
+    <div class="row">
+        <!-- Content -->
+        <div class="col-xl-8 col-lg-8 content-right-offset">
 
-                        <!-- Headline -->
-                        <div class="headline">
-                            <h3><i class="icon-material-outline-business-center"></i> Contract #</h3>
-                        </div>
+            <!-- Description -->
+            <div class="single-page-section">
+                <h3 class="margin-bottom-25">Job Description</h3>
+                <p>Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall value proposition. Organically grow the holistic world view of disruptive innovation via workplace diversity and empowerment.</p>
 
-                        <div class="content with-padding padding-bottom-10">
-                            <div class="row">
+                <p>Bring to the table win-win survival strategies to ensure proactive domination. At the end of the day, going forward, a new normal that has evolved from generation X is on the runway heading towards a streamlined cloud solution. User generated content in real-time will have multiple touchpoints for offshoring.</p>
 
-                                <div class="col-xl-4">
-                                    <div class="submit-field">
-                                        <h5>Project Name</h5>
-                                        <input type="text" class="with-border" placeholder="e.g. build me a website">
-                                    </div>
-                                </div>
+                <p>Capitalize on low hanging fruit to identify a ballpark value added activity to beta test. Override the digital divide with additional clickthroughs from DevOps. Nanotechnology immersion along the information highway will close the loop on focusing solely on the bottom line.</p>
+            </div>
 
-                                <div class="col-xl-4">
-                                    <div class="submit-field">
-                                        <h5>Category</h5>
-                                        <select class="selectpicker with-border" data-size="7" title="Select Category">
-                                            <option>Admin Support</option>
-                                            <option>Customer Service</option>
-                                            <option>Data Analytics</option>
-                                            <option>Design & Creative</option>
-                                            <option>Legal</option>
-                                            <option>Software Developing</option>
-                                            <option>IT & Networking</option>
-                                            <option>Writing</option>
-                                            <option>Translation</option>
-                                            <option>Sales & Marketing</option>
-                                        </select>
-                                    </div>
-                                </div>
+            <!-- Atachments -->
+            <div class="single-page-section">
+                <h3>Attachments</h3>
+                <div class="attachments-container">
+                    <a href="#" class="attachment-box ripple-effect"><span>Project Brief</span><i>PDF</i></a>
+                </div>
+            </div>
 
-                                <div class="col-xl-4">
-                                    <div class="submit-field">
-                                        <h5>Location  <i class="help-icon" data-tippy-placement="right" title="Leave blank if it's an online job"></i></h5>
-                                        <div class="input-with-icon">
-                                            <div id="autocomplete-container">
-                                                <input id="autocomplete-input" class="with-border" type="text" placeholder="Anywhere">
-                                            </div>
-                                            <i class="icon-material-outline-location-on"></i>
-                                        </div>
-                                    </div>
-                                </div>
+            <div class="clearfix"></div>
+        </div>
 
-                                <div class="col-xl-6">
-                                    <div class="submit-field">
-                                        <h5>What is your estimated budget?</h5>
-                                        <div class="row">
-                                            <div class="col-xl-6">
-                                                <div class="input-with-icon">
-                                                    <input class="with-border" type="text" placeholder="Minimum">
-                                                    <i class="currency">USD</i>
-                                                </div>
-                                            </div>
-                                            <div class="col-xl-6">
-                                                <div class="input-with-icon">
-                                                    <input class="with-border" type="text" placeholder="Maximum">
-                                                    <i class="currency">USD</i>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="feedback-yes-no margin-top-0">
-                                            <div class="radio">
-                                                <input id="radio-1" name="radio" type="radio" checked>
-                                                <label for="radio-1"><span class="radio-label"></span> Fixed Price Project</label>
-                                            </div>
 
-                                            <div class="radio">
-                                                <input id="radio-2" name="radio" type="radio">
-                                                <label for="radio-2"><span class="radio-label"></span> Hourly Project</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+        <!-- Sidebar -->
+        <div class="col-xl-4 col-lg-4">
+            <div class="sidebar-container">
 
-                                <div class="col-xl-6">
-                                    <div class="submit-field">
-                                        <h5>What skills are required? <i class="help-icon" data-tippy-placement="right" title="Up to 5 skills that best describe your project"></i></h5>
-                                        <div class="keywords-container">
-                                            <div class="keyword-input-container">
-                                                <input type="text" class="keyword-input with-border" placeholder="Add Skills" />
-                                                <button class="keyword-input-button ripple-effect"><i class="icon-material-outline-add"></i></button>
-                                            </div>
-                                            <div class="keywords-list"><!-- keywords go here --></div>
-                                            <div class="clearfix"></div>
-                                        </div>
-
-                                    </div>
-                                </div>
-
-                                <div class="col-xl-12">
-                                    <div class="submit-field">
-                                        <h5>Describe Your Project</h5>
-                                        <textarea cols="30" rows="5" class="with-border"></textarea>
-                                        <div class="uploadButton margin-top-30">
-                                            <input class="uploadButton-input" type="file" accept="image/*, application/pdf" id="upload" multiple />
-                                            <label class="uploadButton-button ripple-effect" for="upload">Upload Files</label>
-                                            <span class="uploadButton-file-name">Images or documents that might be helpful in describing your project</span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
+                <div class="sidebar-widget">
+                    <div class="job-overview">
+                        <div class="job-overview-headline">Contract Summary</div>
+                        <div class="job-overview-inner">
+                            <ul>
+                                <li>
+                                    <i class="icon-material-outline-loyalty"></i>
+                                    <span>Job Title</span>
+                                    <h5>Name</h5>
+                                </li>
+                                <li>
+                                    <i class="icon-material-outline-business-center"></i>
+                                    <span>Employer</span>
+                                    <h5>Name</h5>
+                                </li>
+                                <li>
+                                    <i class="icon-material-outline-person-pin"></i>
+                                    <span>Freelancer</span>
+                                    <h5>Name</h5>
+                                </li>
+                                <li>
+                                    <i class="icon-material-outline-access-time"></i>
+                                    <span>Delivery Time</span>
+                                    <h5>2 days ago</h5>
+                                </li>
+                            </ul>
                         </div>
                     </div>
                 </div>
-
-                <div class="col-xl-12">
-                    <a href="#" class="button ripple-effect big margin-top-30"><i class="icon-feather-plus"></i> Post a Task</a>
+                <!-- Button -->
+                <div class="bidding-signup d-flex">
+                    <button class="button bg-danger ripple-effect move-on-hover full-width margin-right-20"><span>Cancel</span></button>
+                    <button class="button success bg-success ripple-effect move-on-hover full-width"><span>Complete</span></button>
                 </div>
-
             </div>
-            <!-- Row / End -->
         </div>
     </div>
-    <!-- Dashboard Content / End -->
 </div>
+</div>
+
+
+<!-- Spacer -->
+<div class="margin-top-50"></div>
+<!-- Spacer / End-->

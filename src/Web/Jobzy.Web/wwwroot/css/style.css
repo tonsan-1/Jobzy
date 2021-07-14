@@ -3202,13 +3202,17 @@ body #backtotop a {
         font-size: 22px;
         line-height: 24px;
     }
-    .single-page-header .salary-box {
-        padding: 0;
-        margin-top: 15px;
-        margin-bottom: 20px;
-        background-color: transparent;
-        box-shadow: none;
-    }
+
+	.contract-id-text h3{
+		color: #333;
+	}
+	.single-page-header .salary-box {
+		padding: 0;
+		margin-top: 15px;
+		margin-bottom: 20px;
+		background-color: transparent;
+		box-shadow: none;
+	}
     .salary-box .salary-type {
         font-weight: 600;
         color: #333;
@@ -9211,10 +9215,10 @@ transform: translateY(-18px);
 	padding: 14px;
 }
 
-.countdown.green {
-	background-color: #e7f8ec;
-	color: #289c41;
-}
+	.countdown.blue {
+		background-color: #2a41e8;
+		color: #fff;
+	}
 
 .countdown.yellow {
 	background-color: #fbf6dd;

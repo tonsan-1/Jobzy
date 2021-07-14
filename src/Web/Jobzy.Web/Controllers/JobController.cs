@@ -23,6 +23,8 @@
             this.userManager = userManager;
         }
 
+        public IActionResult TestContract() => this.View();
+
         [Route("/Job/")]
         [Authorize(Roles = "Administrator, Freelancer, Employer")]
         public IActionResult SingleJob(string id)
@@ -78,12 +80,6 @@
         {
 
             return this.Redirect("/");
-        }
-
-        [Authorize(Roles = "Administrator, Employer")]
-        public IActionResult AcceptOfferPartial()
-        {
-            return this.PartialView();
         }
 
         [Authorize(Roles = "Administrator, Employer")]
