@@ -4,14 +4,16 @@ using Jobzy.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Jobzy.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210714114416_CreateContractEntity")]
+    partial class CreateContractEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -191,15 +193,14 @@ namespace Jobzy.Data.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("EmployerId")
+                    b.Property<string>("EmoployerId")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("EmployerId")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("FreelancerId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("OfferId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
@@ -211,8 +212,6 @@ namespace Jobzy.Data.Migrations
                     b.HasIndex("EmployerId");
 
                     b.HasIndex("FreelancerId");
-
-                    b.HasIndex("OfferId");
 
                     b.ToTable("Contracts");
                 });
@@ -526,9 +525,7 @@ namespace Jobzy.Data.Migrations
                 {
                     b.HasOne("Jobzy.Data.Models.Employer", "Employer")
                         .WithMany("Contracts")
-                        .HasForeignKey("EmployerId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .HasForeignKey("EmployerId");
 
                     b.HasOne("Jobzy.Data.Models.Freelancer", "Freelancer")
                         .WithMany("Contracts")
@@ -536,17 +533,9 @@ namespace Jobzy.Data.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("Jobzy.Data.Models.Offer", "Offer")
-                        .WithMany()
-                        .HasForeignKey("OfferId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.Navigation("Employer");
 
                     b.Navigation("Freelancer");
-
-                    b.Navigation("Offer");
                 });
 
             modelBuilder.Entity("Jobzy.Data.Models.EmployerTag", b =>

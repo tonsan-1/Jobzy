@@ -42,6 +42,8 @@
 
         public DbSet<Balance> Balances { get; set; }
 
+        public DbSet<Contract> Contracts { get; set; }
+
         public DbSet<Setting> Settings { get; set; }
 
         public override int SaveChanges() => this.SaveChanges(true);
@@ -67,6 +69,9 @@
         {
             // Needed for Identity models configuration
             base.OnModelCreating(builder);
+
+            builder.Entity<Contract>()
+                .HasKey(x => x.Id);
 
             this.ConfigureUserIdentityRelations(builder);
 

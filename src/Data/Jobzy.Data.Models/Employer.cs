@@ -4,12 +4,9 @@
 
     public class Employer : ApplicationUser
     {
-        public Employer()
-        {
-            this.EmployerTags = new List<EmployerTag>();
-        }
+        public List<EmployerTag> EmployerTags => new List<EmployerTag>();
 
-        public List<EmployerTag> EmployerTags { get; set; }
+        public List<Contract> Contracts => new List<Contract>();
 
         // implement more properties such as
         // Open Jobs, Reviews..etc

@@ -4,14 +4,16 @@ using Jobzy.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Jobzy.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210714114621_FixEmployerIdName")]
+    partial class FixEmployerIdName
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -199,10 +201,6 @@ namespace Jobzy.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("OfferId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
@@ -211,8 +209,6 @@ namespace Jobzy.Data.Migrations
                     b.HasIndex("EmployerId");
 
                     b.HasIndex("FreelancerId");
-
-                    b.HasIndex("OfferId");
 
                     b.ToTable("Contracts");
                 });
@@ -536,17 +532,9 @@ namespace Jobzy.Data.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("Jobzy.Data.Models.Offer", "Offer")
-                        .WithMany()
-                        .HasForeignKey("OfferId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.Navigation("Employer");
 
                     b.Navigation("Freelancer");
-
-                    b.Navigation("Offer");
                 });
 
             modelBuilder.Entity("Jobzy.Data.Models.EmployerTag", b =>
