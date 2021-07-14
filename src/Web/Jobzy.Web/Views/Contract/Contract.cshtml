@@ -1,4 +1,6 @@
-﻿<!-- Titlebar
+﻿@model Jobzy.Web.ViewModels.Contracts.ContractViewModel
+
+<!-- Titlebar
 ================================================== -->
 <div class="single-page-header">
     <div class="container">
@@ -8,17 +10,17 @@
                     <div class="text-center p-lg-4">
                         <div class="salary-type">Contract Status</div>
                         <div class="margin-top-15"></div>
-                        <div class="bid-acceptance">Ongoing</div>
+                        <div class="bid-acceptance">@Model.Status.ToString().ToUpper()</div>
                     </div>
 
                     <div class="text-center">
-                        <h3 class="contract-id-text">Contract #12dqwdasd12-asdas12d3-asdas12d23d</h3>
+                        <h3 class="contract-id-text">Contract #@Model.Id.ToUpper()</h3>
                     </div>
 
                     <div class="text-center p-lg-4">
                         <div class="salary-type">Contract Budget</div>
                         <div class="margin-top-15"></div>
-                        <div class="bid-acceptance">$4,500</div>
+                        <div class="bid-acceptance">$@Model.OfferFixedPrice</div>
                     </div>
                 </div>
             </div>
@@ -38,11 +40,7 @@
             <!-- Description -->
             <div class="single-page-section">
                 <h3 class="margin-bottom-25">Job Description</h3>
-                <p>Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall value proposition. Organically grow the holistic world view of disruptive innovation via workplace diversity and empowerment.</p>
-
-                <p>Bring to the table win-win survival strategies to ensure proactive domination. At the end of the day, going forward, a new normal that has evolved from generation X is on the runway heading towards a streamlined cloud solution. User generated content in real-time will have multiple touchpoints for offshoring.</p>
-
-                <p>Capitalize on low hanging fruit to identify a ballpark value added activity to beta test. Override the digital divide with additional clickthroughs from DevOps. Nanotechnology immersion along the information highway will close the loop on focusing solely on the bottom line.</p>
+                <p>@Model.OfferJobDescription</p>
             </div>
 
             <!-- Atachments -->
@@ -69,22 +67,22 @@
                                 <li>
                                     <i class="icon-material-outline-loyalty"></i>
                                     <span>Job Title</span>
-                                    <h5>Name</h5>
+                                    <h5>@Model.OfferJobTitle</h5>
                                 </li>
                                 <li>
                                     <i class="icon-material-outline-business-center"></i>
                                     <span>Employer</span>
-                                    <h5>Name</h5>
+                                    <h5>@Model.EmployerName</h5>
                                 </li>
                                 <li>
                                     <i class="icon-material-outline-person-pin"></i>
                                     <span>Freelancer</span>
-                                    <h5>Name</h5>
+                                    <h5>@Model.FreelancerName</h5>
                                 </li>
                                 <li>
                                     <i class="icon-material-outline-access-time"></i>
                                     <span>Delivery Time</span>
-                                    <h5>2 days ago</h5>
+                                    <h5>@Model.OfferDeliveryDays days</h5>
                                 </li>
                             </ul>
                         </div>
@@ -98,7 +96,6 @@
             </div>
         </div>
     </div>
-</div>
 </div>
 
 

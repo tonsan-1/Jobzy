@@ -7,20 +7,19 @@
     using Jobzy.Data.Common.Repositories;
     using Jobzy.Data.Models;
     using Jobzy.Services.Interfaces;
+    using Jobzy.Services.Mapping;
+    using Jobzy.Web.ViewModels.Contracts;
 
     public class ContractManager : IContractManager
     {
         private readonly IRepository<Offer> offerRepository;
-        private readonly IRepository<Job> jobRepository;
         private readonly IRepository<Contract> contractRepository;
 
         public ContractManager(
             IRepository<Offer> offerRepository,
-            IRepository<Job> jobRepository,
             IRepository<Contract> contractRepository)
         {
             this.offerRepository = offerRepository;
-            this.jobRepository = jobRepository;
             this.contractRepository = contractRepository;
         }
 
@@ -46,6 +45,16 @@
             await this.contractRepository.SaveChangesAsync();
 
             return contract.Id;
+        }
+
+        public ContractViewModel GetContractById(string id)
+        {
+            var contract = this.contractRepository.All()
+                .Where(x => x.Id == id)
+                .To<ContractViewModel>()
+                .FirstOrDefault();
+
+            return contract;
         }
     }
 }
