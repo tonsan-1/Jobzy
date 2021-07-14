@@ -1,13 +1,4 @@
 ﻿@using Jobzy.Data.Models
-@using Microsoft.AspNetCore.Identity
-@inject UserManager<ApplicationUser> userManager
-
-@{
-    var user = await userManager.GetUserAsync(this.User);
-
-    var name = user.Name;
-    var email = user.Email;
-}
 
 <!-- Apply for a job popup
 ================================================== -->
@@ -31,7 +22,7 @@
                 </div>
 
                 <!-- Form -->
-                <form method="post" id="apply-now-form" asp-controller="Jobs" asp-action="SendProposal">
+                <form method="post" id="apply-now-form" asp-controller="Job" asp-action="SendOffer">
 
                     <div class="input-with-icon-left">
                         <i class="icon-feather-dollar-sign"></i>

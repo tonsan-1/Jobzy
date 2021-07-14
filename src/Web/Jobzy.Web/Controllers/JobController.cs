@@ -25,6 +25,14 @@
 
         public IActionResult TestContract() => this.View();
 
+        [Authorize(Roles = "Administrator, Freelancer")]
+        public IActionResult All()
+        {
+            var jobs = this.freelancePlatformManager.JobManager.GetAllJobPosts();
+
+            return this.View(jobs);
+        }
+
         [Route("/Job/")]
         [Authorize(Roles = "Administrator, Freelancer, Employer")]
         public IActionResult SingleJob(string id)
@@ -32,14 +40,6 @@
             var job = this.freelancePlatformManager.JobManager.GetJobById(id);
 
             return this.View(job);
-        }
-
-        [Authorize(Roles = "Administrator, Freelancer")]
-        public IActionResult All()
-        {
-            var jobs = this.freelancePlatformManager.JobManager.GetAllJobPosts();
-
-            return this.View(jobs);
         }
 
         [HttpPost]
@@ -76,10 +76,16 @@
         [HttpPost]
         [Route("/Job/Offers/")]
         [Authorize(Roles = "Administrator, Employer")]
-        public IActionResult AcceptOffer(string offerId)
+        public async Task<IActionResult> AcceptOffer(string offerId)
         {
+            var responseId = await this.freelancePlatformManager.ContractManager.AddAsync(offerId);
 
-            return this.Redirect("/");
+            if (responseId == "Invalid Id")
+            {
+                return this.Redirect("/"); // if offer does not exist return error
+            }
+
+            return this.Redirect($"/Contract?id={responseId}");
         }
 
         [Authorize(Roles = "Administrator, Employer")]

@@ -10,9 +10,10 @@
     {
         public string Id { get; set; } = Guid.NewGuid().ToString();
 
-        public Employer Employer { get; set; }
+        [Required]
+        public string EmployerId { get; set; }
 
-        public Freelancer Freelancer { get; set; }
+        public virtual Employer Employer { get; set; }
 
         [Required]
         [MaxLength(50)]
@@ -39,10 +40,8 @@
 
         public bool IsDeleted { get; set; } = false;
 
-        public bool IsPaymentDenied { get; set; } = false;
+        public virtual List<Offer> Offers { get; set; } = new List<Offer>();
 
-        public List<Offer> Offers{ get; set; } = new List<Offer>();
-
-        public List<JobTag> JobTags { get; set; } = new List<JobTag>();
+        public virtual List<JobTag> JobTags { get; set; } = new List<JobTag>();
     }
 }

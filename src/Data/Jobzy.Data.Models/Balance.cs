@@ -15,6 +15,6 @@
         public string UserId { get; set; }
 
         [Required]
-        public ApplicationUser User { get; set; }
+        public virtual ApplicationUser User { get; set; }
     }
 }

@@ -65,6 +65,13 @@
             return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
         }
 
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            base.OnConfiguring(optionsBuilder);
+
+            optionsBuilder.UseLazyLoadingProxies();
+        }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             // Needed for Identity models configuration
@@ -106,6 +113,8 @@
         // Applies configurations
         private void ConfigureUserIdentityRelations(ModelBuilder builder)
              => builder.ApplyConfigurationsFromAssembly(this.GetType().Assembly);
+
+        
 
         private void ApplyAuditInfoRules()
         {

@@ -52,9 +52,9 @@
 
                                         <!-- Buttons -->
                                 <div class="buttons-to-right always-visible">
-                                    @if (job.ProposalsCount > 0)
+                                    @if (job.OffersCount > 0)
                                     {
-                                        <a asp-action="Offers" asp-controller="Job" asp-route-id="@job.Id" class="button ripple-effect"><i class="icon-material-outline-supervisor-account"></i> Manage Offers <span class="button-info">@job.ProposalsCount</span></a>
+                                        <a asp-action="Offers" asp-controller="Job" asp-route-id="@job.Id" class="button ripple-effect"><i class="icon-material-outline-supervisor-account"></i> Manage Offers <span class="button-info">@job.OffersCount</span></a>
                                     }
                                     else
                                     {

@@ -15,6 +15,6 @@
 
         public DateTime ExpirationDate => this.DatePosted.AddMonths(1);
 
-        public int ProposalsCount { get; set; }
+        public int OffersCount { get; set; }
     }
 }

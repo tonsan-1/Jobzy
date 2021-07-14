@@ -7,5 +7,7 @@
         IBalanceManager BalanceManager { get; }
 
         IOfferManager OfferManager { get; }
+
+        IContractManager ContractManager { get; }
     }
 }

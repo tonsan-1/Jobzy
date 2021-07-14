@@ -15,12 +15,14 @@
         [Range(1, 365)]
         public int DeliveryDays { get; set; }
 
+        [Required]
         public string FreelancerId { get; set; }
 
-        public Freelancer Freelancer { get; set; }
+        public virtual Freelancer Freelancer { get; set; }
 
+        [Required]
         public string JobId { get; set; }
 
-        public Job Job { get; set; }
+        public virtual Job Job { get; set; }
     }
 }

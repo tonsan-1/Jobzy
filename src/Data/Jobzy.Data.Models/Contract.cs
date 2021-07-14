@@ -7,29 +7,23 @@
 
     public class Contract
     {
-        public Contract()
-        {
-            this.Id = Guid.NewGuid().ToString();
-        }
-
-        [Key]
-        public string Id { get; set; }
+        public string Id { get; set; } = Guid.NewGuid().ToString();
 
         public ContractStatus Status { get; set; }
 
         [Required]
         public string FreelancerId { get; set; }
 
-        public Freelancer Freelancer { get; set; }
+        public virtual Freelancer Freelancer { get; set; }
 
         [Required]
         public string EmployerId { get; set; }
 
-        public Employer Employer { get; set; }
+        public virtual Employer Employer { get; set; }
 
         [Required]
         public string OfferId { get; set; }
 
-        public Offer Offer { get; set; }
+        public virtual Offer Offer { get; set; }
     }
 }

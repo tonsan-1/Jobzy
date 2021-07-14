@@ -27,7 +27,7 @@ namespace Jobzy.Data.Models
         public double Rating { get; set; }
 
         [Required]
-        public Balance Balance { get; set; }
+        public virtual Balance Balance { get; set; }
 
         [MaxLength(4096)]
         public string Description { get; set; }

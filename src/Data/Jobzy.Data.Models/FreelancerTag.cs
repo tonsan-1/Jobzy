@@ -11,6 +11,6 @@
         [MaxLength(25)]
         public string Text { get; set; }
 
-        public Freelancer Freelancer { get; set; }
+        public virtual Freelancer Freelancer { get; set; }
     }
 }

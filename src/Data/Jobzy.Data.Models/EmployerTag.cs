@@ -11,6 +11,6 @@
         [MaxLength(25)]
         public string Text { get; set; }
 
-        public Employer Employer { get; set; }
+        public virtual Employer Employer { get; set; }
     }
 }
