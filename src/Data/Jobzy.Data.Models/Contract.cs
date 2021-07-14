@@ -11,6 +11,8 @@
 
         public ContractStatus Status { get; set; }
 
+        public DateTime CreatedOn { get; set; } = DateTime.UtcNow;
+
         [Required]
         public string FreelancerId { get; set; }
 
