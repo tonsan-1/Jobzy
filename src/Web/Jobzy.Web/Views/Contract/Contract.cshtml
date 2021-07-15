@@ -1,25 +1,25 @@
 ﻿@model Jobzy.Web.ViewModels.Contracts.ContractViewModel
 <!-- Titlebar
 ================================================== -->
-<div class="single-page-header">
+<div class="single-page-header" data-background-image="/images/single-job.jpg">
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div class="text-center p-lg-4">
+                <div class="d-flex justify-content-between align-items-baseline">
+                    <div class="card shadow p-3 bg-white rounded text-center p-lg-4 ">
                         <div class="salary-type">Contract Status</div>
                         <div class="margin-top-15"></div>
-                        <div class="bid-acceptance">@Model.Status.ToString().ToUpper()</div>
+                        <div class="bid-acceptance w-100">@Model.Status.ToString().ToUpper()</div>
                     </div>
 
                     <div class="text-center">
-                        <h3 class="contract-id-text">Contract <br/>#@Model.Id.ToUpper()</h3>
+                        <h3 class="contract-id-text">Contract <br/>@Model.Id.ToUpper()</h3>
                     </div>
 
-                    <div class="text-center p-lg-5">
+                    <div class="card shadow p-3 bg-white rounded text-center p-lg-4">
                         <div class="salary-type">Contract Budget</div>
                         <div class="margin-top-15"></div>
-                        <div class="bid-acceptance">$@Model.OfferFixedPrice</div>
+                        <div class="bid-acceptance w-100">$@Model.OfferFixedPrice</div>
                     </div>
                 </div>
             </div>
