@@ -64,5 +64,16 @@
 
             return job;
         }
+
+        public async Task SetJobToClosed(string jobId)
+        {
+            var job = this.repository.All()
+                .FirstOrDefault(x => x.Id == jobId);
+
+            job.IsClosed = true;
+
+            this.repository.Update(job);
+            await this.repository.SaveChangesAsync();
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿@model List<Jobzy.Web.ViewModels.Jobs.UserJobsListViewModel>
+
 <!-- Dashboard Container -->
 <div class="dashboard-container">
     <partial name="DashboardPartial" />
@@ -37,32 +38,35 @@
 
                                                 <!-- Details -->
                                                 <div class="job-listing-description">
-                                                    <h3 class="job-listing-title"><a asp-controller="Job" asp-action="SingleJob" asp-route-id="@job.Id" asp->@job.Title</a> <span class="dashboard-status-button green">Open</span></h3>
+                                                    <h3 class="job-listing-title"><a asp-controller="Job" asp-action="SingleJob" asp-route-id="@job.Id" asp->@job.Title</a> <span class="dashboard-status-button @job.ButtonColor">@job.Status</span></h3>
 
                                                     <!-- Job Listing Footer -->
                                                     <div class="job-listing-footer">
                                                         <ul>
                                                             <li><i class="icon-material-outline-date-range"></i>Posted on @job.DatePosted.ToLongDateString()</li>
-                                                            <li><i class="icon-material-outline-date-range"></i>Expiring on @job.ExpirationDate.ToLongDateString()</li>
                                                         </ul>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
 
-                                        <!-- Buttons -->
-                                <div class="buttons-to-right always-visible">
-                                    @if (job.OffersCount > 0)
-                                    {
-                                        <a asp-action="Offers" asp-controller="Job" asp-route-id="@job.Id" class="button ripple-effect"><i class="icon-material-outline-supervisor-account"></i> Manage Offers <span class="button-info">@job.OffersCount</span></a>
-                                    }
-                                    else
-                                    {
-                                        <a class="button gray"><i class="icon-material-outline-supervisor-account"></i> No Offers</a>
-                                    }
-                                    <a href="#" class="button gray ripple-effect ico" title="Edit" data-tippy-placement="top"><i class="icon-feather-edit"></i></a>
-                                    <a href="#" class="button gray ripple-effect ico" title="Remove" data-tippy-placement="top"><i class="icon-feather-trash-2"></i></a>
-                                </div>
+
+                                        @if (!job.IsClosed)
+                                        {
+                                            <!-- Buttons -->
+                                            <div class="buttons-to-right always-visible">
+                                                @if (job.OffersCount > 0)
+                                                {
+                                                    <a asp-action="Offers" asp-controller="Job" asp-route-id="@job.Id" class="button ripple-effect"><i class="icon-material-outline-supervisor-account"></i> Manage Offers <span class="button-info">@job.OffersCount</span></a>
+                                                }
+                                                else
+                                                {
+                                                    <a class="button gray"><i class="icon-material-outline-supervisor-account"></i> No Offers</a>
+                                                }
+                                                <a href="#" class="button gray ripple-effect ico" title="Edit" data-tippy-placement="top"><i class="icon-feather-edit"></i></a>
+                                                <a href="#" class="button gray ripple-effect ico" title="Remove" data-tippy-placement="top"><i class="icon-feather-trash-2"></i></a>
+                                            </div>
+                                        }
                                     }
                                 </li>
                             </ul>

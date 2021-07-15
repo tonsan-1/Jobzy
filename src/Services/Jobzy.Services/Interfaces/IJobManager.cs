@@ -10,6 +10,8 @@
     {
         Task AddAsync(JobInputModel model, Employer employer);
 
+        Task SetJobToClosed(string jobId);
+
         IEnumerable<UserJobsListViewModel> GetAllUserJobPosts(string userId);
 
         IEnumerable<AllJobsListViewModel> GetAllJobPosts();

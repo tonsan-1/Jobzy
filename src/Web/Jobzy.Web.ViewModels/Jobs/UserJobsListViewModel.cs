@@ -13,8 +13,12 @@
 
         public DateTime DatePosted { get; set; }
 
-        public DateTime ExpirationDate => this.DatePosted.AddMonths(1);
-
         public int OffersCount { get; set; }
+
+        public bool IsClosed { get; set; }
+
+        public string Status => this.IsClosed ? "In Active Contract" : "Open";
+
+        public string ButtonColor => this.IsClosed ? "yellow" : "green";
     }
 }

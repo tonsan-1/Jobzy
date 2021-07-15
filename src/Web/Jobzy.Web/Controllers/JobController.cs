@@ -76,8 +76,10 @@
         [HttpPost]
         [Route("/Job/Offers/")]
         [Authorize(Roles = "Administrator, Employer")]
-        public async Task<IActionResult> AcceptOffer(string offerId)
+        public async Task<IActionResult> AcceptOffer(string offerId, string jobId)
         {
+            await this.freelancePlatformManager.JobManager.SetJobToClosed(jobId);
+
             var responseId = await this.freelancePlatformManager.ContractManager.AddAsync(offerId);
 
             if (responseId == "Invalid Id")
