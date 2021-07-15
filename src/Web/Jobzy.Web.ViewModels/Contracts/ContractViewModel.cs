@@ -25,6 +25,7 @@
 
         public string FreelancerName { get; set; }
 
-        public string ContractDeadline => this.CreatedOn.AddDays(this.OfferDeliveryDays).ToLongDateString();
+        public string ContractDeadline
+            => this.CreatedOn.AddDays(this.OfferDeliveryDays).ToLongDateString();
     }
 }

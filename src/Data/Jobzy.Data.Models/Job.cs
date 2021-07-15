@@ -40,6 +40,10 @@
 
         public bool IsDeleted { get; set; } = false;
 
+        public string ContractId { get; set; }
+
+        public virtual Contract Contract { get; set; }
+
         public virtual List<Offer> Offers { get; set; } = new List<Offer>();
 
         public virtual List<JobTag> JobTags { get; set; } = new List<JobTag>();

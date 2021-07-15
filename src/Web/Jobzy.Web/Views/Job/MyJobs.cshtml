@@ -1,5 +1,4 @@
 ﻿@model List<Jobzy.Web.ViewModels.Jobs.UserJobsListViewModel>
-
 <!-- Dashboard Container -->
 <div class="dashboard-container">
     <partial name="DashboardPartial" />
@@ -26,10 +25,9 @@
 
                         <div class="content">
                             <ul class="dashboard-box-list">
-                                <li>
-                                    @foreach (var job in this.Model)
-                                    {
-
+                                @foreach (var job in this.Model)
+                                {
+                                    <li>
                                         <!-- Job Listing -->
                                         <div class="job-listing">
 
@@ -38,7 +36,27 @@
 
                                                 <!-- Details -->
                                                 <div class="job-listing-description">
-                                                    <h3 class="job-listing-title"><a asp-controller="Job" asp-action="SingleJob" asp-route-id="@job.Id" asp->@job.Title</a> <span class="dashboard-status-button @job.ButtonColor">@job.Status</span></h3>
+                                                    @if (job.Contract == null)
+                                                    {
+                                                        <h3 class="job-listing-title"><a asp-controller="Job" asp-action="SingleJob" asp-route-id="@job.Id" asp->@job.Title</a> <span class="dashboard-status-button green">Open</span></h3>
+                                                    }
+                                                    else
+                                                    {
+                                                        @if (job.Contract.Status.ToString() == "Ongoing")
+                                                        {
+                                                            <h3 class="job-listing-title"><a asp-controller="Contract" asp-action="Contract" asp-route-id="@job.Contract.Id" asp->@job.Title</a> <span class="dashboard-status-button yellow">In Active Contract</span></h3>
+                                                        }
+
+                                                        @if (job.Contract.Status.ToString() == "Finished")
+                                                        {
+                                                            <h3 class="job-listing-title"><a asp-controller="Contract" asp-action="Contract" asp-route-id="@job.Contract.Id" asp->@job.Title</a> <span class="dashboard-status-button bg-secondary">Finished</span></h3>
+                                                        }
+
+                                                        @if (job.Contract.Status.ToString() == "Canceled")
+                                                        {
+                                                            <h3 class="job-listing-title"><a asp-controller="Job" asp-action="SingleJob" asp-route-id="@job.Id" asp->@job.Title</a> <span class="dashboard-status-button green">Open</span></h3>
+                                                        }
+                                                    }
 
                                                     <!-- Job Listing Footer -->
                                                     <div class="job-listing-footer">
@@ -50,8 +68,7 @@
                                             </div>
                                         </div>
 
-
-                                        @if (!job.IsClosed)
+                                        @if (!job.IsClosed || job.Contract.Status.ToString() == "Canceled")
                                         {
                                             <!-- Buttons -->
                                             <div class="buttons-to-right always-visible">
@@ -61,19 +78,23 @@
                                                 }
                                                 else
                                                 {
-                                                    <a class="button gray"><i class="icon-material-outline-supervisor-account"></i> No Offers</a>
+                                                    <a class="button gray ripple-effect"><i class="icon-material-outline-supervisor-account"></i> No Offers</a>
                                                 }
                                                 <a href="#" class="button gray ripple-effect ico" title="Edit" data-tippy-placement="top"><i class="icon-feather-edit"></i></a>
                                                 <a href="#" class="button gray ripple-effect ico" title="Remove" data-tippy-placement="top"><i class="icon-feather-trash-2"></i></a>
                                             </div>
                                         }
-                                    }
-                                </li>
+
+                                        else if (job.Contract != null && job.Contract.Status.ToString() == "Ongoing" || job.Contract.Status.ToString() == "Finished")
+                                        {
+                                            <a asp-action="Contract" asp-controller="Contract" asp-route-id="@job.Contract.Id" class="button ripple-effect">Contract</a>
+                                        }
+                                    </li>
+                                }
                             </ul>
                         </div>
                     </div>
                 </div>
-
             </div>
             <!-- Row / End -->
         </div>

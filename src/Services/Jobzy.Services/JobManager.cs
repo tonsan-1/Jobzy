@@ -49,7 +49,7 @@
         {
             var jobs = this.repository.All()
                 .Where(x => x.Employer.Id == userId)
-                .To<UserJobsListViewModel>()
+                 .To<UserJobsListViewModel>()
                 .ToList();
 
             return jobs;
@@ -70,6 +70,7 @@
             var job = this.repository.All()
                 .FirstOrDefault(x => x.Id == jobId);
 
+            job.Offers.Clear();
             job.IsClosed = true;
 
             this.repository.Update(job);
