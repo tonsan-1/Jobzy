@@ -36,26 +36,13 @@
 
                                                 <!-- Details -->
                                                 <div class="job-listing-description">
-                                                    @if (job.Contract == null)
+                                                    @if (!job.IsClosed)
                                                     {
                                                         <h3 class="job-listing-title"><a asp-controller="Job" asp-action="SingleJob" asp-route-id="@job.Id" asp->@job.Title</a> <span class="dashboard-status-button green">Open</span></h3>
                                                     }
                                                     else
                                                     {
-                                                        @if (job.Contract.Status.ToString() == "Ongoing")
-                                                        {
-                                                            <h3 class="job-listing-title"><a asp-controller="Contract" asp-action="Contract" asp-route-id="@job.Contract.Id" asp->@job.Title</a> <span class="dashboard-status-button yellow">In Active Contract</span></h3>
-                                                        }
-
-                                                        @if (job.Contract.Status.ToString() == "Finished")
-                                                        {
-                                                            <h3 class="job-listing-title"><a asp-controller="Contract" asp-action="Contract" asp-route-id="@job.Contract.Id" asp->@job.Title</a> <span class="dashboard-status-button bg-secondary">Finished</span></h3>
-                                                        }
-
-                                                        @if (job.Contract.Status.ToString() == "Canceled")
-                                                        {
-                                                            <h3 class="job-listing-title"><a asp-controller="Job" asp-action="SingleJob" asp-route-id="@job.Id" asp->@job.Title</a> <span class="dashboard-status-button green">Open</span></h3>
-                                                        }
+                                                        <h3 class="job-listing-title"><a asp-controller="Job" asp-action="SingleJob" asp-route-id="@job.Id" asp->@job.Title</a> <span class="dashboard-status-button red">Closed</span></h3>
                                                     }
 
                                                     <!-- Job Listing Footer -->
@@ -68,7 +55,7 @@
                                             </div>
                                         </div>
 
-                                        @if (!job.IsClosed || job.Contract.Status.ToString() == "Canceled")
+                                        @if (!job.IsClosed)
                                         {
                                             <!-- Buttons -->
                                             <div class="buttons-to-right always-visible">
@@ -83,11 +70,6 @@
                                                 <a href="#" class="button gray ripple-effect ico" title="Edit" data-tippy-placement="top"><i class="icon-feather-edit"></i></a>
                                                 <a href="#" class="button gray ripple-effect ico" title="Remove" data-tippy-placement="top"><i class="icon-feather-trash-2"></i></a>
                                             </div>
-                                        }
-
-                                        else if (job.Contract != null && job.Contract.Status.ToString() == "Ongoing" || job.Contract.Status.ToString() == "Finished")
-                                        {
-                                            <a asp-action="Contract" asp-controller="Contract" asp-route-id="@job.Contract.Id" class="button ripple-effect">Contract</a>
                                         }
                                     </li>
                                 }
