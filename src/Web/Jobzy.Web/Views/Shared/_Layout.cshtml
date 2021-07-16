@@ -117,10 +117,13 @@
                                         <div class="user-status">
 
                                             <!-- User Name / Avatar -->
-                                            <div class="user-details">
+                                            <div class="user-details ">
                                                 <div class="user-avatar status-invisible"><img src="~/images/user-avatar-small-01.jpg" alt=""></div>
-                                                <div class="user-name">
-                                                    @fullName<span>@role</span>
+                                                <div class="user-name d-flex flex-column align-items-center">
+                                                      @fullName
+                                                    <span class="dashboard-status-button green margin-top-10 margin-right-10">
+                                                     $@user.Balance.Money
+                                                    </span>
                                                 </div>
                                             </div>
 

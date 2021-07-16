@@ -1,4 +1,12 @@
-﻿<!-- Dashboard Sidebar
+﻿@using Jobzy.Data.Models
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<ApplicationUser> userManager
+
+@{
+    var user = await userManager.GetUserAsync(User);
+}
+
+<!-- Dashboard Sidebar
    ================================================== -->
 <div class="dashboard-sidebar">
     <div class="dashboard-sidebar-inner" data-simplebar>
@@ -17,10 +25,9 @@
             <!-- Navigation -->
             <div class="dashboard-nav">
                 <div class="dashboard-nav-inner">
-
-                    <ul data-submenu-title="Start">
+                    <ul data-submenu-title="Balance : $@user.Balance.Money">
                         <li><a href="dashboard.html"><i class="icon-material-outline-dashboard"></i> Dashboard</a></li>
-                        <li><a href="dashboard-messages.html"><i class="icon-material-outline-question-answer"></i> Messages <span class="nav-tag">2</span></a></li>
+                        <li><a href="dashboard-messages.html"><i class="icon-material-outline-question-answer"></i> Messages</a></li>
                         <li><a href="dashboard-bookmarks.html"><i class="icon-material-outline-star-border"></i> Bookmarks</a></li>
                         <li><a href="dashboard-reviews.html"><i class="icon-material-outline-rate-review"></i> Reviews</a></li>
                     </ul>
@@ -29,14 +36,14 @@
                         <li class="active-submenu">
                             <a asp-controller="Job"><i class="icon-material-outline-business-center"></i> Jobs</a>
                             <ul>
-                                <li><a asp-action="MyJobs" asp-controller="Job">My Jobs<span class="nav-tag">3</span></a></li>
+                                <li><a asp-action="MyJobs" asp-controller="Job">My Jobs</a></li>
                                 <li><a asp-action="Add" asp-controller="Job">Add a Job</a></li>
                             </ul>
                         </li>
                         <li class="active-submenu">
                             <a asp-controller="Contract"><i class="icon-material-outline-business-center"></i> Contracts</a>
                             <ul>
-                                <li><a asp-action="MyContracts" asp-controller="Contract">My Contracts<span class="nav-tag">3</span></a></li>
+                                <li><a asp-action="MyContracts" asp-controller="Contract">My Contracts</a></li>
                             </ul>
                         </li>
                     </ul>
