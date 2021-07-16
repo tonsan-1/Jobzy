@@ -41,13 +41,16 @@
 <!-- Page Content
 ================================================== -->
 <div class="container">
-    <div id="countdown" class="countdown blue margin-bottom-70 py-lg-4">
-        <span id="days"></span> days
-        <span id="hours"></span> hours
-        <span id="minutes"></span> minutes
-        <span id="seconds"></span> seconds
-        left
-    </div>
+    @if (Model.Status.ToString() == "Ongoing")
+    {
+        <div id="countdown" class="countdown blue margin-bottom-70 py-lg-4">
+            <span id="days"></span> days
+            <span id="hours"></span> hours
+            <span id="minutes"></span> minutes
+            <span id="seconds"></span> seconds
+            left
+        </div>
+    }
 
     <div class="row">
         <!-- Content -->
@@ -123,7 +126,9 @@
 <partial name="/Views/Shared/CompleteContractPartial.cshtml" model="@Model" />
 <partial name="/Views/Shared/CancelContractPartial.cshtml" model="@Model" />
 
-<script>
+@if (Model.Status.ToString() == "Ongoing")
+{
+    <script>
     (function () {
         const second = 1000,
             minute = second * 60,
@@ -154,4 +159,5 @@
                 //seconds
             }, 0)
     }());
-</script>
+    </script>
+}
