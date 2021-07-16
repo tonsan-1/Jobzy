@@ -13,6 +13,6 @@
 
         Balance FindById(string userId);
 
-        Task<bool> TransferMoneyAsync(Balance senderBalance, Balance receipientBalance, decimal amount);
+        Task<bool> TransferMoneyAsync(Balance senderBalance, Balance receipientBalance, string offerId);
     }
 }

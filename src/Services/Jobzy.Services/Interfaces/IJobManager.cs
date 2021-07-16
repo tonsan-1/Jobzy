@@ -8,14 +8,18 @@
 
     public interface IJobManager
     {
+        SingleJobViewModel GetJobById(string id);
+
         Task AddAsync(JobInputModel model, Employer employer);
 
         Task SetJobToClosed(string jobId);
 
+        Task SetJobToOpen(string jobId);
+
+        Task SetContractIdToJob(string jobId, string contractId);
+
         IEnumerable<UserJobsListViewModel> GetAllUserJobPosts(string userId);
 
         IEnumerable<AllJobsListViewModel> GetAllJobPosts();
-
-        SingleJobViewModel GetJobById(string id);
     }
 }

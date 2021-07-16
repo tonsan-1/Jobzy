@@ -13,6 +13,10 @@
 
         public DateTime CreatedOn { get; set; }
 
+        public string OfferId { get; set; }
+
+        public string OfferJobId { get; set; }
+
         public string OfferJobTitle { get; set; }
 
         public string OfferJobDescription { get; set; }
@@ -23,9 +27,11 @@
 
         public string EmployerName { get; set; }
 
+        public string FreelancerId { get; set; }
+
         public string FreelancerName { get; set; }
 
-        public string ContractDeadline
-            => this.CreatedOn.AddDays(this.OfferDeliveryDays).ToLongDateString();
+        public DateTime ContractDeadline
+            => this.CreatedOn.AddDays(this.OfferDeliveryDays).ToLocalTime();
     }
 }

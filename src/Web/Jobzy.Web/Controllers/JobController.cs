@@ -78,14 +78,15 @@
         [Authorize(Roles = "Administrator, Employer")]
         public async Task<IActionResult> AcceptOffer(string offerId, string jobId)
         {
-            await this.freelancePlatformManager.JobManager.SetJobToClosed(jobId);
-
+            var user = await this.userManager.GetUserAsync(this.User);
+            var currentUserBalance = this.freelancePlatformManager.BalanceManager.FindById(user.Id);
+            var freelancePlatformBalance = await this.freelancePlatformManager.BalanceManager.GetFreelancePlatformBalanceAsync();
             var responseId = await this.freelancePlatformManager.ContractManager.AddAsync(offerId);
 
-            if (responseId == "Invalid Id")
-            {
-                return this.Redirect("/"); // if offer does not exist return error
-            }
+            await this.freelancePlatformManager.OfferManager.AcceptOffer(offerId);
+            await this.freelancePlatformManager.BalanceManager.TransferMoneyAsync(currentUserBalance, freelancePlatformBalance, offerId);
+            await this.freelancePlatformManager.JobManager.SetJobToClosed(jobId);
+            await this.freelancePlatformManager.JobManager.SetContractIdToJob(jobId, responseId);
 
             return this.Redirect($"/Contract?id={responseId}");
         }
@@ -106,19 +107,6 @@
             if (!(await this.userManager.GetUserAsync(this.User) is Employer currentUser))
             {
                 return this.Forbid();
-            }
-
-            var freelancePlatformBalance = await this.freelancePlatformManager.BalanceManager.GetFreelancePlatformBalanceAsync();
-            var currentUserBalance = this.freelancePlatformManager.BalanceManager.FindById(currentUser.Id);
-
-            try
-            {
-                await this.freelancePlatformManager.BalanceManager.TransferMoneyAsync(
-                    currentUserBalance, freelancePlatformBalance, input.Budget);
-            }
-            catch (Exception e)
-            {
-                throw new ArgumentException("Error");
             }
 
             await this.freelancePlatformManager.JobManager.AddAsync(input, currentUser);

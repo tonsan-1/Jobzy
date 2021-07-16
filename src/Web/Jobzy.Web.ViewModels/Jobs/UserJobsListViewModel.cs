@@ -1,6 +1,7 @@
 ﻿namespace Jobzy.Web.ViewModels.Jobs
 {
     using System;
+    using System.Linq;
 
     using AutoMapper;
     using Jobzy.Data.Models;
@@ -26,6 +27,11 @@
                 .CreateMap<Job, UserJobsListViewModel>()
                 .ForMember(x => x.Contract, options => options
                 .MapFrom(j => j.ContractId == null ? null : j.Contract));
+
+            configuration
+                .CreateMap<Job, UserJobsListViewModel>()
+                .ForMember(x => x.OffersCount, options => options
+                .MapFrom(j => j.Offers.Count(x => !x.IsDeleted)));
         }
     }
 }

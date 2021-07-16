@@ -9,6 +9,8 @@
     {
         Task AddAsync(string jobId, string userId, decimal fixedPrice, int deliveryDays);
 
+        Task AcceptOffer(string offerId);
+
         IEnumerable<JobOfferViewModel> GetJobOffers(string jobId);
     }
 }

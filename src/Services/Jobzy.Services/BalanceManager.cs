@@ -12,14 +12,17 @@
     public class BalanceManager : IBalanceManager
     {
         private static Balance freelancePlatformBalance;
-        private readonly IRepository<Balance> repository;
+        private readonly IRepository<Balance> balanceRepository;
+        private readonly IRepository<Offer> offerRepository;
         private readonly UserManager<ApplicationUser> userManager;
 
         public BalanceManager(
-            IRepository<Balance> repository,
+            IRepository<Balance> balanceRepository,
+            IRepository<Offer> offerRepository,
             UserManager<ApplicationUser> userManager)
         {
-            this.repository = repository;
+            this.balanceRepository = balanceRepository;
+            this.offerRepository = offerRepository;
             this.userManager = userManager;
         }
 
@@ -38,14 +41,14 @@
             }
 
             balance.Money += amount;
-            this.repository.Update(balance);
-            await this.repository.SaveChangesAsync();
+            this.balanceRepository.Update(balance);
+            await this.balanceRepository.SaveChangesAsync();
 
             return true;
         }
 
         public Balance FindById(string userId)
-            => this.repository.All().FirstOrDefault(x => x.UserId == userId);
+            => this.balanceRepository.All().FirstOrDefault(x => x.UserId == userId);
 
         public async Task<Balance> GetFreelancePlatformBalanceAsync()
         {
@@ -56,35 +59,18 @@
             return freelancePlatformBalance;
         }
 
-        public async Task<bool> TransferMoneyAsync(Balance senderBalance, Balance recipientBalance, decimal amount)
+        public async Task<bool> TransferMoneyAsync(Balance senderBalance, Balance recipientBalance, string offerId)
         {
-            if (senderBalance is null)
-            {
-                throw new ArgumentNullException(nameof(senderBalance));
-            }
+            var offer = this.offerRepository.All()
+                .FirstOrDefault(x => x.Id == offerId);
 
-            if (recipientBalance is null)
-            {
-                throw new ArgumentNullException(nameof(recipientBalance));
-            }
+            senderBalance.Money -= offer.FixedPrice;
+            recipientBalance.Money += offer.FixedPrice;
 
-            if (amount <= 0)
-            {
-                throw new ArgumentException("The amount must be greater than 0", nameof(amount));
-            }
+            this.balanceRepository.Update(senderBalance);
+            this.balanceRepository.Update(recipientBalance);
 
-            if (senderBalance.Money < amount)
-            {
-                throw new ArgumentException($"The user {senderBalance.User?.Name ?? "freelancing platform"} hasn't got enough money for this operation");
-            }
-
-            senderBalance.Money -= amount;
-            recipientBalance.Money += amount;
-
-            this.repository.Update(senderBalance);
-            this.repository.Update(recipientBalance);
-
-            await this.repository.SaveChangesAsync();
+            await this.balanceRepository.SaveChangesAsync();
 
             return true;
         }

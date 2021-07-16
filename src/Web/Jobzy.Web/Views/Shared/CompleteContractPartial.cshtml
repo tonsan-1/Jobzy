@@ -22,6 +22,9 @@
                 <form id="complete-contract-form" asp-action="CompleteOrCancelContract" asp-controller="Contract">
                     <input type="text" hidden name="action" value="complete" />
                     <input type="text" hidden name="contractId" value="@Model.Id" />
+                    <input type="text" hidden name="offerId" value="@Model.OfferId" />
+                    <input type="text" hidden name="freelancerId" value="@Model.FreelancerId" />
+                    <input type="text" hidden name="jobId" value="@Model.OfferJobId" />
                 </form>
 
                 <!-- Button -->
