@@ -9,11 +9,22 @@
                     <div class="card shadow p-3 bg-white rounded text-center p-lg-4 ">
                         <div class="salary-type">Contract Status</div>
                         <div class="margin-top-15"></div>
-                        <div class="bid-acceptance w-100">@Model.Status.ToString().ToUpper()</div>
+                        @if (Model.Status.ToString() == "Ongoing")
+                        {
+                            <div class="bid-acceptance w-100">@Model.Status.ToString().ToUpper()</div>
+                        }
+                        @if (Model.Status.ToString() == "Finished")
+                        {
+                            <div class="bid-acceptance bg-secondary text-white-50 w-100">@Model.Status.ToString().ToUpper()</div>
+                        }
+                        @if (Model.Status.ToString() == "Canceled")
+                        {
+                            <div class="bid-acceptance bg-danger text-white-50 w-100">@Model.Status.ToString().ToUpper()</div>
+                        }
                     </div>
 
                     <div class="text-center">
-                        <h3 class="contract-id-text">Contract <br/>@Model.Id.ToUpper()</h3>
+                        <h3 class="contract-id-text">Contract <br />@Model.Id.ToUpper()</h3>
                     </div>
 
                     <div class="card shadow p-3 bg-white rounded text-center p-lg-4">
@@ -62,11 +73,14 @@
 
         <!-- Sidebar -->
         <div class="col-xl-4 col-lg-4">
-            <!-- Button -->
-            <div class="bidding-signup d-flex flex-column margin-bottom-30">
-                <button class="button apply-now-button ripple-effect move-on-hover full-width margin-bottom-20"><span>Complete</span></button>
-                <button class="button apply-now-button bg-danger ripple-effect move-on-hover full-width"><span>Cancel</span></button>
-            </div>
+            @if (Model.Status.ToString() == "Ongoing")
+            {
+                <!-- Buttons -->
+                <div class="bidding-signup d-flex flex-column margin-bottom-10">
+                    <a href="#complete-contract" class="button popup-with-zoom-anim apply-now-button ripple-effect move-on-hover full-width margin-bottom-20"><span>Complete</span></a>
+                    <a href="#cancel-contract" class="button popup-with-zoom-anim apply-now-button bg-danger ripple-effect move-on-hover full-width"><span>Cancel</span></a>
+                </div>
+            }
 
             <div class="sidebar-container">
                 <div class="sidebar-widget">
@@ -102,11 +116,12 @@
         </div>
     </div>
 </div>
-
-
 <!-- Spacer -->
 <div class="margin-top-50"></div>
 <!-- Spacer / End-->
+
+<partial name="/Views/Shared/CompleteContractPartial.cshtml" model="@Model" />
+<partial name="/Views/Shared/CancelContractPartial.cshtml" model="@Model" />
 
 <script>
     (function () {
@@ -122,20 +137,17 @@
                 let now = new Date().getTime(),
                     distance = countDown - now;
 
-                document.getElementById("days").innerText = Math.floor(distance / (day)),
+                    document.getElementById("days").innerText = Math.floor(distance / (day)),
                     document.getElementById("hours").innerText = Math.floor((distance % (day)) / (hour)),
                     document.getElementById("minutes").innerText = Math.floor((distance % (hour)) / (minute)),
                     document.getElementById("seconds").innerText = Math.floor((distance % (minute)) / second);
 
                 //do something later when date is reached
                 if (distance < 0) {
-                    let headline = document.getElementById("headline"),
-                        countdown = document.getElementById("countdown"),
-                        content = document.getElementById("content");
-
-                    headline.innerText = "It's my birthday!";
-                    countdown.style.display = "none";
-                    content.style.display = "block";
+                    document.getElementById("days").innerText = 0,
+                    document.getElementById("hours").innerText = 0,
+                    document.getElementById("minutes").innerText = 0,
+                    document.getElementById("seconds").innerText = 0;
 
                     clearInterval(x);
                 }

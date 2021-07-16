@@ -9,5 +9,10 @@
         Task<string> AddAsync(string offerId);
 
         ContractViewModel GetContractById(string id);
+
+        Task CompleteContract(string id);
+
+        Task CancelContract(string id);
+
     }
 }

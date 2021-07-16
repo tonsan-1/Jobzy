@@ -1,0 +1,33 @@
+﻿@model Jobzy.Web.ViewModels.Contracts.ContractViewModel
+
+<div id="cancel-contract" class="zoom-anim-dialog mfp-hide small-dialog-1">
+
+    <!--Tabs -->
+    <div class="sign-in-form">
+
+        <ul class="popup-tabs-nav">
+            <li><a href="#tab1">Cancel Contract</a></li>
+        </ul>
+
+        <div class="popup-tabs-container">
+
+            <!-- Tab -->
+            <div class="popup-tab-content" id="tab">
+
+                <!-- Welcome Text -->
+                <div class="welcome-text">
+                    <h3>Are you sure you want to cancel your contract with <br />@Model.FreelancerName?</h3>
+                </div>
+
+                <form id="cancel-contract-form" asp-action="CompleteOrCancelContract" asp-controller="Contract">
+                    <input type="text" hidden name="action" value="cancel" />
+                    <input type="text" hidden name="contractId" value="@Model.Id" />
+                </form>
+
+                <!-- Button -->
+                <button class="margin-top-15 button w-100 button-sliding-icon ripple-effect" type="submit" form="cancel-contract-form">Cancel <i class="icon-material-outline-arrow-right-alt"></i></button>
+
+            </div>
+        </div>
+    </div>
+</div>

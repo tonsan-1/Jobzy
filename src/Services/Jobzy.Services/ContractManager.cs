@@ -47,6 +47,28 @@
             return contract.Id;
         }
 
+        public async Task CompleteContract(string id)
+        {
+            var contract = this.contractRepository.All()
+                .FirstOrDefault(x => x.Id == id);
+
+            contract.Status = ContractStatus.Finished;
+
+            this.contractRepository.Update(contract);
+            await this.contractRepository.SaveChangesAsync();
+        }
+
+        public async Task CancelContract(string id)
+        {
+            var contract = this.contractRepository.All()
+                .FirstOrDefault(x => x.Id == id);
+
+            contract.Status = ContractStatus.Canceled;
+
+            this.contractRepository.Update(contract);
+            await this.contractRepository.SaveChangesAsync();
+        }
+
         public ContractViewModel GetContractById(string id)
         {
             var contract = this.contractRepository.All()
