@@ -110,7 +110,6 @@
                 user.UserName = this.Input.Username;
                 user.Email = this.Input.Email;
                 user.Balance = new Balance();
-                // TODO: Add more user properties to extend logic.
 
                 var result = await this._userManager.CreateAsync(user, this.Input.Password);
 

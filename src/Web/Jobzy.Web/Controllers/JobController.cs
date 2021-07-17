@@ -23,10 +23,9 @@
             this.userManager = userManager;
         }
 
-        public IActionResult TestContract() => this.View();
-
+        [Route("/Job/All")]
         [Authorize(Roles = "Administrator, Freelancer")]
-        public IActionResult All()
+        public IActionResult GetAllJobs()
         {
             var jobs = this.freelancePlatformManager.JobManager.GetAllJobPosts();
 
@@ -35,27 +34,16 @@
 
         [Route("/Job/")]
         [Authorize(Roles = "Administrator, Freelancer, Employer")]
-        public IActionResult SingleJob(string id)
+        public IActionResult GetJob(string id)
         {
             var job = this.freelancePlatformManager.JobManager.GetJobById(id);
 
             return this.View(job);
         }
 
-        [HttpPost]
-        [Authorize(Roles = "Administrator, Freelancer")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> SendOffer(string jobId, int fixedPrice, int deliveryDays)
-        {
-            var user = await this.userManager.GetUserAsync(this.User);
-
-            await this.freelancePlatformManager.OfferManager.AddAsync(jobId, user.Id, fixedPrice, deliveryDays);
-
-            return this.Redirect("/");
-        }
-
+        [Route("/Job/MyJobs")]
         [Authorize(Roles = "Administrator, Employer")]
-        public async Task<IActionResult> MyJobs()
+        public async Task<IActionResult> GetMyJobs()
         {
             var user = await this.userManager.GetUserAsync(this.User);
 
@@ -64,40 +52,15 @@
             return this.View(jobs);
         }
 
-        [Route("/Job/Offers/")]
+        [Route("/Job/Add")]
         [Authorize(Roles = "Administrator, Employer")]
-        public IActionResult Offers(string id)
-        {
-            var offers = this.freelancePlatformManager.OfferManager.GetJobOffers(id);
-
-            return this.View(offers);
-        }
+        public IActionResult AddJob() => this.View();
 
         [HttpPost]
-        [Route("/Job/Offers/")]
-        [Authorize(Roles = "Administrator, Employer")]
-        public async Task<IActionResult> AcceptOffer(string offerId, string jobId)
-        {
-            var user = await this.userManager.GetUserAsync(this.User);
-            var currentUserBalance = this.freelancePlatformManager.BalanceManager.FindById(user.Id);
-            var freelancePlatformBalance = await this.freelancePlatformManager.BalanceManager.GetFreelancePlatformBalanceAsync();
-            var responseId = await this.freelancePlatformManager.ContractManager.AddAsync(offerId);
-
-            await this.freelancePlatformManager.OfferManager.AcceptOffer(offerId);
-            await this.freelancePlatformManager.BalanceManager.TransferMoneyAsync(currentUserBalance, freelancePlatformBalance, offerId);
-            await this.freelancePlatformManager.JobManager.SetJobToClosed(jobId);
-            await this.freelancePlatformManager.JobManager.SetContractIdToJob(jobId, responseId);
-
-            return this.Redirect($"/Contract?id={responseId}");
-        }
-
-        [Authorize(Roles = "Administrator, Employer")]
-        public IActionResult Add() => this.View();
-
-        [HttpPost]
+        [Route("/Job/Add")]
         [Authorize(Roles = "Administrator, Employer")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Add(JobInputModel input)
+        public async Task<IActionResult> AddJob(JobInputModel input)
         {
             if (!this.ModelState.IsValid)
             {
