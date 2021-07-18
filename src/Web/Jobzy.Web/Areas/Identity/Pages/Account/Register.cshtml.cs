@@ -68,6 +68,10 @@
             public string Email { get; set; }
 
             [Required]
+            [Display(Name = "Location")]
+            public Country Location { get; set; }
+
+            [Required]
             [StringLength(100, ErrorMessage = "The {0} must be between {2} and {1} characters long.", MinimumLength = 6)]
             [DataType(DataType.Password)]
             [Display(Name = "Password")]
@@ -109,6 +113,7 @@
                 user.Name = this.Input.Name;
                 user.UserName = this.Input.Username;
                 user.Email = this.Input.Email;
+                user.Location = this.Input.Location;
                 user.Balance = new Balance();
 
                 var result = await this._userManager.CreateAsync(user, this.Input.Password);

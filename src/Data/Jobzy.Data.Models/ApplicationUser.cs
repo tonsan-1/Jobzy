@@ -5,6 +5,7 @@ namespace Jobzy.Data.Models
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
+    using Jobzy.Common;
     using Jobzy.Data.Common.Models;
 
     using Microsoft.AspNetCore.Identity;
@@ -32,7 +33,7 @@ namespace Jobzy.Data.Models
         [MaxLength(4096)]
         public string Description { get; set; }
 
-        public string Location { get; set; }
+        public Country Location { get; set; }
 
         public bool IsVerified { get; set; }
 

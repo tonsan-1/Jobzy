@@ -1,35 +1,10 @@
 ﻿@page "/Register"
 @model RegisterModel
 @using Jobzy.Common
+
 @{
     ViewData["Title"] = "Register";
 }
-
-@*<div class="row">
-        <div class="col-md-4">
-            <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
-                <h4>Create a new account.</h4>
-                <hr />
-                <div asp-validation-summary="All" class="text-danger"></div>
-                <div class="form-group">
-                    <label asp-for="Input.Email"></label>
-                    <input asp-for="Input.Email" class="form-control" />
-                    <span asp-validation-for="Input.Email" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Input.Password"></label>
-                    <input asp-for="Input.Password" class="form-control" />
-                    <span asp-validation-for="Input.Password" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Input.ConfirmPassword"></label>
-                    <input asp-for="Input.ConfirmPassword" class="form-control" />
-                    <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
-                </div>
-                <button type="submit" class="btn btn-primary">Register</button>
-            </form>
-        </div>
-    </div>*@
 
 <div class="container">
     <div class="row">
@@ -47,7 +22,7 @@
                 <form asp-route-returnUrl="@Model.ReturnUrl" method="post" id="register-form">
                     <div class="account-type">
                         <div>
-                            <input asp-for="Input.UserType" value="@UserType.Freelancer" type="radio" id="freelancer-radio" class="account-type-radio"/>
+                            <input asp-for="Input.UserType" value="@UserType.Freelancer" type="radio" id="freelancer-radio" class="account-type-radio" />
                             <label asp-for="Input.UserType" for="freelancer-radio" class="ripple-effect-dark"><i class="icon-material-outline-account-circle"></i> Freelancer</label>
                         </div>
 
@@ -55,6 +30,13 @@
                             <input asp-for="Input.UserType" value="@UserType.Employer" type="radio" id="employer-radio" class="account-type-radio" />
                             <label asp-for="Input.UserType" for="employer-radio" class="ripple-effect-dark"><i class="icon-material-outline-business-center"></i> Employer</label>
                         </div>
+                    </div>
+
+                    <div class="input-with-icon-left">
+                        <select asp-for="Input.Location" asp-items="Html.GetEnumSelectList<Country>()" class="location-select dropdown with-border" data-size="5" title="Select Your Location">
+                            <option value="0">Select Your Location</option>
+                        </select>
+                        <span asp-validation-for="Input.Location" class="text-danger"></span>
                     </div>
 
                     <div class="input-with-icon-left">
@@ -76,7 +58,6 @@
                         <input asp-for="Input.Email" type="text" class="input-text with-border" placeholder="Email Address" required />
                         <span asp-validation-for="Input.Email" class="text-danger"></span>
                     </div>
-
 
                     <div class="input-with-icon-left" title="Should be at least 8 characters long" data-tippy-placement="bottom">
                         <i class="icon-material-outline-lock"></i>

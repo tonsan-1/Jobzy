@@ -146,7 +146,7 @@ select {
 }
 
 select {
-	padding: 15px 18px;
+	padding: 9px 18px;
 	cursor: pointer;
 }
 
@@ -178,6 +178,7 @@ input:-webkit-autofill {
 }
 
 /* With Border */
+
 input.with-border,
 input[type="text"].with-border,
 input[type="password"].with-border,
@@ -6915,6 +6916,15 @@ table.basic-table { margin-bottom: 0; }
 	padding-right: 45px;
 }
 
+.input-with-icon select {
+	padding-right: 45px;
+}
+
+.input-with-icon .location-select {
+	padding-right: 45px;
+	padding-left: 65px;
+}
+
 .input-with-icon i {
 	position: absolute;
 	top: 50%;
@@ -6936,7 +6946,7 @@ table.basic-table { margin-bottom: 0; }
 	position: relative;
 }
 
-.input-with-icon-left input {
+.input-with-icon-left input{
 	padding-left: 65px;
 }
 

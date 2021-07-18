@@ -3,7 +3,9 @@
     using System;
     using System.Threading.Tasks;
 
+    using Jobzy.Common;
     using Jobzy.Data.Models;
+
     using Microsoft.AspNetCore.Identity;
     using Microsoft.Extensions.DependencyInjection;
 
@@ -25,6 +27,7 @@
                     Name = "Stoyan Kostadinov",
                     UserName = "tonsan1",
                     Email = "admin@admin.com",
+                    Location = Country.BG,
                     Balance = new Balance(),
                 };
 

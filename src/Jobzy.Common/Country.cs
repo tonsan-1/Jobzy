@@ -1,0 +1,48 @@
+﻿namespace Jobzy.Common
+{
+    using System.ComponentModel.DataAnnotations;
+
+    public enum Country
+    {
+        [Display(Name = "Australia")] AU = 14,
+        [Display(Name = "Austria")] AT = 15,
+        [Display(Name = "Belgium")] BE = 22,
+        [Display(Name = "Brazil")] BR = 32,
+        [Display(Name = "Bulgaria")] BG = 35,
+        [Display(Name = "Canada")] CA = 41,
+        [Display(Name = "Cyprus")] CY = 59,
+        [Display(Name = "Czechia")] CZ = 60,
+        [Display(Name = "Denmark")] DK = 61,
+        [Display(Name = "Estonia")] EE = 70,
+        [Display(Name = "Finland")] FI = 75,
+        [Display(Name = "France")] FR = 76,
+        [Display(Name = "Germany")] DE = 83,
+        [Display(Name = "Greece")] GR = 86,
+        [Display(Name = "Hong Kong")] HK = 100,
+        [Display(Name = "Hungary")] HU = 101,
+        [Display(Name = "India")] IN = 103,
+        [Display(Name = "Ireland")] IE = 107,
+        [Display(Name = "Italy")] IT = 110,
+        [Display(Name = "Japan")] JP = 112,
+        [Display(Name = "Latvia")] LV = 123,
+        [Display(Name = "Lithuania")] LT = 129,
+        [Display(Name = "Luxembourg")] LU = 130,
+        [Display(Name = "Malta")] MT = 138,
+        [Display(Name = "Mexico")] MX = 144,
+        [Display(Name = "Netherlands")] NL = 157,
+        [Display(Name = "New Zealand")] NZ = 159,
+        [Display(Name = "Norway")] NO = 166,
+        [Display(Name = "Poland")] PL = 177,
+        [Display(Name = "Portugal")] PT = 178,
+        [Display(Name = "Romania")] RO = 182,
+        [Display(Name = "Singapore")] SG = 200,
+        [Display(Name = "Slovakia")] SK = 202,
+        [Display(Name = "Slovenia")] SI = 203,
+        [Display(Name = "Spain")] ES = 209,
+        [Display(Name = "Swaziland")] SZ = 214,
+        [Display(Name = "Sweden")] SE = 215,
+        [Display(Name = "Switzerland")] CH = 216,
+        [Display(Name = "United Kingdom of Great Britain")] GB = 235,
+        [Display(Name = "United States of America")] US = 236,
+    }
+}
