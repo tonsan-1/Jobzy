@@ -1,7 +1,7 @@
 ﻿namespace Jobzy.Web.ViewModels.Jobs
 {
     using System;
-
+    using System.ComponentModel.DataAnnotations;
     using Jobzy.Common;
     using Jobzy.Data.Models;
     using Jobzy.Services.Mapping;
@@ -24,7 +24,9 @@
 
         public double EmployerRating { get; set; }
 
-        public string EmployerLocation { get; set; }
+        public Country EmployerLocation { get; set; }
+
+        public string EmployerLocationToString => this.EmployerLocation.GetAttribute<DisplayAttribute>().Name;
 
         public bool EmployerIsVerified { get; set; }
 

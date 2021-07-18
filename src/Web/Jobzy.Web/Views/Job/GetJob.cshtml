@@ -22,7 +22,7 @@
                             <ul>
                                 <li><a href="single-company-profile.html"><i class="icon-material-outline-business"></i>@Model.EmployerName</a></li>
                                 <li><div class="star-rating" data-rating="@Model.EmployerRating"></div></li>
-                                <li><img class="flag" src="/images/flags/bg.svg" alt="">@Model.EmployerLocation</li>
+                                <li><img class="flag" src="/images/flags/@(Model.EmployerLocation.ToString().ToLower()).svg" alt="">@Model.EmployerLocationToString</li>
                                 <li><div class="verified-badge-with-title">Verified</div></li>
                             </ul>
                         </div>
