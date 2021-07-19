@@ -23,7 +23,7 @@
 
         [Route("/Contract/")]
         [Authorize(Roles = "Administrator, Freelancer, Employer")]
-        public IActionResult Contract(string id)
+        public IActionResult GetContract(string id)
         {
             var contract = this.freelancePlatformManager.ContractManager.GetContractById(id);
 
@@ -33,7 +33,7 @@
         [HttpPost]
         [Route("/Contract/")]
         [Authorize(Roles = "Administrator, Employer")]
-        public async Task<IActionResult> CompleteOrCancelContract(
+        public async Task<IActionResult> OnPostContractActions(
             string action, string contractId, string offerId, string freelancerId, string jobId)
         {
             var user =
@@ -59,6 +59,16 @@
             }
 
             return this.Redirect("/");
+        }
+
+        [Route("/Contract/MyContracts")]
+        [Authorize(Roles = "Administrator, Employer, Freelancer")]
+        public async Task<IActionResult> GetMyContracts()
+        {
+            var user = await this.userManager.GetUserAsync(this.User);
+            var contracts = this.freelancePlatformManager.ContractManager.GetAllUserContracts(user.Id);
+
+            return this.View(contracts);
         }
     }
 }

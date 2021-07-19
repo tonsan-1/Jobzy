@@ -1,5 +1,6 @@
 ﻿namespace Jobzy.Services.Interfaces
 {
+    using System.Collections.Generic;
     using System.Threading.Tasks;
 
     using Jobzy.Web.ViewModels.Contracts;
@@ -8,7 +9,9 @@
     {
         Task<string> AddAsync(string offerId);
 
-        ContractViewModel GetContractById(string id);
+        SingleContractViewModel GetContractById(string id);
+
+        IEnumerable<UserContractsListViewModel> GetAllUserContracts(string userId);
 
         Task CompleteContract(string id);
 

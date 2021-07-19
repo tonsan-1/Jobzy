@@ -2,6 +2,7 @@
 {
     using System;
     using System.ComponentModel.DataAnnotations;
+
     using Jobzy.Common;
     using Jobzy.Data.Models;
     using Jobzy.Services.Mapping;

@@ -1,5 +1,6 @@
 ﻿namespace Jobzy.Services
 {
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -69,14 +70,24 @@
             await this.contractRepository.SaveChangesAsync();
         }
 
-        public ContractViewModel GetContractById(string id)
+        public SingleContractViewModel GetContractById(string id)
         {
             var contract = this.contractRepository.All()
                 .Where(x => x.Id == id)
-                .To<ContractViewModel>()
+                .To<SingleContractViewModel>()
                 .FirstOrDefault();
 
             return contract;
+        }
+
+        public IEnumerable<UserContractsListViewModel> GetAllUserContracts(string userId)
+        {
+            var contracts = this.contractRepository.All()
+                .Where(x => x.EmployerId == userId || x.FreelancerId == userId)
+                .To<UserContractsListViewModel>()
+                .ToList();
+
+            return contracts;
         }
     }
 }

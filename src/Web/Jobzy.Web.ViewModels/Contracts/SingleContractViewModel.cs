@@ -2,14 +2,17 @@
 {
     using System;
 
+    using Jobzy.Common;
     using Jobzy.Data.Models;
     using Jobzy.Services.Mapping;
 
-    public class ContractViewModel : IMapFrom<Contract>
+    public class SingleContractViewModel : IMapFrom<Contract>
     {
         public string Id { get; set; }
 
-        public string Status { get; set; }
+        public ContractStatus Status { get; set; }
+
+        public string StatusToString => this.Status.ToString();
 
         public DateTime CreatedOn { get; set; }
 

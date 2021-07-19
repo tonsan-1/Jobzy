@@ -1,0 +1,84 @@
+﻿@model List<Jobzy.Web.ViewModels.Contracts.UserContractsListViewModel>
+<!-- Dashboard Container -->
+<div class="dashboard-container">
+    <partial name="DashboardPartial" />
+
+    <!-- Dashboard Content
+    ================================================== -->
+    <div class="dashboard-content-container" data-simplebar>
+        <div class="dashboard-content-inner">
+
+            <!-- Dashboard Headline -->
+            <div class="dashboard-headline">
+                <h3>My Contracts</h3>
+            </div>
+
+            <!-- Row -->
+            <div class="row">
+
+                <!-- Dashboard Box -->
+                <div class="col-xl-12">
+                    <div class="dashboard-box margin-top-0">
+
+                        <!-- Headline -->
+                        <div class="headline">
+                            <h3><i class="icon-material-outline-assignment"></i> My Contract Listings</h3>
+                        </div>
+
+                        <div class="content">
+                            <ul class="dashboard-box-list">
+                                @foreach (var contract in Model)
+                                {
+                                    var contractStatus = contract.StatusToString == "Ongoing" && contract.TimeLeft < 0 ? "Expiring" : contract.StatusToString;
+
+                                    <li>
+                                        <!-- Job Listing -->
+                                        <div class="job-listing width-adjustment">
+
+                                            <!-- Job Listing Details -->
+                                            <div class="job-listing-details">
+
+                                                <!-- Details -->
+                                                <div class="job-listing-description">
+
+                                                    <h3 class="job-listing-title"><a href="#">Contract #@(contract.Id.Substring(0, 7))</a> <span class="dashboard-status-button @contract.TagColor">@contractStatus</span></h3>
+
+                                                    <!-- Job Listing Footer -->
+                                                    <div class="job-listing-footer">
+                                                        <ul>
+                                                            <li>@contract.OfferJobTitle</li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Task Details -->
+                                        <ul class="dashboard-task-info">
+                                            <li><strong>@contract.OfferDeliveryDays</strong><span>Delivery Days</span></li>
+                                            <li><strong>$@contract.OfferFixedPrice</strong><span>Budget</span></li>
+
+                                            @if (contract.TimeLeft > 0)
+                                            {
+                                                <li><strong>@contract.TimeLeft</strong><span>Days left</span></li>
+                                            }
+                                        </ul>
+
+                                        <!-- Buttons -->
+                                        <div class="buttons-to-right always-visible">
+                                            <a href="dashboard-manage-bidders.html" class="button ripple-effect"><i class="icon-material-outline-supervisor-account"></i> Manage Bidders <span class="button-info">3</span></a>
+                                        </div>
+                                    </li>
+                                }
+                            </ul>
+                            <!-- Spacer -->
+                            <div class="margin-top-90"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Row / End -->
+        </div>
+    </div>
+    <!-- Dashboard Content / End -->
+</div>
