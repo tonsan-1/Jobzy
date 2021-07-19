@@ -17,24 +17,24 @@
 
         public int OffersCount { get; set; }
 
-        public Contract Contract { get; set; }
+        public string ContractStatus { get; set; }
 
         public bool IsClosed { get; set; }
 
-        public string TagName => this.Contract == null && !this.IsClosed ? "Open" :
-                                 this.Contract != null && this.IsClosed ? "In Active Contract"
+        public string TagName => this.ContractStatus == null && !this.IsClosed ? "Open" :
+                                 this.ContractStatus == "Ongoing" && this.IsClosed ? "In Active Contract"
                                                                         : "Closed";
 
-        public string TagColor => this.Contract == null && !this.IsClosed ? "green" :
-                                 this.Contract != null && this.IsClosed ? "yellow"
+        public string TagColor => this.ContractStatus == null && !this.IsClosed ? "green" :
+                                 this.ContractStatus == "Ongoing" && this.IsClosed ? "yellow"
                                                                         : "red";
 
         public void CreateMappings(IProfileExpression configuration)
         {
             configuration
                 .CreateMap<Job, UserJobsListViewModel>()
-                .ForMember(x => x.Contract, options => options
-                .MapFrom(j => j.ContractId == null ? null : j.Contract));
+                .ForMember(x => x.ContractStatus, options => options
+                .MapFrom(j => j.ContractId == null ? null : j.Contract.Status.ToString()));
 
             configuration
                 .CreateMap<Job, UserJobsListViewModel>()

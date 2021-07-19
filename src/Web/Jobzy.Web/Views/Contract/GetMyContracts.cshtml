@@ -29,7 +29,7 @@
                             <ul class="dashboard-box-list">
                                 @foreach (var contract in Model)
                                 {
-                                    var contractStatus = contract.StatusToString == "Ongoing" && contract.TimeLeft < 0 ? "Expiring" : contract.StatusToString;
+                                    var contractStatus = contract.StatusToString == "Ongoing" && contract.TimeLeft < 0 ? "Expired" : contract.StatusToString;
 
                                     <li>
                                         <!-- Job Listing -->
@@ -61,6 +61,10 @@
                                             @if (contract.TimeLeft > 0)
                                             {
                                                 <li><strong>@contract.TimeLeft</strong><span>Days left</span></li>
+                                            }
+                                            @if (contract.TimeLeft <= 0)
+                                            {
+                                                <li><strong>0</strong><span>Days left</span></li>
                                             }
                                         </ul>
                                     </li>

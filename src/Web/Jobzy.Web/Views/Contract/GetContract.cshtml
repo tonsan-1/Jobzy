@@ -10,18 +10,8 @@
                     <div class="card shadow p-3 bg-white rounded text-center p-lg-4 ">
                         <div class="salary-type">Contract Status</div>
                         <div class="margin-top-15"></div>
-                        @if (Model.Status.ToString() == "Ongoing")
-                        {
-                            <div class="bid-acceptance w-100">@Model.Status.ToString().ToUpper()</div>
-                        }
-                        @if (Model.Status.ToString() == "Finished")
-                        {
-                            <div class="bid-acceptance bg-secondary text-white-50 w-100">@Model.Status.ToString().ToUpper()</div>
-                        }
-                        @if (Model.Status.ToString() == "Canceled")
-                        {
-                            <div class="bid-acceptance bg-danger text-white-50 w-100">@Model.Status.ToString().ToUpper()</div>
-                        }
+
+                        <div class="bid-acceptance w-100 @Model.StatusColor">@Model.StatusName</div>
                     </div>
 
                     <div class="text-center">
@@ -42,7 +32,7 @@
 <!-- Page Content
 ================================================== -->
 <div class="container">
-    @if (Model.Status.ToString() == "Ongoing")
+    @if (Model.StatusToString == "Ongoing" && Model.TimeLeft > 0)
     {
         <div id="countdown" class="countdown blue margin-bottom-70 py-lg-4">
             <span id="days"></span> days
@@ -77,7 +67,7 @@
 
         <!-- Sidebar -->
         <div class="col-xl-4 col-lg-4">
-            @if (Model.Status.ToString() == "Ongoing")
+            @if (this.User.IsInRole("Employer") && Model.StatusToString == "Ongoing")
             {
                 <!-- Buttons -->
                 <div class="bidding-signup d-flex flex-column margin-bottom-10">
@@ -133,7 +123,7 @@
 <partial name="/Views/Shared/CompleteContractPartial.cshtml" model="@Model" />
 <partial name="/Views/Shared/CancelContractPartial.cshtml" model="@Model" />
 
-@if (Model.Status.ToString() == "Ongoing")
+@if (Model.StatusToString == "Ongoing")
 {
     <script>
     (function () {

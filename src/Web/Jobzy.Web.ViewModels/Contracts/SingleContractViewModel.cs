@@ -12,8 +12,6 @@
 
         public ContractStatus Status { get; set; }
 
-        public string StatusToString => this.Status.ToString();
-
         public DateTime CreatedOn { get; set; }
 
         public string OfferId { get; set; }
@@ -34,7 +32,21 @@
 
         public string FreelancerName { get; set; }
 
+        public string StatusToString => this.Status.ToString();
+
         public DateTime ContractDeadline
-            => this.CreatedOn.AddDays(this.OfferDeliveryDays).ToLocalTime();
+            => this.StatusToString == "Ongoing" ?
+            this.CreatedOn.AddDays(this.OfferDeliveryDays).ToLocalTime() : DateTime.MinValue;
+
+        public int TimeLeft
+            => this.ContractDeadline.Subtract(DateTime.Now).Days;
+
+        public string StatusColor => this.StatusToString == "Finished" ? "bg-secondary text-white" :
+                                     this.StatusToString == "Ongoing" && this.TimeLeft <= 0 ? "bg-warning text-white" :
+                                     this.StatusToString == "Canceled" ? "bg-danger text-white" : string.Empty;
+
+        public string StatusName => this.StatusToString == "Ongoing" && this.TimeLeft > 0 ? "Ongoing" :
+                                    this.StatusToString == "Ongoing" && this.TimeLeft < 0 ? "Expired" :
+                                    this.StatusToString == "Canceled" ? "Canceled" : "Finished";
     }
 }

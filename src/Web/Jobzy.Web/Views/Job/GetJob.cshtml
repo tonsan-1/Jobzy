@@ -1,10 +1,17 @@
 ﻿@using Jobzy.Web.ViewModels.Jobs
+@using Microsoft.AspNetCore.Identity
+@using Jobzy.Data.Models
+@inject UserManager<ApplicationUser> userManager
 
 @model SingleJobViewModel
 
+@{
+    var user = await userManager.GetUserAsync(User);
+}
 
 @{
     ViewData["jobId"] = Model.Id;
+    ViewData["Title"] = Model.Title;
 }
 
 <!-- Titlebar
@@ -23,7 +30,6 @@
                                 <li><a href="single-company-profile.html"><i class="icon-material-outline-business"></i>@Model.EmployerName</a></li>
                                 <li><div class="star-rating" data-rating="@Model.EmployerRating"></div></li>
                                 <li><img class="flag" src="/images/flags/@(Model.EmployerLocation.ToString().ToLower()).svg" alt="">@Model.EmployerLocationToString</li>
-                                <li><div class="verified-badge-with-title">Verified</div></li>
                             </ul>
                         </div>
                     </div>
@@ -124,7 +130,17 @@
         <div class="col-xl-4 col-lg-4">
             <div class="sidebar-container">
 
-                <a href="#small-dialog" class="apply-now-button popup-with-zoom-anim">Make an Offer<i class="icon-material-outline-arrow-right-alt"></i></a>
+                @if (this.User.IsInRole("Freelancer"))
+                {
+                    if (!Model.OffersFreelancerIds.Contains(user.Id))
+                    {
+                        <a href="#small-dialog" class="apply-now-button popup-with-zoom-anim">Make an Offer<i class="icon-material-outline-arrow-right-alt"></i></a>
+                    }
+                    else
+                    {
+                        <a role="button" class="apply-now-button bg-secondary text-white">Offer already sent</a>
+                    }
+                }
 
                 <!-- Sidebar Widget -->
                 <div class="sidebar-widget">
@@ -169,10 +185,8 @@
                     </button>
 
                 </div>
-
             </div>
         </div>
-
     </div>
 </div>
 
