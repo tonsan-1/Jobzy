@@ -41,7 +41,7 @@
                                                 <!-- Details -->
                                                 <div class="job-listing-description">
 
-                                                    <h3 class="job-listing-title"><a href="#">Contract #@(contract.Id.Substring(0, 7))</a> <span class="dashboard-status-button @contract.TagColor">@contractStatus</span></h3>
+                                                    <h3 class="job-listing-title"><a asp-controller="Contract" asp-action="GetContract" asp-route-id="@contract.Id">Contract #@contract.ShortId</a> <span class="dashboard-status-button @contract.TagColor">@contractStatus</span></h3>
 
                                                     <!-- Job Listing Footer -->
                                                     <div class="job-listing-footer">
@@ -63,11 +63,6 @@
                                                 <li><strong>@contract.TimeLeft</strong><span>Days left</span></li>
                                             }
                                         </ul>
-
-                                        <!-- Buttons -->
-                                        <div class="buttons-to-right always-visible">
-                                            <a href="dashboard-manage-bidders.html" class="button ripple-effect"><i class="icon-material-outline-supervisor-account"></i> Manage Bidders <span class="button-info">3</span></a>
-                                        </div>
                                     </li>
                                 }
                             </ul>
