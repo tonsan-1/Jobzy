@@ -36,6 +36,8 @@
         [DataType(DataType.DateTime)]
         public DateTime DatePosted { get; set; } = DateTime.UtcNow;
 
+        public bool HasContract { get; set; } = false;
+
         public bool IsClosed { get; set; } = false;
 
         public bool IsDeleted { get; set; } = false;
