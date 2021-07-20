@@ -11,6 +11,8 @@
 
         public DateTime AcceptedDate { get; set; }
 
+        public bool IsAccepted { get; set; }
+
         [Range(1, double.MaxValue)]
         public decimal FixedPrice { get; set; }
 
@@ -26,7 +28,5 @@
         public string JobId { get; set; }
 
         public virtual Job Job { get; set; }
-
-        public bool IsDeleted { get; set; }
     }
 }

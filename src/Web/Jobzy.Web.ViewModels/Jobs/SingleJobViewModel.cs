@@ -56,7 +56,7 @@
                 .CreateMap<Job, SingleJobViewModel>()
                 .ForMember(x => x.OffersFreelancerIds, options => options
                 .MapFrom(j => j.Offers
-                .Where(o => !o.IsDeleted)
+                .Where(o => !o.IsAccepted)
                 .Select(f => f.FreelancerId)));
         }
     }

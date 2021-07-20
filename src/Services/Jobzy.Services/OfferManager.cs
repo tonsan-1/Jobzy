@@ -26,7 +26,7 @@
                 .FirstOrDefault(x => x.Id == offerId);
 
             offer.AcceptedDate = DateTime.UtcNow;
-            offer.IsDeleted = true;
+            offer.IsAccepted = true;
 
             this.repository.Update(offer);
             await this.repository.SaveChangesAsync();
@@ -49,7 +49,7 @@
         public IEnumerable<JobOfferViewModel> GetJobOffers(string jobId)
         {
             var offers = this.repository.All()
-                .Where(x => x.JobId == jobId && !x.IsDeleted)
+                .Where(x => x.JobId == jobId && !x.IsAccepted)
                 .To<JobOfferViewModel>()
                 .ToList();
 

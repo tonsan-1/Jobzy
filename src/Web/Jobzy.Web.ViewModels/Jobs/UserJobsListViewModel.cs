@@ -34,7 +34,7 @@
             configuration
                 .CreateMap<Job, UserJobsListViewModel>()
                 .ForMember(x => x.OffersCount, options => options
-                .MapFrom(j => j.Offers.Count(x => !x.IsDeleted)));
+                .MapFrom(j => j.Offers.Count(x => !x.IsAccepted)));
         }
     }
 }
