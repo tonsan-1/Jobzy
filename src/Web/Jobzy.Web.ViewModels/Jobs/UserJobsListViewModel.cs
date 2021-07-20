@@ -21,13 +21,9 @@
 
         public bool IsClosed { get; set; }
 
-        public string TagName => this.ContractStatus == null && !this.IsClosed ? "Open" :
-                                 this.ContractStatus == "Ongoing" && this.IsClosed ? "In Active Contract"
-                                                                        : "Closed";
+        public string TagName => this.ContractStatus == null && !this.IsClosed ? "Open" : "In Active Contract";
 
-        public string TagColor => this.ContractStatus == null && !this.IsClosed ? "green" :
-                                 this.ContractStatus == "Ongoing" && this.IsClosed ? "yellow"
-                                                                        : "red";
+        public string TagColor => this.ContractStatus == null && !this.IsClosed ? "green" : "yellow";
 
         public void CreateMappings(IProfileExpression configuration)
         {

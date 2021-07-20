@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.Linq;
+
     using AutoMapper;
     using Jobzy.Common;
     using Jobzy.Data.Models;
@@ -18,6 +19,14 @@
         public string JobType { get; set; }
 
         public decimal Budget { get; set; }
+
+        public bool IsClosed { get; set; }
+
+        public string ContractId { get; set; }
+
+        public string ContractFreelancerId { get; set; }
+
+        public string ContractEmployerId { get; set; }
 
         public DateTime DatePosted { get; set; }
 
@@ -42,7 +51,9 @@
             configuration
                 .CreateMap<Job, SingleJobViewModel>()
                 .ForMember(x => x.OffersFreelancerIds, options => options
-                .MapFrom(j => j.Offers.Select(x => x.FreelancerId)));
+                .MapFrom(j => j.Offers
+                .Where(o => !o.IsDeleted)
+                .Select(f => f.FreelancerId)));
         }
     }
 }
