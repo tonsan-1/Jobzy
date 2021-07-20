@@ -42,9 +42,7 @@
 
         public bool IsDeleted { get; set; } = false;
 
-        public string ContractId { get; set; }
-
-        public virtual Contract Contract { get; set; }
+        public virtual List<Contract> Contracts { get; set; } = new List<Contract>();
 
         public virtual List<Offer> Offers { get; set; } = new List<Offer>();
 
