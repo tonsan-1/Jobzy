@@ -135,7 +135,12 @@
                                         <ul class="user-menu-small-nav">
                                             <li><a href="dashboard.html"><i class="icon-material-outline-dashboard"></i> Dashboard</a></li>
                                             <li><a href="dashboard-settings.html"><i class="icon-material-outline-settings"></i> Settings</a></li>
-                                            <li><a asp-route="/Identity/Account/Logout"><i class="icon-material-outline-power-settings-new"></i> Logout</a></li>
+
+                                            <li>
+                                                <form id="logout" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" method="post">
+                                                    <a role="button" href="javascript:void(0)" aria-label="logout" onclick="document.getElementById('logout').submit()"><i class="icon-material-outline-power-settings-new"></i>Logout</a>
+                                                </form>
+                                            </li>
                                         </ul>
 
                                     </div>
