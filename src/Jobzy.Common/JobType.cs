@@ -2,7 +2,6 @@
 {
     public enum JobType
     {
-        FullTime = 0,
-        PartTime = 1,
+        Freelance = 1,
     }
 }

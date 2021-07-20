@@ -16,6 +16,5 @@
         Task CompleteContract(string id);
 
         Task CancelContract(string id);
-
     }
 }

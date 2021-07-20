@@ -55,7 +55,6 @@
 
             await this.freelancePlatformManager.OfferManager.AcceptOffer(offerId);
             await this.freelancePlatformManager.BalanceManager.TransferMoneyAsync(currentUserBalance, freelancePlatformBalance, offerId);
-            await this.freelancePlatformManager.JobManager.SetJobToClosed(jobId);
             await this.freelancePlatformManager.JobManager.SetContractIdToJob(jobId, responseId);
 
             return this.Redirect($"/Contract?id={responseId}");

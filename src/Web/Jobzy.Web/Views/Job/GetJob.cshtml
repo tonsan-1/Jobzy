@@ -132,31 +132,34 @@
 
                 @if (this.User.IsInRole("Freelancer"))
                 {
-                    if (Model.IsClosed && Model.ContractId != null && Model.ContractFreelancerId == user.Id)
+                    if (Model.HasContract && Model.ContractFreelancerId == user.Id)
                     {
                         <a asp-action="GetContract" asp-controller="Contract" asp-route-id="@Model.ContractId" class="apply-now-button">Contract<i class="icon-material-outline-arrow-right-alt"></i></a>
                     }
-                    else if (!Model.IsClosed && !Model.OffersFreelancerIds.Contains(user.Id))
+                    else if (!Model.HasContract && !Model.OffersFreelancerIds.Contains(user.Id))
                     {
                         <a href="#small-dialog" class="apply-now-button popup-with-zoom-anim">Make an Offer<i class="icon-material-outline-arrow-right-alt"></i></a>
                     }
-                    else if (!Model.IsClosed && Model.OffersFreelancerIds.Contains(user.Id))
+                    else if (!Model.HasContract && Model.OffersFreelancerIds.Contains(user.Id))
                     {
                         <a role="button" class="apply-now-button bg-secondary text-white">Offer already sent</a>
                     }
+                }
+
+                @if (this.User.IsInRole("Employer"))
+                {
+                    if (Model.HasContract && Model.ContractEmployerId == user.Id)
+                    {
+                        <a asp-action="GetContract" asp-controller="Contract" asp-route-id="@Model.ContractId" class="apply-now-button">Contract<i class="icon-material-outline-arrow-right-alt"></i></a>
+                    }
+                    else if (!Model.HasContract && Model.EmployerId == user.Id)
+                    {
+                        <a asp-action="MyJobs" asp-controller="Job" class="apply-now-button">My Jobs<i class="icon-material-outline-arrow-right-alt"></i></a>
+                    }
                     else
                     {
-                        <a role="button" class="apply-now-button bg-secondary text-white">Job is Closed</a>
+                        <a role="button" class="apply-now-button bg-secondary text-white">Employers cannot apply to jobs</a>
                     }
-
-                    @if (this.User.IsInRole("Employer"))
-                    {
-                        if (Model.ContractId != null && Model.ContractEmployerId == user.Id)
-                        {
-                            <a href="#small-dialog" class="apply-now-button popup-with-zoom-anim">Contract<i class="icon-material-outline-arrow-right-alt"></i></a>
-                        }
-                    }
-
                 }
 
                 <!-- Sidebar Widget -->

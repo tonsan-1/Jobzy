@@ -22,6 +22,8 @@
 
         public bool IsClosed { get; set; }
 
+        public bool HasContract { get; set; }
+
         public string ContractId { get; set; }
 
         public string ContractFreelancerId { get; set; }
@@ -31,6 +33,8 @@
         public DateTime DatePosted { get; set; }
 
         public string Description { get; set; }
+
+        public string EmployerId { get; set; }
 
         public string EmployerName { get; set; }
 

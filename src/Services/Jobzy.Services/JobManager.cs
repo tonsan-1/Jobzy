@@ -39,7 +39,7 @@
         public IEnumerable<AllJobsListViewModel> GetAllJobPosts()
         {
             var jobs = this.repository.All()
-                .Where(x => !x.IsClosed && !x.IsDeleted)
+                .Where(x => !x.IsClosed && !x.IsDeleted && !x.HasContract)
                 .To<AllJobsListViewModel>()
                 .ToList();
 
@@ -72,6 +72,7 @@
                 .FirstOrDefault(x => x.Id == jobId);
 
             job.ContractId = contractId;
+            job.HasContract = true;
 
             this.repository.Update(job);
             await this.repository.SaveChangesAsync();
@@ -93,7 +94,7 @@
             var job = this.repository.All()
                 .FirstOrDefault(x => x.Id == jobId);
 
-            job.ContractId = null;
+            job.HasContract = false;
             job.IsClosed = false;
 
             this.repository.Update(job);

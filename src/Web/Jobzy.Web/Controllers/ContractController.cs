@@ -51,7 +51,7 @@
                 await this.freelancePlatformManager.ContractManager.CompleteContract(contractId);
                 await this.freelancePlatformManager.JobManager.SetJobToClosed(jobId);
             }
-            else
+            else if (action == "cancel")
             {
                 await this.freelancePlatformManager.BalanceManager.TransferMoneyAsync(freelancePlatformBudget, currentUserBudget, offerId);
                 await this.freelancePlatformManager.ContractManager.CancelContract(contractId);
