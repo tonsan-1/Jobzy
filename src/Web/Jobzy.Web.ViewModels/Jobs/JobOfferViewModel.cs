@@ -1,5 +1,8 @@
 ﻿namespace Jobzy.Web.ViewModels.Jobs
 {
+    using System.ComponentModel.DataAnnotations;
+
+    using Jobzy.Common;
     using Jobzy.Data.Models;
     using Jobzy.Services.Mapping;
 
@@ -22,6 +25,10 @@
         public double FreelancerRating { get; set; }
 
         public string FreelancerProfileImageUrl { get; set; }
+
+        public Country FreelancerLocation { get; set; }
+
+        public string FreelancerLocationToString => this.FreelancerLocation.GetAttribute<DisplayAttribute>().Name;
 
         public int DialogNumber { get; set; }
     }

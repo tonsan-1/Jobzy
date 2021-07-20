@@ -23,11 +23,11 @@
 
         public string TagName => !this.HasContract && !this.IsClosed ? "Open" :
                                   this.HasContract && !this.IsClosed ? "In Active Contract" :
-                                 !this.HasContract && this.IsClosed ? "Closed" : string.Empty;
+                                  this.HasContract && this.IsClosed ? "Closed" : string.Empty;
 
         public string TagColor => !this.HasContract && !this.IsClosed ? "green" :
                                    this.HasContract && !this.IsClosed ? "yellow" :
-                                  !this.HasContract && this.IsClosed ? "red" : string.Empty;
+                                   this.HasContract && this.IsClosed ? "red" : string.Empty;
 
         public void CreateMappings(IProfileExpression configuration)
         {
