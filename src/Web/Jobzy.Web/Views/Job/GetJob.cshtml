@@ -1,6 +1,8 @@
 ﻿@using Jobzy.Web.ViewModels.Jobs
 @using Microsoft.AspNetCore.Identity
 @using Jobzy.Data.Models
+@using Jobzy.Common
+
 @inject UserManager<ApplicationUser> userManager
 
 @model SingleJobViewModel
@@ -132,27 +134,31 @@
 
                 @if (this.User.IsInRole("Freelancer"))
                 {
-                    if (Model.HasContract && Model.ContractFreelancerId == user.Id)
+                    if (Model.Status == JobStatus.InContract && Model.ContractsFreelancerIds.Contains(user.Id))
                     {
                         <a asp-action="GetContract" asp-controller="Contract" asp-route-id="@Model.ContractId" class="apply-now-button">Contract<i class="icon-material-outline-arrow-right-alt"></i></a>
                     }
-                    else if (!Model.HasContract && !Model.OffersFreelancerIds.Contains(user.Id))
+                    else if (Model.Status == JobStatus.Open && !Model.OffersFreelancerIds.Contains(user.Id))
                     {
                         <a href="#small-dialog" class="apply-now-button popup-with-zoom-anim">Make an Offer<i class="icon-material-outline-arrow-right-alt"></i></a>
                     }
-                    else if (!Model.HasContract && Model.OffersFreelancerIds.Contains(user.Id))
+                    else if (Model.Status == JobStatus.Open && Model.OffersFreelancerIds.Contains(user.Id))
                     {
                         <a role="button" class="apply-now-button bg-secondary text-white">Offer already sent</a>
+                    }
+                    else
+                    {
+                        <a role="button" class="apply-now-button bg-secondary text-white">Job is closed</a>
                     }
                 }
 
                 @if (this.User.IsInRole("Employer"))
                 {
-                    if (Model.HasContract && Model.ContractEmployerId == user.Id)
+                    if (Model.Status == JobStatus.InContract && Model.EmployerId == user.Id)
                     {
                         <a asp-action="GetContract" asp-controller="Contract" asp-route-id="@Model.ContractId" class="apply-now-button">Contract<i class="icon-material-outline-arrow-right-alt"></i></a>
                     }
-                    else if (!Model.HasContract && Model.EmployerId == user.Id)
+                    else if (Model.Status != JobStatus.InContract && Model.EmployerId == user.Id)
                     {
                         <a asp-action="MyJobs" asp-controller="Job" class="apply-now-button">My Jobs<i class="icon-material-outline-arrow-right-alt"></i></a>
                     }

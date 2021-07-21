@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
+    using Jobzy.Common;
     using Jobzy.Data.Models;
     using Jobzy.Web.ViewModels.Jobs;
 
@@ -12,11 +13,7 @@
 
         Task AddAsync(JobInputModel model, Employer employer);
 
-        Task SetJobToClosed(string jobId);
-
-        Task SetJobToOpen(string jobId);
-
-        Task SetContractIdToJob(string jobId, string contractId);
+        Task SetJobStatus(JobStatus status, string jobId);
 
         IEnumerable<UserJobsListViewModel> GetAllUserJobPosts(string userId);
 

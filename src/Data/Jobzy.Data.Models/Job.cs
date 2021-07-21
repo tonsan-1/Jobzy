@@ -19,6 +19,9 @@
         [MaxLength(50)]
         public string Title { get; set; }
 
+        [Range(1, 3)]
+        public JobStatus Status { get; set; }
+
         [Required]
         public JobType JobType { get; set; }
 
@@ -36,11 +39,7 @@
         [DataType(DataType.DateTime)]
         public DateTime DatePosted { get; set; } = DateTime.UtcNow;
 
-        public bool HasContract { get; set; } = false;
-
-        public bool IsClosed { get; set; } = false;
-
-        public bool IsDeleted { get; set; } = false;
+        public bool IsDeleted { get; set; }
 
         public virtual List<Contract> Contracts { get; set; } = new List<Contract>();
 

@@ -1,7 +1,7 @@
 ﻿namespace Jobzy.Web.Controllers
 {
     using System.Threading.Tasks;
-
+    using Jobzy.Common;
     using Jobzy.Data.Models;
     using Jobzy.Services.Interfaces;
     using Microsoft.AspNetCore.Authorization;
@@ -49,13 +49,13 @@
             {
                 await this.freelancePlatformManager.BalanceManager.TransferMoneyAsync(freelancePlatformBudget, freelancerBudget, offerId);
                 await this.freelancePlatformManager.ContractManager.CompleteContract(contractId);
-                await this.freelancePlatformManager.JobManager.SetJobToClosed(jobId);
+                await this.freelancePlatformManager.JobManager.SetJobStatus(JobStatus.Closed, jobId);
             }
             else if (action == "cancel")
             {
                 await this.freelancePlatformManager.BalanceManager.TransferMoneyAsync(freelancePlatformBudget, currentUserBudget, offerId);
                 await this.freelancePlatformManager.ContractManager.CancelContract(contractId);
-                await this.freelancePlatformManager.JobManager.SetJobToOpen(jobId);
+                await this.freelancePlatformManager.JobManager.SetJobStatus(JobStatus.Open, jobId);
             }
 
             return this.Redirect("/");

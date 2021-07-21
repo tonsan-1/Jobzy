@@ -27,5 +27,10 @@
         public string OfferId { get; set; }
 
         public virtual Offer Offer { get; set; }
+
+        [Required]
+        public string JobId { get; set; }
+
+        public virtual Job Job { get; set; }
     }
 }

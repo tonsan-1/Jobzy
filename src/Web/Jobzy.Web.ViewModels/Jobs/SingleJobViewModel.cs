@@ -1,6 +1,5 @@
 ﻿namespace Jobzy.Web.ViewModels.Jobs
 {
-    using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.Linq;
@@ -10,29 +9,11 @@
     using Jobzy.Data.Models;
     using Jobzy.Services.Mapping;
 
-    public class SingleJobViewModel : IMapFrom<Job>, IHaveCustomMappings
+    public class SingleJobViewModel : BaseJobViewModel, IMapFrom<Job>, IHaveCustomMappings
     {
-        public string Id { get; set; }
-
-        public string Title { get; set; }
-
-        public string JobType { get; set; }
-
-        public decimal Budget { get; set; }
-
-        public bool IsClosed { get; set; }
-
-        public bool HasContract { get; set; }
+        public string Description { get; set; }
 
         public string ContractId { get; set; }
-
-        public string ContractFreelancerId { get; set; }
-
-        public string ContractEmployerId { get; set; }
-
-        public DateTime DatePosted { get; set; }
-
-        public string Description { get; set; }
 
         public string EmployerId { get; set; }
 
@@ -44,9 +25,9 @@
 
         public List<string> OffersFreelancerIds { get; set; }
 
-        public string EmployerLocationToString => this.EmployerLocation.GetAttribute<DisplayAttribute>().Name;
+        public List<string> ContractsFreelancerIds { get; set; }
 
-        public bool EmployerIsVerified { get; set; }
+        public string EmployerLocationToString => this.EmployerLocation.GetAttribute<DisplayAttribute>().Name;
 
         public string DateFormatted => TimeCalculator.GetTimeAgo(this.DatePosted);
 
@@ -54,10 +35,21 @@
         {
             configuration
                 .CreateMap<Job, SingleJobViewModel>()
+
                 .ForMember(x => x.OffersFreelancerIds, options => options
                 .MapFrom(j => j.Offers
                 .Where(o => !o.IsAccepted)
-                .Select(f => f.FreelancerId)));
+                .Select(f => f.FreelancerId)))
+
+                .ForMember(x => x.ContractsFreelancerIds, options => options
+                .MapFrom(c => c.Contracts
+                .Where(x => x.Status == ContractStatus.Ongoing)
+                .Select(i => i.FreelancerId)))
+
+                .ForMember(x => x.ContractId, options => options
+                .MapFrom(c => c.Contracts
+                .FirstOrDefault(x => x.Status == ContractStatus.Ongoing)
+                .Id));
         }
     }
 }

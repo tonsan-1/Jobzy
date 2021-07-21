@@ -9,7 +9,7 @@
     using Jobzy.Data.Models;
     using Jobzy.Services.Interfaces;
     using Jobzy.Services.Mapping;
-    using Jobzy.Web.ViewModels.Jobs;
+    using Jobzy.Web.ViewModels.Offers;
 
     public class OfferManager : IOfferManager
     {

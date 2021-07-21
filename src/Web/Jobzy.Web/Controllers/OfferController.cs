@@ -2,6 +2,7 @@
 {
     using System.Threading.Tasks;
 
+    using Jobzy.Common;
     using Jobzy.Data.Models;
     using Jobzy.Services.Interfaces;
     using Microsoft.AspNetCore.Authorization;
@@ -51,11 +52,12 @@
             var user = await this.userManager.GetUserAsync(this.User);
             var currentUserBalance = this.freelancePlatformManager.BalanceManager.FindById(user.Id);
             var freelancePlatformBalance = await this.freelancePlatformManager.BalanceManager.GetFreelancePlatformBalanceAsync();
+
             var responseId = await this.freelancePlatformManager.ContractManager.AddAsync(offerId);
 
             await this.freelancePlatformManager.OfferManager.AcceptOffer(offerId);
             await this.freelancePlatformManager.BalanceManager.TransferMoneyAsync(currentUserBalance, freelancePlatformBalance, offerId);
-            await this.freelancePlatformManager.JobManager.SetContractIdToJob(jobId, responseId);
+            await this.freelancePlatformManager.JobManager.SetJobStatus(JobStatus.InContract, jobId);
 
             return this.Redirect($"/Contract?id={responseId}");
         }

@@ -4,14 +4,16 @@ using Jobzy.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Jobzy.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210721103708_RemoveJobIsClosedAndHasContract")]
+    partial class RemoveJobIsClosedAndHasContract
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -203,7 +205,6 @@ namespace Jobzy.Data.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("JobId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("OfferId")
@@ -293,9 +294,6 @@ namespace Jobzy.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("JobType")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Status")
                         .HasColumnType("int");
 
                     b.Property<string>("Title")
@@ -546,11 +544,9 @@ namespace Jobzy.Data.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("Jobzy.Data.Models.Job", "Job")
+                    b.HasOne("Jobzy.Data.Models.Job", null)
                         .WithMany("Contracts")
-                        .HasForeignKey("JobId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .HasForeignKey("JobId");
 
                     b.HasOne("Jobzy.Data.Models.Offer", "Offer")
                         .WithMany()
@@ -561,8 +557,6 @@ namespace Jobzy.Data.Migrations
                     b.Navigation("Employer");
 
                     b.Navigation("Freelancer");
-
-                    b.Navigation("Job");
 
                     b.Navigation("Offer");
                 });

@@ -1,4 +1,4 @@
-﻿namespace Jobzy.Web.ViewModels.Jobs
+﻿namespace Jobzy.Web.ViewModels.Offers
 {
     using System.ComponentModel.DataAnnotations;
 

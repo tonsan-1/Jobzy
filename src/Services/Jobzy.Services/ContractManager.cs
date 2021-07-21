@@ -40,6 +40,7 @@
                 FreelancerId = offer.FreelancerId,
                 EmployerId = offer.Job.EmployerId,
                 OfferId = offer.Id,
+                JobId = offer.Job.Id,
             };
 
             await this.contractRepository.AddAsync(contract);

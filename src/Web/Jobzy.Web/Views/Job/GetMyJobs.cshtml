@@ -1,4 +1,6 @@
-﻿@model List<Jobzy.Web.ViewModels.Jobs.UserJobsListViewModel>
+﻿@using Jobzy.Common;
+
+@model List<Jobzy.Web.ViewModels.Jobs.UserJobsListViewModel>
 
 
 <!-- Dashboard Container -->
@@ -51,7 +53,7 @@
                                             </div>
                                         </div>
 
-                                        @if (!job.HasContract)
+                                        @if (job.Status == JobStatus.Open)
                                         {
                                             <!-- Buttons -->
                                             <div class="buttons-to-right always-visible">

@@ -6,7 +6,7 @@
 
     using global::Jobzy.Data.Common.Repositories;
     using global::Jobzy.Services.Interfaces;
-
+    using Jobzy.Common;
     using Jobzy.Data.Models;
     using Jobzy.Services.Mapping;
     using Jobzy.Web.ViewModels.Jobs;
@@ -24,6 +24,7 @@
         {
             var job = new Job
             {
+                Status = JobStatus.Open,
                 Employer = employer,
                 Title = model.Title,
                 JobType = model.JobType,
@@ -39,7 +40,7 @@
         public IEnumerable<AllJobsListViewModel> GetAllJobPosts()
         {
             var jobs = this.repository.All()
-                .Where(x => !x.IsClosed && !x.IsDeleted && !x.HasContract)
+                .Where(x => !x.IsDeleted && x.Status == JobStatus.Open)
                 .To<AllJobsListViewModel>()
                 .ToList();
 
@@ -66,36 +67,11 @@
             return job;
         }
 
-        public async Task SetContractIdToJob(string jobId, string contractId)
+        public async Task SetJobStatus(JobStatus status, string jobId)
         {
-            var job = this.repository.All()
-                .FirstOrDefault(x => x.Id == jobId);
+            var job = this.repository.All().FirstOrDefault(x => x.Id == jobId);
 
-            job.ContractId = contractId;
-            job.HasContract = true;
-
-            this.repository.Update(job);
-            await this.repository.SaveChangesAsync();
-        }
-
-        public async Task SetJobToClosed(string jobId)
-        {
-            var job = this.repository.All()
-                .FirstOrDefault(x => x.Id == jobId);
-
-            job.IsClosed = true;
-
-            this.repository.Update(job);
-            await this.repository.SaveChangesAsync();
-        }
-
-        public async Task SetJobToOpen(string jobId)
-        {
-            var job = this.repository.All()
-                .FirstOrDefault(x => x.Id == jobId);
-
-            job.HasContract = false;
-            job.IsClosed = false;
+            job.Status = status;
 
             this.repository.Update(job);
             await this.repository.SaveChangesAsync();
