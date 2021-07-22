@@ -10,14 +10,14 @@
 
     public class DashboardController : BaseController
     {
-        private readonly IFreelancePlatformManager freelancePlatformManager;
+        private readonly IFreelancePlatform freelancePlatform;
         private readonly UserManager<ApplicationUser> userManager;
 
         public DashboardController(
-            IFreelancePlatformManager freelancePlatformManager,
+            IFreelancePlatform freelancePlatform,
             UserManager<ApplicationUser> userManager)
         {
-            this.freelancePlatformManager = freelancePlatformManager;
+            this.freelancePlatform = freelancePlatform;
             this.userManager = userManager;
         }
 
@@ -31,7 +31,7 @@
         {
             var user = await this.userManager.GetUserAsync(this.User);
 
-            await this.freelancePlatformManager.BalanceManager.AddFundsAsync(user.Id, money);
+            await this.freelancePlatform.BalanceManager.AddFundsAsync(user.Id, money);
 
             return this.Json("WORKS");
         }

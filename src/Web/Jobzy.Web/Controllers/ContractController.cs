@@ -1,6 +1,7 @@
 ﻿namespace Jobzy.Web.Controllers
 {
     using System.Threading.Tasks;
+
     using Jobzy.Common;
     using Jobzy.Data.Models;
     using Jobzy.Services.Interfaces;
@@ -8,16 +9,16 @@
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
 
-    public class ContractController : Controller
+    public class ContractController : BaseController
     {
-        private readonly IFreelancePlatformManager freelancePlatformManager;
+        private readonly IFreelancePlatform freelancePlatform;
         private readonly UserManager<ApplicationUser> userManager;
 
         public ContractController(
-            IFreelancePlatformManager freelancePlatformManager,
+            IFreelancePlatform freelancePlatform,
             UserManager<ApplicationUser> userManager)
         {
-            this.freelancePlatformManager = freelancePlatformManager;
+            this.freelancePlatform = freelancePlatform;
             this.userManager = userManager;
         }
 
@@ -25,7 +26,7 @@
         [Authorize(Roles = "Administrator, Freelancer, Employer")]
         public IActionResult GetContract(string id)
         {
-            var contract = this.freelancePlatformManager.ContractManager.GetContractById(id);
+            var contract = this.freelancePlatform.ContractManager.GetContractById(id);
 
             return this.View(contract);
         }
@@ -39,23 +40,23 @@
             var user =
                     await this.userManager.GetUserAsync(this.User);
             var freelancePlatformBudget =
-                await this.freelancePlatformManager.BalanceManager.GetFreelancePlatformBalanceAsync();
+                await this.freelancePlatform.BalanceManager.GetFreelancePlatformBalanceAsync();
             var currentUserBudget =
-                this.freelancePlatformManager.BalanceManager.FindById(user.Id);
+                this.freelancePlatform.BalanceManager.FindById(user.Id);
             var freelancerBudget =
-                this.freelancePlatformManager.BalanceManager.FindById(freelancerId);
+                this.freelancePlatform.BalanceManager.FindById(freelancerId);
 
             if (action == "complete")
             {
-                await this.freelancePlatformManager.BalanceManager.TransferMoneyAsync(freelancePlatformBudget, freelancerBudget, offerId);
-                await this.freelancePlatformManager.ContractManager.CompleteContract(contractId);
-                await this.freelancePlatformManager.JobManager.SetJobStatus(JobStatus.Closed, jobId);
+                await this.freelancePlatform.BalanceManager.TransferMoneyAsync(freelancePlatformBudget, freelancerBudget, offerId);
+                await this.freelancePlatform.ContractManager.CompleteContract(contractId);
+                await this.freelancePlatform.JobManager.SetJobStatus(JobStatus.Closed, jobId);
             }
             else if (action == "cancel")
             {
-                await this.freelancePlatformManager.BalanceManager.TransferMoneyAsync(freelancePlatformBudget, currentUserBudget, offerId);
-                await this.freelancePlatformManager.ContractManager.CancelContract(contractId);
-                await this.freelancePlatformManager.JobManager.SetJobStatus(JobStatus.Open, jobId);
+                await this.freelancePlatform.BalanceManager.TransferMoneyAsync(freelancePlatformBudget, currentUserBudget, offerId);
+                await this.freelancePlatform.ContractManager.CancelContract(contractId);
+                await this.freelancePlatform.JobManager.SetJobStatus(JobStatus.Open, jobId);
             }
 
             return this.Redirect("/");
@@ -66,7 +67,7 @@
         public async Task<IActionResult> GetMyContracts()
         {
             var user = await this.userManager.GetUserAsync(this.User);
-            var contracts = this.freelancePlatformManager.ContractManager.GetAllUserContracts(user.Id);
+            var contracts = this.freelancePlatform.ContractManager.GetAllUserContracts(user.Id);
 
             return this.View(contracts);
         }

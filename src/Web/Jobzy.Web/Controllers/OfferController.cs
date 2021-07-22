@@ -9,16 +9,16 @@
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
 
-    public class OfferController : Controller
+    public class OfferController : BaseController
     {
-        private readonly IFreelancePlatformManager freelancePlatformManager;
+        private readonly IFreelancePlatform freelancePlatform;
         private readonly UserManager<ApplicationUser> userManager;
 
         public OfferController(
-            IFreelancePlatformManager freelancePlatformManager,
+            IFreelancePlatform freelancePlatform,
             UserManager<ApplicationUser> userManager)
         {
-            this.freelancePlatformManager = freelancePlatformManager;
+            this.freelancePlatform = freelancePlatform;
             this.userManager = userManager;
         }
 
@@ -26,7 +26,7 @@
         [Authorize(Roles = "Administrator, Employer")]
         public IActionResult GetJobOffers(string id)
         {
-            var offers = this.freelancePlatformManager.OfferManager.GetJobOffers(id);
+            var offers = this.freelancePlatform.OfferManager.GetJobOffers(id);
 
             return this.View(offers);
         }
@@ -39,7 +39,7 @@
         {
             var user = await this.userManager.GetUserAsync(this.User);
 
-            await this.freelancePlatformManager.OfferManager.AddAsync(jobId, user.Id, fixedPrice, deliveryDays);
+            await this.freelancePlatform.OfferManager.AddAsync(jobId, user.Id, fixedPrice, deliveryDays);
 
             return this.Redirect("/");
         }
@@ -50,14 +50,14 @@
         public async Task<IActionResult> AcceptOffer(string offerId, string jobId)
         {
             var user = await this.userManager.GetUserAsync(this.User);
-            var currentUserBalance = this.freelancePlatformManager.BalanceManager.FindById(user.Id);
-            var freelancePlatformBalance = await this.freelancePlatformManager.BalanceManager.GetFreelancePlatformBalanceAsync();
+            var currentUserBalance = this.freelancePlatform.BalanceManager.FindById(user.Id);
+            var freelancePlatformBalance = await this.freelancePlatform.BalanceManager.GetFreelancePlatformBalanceAsync();
 
-            var responseId = await this.freelancePlatformManager.ContractManager.AddAsync(offerId);
+            var responseId = await this.freelancePlatform.ContractManager.AddAsync(offerId);
 
-            await this.freelancePlatformManager.OfferManager.AcceptOffer(offerId);
-            await this.freelancePlatformManager.BalanceManager.TransferMoneyAsync(currentUserBalance, freelancePlatformBalance, offerId);
-            await this.freelancePlatformManager.JobManager.SetJobStatus(JobStatus.InContract, jobId);
+            await this.freelancePlatform.OfferManager.AcceptOffer(offerId);
+            await this.freelancePlatform.BalanceManager.TransferMoneyAsync(currentUserBalance, freelancePlatformBalance, offerId);
+            await this.freelancePlatform.JobManager.SetJobStatus(JobStatus.InContract, jobId);
 
             return this.Redirect($"/Contract?id={responseId}");
         }

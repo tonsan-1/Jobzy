@@ -10,16 +10,16 @@
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
 
-    public class JobController : Controller
+    public class JobController : BaseController
     {
-        private readonly IFreelancePlatformManager freelancePlatformManager;
+        private readonly IFreelancePlatform freelancePlatform;
         private readonly UserManager<ApplicationUser> userManager;
 
         public JobController(
-            IFreelancePlatformManager freelancePlatformManager,
+            IFreelancePlatform freelancePlatform,
             UserManager<ApplicationUser> userManager)
         {
-            this.freelancePlatformManager = freelancePlatformManager;
+            this.freelancePlatform = freelancePlatform;
             this.userManager = userManager;
         }
 
@@ -27,7 +27,7 @@
         [Authorize(Roles = "Administrator, Freelancer")]
         public IActionResult GetAllJobs()
         {
-            var jobs = this.freelancePlatformManager.JobManager.GetAllJobPosts();
+            var jobs = this.freelancePlatform.JobManager.GetAllJobPosts();
 
             return this.View(jobs);
         }
@@ -36,7 +36,7 @@
         [Authorize(Roles = "Administrator, Freelancer, Employer")]
         public IActionResult GetJob(string id)
         {
-            var job = this.freelancePlatformManager.JobManager.GetJobById(id);
+            var job = this.freelancePlatform.JobManager.GetJobById(id);
 
             return this.View(job);
         }
@@ -47,7 +47,7 @@
         {
             var user = await this.userManager.GetUserAsync(this.User);
 
-            var jobs = this.freelancePlatformManager.JobManager.GetAllUserJobPosts(user.Id);
+            var jobs = this.freelancePlatform.JobManager.GetAllUserJobPosts(user.Id);
 
             return this.View(jobs);
         }
@@ -72,7 +72,7 @@
                 return this.Forbid();
             }
 
-            await this.freelancePlatformManager.JobManager.AddAsync(input, currentUser);
+            await this.freelancePlatform.JobManager.AddAsync(input, currentUser);
             return this.Redirect("/");
         }
     }
