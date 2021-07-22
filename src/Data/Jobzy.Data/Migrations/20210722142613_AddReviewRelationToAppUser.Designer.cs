@@ -4,14 +4,16 @@ using Jobzy.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Jobzy.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210722142613_AddReviewRelationToAppUser")]
+    partial class AddReviewRelationToAppUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -96,6 +98,9 @@ namespace Jobzy.Data.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("IsVerified")
+                        .HasColumnType("bit");
+
                     b.Property<int>("Location")
                         .HasColumnType("int");
 
@@ -135,10 +140,6 @@ namespace Jobzy.Data.Migrations
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("TagName")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
 
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
@@ -224,6 +225,46 @@ namespace Jobzy.Data.Migrations
                     b.ToTable("Contracts");
                 });
 
+            modelBuilder.Entity("Jobzy.Data.Models.EmployerTag", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("EmployerId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EmployerId");
+
+                    b.ToTable("EmployerTags");
+                });
+
+            modelBuilder.Entity("Jobzy.Data.Models.FreelancerTag", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("FreelancerId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FreelancerId");
+
+                    b.ToTable("FreelancerTags");
+                });
+
             modelBuilder.Entity("Jobzy.Data.Models.Job", b =>
                 {
                     b.Property<string>("Id")
@@ -266,6 +307,26 @@ namespace Jobzy.Data.Migrations
                     b.HasIndex("EmployerId");
 
                     b.ToTable("Jobs");
+                });
+
+            modelBuilder.Entity("Jobzy.Data.Models.JobTag", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("JobId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("JobId");
+
+                    b.ToTable("JobTags");
                 });
 
             modelBuilder.Entity("Jobzy.Data.Models.Offer", b =>
@@ -536,6 +597,24 @@ namespace Jobzy.Data.Migrations
                     b.Navigation("Offer");
                 });
 
+            modelBuilder.Entity("Jobzy.Data.Models.EmployerTag", b =>
+                {
+                    b.HasOne("Jobzy.Data.Models.Employer", "Employer")
+                        .WithMany("EmployerTags")
+                        .HasForeignKey("EmployerId");
+
+                    b.Navigation("Employer");
+                });
+
+            modelBuilder.Entity("Jobzy.Data.Models.FreelancerTag", b =>
+                {
+                    b.HasOne("Jobzy.Data.Models.Freelancer", "Freelancer")
+                        .WithMany("FreelancerTags")
+                        .HasForeignKey("FreelancerId");
+
+                    b.Navigation("Freelancer");
+                });
+
             modelBuilder.Entity("Jobzy.Data.Models.Job", b =>
                 {
                     b.HasOne("Jobzy.Data.Models.Employer", "Employer")
@@ -545,6 +624,15 @@ namespace Jobzy.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("Employer");
+                });
+
+            modelBuilder.Entity("Jobzy.Data.Models.JobTag", b =>
+                {
+                    b.HasOne("Jobzy.Data.Models.Job", "Job")
+                        .WithMany("JobTags")
+                        .HasForeignKey("JobId");
+
+                    b.Navigation("Job");
                 });
 
             modelBuilder.Entity("Jobzy.Data.Models.Offer", b =>
@@ -646,6 +734,8 @@ namespace Jobzy.Data.Migrations
                 {
                     b.Navigation("Contracts");
 
+                    b.Navigation("JobTags");
+
                     b.Navigation("Offers");
                 });
 
@@ -653,12 +743,16 @@ namespace Jobzy.Data.Migrations
                 {
                     b.Navigation("Contracts");
 
+                    b.Navigation("EmployerTags");
+
                     b.Navigation("Jobs");
                 });
 
             modelBuilder.Entity("Jobzy.Data.Models.Freelancer", b =>
                 {
                     b.Navigation("Contracts");
+
+                    b.Navigation("FreelancerTags");
 
                     b.Navigation("Offers");
                 });

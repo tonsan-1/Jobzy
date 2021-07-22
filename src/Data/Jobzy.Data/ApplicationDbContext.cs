@@ -28,21 +28,17 @@
 
         public DbSet<Job> Jobs { get; set; }
 
-        public DbSet<JobTag> JobTags { get; set; }
-
         public DbSet<Freelancer> Freelancers { get; set; }
 
-        public DbSet<FreelancerTag> FreelancerTags { get; set; }
-
         public DbSet<Employer> Employers { get; set; }
-
-        public DbSet<EmployerTag> EmployerTags { get; set; }
 
         public DbSet<Offer> Offers { get; set; }
 
         public DbSet<Balance> Balances { get; set; }
 
         public DbSet<Contract> Contracts { get; set; }
+
+        public DbSet<Review> Reviews { get; set; }
 
         public DbSet<Setting> Settings { get; set; }
 

@@ -44,7 +44,5 @@
         public virtual List<Contract> Contracts { get; set; } = new List<Contract>();
 
         public virtual List<Offer> Offers { get; set; } = new List<Offer>();
-
-        public virtual List<JobTag> JobTags { get; set; } = new List<JobTag>();
     }
 }

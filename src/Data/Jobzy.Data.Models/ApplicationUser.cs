@@ -18,14 +18,15 @@ namespace Jobzy.Data.Models
             this.Roles = new HashSet<IdentityUserRole<string>>();
             this.Claims = new HashSet<IdentityUserClaim<string>>();
             this.Logins = new HashSet<IdentityUserLogin<string>>();
+            this.Reviews = new List<Review>();
         }
 
         [Required]
         [MaxLength(100)]
         public string Name { get; set; }
 
-        [Range(0, 5)]
-        public double Rating { get; set; }
+        [MaxLength(100)]
+        public string TagName { get; set; }
 
         [Required]
         public virtual Balance Balance { get; set; }
@@ -34,8 +35,6 @@ namespace Jobzy.Data.Models
         public string Description { get; set; }
 
         public Country Location { get; set; }
-
-        public bool IsVerified { get; set; }
 
         public string ProfileImageUrl { get; set; }
 
@@ -48,6 +47,8 @@ namespace Jobzy.Data.Models
         public bool IsDeleted { get; set; }
 
         public DateTime? DeletedOn { get; set; }
+
+        public virtual ICollection<Review> Reviews { get; set; }
 
         public virtual ICollection<IdentityUserRole<string>> Roles { get; set; }
 

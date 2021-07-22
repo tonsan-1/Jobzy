@@ -8,8 +8,6 @@
 
         public virtual List<Offer> Offers { get; set; } = new List<Offer>();
 
-        public virtual List<FreelancerTag> FreelancerTags { get; set; } = new List<FreelancerTag>();
-
         // implement more properties such as
         // Jobs Done, Job Success, Recommendation percentage, Skills, Attachments, Work History
     }
