@@ -43,8 +43,4 @@
     <ProjectReference Include="..\Jobzy.Web.Infrastructure\Jobzy.Web.Infrastructure.csproj" />
     <ProjectReference Include="..\Jobzy.Web.ViewModels\Jobzy.Web.ViewModels.csproj" />
   </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Views\Profile\" />
-  </ItemGroup>
 </Project>

@@ -4,6 +4,10 @@
 @inject SignInManager<ApplicationUser> signInManager
 @inject UserManager<ApplicationUser> userManager
 
+@{
+    var user = await userManager.GetUserAsync(this.User);
+}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -65,7 +69,21 @@
                                                         <li><a href="freelancers-list-layout-2.html">List Layout 2</a></li>
                                                     </ul>
                                                 </li>
-                                                <li><a asp-action="Add" asp-controller="Job">Add a Job</a></li>
+                                                <li>
+                                                    <a asp-action="Add" asp-controller="Job">Add a Job</a>
+                                                </li>
+                                            </ul>
+                                        </li>
+
+                                        <li>
+                                            <a href="#">Profile</a>
+                                            <ul class="dropdown-nav">
+                                                <li>
+                                                    <a asp-action="GetEmployer" asp-controller="Profile" asp-route-id="@user.Id" >My Profile</a>
+                                                </li>
+                                                <li>
+                                                    <a asp-action="Settings" asp-controller="Profile">Settings</a>
+                                                </li>
                                             </ul>
                                         </li>
                                     }
@@ -116,9 +134,9 @@
                                             <div class="user-details ">
                                                 <div class="user-avatar status-invisible"><img src="~/images/user-avatar-small-01.jpg" alt=""></div>
                                                 <div class="user-name d-flex flex-column align-items-center">
-                                                      @fullName
+                                                    @fullName
                                                     <span class="dashboard-status-button green margin-top-10 margin-right-10">
-                                                     $@user.Balance.Money
+                                                        $@user.Balance.Money
                                                     </span>
                                                 </div>
                                             </div>

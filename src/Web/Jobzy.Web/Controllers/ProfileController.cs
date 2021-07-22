@@ -17,13 +17,23 @@
         [Authorize(Roles = "Administrator, Freelancer, Employer")]
         public IActionResult GetEmployer(string id)
         {
+            if (id is null)
+            {
+                return this.View("Error");
+            }
+
             return this.View();
         }
 
-        [Route("/Profile/Employer/")]
+        [Route("/Profile/Freelancer/")]
         [Authorize(Roles = "Administrator, Freelancer, Employer")]
         public IActionResult GetFreelancer(string id)
         {
+            if (id is null)
+            {
+                return this.View("Error");
+            }
+
             return this.View();
         }
     }
