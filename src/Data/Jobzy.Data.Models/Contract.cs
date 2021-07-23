@@ -13,6 +13,8 @@
 
         public DateTime CreatedOn { get; set; } = DateTime.UtcNow;
 
+        public DateTime CompletedOn { get; set; }
+
         [Required]
         public string FreelancerId { get; set; }
 

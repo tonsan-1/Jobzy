@@ -49,13 +49,13 @@
             if (action == "complete")
             {
                 await this.freelancePlatform.BalanceManager.TransferMoneyAsync(freelancePlatformBudget, freelancerBudget, offerId);
-                await this.freelancePlatform.ContractManager.CompleteContract(contractId);
+                await this.freelancePlatform.ContractManager.SetContractStatus(ContractStatus.Finished, contractId);
                 await this.freelancePlatform.JobManager.SetJobStatus(JobStatus.Closed, jobId);
             }
             else if (action == "cancel")
             {
                 await this.freelancePlatform.BalanceManager.TransferMoneyAsync(freelancePlatformBudget, currentUserBudget, offerId);
-                await this.freelancePlatform.ContractManager.CancelContract(contractId);
+                await this.freelancePlatform.ContractManager.SetContractStatus(ContractStatus.Canceled, contractId);
                 await this.freelancePlatform.JobManager.SetJobStatus(JobStatus.Open, jobId);
             }
 

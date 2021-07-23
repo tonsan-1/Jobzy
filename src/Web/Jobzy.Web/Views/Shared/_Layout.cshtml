@@ -5,7 +5,7 @@
 @inject UserManager<ApplicationUser> userManager
 
 @{
-    var user = await userManager.GetUserAsync(this.User);
+    var user = await this.userManager.GetUserAsync(this.User);
 }
 
 <!DOCTYPE html>
@@ -54,6 +54,18 @@
                                                 </li>
                                             </ul>
                                         </li>
+
+                                        <li>
+                                            <a href="#">Profile</a>
+                                            <ul class="dropdown-nav">
+                                                <li>
+                                                    <a asp-action="GetFreelancer" asp-controller="Profile" asp-route-id="@user.Id">My Profile</a>
+                                                </li>
+                                                <li>
+                                                    <a asp-action="Settings" asp-controller="Profile">Settings</a>
+                                                </li>
+                                            </ul>
+                                        </li>
                                     }
                                     @if (this.User.IsInRole("Employer"))
                                     {
@@ -79,7 +91,7 @@
                                             <a href="#">Profile</a>
                                             <ul class="dropdown-nav">
                                                 <li>
-                                                    <a asp-action="GetEmployer" asp-controller="Profile" asp-route-id="@user.Id" >My Profile</a>
+                                                    <a asp-action="GetEmployer" asp-controller="Profile" asp-route-id="@user.Id">My Profile</a>
                                                 </li>
                                                 <li>
                                                     <a asp-action="Settings" asp-controller="Profile">Settings</a>
@@ -110,7 +122,6 @@
                     <div class="right-side">
                         @if (this.signInManager.IsSignedIn(User))
                         {
-                            var user = await userManager.GetUserAsync(User);
                             var fullName = user.Name;
                             var username = user.UserName;
                             var role = User.IsInRole("Freelancer") ? "Freelancer" : "Employer";

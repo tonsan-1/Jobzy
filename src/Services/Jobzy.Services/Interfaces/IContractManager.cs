@@ -2,7 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
-
+    using Jobzy.Common;
     using Jobzy.Web.ViewModels.Contracts;
 
     public interface IContractManager
@@ -13,8 +13,6 @@
 
         IEnumerable<UserContractsListViewModel> GetAllUserContracts(string userId);
 
-        Task CompleteContract(string id);
-
-        Task CancelContract(string id);
+        Task SetContractStatus(ContractStatus status, string contractId);
     }
 }

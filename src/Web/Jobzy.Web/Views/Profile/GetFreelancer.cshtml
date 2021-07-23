@@ -1,4 +1,15 @@
-﻿<!-- Titlebar
+﻿@using Jobzy.Web.ViewModels.Profiles.Freelancers
+@using Jobzy.Data.Models
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> signInManager
+@inject UserManager<ApplicationUser> userManager
+@model FreelancerViewModel
+
+@{
+    var user = await userManager.GetUserAsync(this.User);
+}
+
+<!-- Titlebar
 ================================================== -->
 <div class="single-page-header freelancer-header" data-background-image="/images/single-freelancer.jpg">
     <div class="container">
@@ -8,11 +19,28 @@
                     <div class="left-side">
                         <div class="header-image freelancer-avatar"><img src="/images/user-avatar-big-02.jpg" alt=""></div>
                         <div class="header-details">
-                            <h3>David Peterson <span>iOS Expert + Node Dev</span></h3>
+                            <h3>
+                                @Model.Name
+
+                                @if (Model.TagName is null && Model.Id == user.Id)
+                                {
+                                    <span><a asp-action="Settings" asp-controller="Profile">Add</a> a tag name</span>
+                                }
+                                else
+                                {
+                                    <span>@Model.TagName</span>
+                                }
+                            </h3>
                             <ul>
-                                <li><div class="star-rating" data-rating="5.0"></div></li>
-                                <li><img class="flag" src="images/flags/de.svg" alt=""> Germany</li>
-                                <li><div class="verified-badge-with-title">Verified</div></li>
+                                @if (Model.Reviews.Count > 0)
+                                {
+                                    <li><div class="star-rating" data-rating="@Model.AverageRating"></div></li>
+                                }
+                                else
+                                {
+                                    <li><div class="not-rated">Not rated yet</div></li>
+                                }
+                                <li><img class="flag" src="/images/flags/@(Model.Location).svg" alt=""> @Model.LocationToString</li>
                             </ul>
                         </div>
                     </div>
@@ -34,78 +62,100 @@
             <!-- Page Content -->
             <div class="single-page-section">
                 <h3 class="margin-bottom-25">About Me</h3>
-                <p>Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall value proposition. Organically grow the holistic world view of disruptive innovation via workplace diversity and empowerment.</p>
-
-                <p>Capitalize on low hanging fruit to identify a ballpark value added activity to beta test. Override the digital divide with additional clickthroughs from DevOps. Nanotechnology immersion along the information highway will close the loop on focusing solely on the bottom line.</p>
+                @if (Model.Description is null && Model.Id == user.Id)
+                {
+                    <p class="not-verified-badge"><a asp-action="Settings" asp-controller="Profile">Add</a> a description.</p>
+                }
+                else
+                {
+                    <p>@(Model.Description is not null ? Model.Description : "No description yet.")</p>
+                }
             </div>
 
             <!-- Boxed List -->
             <div class="boxed-list margin-bottom-60">
-                <div class="boxed-list-headline">
-                    <h3><i class="icon-material-outline-thumb-up"></i> Work History and Feedback</h3>
-                </div>
-                <ul class="boxed-list-ul">
-                    <li>
-                        <div class="boxed-list-item">
-                            <!-- Content -->
-                            <div class="item-content">
-                                <h4>Web, Database and API Developer <span>Rated as Freelancer</span></h4>
-                                <div class="item-details margin-top-10">
-                                    <div class="star-rating" data-rating="5.0"></div>
-                                    <div class="detail-item"><i class="icon-material-outline-date-range"></i> August 2019</div>
+                @if (Model.Reviews.Count > 0)
+                {
+                    <div class="boxed-list-headline">
+                        <h3><i class="icon-material-outline-thumb-up"></i> Reviews</h3>
+                    </div>
+                    <ul class="boxed-list-ul">
+
+                        @foreach (var review in Model.Reviews)
+                        {
+                            <li>
+                                <div class="boxed-list-item">
+                                    <!-- Content -->
+                                    <div class="item-content">
+                                        <h4>@review.Title <span>@(review.ReviewerName is null ? "Annonymous" : review.ReviewerName)</span></h4>
+                                        <div class="item-details margin-top-10">
+                                            <div class="star-rating" data-rating="@review.Rating"></div>
+                                            <div class="detail-item"><i class="icon-material-outline-date-range"></i> @review.DateFormatted</div>
+                                        </div>
+                                        <div class="item-description">
+                                            <p>@review.Description</p>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="item-description">
-                                    <p>Excellent programmer - fully carried out my project in a very professional manner. </p>
-                                </div>
-                            </div>
+                            </li>
+                        }
+                    </ul>
+
+                    @if (Model.Id != user.Id)
+                    {
+                        <div class="centered-button margin-top-35">
+                            <a href="#small-dialog" class="popup-with-zoom-anim button button-sliding-icon">Leave a Review <i class="icon-material-outline-arrow-right-alt"></i></a>
                         </div>
-                    </li>
-                </ul>
-
-                <!-- Pagination -->
-                <div class="clearfix"></div>
-                <div class="pagination-container margin-top-40 margin-bottom-10">
-                    <nav class="pagination">
-                        <ul>
-                            <li><a href="#" class="ripple-effect current-page">1</a></li>
-                            <li><a href="#" class="ripple-effect">2</a></li>
-                            <li class="pagination-arrow"><a href="#" class="ripple-effect"><i class="icon-material-outline-keyboard-arrow-right"></i></a></li>
-                        </ul>
-                    </nav>
-                </div>
-                <div class="clearfix"></div>
-                <!-- Pagination / End -->
-
+                    }
+                }
+                else
+                {
+                    <div class="boxed-list-headline">
+                        <h3><i class="icon-material-outline-thumb-up"></i>No Reviews</h3>
+                    </div>
+                }
             </div>
+
             <!-- Boxed List / End -->
             <!-- Boxed List -->
             <div class="boxed-list margin-bottom-60">
-                <div class="boxed-list-headline">
-                    <h3><i class="icon-material-outline-business"></i> Employment History</h3>
-                </div>
-                <ul class="boxed-list-ul">
-                    <li>
-                        <div class="boxed-list-item">
-                            <!-- Avatar -->
-                            <div class="item-image">
-                                <img src="images/browse-companies-03.png" alt="">
-                            </div>
+                @if (Model.Contracts.Count > 0)
+                {
+                    <div class="boxed-list-headline">
+                        <h3><i class="icon-material-outline-business"></i> Employment History</h3>
+                    </div>
+                    <ul class="boxed-list-ul">
+                        @foreach (var contract in Model.Contracts)
+                        {
+                            <li>
+                                <div class="boxed-list-item">
+                                    <!-- Avatar -->
+                                    <div class="item-image">
+                                        <img src="/images/browse-companies-03.png" alt="">
+                                    </div>
 
-                            <!-- Content -->
-                            <div class="item-content">
-                                <h4>Development Team Leader</h4>
-                                <div class="item-details margin-top-7">
-                                    <div class="detail-item"><a href="#"><i class="icon-material-outline-business"></i> Acodia</a></div>
-                                    <div class="detail-item"><i class="icon-material-outline-date-range"></i> May 2019 - Present</div>
+                                    <!-- Content -->
+                                    <div class="item-content">
+                                        <h4>@contract.JobTitle</h4>
+                                        <div class="item-details margin-top-7">
+                                            <div class="detail-item"><a asp-action="GetEmployer" asp-controller="Profile" asp-route-id="@contract.EmployerId"><i class="icon-material-outline-business"></i> @contract.EmployerName</a></div>
+                                            <div class="detail-item"><i class="icon-material-outline-date-range"></i> @contract.CreatedOnFormatted - @contract.CompletedOnFormatted</div>
+                                        </div>
+                                        <div class="item-description">
+                                            <p>@contract.JobDescription</p>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="item-description">
-                                    <p>Focus the team on the tasks at hand or the internal and external customer requirements.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-                    
-                </ul>
+                            </li>
+                        }
+                    </ul>
+                }
+                else
+                {
+                    <div class="boxed-list-headline">
+                        <h3><i class="icon-material-outline-business"></i>No Employment History</h3>
+                    </div>
+                }
             </div>
             <!-- Boxed List / End -->
 
@@ -118,31 +168,30 @@
 
                 <!-- Profile Overview -->
                 <div class="profile-overview">
-                    <div class="overview-item"><strong>$35</strong><span>Hourly Rate</span></div>
-                    <div class="overview-item"><strong>53</strong><span>Jobs Done</span></div>
-                    <div class="overview-item"><strong>22</strong><span>Rehired</span></div>
+                    <div class="overview-item"><strong>@Model.JobsDone</strong><span>Jobs Done</span></div>
+                    <div class="overview-item"><strong>@Model.OffersCount</strong><span>Offers Sent</span></div>
                 </div>
 
-                <!-- Button -->
-                <a href="#small-dialog" class="apply-now-button popup-with-zoom-anim margin-bottom-50">Make an Offer <i class="icon-material-outline-arrow-right-alt"></i></a>
+                @if (Model.Id == user.Id)
+                {
+                    <a asp-action="Settings" asp-controller="Profile" class="apply-now-button text-white">Settings</a>
+                }
+                else
+                {
+                    <a href="#small-dialog" class="apply-now-button popup-with-zoom-anim margin-bottom-50">Make an Offer <i class="icon-material-outline-arrow-right-alt"></i></a>
+                }
 
                 <!-- Freelancer Indicators -->
                 <div class="sidebar-widget">
-                    <div class="freelancer-indicators">
+                    <div class="freelancer-indicators ">
 
                         <!-- Indicator -->
                         <div class="indicator">
-                            <strong>88%</strong>
-                            <div class="indicator-bar" data-indicator-percentage="88"><span></span></div>
+                            <strong>@Model.JobSuccess%</strong>
+                            <div class="indicator-bar" data-indicator-percentage="@Model.JobSuccess"><span></span></div>
                             <span>Job Success</span>
                         </div>
 
-                        <!-- Indicator -->
-                        <div class="indicator">
-                            <strong>100%</strong>
-                            <div class="indicator-bar" data-indicator-percentage="100"><span></span></div>
-                            <span>Recommendation</span>
-                        </div>
                     </div>
                 </div>
 

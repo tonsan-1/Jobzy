@@ -1,5 +1,6 @@
 ﻿namespace Jobzy.Services
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -49,23 +50,17 @@
             return contract.Id;
         }
 
-        public async Task CompleteContract(string id)
+        public async Task SetContractStatus(ContractStatus status, string contractId)
         {
             var contract = this.contractRepository.All()
-                .FirstOrDefault(x => x.Id == id);
+                .FirstOrDefault(x => x.Id == contractId);
 
-            contract.Status = ContractStatus.Finished;
+            if (status == ContractStatus.Finished)
+            {
+                contract.CompletedOn = DateTime.UtcNow;
+            }
 
-            this.contractRepository.Update(contract);
-            await this.contractRepository.SaveChangesAsync();
-        }
-
-        public async Task CancelContract(string id)
-        {
-            var contract = this.contractRepository.All()
-                .FirstOrDefault(x => x.Id == id);
-
-            contract.Status = ContractStatus.Canceled;
+            contract.Status = status;
 
             this.contractRepository.Update(contract);
             await this.contractRepository.SaveChangesAsync();

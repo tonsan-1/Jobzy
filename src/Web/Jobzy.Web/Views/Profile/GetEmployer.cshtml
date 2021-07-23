@@ -26,10 +26,6 @@
                                 {
                                     <span><a asp-action="Settings" asp-controller="Profile">Add</a> a tag name</span>
                                 }
-                                else if (Model.TagName is null)
-                                {
-                                    <span>No tag yet</span>
-                                }
                                 else
                                 {
                                     <span>@Model.TagName</span>
@@ -78,13 +74,13 @@
 
             <!-- Boxed List -->
             <div class="boxed-list margin-bottom-60">
-                <div class="boxed-list-headline">
-                    <h3><i class="icon-material-outline-business-center"></i> Open Positions</h3>
-                </div>
+                @if (Model.OpenJobs.Count > 0)
+                {
+                    <div class="boxed-list-headline">
+                        <h3><i class="icon-material-outline-business-center"></i> Open Positions</h3>
+                    </div>
 
-                <div class="listings-container compact-list-layout">
-                    @if (Model.OpenJobs.Count > 0)
-                    {
+                    <div class="listings-container compact-list-layout">
                         @foreach (var job in Model.OpenJobs)
                         {
                             <!-- Job Listing -->
@@ -113,26 +109,16 @@
                                 <span class="bookmark-icon"></span>
                             </a>
                         }
-                    }
-                    else
-                    {
-                        <!-- Job Listing -->
-                        <div class="job-listing">
-
-                            <!-- Job Listing Details -->
-                            <div class="job-listing-details">
-
-                                <!-- Details -->
-                                <div class="job-listing-description">
-                                    <h3 class="job-listing-title">Currently, this employer doesn't have any open jobs.</h3>
-                                </div>
-                            </div>
-                        </div>
-                    }
-                </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="boxed-list-headline">
+                        <h3><i class="icon-material-outline-business-center"></i>No Open Positions</h3>
+                    </div>
+                }
             </div>
             <!-- Boxed List / End -->
-
             <!-- Boxed List -->
             <div class="boxed-list margin-bottom-60">
                 <div class="boxed-list-headline">
@@ -181,6 +167,11 @@
         <!-- Sidebar -->
         <div class="col-xl-4 col-lg-4">
             <div class="sidebar-container">
+                @if (Model.Id == user.Id)
+                {
+                    <!-- Button -->
+                    <a asp-action="Settings" asp-controller="Profile" class="apply-now-button text-white">Settings</a>
+                }
                 <!-- Widget -->
                 <div class="sidebar-widget">
                     <h3>Social Profiles</h3>
