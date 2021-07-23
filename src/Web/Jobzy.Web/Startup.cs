@@ -72,6 +72,7 @@
             services.AddTransient<IBalanceManager, BalanceManager>();
             services.AddTransient<IOfferManager, OfferManager>();
             services.AddTransient<IContractManager, ContractManager>();
+            services.AddTransient<IProfileManager, ProfileManager>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

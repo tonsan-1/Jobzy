@@ -9,5 +9,7 @@
         IOfferManager OfferManager { get; }
 
         IContractManager ContractManager { get; }
+
+        IProfileManager ProfileManager { get; }
     }
 }

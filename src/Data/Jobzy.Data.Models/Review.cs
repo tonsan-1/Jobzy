@@ -19,9 +19,11 @@
         [Range(1, 5)]
         public double Rating { get; set; }
 
-        [Required]
-        public string ReviewerId { get; set; }
+        public string ReviewerName { get; set; }
 
-        public virtual ApplicationUser Reviewer { get; set; }
+        [Required]
+        public string UserId { get; set; }
+
+        public virtual ApplicationUser User { get; set; }
     }
 }

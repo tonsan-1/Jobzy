@@ -8,12 +8,14 @@
             IJobManager jobManager,
             IBalanceManager balanceManager,
             IOfferManager offerManager,
-            IContractManager contractManager)
+            IContractManager contractManager,
+            IProfileManager profileManager)
         {
             this.JobManager = jobManager;
             this.BalanceManager = balanceManager;
             this.OfferManager = offerManager;
             this.ContractManager = contractManager;
+            this.ProfileManager = profileManager;
         }
 
         public IJobManager JobManager { get; }
@@ -23,5 +25,7 @@
         public IOfferManager OfferManager { get; }
 
         public IContractManager ContractManager { get; }
+
+        public IProfileManager ProfileManager { get; }
     }
 }

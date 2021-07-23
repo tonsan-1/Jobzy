@@ -8,6 +8,8 @@
     {
         private readonly IFreelancePlatform freelancePlatform;
 
+        //add rolemanager to check user id before giving it to the manager
+
         public ProfileController(IFreelancePlatform freelancePlatform)
         {
             this.freelancePlatform = freelancePlatform;
@@ -22,7 +24,9 @@
                 return this.View("Error");
             }
 
-            return this.View();
+            var employer = this.freelancePlatform.ProfileManager.GetEmployer(id);
+
+            return this.View(employer);
         }
 
         [Route("/Profile/Freelancer/")]
