@@ -18,75 +18,62 @@
 
                 <div asp-validation-summary="All" class="text-danger"></div>
 
-                @if (!Model.Input.HasStripeAccount)
-                {
-                    <div class="d-flex justify-content-center align-items-center margin-bottom-30">
-                        <a role="button" href="@GlobalConstants.StripeTestOAuthLink" class="button ripple-effect">Connect to Stripe</a>
-                    </div>
-                }
-                else
-                {
-                    <div class="d-flex justify-content-center align-items-center margin-bottom-30">
-                        <button disabled class="button bg-secondary text-white">Connected to Stripe</button>
-                    </div>
-                }
-
                 <!-- Form -->
-                <form asp-route-returnUrl="@Model.ReturnUrl" method="post" id="register-form">
-                    <div class="account-type">
-                        <div>
-                            <input asp-for="Input.UserType" value="@UserType.Freelancer" type="radio" id="freelancer-radio" class="account-type-radio" />
-                            <label asp-for="Input.UserType" for="freelancer-radio" class="ripple-effect-dark"><i class="icon-material-outline-account-circle"></i> Freelancer</label>
-                        </div>
-
-                        <div>
-                            <input asp-for="Input.UserType" value="@UserType.Employer" type="radio" id="employer-radio" class="account-type-radio" />
-                            <label asp-for="Input.UserType" for="employer-radio" class="ripple-effect-dark"><i class="icon-material-outline-business-center"></i> Employer</label>
-                        </div>
+            <form asp-route-returnUrl="@Model.ReturnUrl" method="post" id="register-form">
+                <div class="account-type">
+                    <div>
+                        <input asp-for="Input.UserType" value="@UserType.Freelancer" type="radio" id="freelancer-radio" class="account-type-radio" />
+                        <label asp-for="Input.UserType" for="freelancer-radio" class="ripple-effect-dark"><i class="icon-material-outline-account-circle"></i> Freelancer</label>
                     </div>
 
-                    <div class="input-with-icon-left">
-                        <select asp-for="Input.Location" asp-items="Html.GetEnumSelectList<Country>()" class="location-select dropdown with-border" data-size="5" title="Select Your Location">
-                            <option value="0">Select Your Location</option>
-                        </select>
-                        <span asp-validation-for="Input.Location" class="text-danger"></span>
+                    <div>
+                        <input asp-for="Input.UserType" value="@UserType.Employer" type="radio" id="employer-radio" class="account-type-radio" />
+                        <label asp-for="Input.UserType" for="employer-radio" class="ripple-effect-dark"><i class="icon-material-outline-business-center"></i> Employer</label>
                     </div>
+                </div>
 
-                    <div class="input-with-icon-left">
-                        <i class="icon-material-outline-account-circle"></i>
-                        <input asp-for="Input.Name" type="text" class="input-text with-border" placeholder="Full Name" required />
-                        <span asp-validation-for="Input.Name" class="text-danger"></span>
-                    </div>
+                <div class="input-with-icon-left">
+                    <select asp-for="Input.Location" asp-items="Html.GetEnumSelectList<Country>()" class="location-select dropdown with-border" data-size="5" title="Select Your Location">
+                        <option value="0">Select Your Location</option>
+                    </select>
+                    <span asp-validation-for="Input.Location" class="text-danger"></span>
+                </div>
 
-
-                    <div class="input-with-icon-left">
-                        <i class="icon-material-outline-account-circle"></i>
-                        <input asp-for="Input.Username" type="text" class="input-text with-border" placeholder="Username" required />
-                        <span asp-validation-for="Input.Username" class="text-danger"></span>
-                    </div>
-
-
-                    <div class="input-with-icon-left">
-                        <i class="icon-material-baseline-mail-outline"></i>
-                        <input asp-for="Input.Email" type="text" class="input-text with-border" placeholder="Email Address" required />
-                        <span asp-validation-for="Input.Email" class="text-danger"></span>
-                    </div>
-
-                    <div class="input-with-icon-left" title="Should be at least 8 characters long" data-tippy-placement="bottom">
-                        <i class="icon-material-outline-lock"></i>
-                        <input asp-for="Input.Password" type="password" class="input-text with-border" placeholder="Password" required />
-                        <span asp-validation-for="Input.Password" class="text-danger"></span>
-                    </div>
+                <div class="input-with-icon-left">
+                    <i class="icon-material-outline-account-circle"></i>
+                    <input asp-for="Input.Name" type="text" class="input-text with-border" placeholder="Full Name" required />
+                    <span asp-validation-for="Input.Name" class="text-danger"></span>
+                </div>
 
 
-                    <div class="input-with-icon-left">
-                        <i class="icon-material-outline-lock"></i>
-                        <input asp-for="Input.ConfirmPassword" type="password" class="input-text with-border" placeholder="Repeat Password" required />
-                        <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
-                    </div>
+                <div class="input-with-icon-left">
+                    <i class="icon-material-outline-account-circle"></i>
+                    <input asp-for="Input.Username" type="text" class="input-text with-border" placeholder="Username" required />
+                    <span asp-validation-for="Input.Username" class="text-danger"></span>
+                </div>
 
-                    <button class="button full-width button-sliding-icon ripple-effect margin-top-10" type="submit" form="register-form">Register <i class="icon-material-outline-arrow-right-alt"></i></button>
-                </form>
+
+                <div class="input-with-icon-left">
+                    <i class="icon-material-baseline-mail-outline"></i>
+                    <input asp-for="Input.Email" type="text" class="input-text with-border" placeholder="Email Address" required />
+                    <span asp-validation-for="Input.Email" class="text-danger"></span>
+                </div>
+
+                <div class="input-with-icon-left" title="Should be at least 8 characters long" data-tippy-placement="bottom">
+                    <i class="icon-material-outline-lock"></i>
+                    <input asp-for="Input.Password" type="password" class="input-text with-border" placeholder="Password" required />
+                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+                </div>
+
+
+                <div class="input-with-icon-left">
+                    <i class="icon-material-outline-lock"></i>
+                    <input asp-for="Input.ConfirmPassword" type="password" class="input-text with-border" placeholder="Repeat Password" required />
+                    <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                </div>
+
+                <button class="button full-width button-sliding-icon ripple-effect margin-top-10" type="submit" form="register-form">Register <i class="icon-material-outline-arrow-right-alt"></i></button>
+            </form>
 
                 <!-- Button -->
                 <!-- Social Login -->

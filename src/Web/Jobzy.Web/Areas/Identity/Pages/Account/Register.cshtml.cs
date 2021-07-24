@@ -87,20 +87,10 @@
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The Password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
-
-            [Display(Name = "Connect to Stripe")]
-            public bool HasStripeAccount { get; set; }
         }
 
         public async Task OnGetAsync(string code)
         {
-            this.Input = new InputModel { HasStripeAccount = false };
-
-            if (code != null)
-            {
-                this.Input.HasStripeAccount = true;
-            }
-
             this.ExternalLogins = (await this._signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
 
@@ -126,8 +116,7 @@
                 }
 
                 var account =
-                    this.freelancePlatform.StripeAccountManager.CreateAccount(
-                        this.Input.Name, this.Input.Email, this.Input.Location);
+                    this.freelancePlatform.StripeAccountManager.CreateAccount(this.Input.Name, this.Input.Email);
 
                 user.Id = account.Id;
                 user.Name = this.Input.Name;
@@ -144,12 +133,12 @@
                 {
                     this._logger.LogInformation("User created a new account with password.");
 
-                    var code = await this._userManager.GenerateEmailConfirmationTokenAsync(user);
-                    code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+                    var codeToken = await this._userManager.GenerateEmailConfirmationTokenAsync(user);
+                    codeToken = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(codeToken));
                     var callbackUrl = this.Url.Page(
                         "/Account/ConfirmEmail",
                         pageHandler: null,
-                        values: new { area = "Identity", userId = user.Id, code = code, returnUrl = returnUrl },
+                        values: new { area = "Identity", userId = user.Id, code = codeToken, returnUrl = returnUrl },
                         protocol: this.Request.Scheme);
 
                     await this._emailSender.SendEmailAsync(this.Input.Email, "Confirm your email",
