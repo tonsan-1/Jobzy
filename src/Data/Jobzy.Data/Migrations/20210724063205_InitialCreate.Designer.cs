@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Jobzy.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210720105654_AddHasContractBoolToJob")]
-    partial class AddHasContractBoolToJob
+    [Migration("20210724063205_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -98,9 +98,6 @@ namespace Jobzy.Data.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("IsVerified")
-                        .HasColumnType("bit");
-
                     b.Property<int>("Location")
                         .HasColumnType("int");
 
@@ -138,11 +135,12 @@ namespace Jobzy.Data.Migrations
                     b.Property<string>("ProfileImageUrl")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double>("Rating")
-                        .HasColumnType("float");
-
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TagName")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
@@ -193,6 +191,9 @@ namespace Jobzy.Data.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<DateTime>("CompletedOn")
+                        .HasColumnType("datetime2");
+
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
@@ -201,6 +202,10 @@ namespace Jobzy.Data.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("FreelancerId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("JobId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
@@ -217,49 +222,11 @@ namespace Jobzy.Data.Migrations
 
                     b.HasIndex("FreelancerId");
 
+                    b.HasIndex("JobId");
+
                     b.HasIndex("OfferId");
 
                     b.ToTable("Contracts");
-                });
-
-            modelBuilder.Entity("Jobzy.Data.Models.EmployerTag", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("EmployerId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Text")
-                        .IsRequired()
-                        .HasMaxLength(25)
-                        .HasColumnType("nvarchar(25)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("EmployerId");
-
-                    b.ToTable("EmployerTags");
-                });
-
-            modelBuilder.Entity("Jobzy.Data.Models.FreelancerTag", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("FreelancerId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Text")
-                        .IsRequired()
-                        .HasMaxLength(25)
-                        .HasColumnType("nvarchar(25)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("FreelancerId");
-
-                    b.ToTable("FreelancerTags");
                 });
 
             modelBuilder.Entity("Jobzy.Data.Models.Job", b =>
@@ -269,9 +236,6 @@ namespace Jobzy.Data.Migrations
 
                     b.Property<decimal>("Budget")
                         .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("ContractId")
-                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("DatePosted")
                         .HasColumnType("datetime2");
@@ -285,12 +249,6 @@ namespace Jobzy.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<bool>("HasContract")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsClosed")
-                        .HasColumnType("bit");
-
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
@@ -300,6 +258,9 @@ namespace Jobzy.Data.Migrations
                     b.Property<int>("JobType")
                         .HasColumnType("int");
 
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -307,31 +268,9 @@ namespace Jobzy.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ContractId");
-
                     b.HasIndex("EmployerId");
 
                     b.ToTable("Jobs");
-                });
-
-            modelBuilder.Entity("Jobzy.Data.Models.JobTag", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("JobId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Text")
-                        .IsRequired()
-                        .HasMaxLength(25)
-                        .HasColumnType("nvarchar(25)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("JobId");
-
-                    b.ToTable("JobTags");
                 });
 
             modelBuilder.Entity("Jobzy.Data.Models.Offer", b =>
@@ -352,7 +291,7 @@ namespace Jobzy.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<bool>("IsDeleted")
+                    b.Property<bool>("IsAccepted")
                         .HasColumnType("bit");
 
                     b.Property<string>("JobId")
@@ -366,6 +305,40 @@ namespace Jobzy.Data.Migrations
                     b.HasIndex("JobId");
 
                     b.ToTable("Offers");
+                });
+
+            modelBuilder.Entity("Jobzy.Data.Models.Review", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("DatePosted")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("Rating")
+                        .HasColumnType("float");
+
+                    b.Property<string>("ReviewerName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Reviews");
                 });
 
             modelBuilder.Entity("Jobzy.Data.Models.Setting", b =>
@@ -550,6 +523,12 @@ namespace Jobzy.Data.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("Jobzy.Data.Models.Job", "Job")
+                        .WithMany("Contracts")
+                        .HasForeignKey("JobId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("Jobzy.Data.Models.Offer", "Offer")
                         .WithMany()
                         .HasForeignKey("OfferId")
@@ -560,51 +539,20 @@ namespace Jobzy.Data.Migrations
 
                     b.Navigation("Freelancer");
 
+                    b.Navigation("Job");
+
                     b.Navigation("Offer");
-                });
-
-            modelBuilder.Entity("Jobzy.Data.Models.EmployerTag", b =>
-                {
-                    b.HasOne("Jobzy.Data.Models.Employer", "Employer")
-                        .WithMany("EmployerTags")
-                        .HasForeignKey("EmployerId");
-
-                    b.Navigation("Employer");
-                });
-
-            modelBuilder.Entity("Jobzy.Data.Models.FreelancerTag", b =>
-                {
-                    b.HasOne("Jobzy.Data.Models.Freelancer", "Freelancer")
-                        .WithMany("FreelancerTags")
-                        .HasForeignKey("FreelancerId");
-
-                    b.Navigation("Freelancer");
                 });
 
             modelBuilder.Entity("Jobzy.Data.Models.Job", b =>
                 {
-                    b.HasOne("Jobzy.Data.Models.Contract", "Contract")
-                        .WithMany()
-                        .HasForeignKey("ContractId");
-
                     b.HasOne("Jobzy.Data.Models.Employer", "Employer")
                         .WithMany("Jobs")
                         .HasForeignKey("EmployerId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("Contract");
-
                     b.Navigation("Employer");
-                });
-
-            modelBuilder.Entity("Jobzy.Data.Models.JobTag", b =>
-                {
-                    b.HasOne("Jobzy.Data.Models.Job", "Job")
-                        .WithMany("JobTags")
-                        .HasForeignKey("JobId");
-
-                    b.Navigation("Job");
                 });
 
             modelBuilder.Entity("Jobzy.Data.Models.Offer", b =>
@@ -624,6 +572,17 @@ namespace Jobzy.Data.Migrations
                     b.Navigation("Freelancer");
 
                     b.Navigation("Job");
+                });
+
+            modelBuilder.Entity("Jobzy.Data.Models.Review", b =>
+                {
+                    b.HasOne("Jobzy.Data.Models.ApplicationUser", "User")
+                        .WithMany("Reviews")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -686,12 +645,14 @@ namespace Jobzy.Data.Migrations
 
                     b.Navigation("Logins");
 
+                    b.Navigation("Reviews");
+
                     b.Navigation("Roles");
                 });
 
             modelBuilder.Entity("Jobzy.Data.Models.Job", b =>
                 {
-                    b.Navigation("JobTags");
+                    b.Navigation("Contracts");
 
                     b.Navigation("Offers");
                 });
@@ -700,16 +661,12 @@ namespace Jobzy.Data.Migrations
                 {
                     b.Navigation("Contracts");
 
-                    b.Navigation("EmployerTags");
-
                     b.Navigation("Jobs");
                 });
 
             modelBuilder.Entity("Jobzy.Data.Models.Freelancer", b =>
                 {
                     b.Navigation("Contracts");
-
-                    b.Navigation("FreelancerTags");
 
                     b.Navigation("Offers");
                 });

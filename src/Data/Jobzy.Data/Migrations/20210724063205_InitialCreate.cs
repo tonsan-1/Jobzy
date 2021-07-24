@@ -31,17 +31,15 @@ namespace Jobzy.Data.Migrations
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Rating = table.Column<int>(type: "int", nullable: false),
+                    TagName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", maxLength: 4096, nullable: true),
-                    Location = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    IsVerified = table.Column<bool>(type: "bit", nullable: false),
+                    Location = table.Column<int>(type: "int", nullable: false),
                     ProfileImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Discriminator = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    HourlyRate = table.Column<int>(type: "int", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -206,58 +204,19 @@ namespace Jobzy.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "EmployerTags",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Text = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
-                    EmployerId = table.Column<string>(type: "nvarchar(450)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_EmployerTags", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_EmployerTags_AspNetUsers_EmployerId",
-                        column: x => x.EmployerId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "FreelancerTags",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Text = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
-                    FreelancerId = table.Column<string>(type: "nvarchar(450)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_FreelancerTags", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_FreelancerTags_AspNetUsers_FreelancerId",
-                        column: x => x.FreelancerId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Jobs",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    EmployerId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    FreelancerId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    EmployerId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Title = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Status = table.Column<int>(type: "int", nullable: false),
                     JobType = table.Column<int>(type: "int", nullable: false),
                     JobCategory = table.Column<int>(type: "int", nullable: false),
                     Budget = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", maxLength: 4096, nullable: false),
                     DatePosted = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    IsClosed = table.Column<bool>(type: "bit", nullable: false),
-                    IsPaymentDenied = table.Column<bool>(type: "bit", nullable: false)
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -268,27 +227,54 @@ namespace Jobzy.Data.Migrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Reviews",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DatePosted = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Rating = table.Column<double>(type: "float", nullable: false),
+                    ReviewerName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Reviews", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Jobs_AspNetUsers_FreelancerId",
-                        column: x => x.FreelancerId,
+                        name: "FK_Reviews_AspNetUsers_UserId",
+                        column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "JobTags",
+                name: "Offers",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Text = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
-                    JobId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    AcceptedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IsAccepted = table.Column<bool>(type: "bit", nullable: false),
+                    FixedPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    DeliveryDays = table.Column<int>(type: "int", nullable: false),
+                    FreelancerId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    JobId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_JobTags", x => x.Id);
+                    table.PrimaryKey("PK_Offers", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_JobTags_Jobs_JobId",
+                        name: "FK_Offers_AspNetUsers_FreelancerId",
+                        column: x => x.FreelancerId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Offers_Jobs_JobId",
                         column: x => x.JobId,
                         principalTable: "Jobs",
                         principalColumn: "Id",
@@ -296,28 +282,43 @@ namespace Jobzy.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Proposals",
+                name: "Contracts",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", maxLength: 4096, nullable: false),
-                    SentDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    FreelancerId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    JobId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    Status = table.Column<int>(type: "int", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CompletedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    FreelancerId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    EmployerId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    OfferId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    JobId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Proposals", x => x.Id);
+                    table.PrimaryKey("PK_Contracts", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Proposals_AspNetUsers_FreelancerId",
+                        name: "FK_Contracts_AspNetUsers_EmployerId",
+                        column: x => x.EmployerId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Contracts_AspNetUsers_FreelancerId",
                         column: x => x.FreelancerId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Proposals_Jobs_JobId",
+                        name: "FK_Contracts_Jobs_JobId",
                         column: x => x.JobId,
                         principalTable: "Jobs",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Contracts_Offers_OfferId",
+                        column: x => x.OfferId,
+                        principalTable: "Offers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -378,14 +379,24 @@ namespace Jobzy.Data.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_EmployerTags_EmployerId",
-                table: "EmployerTags",
+                name: "IX_Contracts_EmployerId",
+                table: "Contracts",
                 column: "EmployerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_FreelancerTags_FreelancerId",
-                table: "FreelancerTags",
+                name: "IX_Contracts_FreelancerId",
+                table: "Contracts",
                 column: "FreelancerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Contracts_JobId",
+                table: "Contracts",
+                column: "JobId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Contracts_OfferId",
+                table: "Contracts",
+                column: "OfferId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Jobs_EmployerId",
@@ -393,24 +404,19 @@ namespace Jobzy.Data.Migrations
                 column: "EmployerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Jobs_FreelancerId",
-                table: "Jobs",
+                name: "IX_Offers_FreelancerId",
+                table: "Offers",
                 column: "FreelancerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_JobTags_JobId",
-                table: "JobTags",
+                name: "IX_Offers_JobId",
+                table: "Offers",
                 column: "JobId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Proposals_FreelancerId",
-                table: "Proposals",
-                column: "FreelancerId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Proposals_JobId",
-                table: "Proposals",
-                column: "JobId");
+                name: "IX_Reviews_UserId",
+                table: "Reviews",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Settings_IsDeleted",
@@ -439,22 +445,19 @@ namespace Jobzy.Data.Migrations
                 name: "Balances");
 
             migrationBuilder.DropTable(
-                name: "EmployerTags");
+                name: "Contracts");
 
             migrationBuilder.DropTable(
-                name: "FreelancerTags");
-
-            migrationBuilder.DropTable(
-                name: "JobTags");
-
-            migrationBuilder.DropTable(
-                name: "Proposals");
+                name: "Reviews");
 
             migrationBuilder.DropTable(
                 name: "Settings");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "Offers");
 
             migrationBuilder.DropTable(
                 name: "Jobs");
