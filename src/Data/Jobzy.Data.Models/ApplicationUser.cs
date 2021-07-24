@@ -14,7 +14,6 @@ namespace Jobzy.Data.Models
     {
         public ApplicationUser()
         {
-            this.Id = Guid.NewGuid().ToString();
             this.Roles = new HashSet<IdentityUserRole<string>>();
             this.Claims = new HashSet<IdentityUserClaim<string>>();
             this.Logins = new HashSet<IdentityUserLogin<string>>();

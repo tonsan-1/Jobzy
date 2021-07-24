@@ -10,6 +10,7 @@
 
     using Jobzy.Common;
     using Jobzy.Data.Models;
+    using Jobzy.Services.Interfaces;
     using Microsoft.AspNetCore.Authentication;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
@@ -19,20 +20,25 @@
     using Microsoft.AspNetCore.WebUtilities;
     using Microsoft.Extensions.Logging;
 
+    using Stripe;
+
     [AllowAnonymous]
     public class RegisterModel : PageModel
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly IFreelancePlatform freelancePlatform;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
 
         public RegisterModel(
+            IFreelancePlatform freelancePlatform,
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             ILogger<RegisterModel> logger,
             IEmailSender emailSender)
         {
+            this.freelancePlatform = freelancePlatform;
             this._userManager = userManager;
             this._signInManager = signInManager;
             this._logger = logger;
@@ -81,11 +87,20 @@
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The Password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
+
+            [Display(Name = "Connect to Stripe")]
+            public bool HasStripeAccount { get; set; }
         }
 
-        public async Task OnGetAsync(string returnUrl = null)
+        public async Task OnGetAsync(string code)
         {
-            this.ReturnUrl = returnUrl;
+            this.Input = new InputModel { HasStripeAccount = false };
+
+            if (code != null)
+            {
+                this.Input.HasStripeAccount = true;
+            }
+
             this.ExternalLogins = (await this._signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
 
@@ -110,11 +125,16 @@
                         return this.Page();
                 }
 
+                var account =
+                    this.freelancePlatform.StripeAccountManager.CreateAccount(
+                        this.Input.Name, this.Input.Email, this.Input.Location);
+
+                user.Id = account.Id;
                 user.Name = this.Input.Name;
                 user.UserName = this.Input.Username;
                 user.Email = this.Input.Email;
                 user.Location = this.Input.Location;
-                user.Balance = new Balance();
+                user.Balance = new Data.Models.Balance();
 
                 var result = await this._userManager.CreateAsync(user, this.Input.Password);
 
@@ -142,7 +162,7 @@
                     else
                     {
                         await this._signInManager.SignInAsync(user, isPersistent: false);
-                        return this.LocalRedirect(returnUrl);
+                        return this.LocalRedirect("/");
                     }
                 }
 

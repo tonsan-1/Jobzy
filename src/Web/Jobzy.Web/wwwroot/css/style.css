@@ -10949,7 +10949,9 @@ img.mfp-img {
 }
 
 /* hide input */
-.account-type input.account-type-radio:empty {
+.account-type input.account-type-radio:empty,
+.account-type input.stripe-button:empty
+{
 	display: none;
 }
 
@@ -10961,7 +10963,8 @@ img.mfp-img {
 	margin-right: 2px;
 }
 
-.account-type input.account-type-radio:empty ~ label {
+.account-type input.account-type-radio:empty ~ label,
+.account-type input.stripe-button:empty ~ label {
 	position: relative;
 	float: left;
 	padding: 10px;
@@ -10990,8 +10993,37 @@ img.mfp-img {
 	background-color: #47bb67;
 }
 
+.account-type input.stripe-button ~ label:hover {
+	color: #2a41e8;
+	background-color: #dbdff5;
+}
+
+.account-type input.stripe-button:checked ~ label {
+	color: #fff;
+	background-color: #2a41e8;
+}
+
 .account-type input.account-type-radio:empty ~ label:after,
-.account-type input.account-type-radio:empty ~ label:before {
+.account-type input.account-type-radio:empty ~ label:before{
+	position: absolute;
+	display: block;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	content: '';
+	width: 100%;
+	height: 100%;
+	text-align: center;
+	line-height: 48px;
+	border-radius: 4px;
+	font-size: 22px;
+	background: transparent;
+	z-index: 100;
+	opacity: 0;
+}
+
+.account-type input.stripe-button:empty ~ label:after,
+.account-type input.stripe-button:empty ~ label:before {
 	position: absolute;
 	display: block;
 	top: 0;

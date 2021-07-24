@@ -11,5 +11,7 @@
         IContractManager ContractManager { get; }
 
         IProfileManager ProfileManager { get; }
+
+        IStripeAccountManager StripeAccountManager { get; }
     }
 }

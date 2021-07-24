@@ -18,6 +18,19 @@
 
                 <div asp-validation-summary="All" class="text-danger"></div>
 
+                @if (!Model.Input.HasStripeAccount)
+                {
+                    <div class="d-flex justify-content-center align-items-center margin-bottom-30">
+                        <a role="button" href="@GlobalConstants.StripeTestOAuthLink" class="button ripple-effect">Connect to Stripe</a>
+                    </div>
+                }
+                else
+                {
+                    <div class="d-flex justify-content-center align-items-center margin-bottom-30">
+                        <button disabled class="button bg-secondary text-white">Connected to Stripe</button>
+                    </div>
+                }
+
                 <!-- Form -->
                 <form asp-route-returnUrl="@Model.ReturnUrl" method="post" id="register-form">
                     <div class="account-type">
