@@ -49,17 +49,12 @@
         [Authorize(Roles = "Administrator, Employer")]
         public async Task<IActionResult> AcceptOffer(string offerId, string jobId)
         {
-            var user = await this.userManager.GetUserAsync(this.User);
-            var currentUserBalance = this.freelancePlatform.BalanceManager.FindById(user.Id);
-            var freelancePlatformBalance = await this.freelancePlatform.BalanceManager.GetFreelancePlatformBalanceAsync();
-
-            var responseId = await this.freelancePlatform.ContractManager.AddAsync(offerId);
-
             await this.freelancePlatform.OfferManager.AcceptOffer(offerId);
-            await this.freelancePlatform.BalanceManager.TransferMoneyAsync(currentUserBalance, freelancePlatformBalance, offerId);
             await this.freelancePlatform.JobManager.SetJobStatus(JobStatus.InContract, jobId);
+            var contractId =
+                await this.freelancePlatform.ContractManager.AddAsync(offerId);
 
-            return this.Redirect($"/Contract?id={responseId}");
+            return this.Redirect($"/Contract?id={contractId}");
         }
     }
 }

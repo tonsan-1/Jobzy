@@ -3,6 +3,7 @@
     public static class GlobalConstants
     {
         public const string SystemName = "Jobzy";
+        public const int PlatformFeeAmount = 500;
 
         public const string AdministratorRoleName = "Administrator";
         public const string EmployerRoleName = "Employer";

@@ -12,6 +12,6 @@
 
         IProfileManager ProfileManager { get; }
 
-        IStripeAccountManager StripeAccountManager { get; }
+        IStripeManager StripeManager { get; }
     }
 }

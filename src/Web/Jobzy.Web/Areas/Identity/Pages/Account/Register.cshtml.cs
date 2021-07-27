@@ -116,7 +116,7 @@
                 }
 
                 var account =
-                    this.freelancePlatform.StripeAccountManager.CreateAccount(this.Input.Name, this.Input.Email);
+                    this.freelancePlatform.StripeManager.CreateAccount(this.Input.Name, this.Input.Email);
 
                 user.Id = account.Id;
                 user.Name = this.Input.Name;

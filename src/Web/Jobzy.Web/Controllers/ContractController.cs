@@ -34,32 +34,18 @@
         [HttpPost]
         [Route("/Contract/")]
         [Authorize(Roles = "Administrator, Employer")]
-        public async Task<IActionResult> OnPostContractActions(
-            string action, string contractId, string offerId, string freelancerId, string jobId)
+        public async Task<IActionResult> ContractActions(
+            string action, string contractId, string jobId)
         {
-            var user =
-                    await this.userManager.GetUserAsync(this.User);
-            var freelancePlatformBudget =
-                await this.freelancePlatform.BalanceManager.GetFreelancePlatformBalanceAsync();
-            var currentUserBudget =
-                this.freelancePlatform.BalanceManager.FindById(user.Id);
-            var freelancerBudget =
-                this.freelancePlatform.BalanceManager.FindById(freelancerId);
-
-            if (action == "complete")
+            if (action == "cancel")
             {
-                await this.freelancePlatform.BalanceManager.TransferMoneyAsync(freelancePlatformBudget, freelancerBudget, offerId);
-                await this.freelancePlatform.ContractManager.SetContractStatus(ContractStatus.Finished, contractId);
-                await this.freelancePlatform.JobManager.SetJobStatus(JobStatus.Closed, jobId);
-            }
-            else if (action == "cancel")
-            {
-                await this.freelancePlatform.BalanceManager.TransferMoneyAsync(freelancePlatformBudget, currentUserBudget, offerId);
                 await this.freelancePlatform.ContractManager.SetContractStatus(ContractStatus.Canceled, contractId);
                 await this.freelancePlatform.JobManager.SetJobStatus(JobStatus.Open, jobId);
+
+                return this.RedirectToAction("GetMyContracts", "ContractController");
             }
 
-            return this.Redirect("/");
+            return this.Redirect($"/Checkout?id={contractId}");
         }
 
         [Route("/Contract/MyContracts")]

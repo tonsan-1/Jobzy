@@ -1,12 +1,13 @@
 ﻿namespace Jobzy.Services
 {
     using System;
+    using System.Collections.Generic;
 
     using Jobzy.Common;
     using Jobzy.Services.Interfaces;
     using Stripe;
 
-    public class StripeAccountManager : IStripeAccountManager
+    public class StripeManager : IStripeManager
     {
         public Account CreateAccount(string name, string email)
         {
@@ -66,7 +67,36 @@
             };
 
             var service = new AccountService();
-            var account = service.Create(options);
+            return service.Create(options);
+        }
+
+        public PaymentIntent CreatePaymentIntent(int amount, string accountId)
+        {
+            StripeConfiguration.ApiKey = GlobalConstants.StripeConfigurationKey;
+
+            var service = new PaymentIntentService();
+            var createOptions = new PaymentIntentCreateOptions
+            {
+                PaymentMethodTypes = new List<string>
+                {
+                  "card",
+                },
+                Amount = amount,
+                Currency = "usd",
+                ApplicationFeeAmount = GlobalConstants.PlatformFeeAmount,
+            };
+
+            var requestOptions = new RequestOptions();
+            requestOptions.StripeAccount = accountId;
+            return service.Create(createOptions, requestOptions);
+        }
+
+        public Account GetAccount(string accountId)
+        {
+            StripeConfiguration.ApiKey = GlobalConstants.StripeConfigurationKey;
+
+            var service = new AccountService();
+            var account = service.Get(accountId);
 
             return account;
         }

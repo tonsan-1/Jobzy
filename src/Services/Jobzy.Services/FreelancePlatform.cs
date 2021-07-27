@@ -10,14 +10,14 @@
             IOfferManager offerManager,
             IContractManager contractManager,
             IProfileManager profileManager,
-            IStripeAccountManager stripeAccountManager)
+            IStripeManager stripeManager)
         {
             this.JobManager = jobManager;
             this.BalanceManager = balanceManager;
             this.OfferManager = offerManager;
             this.ContractManager = contractManager;
             this.ProfileManager = profileManager;
-            this.StripeAccountManager = stripeAccountManager;
+            this.StripeManager = stripeManager;
         }
 
         public IJobManager JobManager { get; }
@@ -30,6 +30,6 @@
 
         public IProfileManager ProfileManager { get; }
 
-        public IStripeAccountManager StripeAccountManager { get; }
+        public IStripeManager StripeManager { get; }
     }
 }

@@ -73,7 +73,7 @@
             services.AddTransient<IOfferManager, OfferManager>();
             services.AddTransient<IContractManager, ContractManager>();
             services.AddTransient<IProfileManager, ProfileManager>();
-            services.AddTransient<IStripeAccountManager, StripeAccountManager>();
+            services.AddTransient<IStripeManager, StripeManager>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
