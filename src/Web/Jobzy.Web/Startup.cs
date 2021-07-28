@@ -13,6 +13,7 @@
     using Jobzy.Services.Interfaces;
     using Jobzy.Services.Mapping;
     using Jobzy.Services.Messaging;
+    using Jobzy.Web.Properties;
     using Jobzy.Web.ViewModels;
 
     using Microsoft.AspNetCore.Builder;
@@ -23,6 +24,7 @@
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
+    using Stripe;
 
     public class Startup
     {
@@ -80,6 +82,8 @@
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             AutoMapperConfig.RegisterMappings(typeof(ErrorViewModel).GetTypeInfo().Assembly);
+
+            StripeConfiguration.ApiKey = this.configuration.GetSection("Stripe")["ApiKey"];
 
             // Seed data on application startup
             using (var serviceScope = app.ApplicationServices.CreateScope())

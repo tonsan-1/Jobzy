@@ -1,21 +1,15 @@
 ﻿namespace Jobzy.Web.Controllers
 {
-    using Jobzy.Data.Models;
     using Jobzy.Services.Interfaces;
-    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
 
     public class PaymentController : BaseController
     {
         private readonly IFreelancePlatform freelancePlatform;
-        private readonly UserManager<ApplicationUser> userManager;
 
-        public PaymentController(
-            IFreelancePlatform freelancePlatform,
-            UserManager<ApplicationUser> userManager)
+        public PaymentController(IFreelancePlatform freelancePlatform)
         {
             this.freelancePlatform = freelancePlatform;
-            this.userManager = userManager;
         }
 
         [Route("/Checkout/")]
@@ -29,7 +23,7 @@
             this.ViewData["ClientSecret"] = intent.ClientSecret;
             this.ViewData["CurrentUser"] = recipientId;
 
-            return this.View();
+            return this.View(contract);
         }
     }
 }
