@@ -18,7 +18,7 @@
             var contract = this.freelancePlatform.ContractManager.GetContractById(id);
             var recipientId = contract.FreelancerId;
             var paymentAmount = (int)contract.OfferFixedPrice * 100;
-            var intent = this.freelancePlatform.StripeManager.CreatePaymentIntent(paymentAmount, recipientId);
+            var intent = this.freelancePlatform.StripeManager.CreatePaymentIntent(paymentAmount, recipientId, contract.Id);
 
             this.ViewData["ClientSecret"] = intent.ClientSecret;
             this.ViewData["CurrentUser"] = recipientId;

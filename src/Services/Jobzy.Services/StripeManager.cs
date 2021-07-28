@@ -70,7 +70,7 @@
             return service.Create(options);
         }
 
-        public PaymentIntent CreatePaymentIntent(int amount, string accountId)
+        public PaymentIntent CreatePaymentIntent(int amount, string accountId, string contractId)
         {
             StripeConfiguration.ApiKey = GlobalConstants.StripeConfigurationKey;
 
@@ -84,6 +84,10 @@
                 Amount = amount,
                 Currency = "usd",
                 ApplicationFeeAmount = GlobalConstants.PlatformFeeAmount,
+                Metadata = new Dictionary<string, string>()
+                {
+                    ["contractId"] = contractId,
+                },
             };
 
             var requestOptions = new RequestOptions();

@@ -42,6 +42,7 @@
                 await this.freelancePlatform.ContractManager.SetContractStatus(ContractStatus.Canceled, contractId);
                 await this.freelancePlatform.JobManager.SetJobStatus(JobStatus.Open, jobId);
 
+                // TODO:notify both parties that the contract is canceled
                 return this.RedirectToAction("GetMyContracts", "ContractController");
             }
 

@@ -4,12 +4,20 @@
     using System.IO;
     using System.Threading.Tasks;
 
+    using Jobzy.Common;
+    using Jobzy.Services.Interfaces;
     using Microsoft.AspNetCore.Mvc;
     using Stripe;
 
-    [ApiController]
     public class WebhookController : BaseController
     {
+        private readonly IFreelancePlatform freelancePlatform;
+
+        public WebhookController(IFreelancePlatform freelancePlatform)
+        {
+            this.freelancePlatform = freelancePlatform;
+        }
+
         [HttpPost("webhook")]
         [IgnoreAntiforgeryToken]
         public async Task<IActionResult> ProcessWebhookEvent()
@@ -25,8 +33,13 @@
                 {
                     var paymentIntent = stripeEvent.Data.Object as PaymentIntent;
                     var connectedAccountId = stripeEvent.Account;
+                    var contractId = paymentIntent.Metadata["contractId"];
+                    var contract = this.freelancePlatform.ContractManager.GetContractById(contractId);
 
-                    // handleSuccessfulPaymentIntent(connectedAccountId, paymentIntent);
+                    await this.freelancePlatform.ContractManager.SetContractStatus(ContractStatus.Finished, contractId);
+                    await this.freelancePlatform.JobManager.SetJobStatus(JobStatus.Closed, contract.OfferJobId);
+
+                    // TODO:notify both parties that the contract is succesfully completed
                 }
                 else
                 {

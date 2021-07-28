@@ -120,9 +120,9 @@
             payment_method: {
                 card: card,
                 billing_details: {
-                    name: 'Jenny Rosen'
+                    name: '@Model.EmployerName'
                 }
-            }
+            },
         }).then(function (result) {
             if (result.error) {
                 // Show error to your customer (e.g., insufficient funds)
@@ -130,6 +130,9 @@
             } else {
                 // The payment has been processed!
                 if (result.paymentIntent.status === 'succeeded') {
+
+                    location.assign('https://localhost:44319/');
+
                     // Show a success message to your customer
                     // There's a risk of the customer closing the window before callback
                     // execution. Set up a webhook or plugin to listen for the

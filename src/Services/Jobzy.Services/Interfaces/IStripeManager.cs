@@ -8,6 +8,6 @@
 
         Account GetAccount(string accountId);
 
-        PaymentIntent CreatePaymentIntent(int amount, string accountId);
+        PaymentIntent CreatePaymentIntent(int amount, string accountId, string contractId);
     }
 }
