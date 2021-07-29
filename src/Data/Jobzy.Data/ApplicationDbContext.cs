@@ -28,6 +28,8 @@
 
         public DbSet<Job> Jobs { get; set; }
 
+        public DbSet<Category> Categories { get; set; }
+
         public DbSet<Freelancer> Freelancers { get; set; }
 
         public DbSet<Employer> Employers { get; set; }

@@ -1,7 +1,11 @@
 ﻿@using Jobzy.Web.ViewModels.Jobs
-@using Jobzy.Common
 
 @model JobInputModel
+
+@{
+    var categories = ViewData["Categories"];
+}
+
 <!-- Dashboard Container -->
 <div class="dashboard-container">
 
@@ -43,22 +47,15 @@
 
                                     <div class="col-xl-4">
                                         <div class="submit-field">
-                                            <h5>Job Type</h5>
-                                            <select asp-for="JobType" asp-items="Html.GetEnumSelectList<JobType>()" class="selectpicker with-border" data-size="7" title="Select Job Type">
-                                                <option value="">Select Job Type</option>
-                                            </select>
-                                        </div>
-                                        <span asp-validation-for="JobType" class="text-danger"></span>
-                                    </div>
-
-                                    <div class="col-xl-4">
-                                        <div class="submit-field">
                                             <h5>Job Category</h5>
-                                            <select asp-for="JobCategory" asp-items="Html.GetEnumSelectList<JobCategory>()" class="selectpicker with-border" data-size="7" title="Select Category">
-                                                <option value="">Select Category</option>
+                                            <select asp-for="CategoryId" class="selectpicker with-border" data-size="7" title="Select Category">
+                                                @foreach (var category in Model.Categories)
+                                                {
+                                                    <option value="@category.Id">@category.Name</option>
+                                                }
                                             </select>
                                         </div>
-                                        <span asp-validation-for="JobCategory" class="text-danger"></span>
+                                        <span asp-validation-for="CategoryId" class="text-danger"></span>
                                     </div>
 
                                     <div class="col-xl-4">

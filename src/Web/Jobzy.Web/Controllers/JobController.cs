@@ -54,7 +54,12 @@
 
         [Route("/Job/Add")]
         [Authorize(Roles = "Administrator, Employer")]
-        public IActionResult AddJob() => this.View();
+        public IActionResult AddJob()
+        {
+            var jobCategories = this.freelancePlatform.CategoryManager.GetAllJobCategories();
+
+            return this.View(new JobInputModel { Categories = jobCategories });
+        }
 
         [HttpPost]
         [Route("/Job/Add")]

@@ -4,6 +4,8 @@
     {
         IJobManager JobManager { get; }
 
+        ICategoryManager CategoryManager { get; }
+
         IBalanceManager BalanceManager { get; }
 
         IOfferManager OfferManager { get; }

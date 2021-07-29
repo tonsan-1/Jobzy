@@ -23,10 +23,9 @@
         public JobStatus Status { get; set; }
 
         [Required]
-        public JobType JobType { get; set; }
+        public string CategoryId { get; set; }
 
-        [Required]
-        public JobCategory JobCategory { get; set; }
+        public virtual Category Category { get; set; }
 
         [Required]
         [DataType(DataType.Currency)]

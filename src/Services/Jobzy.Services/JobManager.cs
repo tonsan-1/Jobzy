@@ -27,8 +27,7 @@
                 Status = JobStatus.Open,
                 Employer = employer,
                 Title = model.Title,
-                JobType = model.JobType,
-                JobCategory = model.JobCategory,
+                CategoryId = model.CategoryId,
                 Budget = model.Budget,
                 Description = model.Description,
             };

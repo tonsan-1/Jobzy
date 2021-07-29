@@ -1,8 +1,7 @@
 ﻿namespace Jobzy.Web.ViewModels.Jobs
 {
+    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-
-    using Jobzy.Common;
 
     public class JobInputModel
     {
@@ -10,11 +9,8 @@
         [StringLength(50, MinimumLength = 5)]
         public string Title { get; set; }
 
-        [Range(0, 1)]
-        public JobType JobType { get; set; }
-
-        [Range(0, 5)]
-        public JobCategory JobCategory { get; set; }
+        [Required]
+        public string CategoryId { get; set; }
 
         [Required]
         [DataType(DataType.Currency)]
@@ -24,6 +20,6 @@
         [StringLength(2048, MinimumLength = 5)]
         public string Description { get; set; }
 
-        public string Tags { get; set; }
+        public IEnumerable<CategoriesListViewModel> Categories { get; set; }
     }
 }
