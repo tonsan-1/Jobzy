@@ -11,7 +11,8 @@
             IContractManager contractManager,
             IProfileManager profileManager,
             IStripeManager stripeManager,
-            ICategoryManager categoryManager)
+            ICategoryManager categoryManager,
+            IMessageManager messageManager)
         {
             this.JobManager = jobManager;
             this.BalanceManager = balanceManager;
@@ -20,6 +21,7 @@
             this.ProfileManager = profileManager;
             this.StripeManager = stripeManager;
             this.CategoryManager = categoryManager;
+            this.MessageManager = messageManager;
         }
 
         public IJobManager JobManager { get; }
@@ -35,5 +37,7 @@
         public IStripeManager StripeManager { get; }
 
         public ICategoryManager CategoryManager { get; }
+
+        public IMessageManager MessageManager { get; }
     }
 }

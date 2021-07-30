@@ -11,6 +11,13 @@
       ]
     },
     {
+      "library": "@microsoft/signalr@5.0.8",
+      "destination": "wwwroot/lib/signalr/",
+      "files": [
+        "dist/browser/signalr.min.js"
+      ]
+    },
+    {
       "library": "bootstrap@4.5.3",
       "destination": "wwwroot/lib/bootstrap/",
       "files": [
@@ -34,6 +41,13 @@
       "files": [
         "dist/jquery.validate.unobtrusive.js",
         "dist/jquery.validate.unobtrusive.min.js"
+      ]
+    },
+    {
+      "library": "lodash@4.17.21",
+      "destination": "wwwroot/lib/lodash/",
+      "files": [
+        "lodash.min.js"
       ]
     }
   ]

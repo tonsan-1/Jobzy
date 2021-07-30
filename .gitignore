@@ -1,4 +1,4 @@
-###################
+﻿###################
 # compiled source #
 ###################
 *.com
@@ -75,4 +75,5 @@ _[Ss]cripts
 *.nupkg
 *.ncrunchsolution
 *.dot[Cc]over
+**/wwwroot/lib
 src/Services/Jobzy.Services/GlobalSuppressions.cs

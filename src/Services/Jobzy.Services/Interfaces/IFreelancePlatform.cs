@@ -15,5 +15,7 @@
         IProfileManager ProfileManager { get; }
 
         IStripeManager StripeManager { get; }
+
+        IMessageManager MessageManager { get; }
     }
 }
