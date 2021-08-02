@@ -17,7 +17,7 @@ namespace Jobzy.Data.Models
             this.Roles = new HashSet<IdentityUserRole<string>>();
             this.Claims = new HashSet<IdentityUserClaim<string>>();
             this.Logins = new HashSet<IdentityUserLogin<string>>();
-            this.Reviews = new List<Review>();
+            this.Reviews = new HashSet<Review>();
         }
 
         [Required]
@@ -36,6 +36,8 @@ namespace Jobzy.Data.Models
         public Country Location { get; set; }
 
         public string ProfileImageUrl { get; set; }
+
+        public bool IsOnline { get; set; }
 
         // Audit info
         public DateTime CreatedOn { get; set; }

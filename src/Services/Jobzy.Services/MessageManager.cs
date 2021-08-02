@@ -18,6 +18,11 @@
             this.repository = repository;
         }
 
+        public IEnumerable<Message> GetConversations(string userId)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public IEnumerable<UsersListViewModel> GetMatchingUsers(string query)
         {
             var users = this.repository.All()

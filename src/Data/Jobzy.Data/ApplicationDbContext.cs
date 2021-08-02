@@ -42,6 +42,8 @@
 
         public DbSet<Review> Reviews { get; set; }
 
+        public DbSet<Message> Messages { get; set; }
+
         public DbSet<Setting> Settings { get; set; }
 
         public override int SaveChanges() => this.SaveChanges(true);
@@ -74,9 +76,6 @@
         {
             // Needed for Identity models configuration
             base.OnModelCreating(builder);
-
-            builder.Entity<Contract>()
-                .HasKey(x => x.Id);
 
             this.ConfigureUserIdentityRelations(builder);
 
@@ -111,8 +110,6 @@
         // Applies configurations
         private void ConfigureUserIdentityRelations(ModelBuilder builder)
              => builder.ApplyConfigurationsFromAssembly(this.GetType().Assembly);
-
-        
 
         private void ApplyAuditInfoRules()
         {

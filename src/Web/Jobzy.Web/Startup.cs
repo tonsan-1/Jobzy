@@ -13,7 +13,7 @@
     using Jobzy.Services.Interfaces;
     using Jobzy.Services.Mapping;
     using Jobzy.Services.Messaging;
-    using Jobzy.Web.Properties;
+    using Jobzy.Web.Hubs;
     using Jobzy.Web.ViewModels;
 
     using Microsoft.AspNetCore.Builder;
@@ -57,6 +57,7 @@
                         options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
                     }).AddRazorRuntimeCompilation();
             services.AddRazorPages();
+            services.AddSignalR();
             services.AddDatabaseDeveloperPageExceptionFilter();
 
             services.AddSingleton(this.configuration);
@@ -120,6 +121,7 @@
                     {
                         endpoints.MapControllerRoute("areaRoute", "{area:exists}/{controller=Home}/{action=Index}/{id?}");
                         endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
+                        endpoints.MapHub<MessageHub>("/MessageHub");
                         endpoints.MapRazorPages();
                     });
         }

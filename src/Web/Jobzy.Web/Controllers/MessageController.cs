@@ -1,10 +1,11 @@
 ﻿namespace Jobzy.Web.Controllers
 {
+    using System.Collections.Generic;
+
     using Jobzy.Services.Interfaces;
     using Jobzy.Web.ViewModels.Messages;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
-    using System.Collections.Generic;
 
     public class MessageController : BaseController
     {

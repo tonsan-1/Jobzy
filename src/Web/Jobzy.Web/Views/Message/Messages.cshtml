@@ -11,8 +11,6 @@
             <!-- Dashboard Headline -->
             <div class="dashboard-headline">
                 <h3>Messages</h3>
-                <ul id="users">
-                </ul>
             </div>
 
             <div class="messages-container margin-top-0">
@@ -22,13 +20,11 @@
                     <!-- Messages -->
                     <div class="messages-inbox">
                         <div class="messages-headline">
-                            <div class="input-with-icon">
-                                <input id="search-input" oninput="onInputChange(event)" type="text" placeholder="Search">
-                                <i class="icon-material-outline-search"></i>
+
+                            <div class="dropdown">
+                                <input class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="search-input" oninput="onInputChange(event)" type="text" placeholder="Search">
+                                <div class="dropdown-menu w-100" aria-labelledby="search-input"></div>
                             </div>
-                            <ul class="dropdown-menu" aria-labelledby="autocomplete-input">
-                                <li><a class="dropdown-item">Ivan</a></li>
-                            </ul>
                         </div>
 
                         <ul>
@@ -45,49 +41,6 @@
                                     </div>
                                 </a>
                             </li>
-
-                            <li class="active-message">
-                                <a href="#">
-                                    <div class="message-avatar"><i class="status-icon status-offline"></i><img src="images/user-avatar-small-02.jpg" alt="" /></div>
-
-                                    <div class="message-by">
-                                        <div class="message-by-headline">
-                                            <h5>Sindy Forest</h5>
-                                            <span>Yesterday</span>
-                                        </div>
-                                        <p>Hi Tom! Hate to break it to you but I'm actually on vacation</p>
-                                    </div>
-                                </a>
-                            </li>
-
-                            <li>
-                                <a href="#">
-                                    <div class="message-avatar"><i class="status-icon status-offline"></i><img src="images/user-avatar-placeholder.png" alt="" /></div>
-
-                                    <div class="message-by">
-                                        <div class="message-by-headline">
-                                            <h5>Sebastiano Piccio</h5>
-                                            <span>2 days ago</span>
-                                        </div>
-                                        <p>Hello, I want to talk about my project if you don't mind!</p>
-                                    </div>
-                                </a>
-                            </li>
-
-                            <li>
-                                <a href="#">
-                                    <div class="message-avatar"><i class="status-icon status-online"></i><img src="images/user-avatar-placeholder.png" alt="" /></div>
-
-                                    <div class="message-by">
-                                        <div class="message-by-headline">
-                                            <h5>Marcin Kowalski</h5>
-                                            <span>2 days ago</span>
-                                        </div>
-                                        <p>Yes, I received payment. Thanks for cooperation!</p>
-                                    </div>
-                                </a>
-                            </li>
-
                         </ul>
                     </div>
                     <!-- Messages / End -->
@@ -95,18 +48,14 @@
                     <div class="message-content">
 
                         <div class="messages-headline">
-                            <h4>Sindy Forest</h4>
+                            <h4>Ivan Ivanov</h4>
+                            <h6 id="username">vanko1</h6>
+
                             <a href="#" class="message-action"><i class="icon-feather-trash-2"></i> Delete Conversation</a>
                         </div>
 
-                        <!-- Message Content Inner -->
-                        <div class="message-content-inner">
-
-                            <!-- Time Sign -->
-                            <div class="message-time-sign">
-                                <span>28 June, 2019</span>
-                            </div>
-
+                        @*Message Content Inner*@
+                        <div id="message-field" class="message-content-inner">
                             <div class="message-bubble me">
                                 <div class="message-bubble-inner">
                                     <div class="message-avatar"><img src="images/user-avatar-small-01.jpg" alt="" /></div>
@@ -114,74 +63,13 @@
                                 </div>
                                 <div class="clearfix"></div>
                             </div>
-
-                            <div class="message-bubble">
-                                <div class="message-bubble-inner">
-                                    <div class="message-avatar"><img src="images/user-avatar-small-02.jpg" alt="" /></div>
-                                    <div class="message-text"><p>Great. If you need any further clarification let me know. 👍</p></div>
-                                </div>
-                                <div class="clearfix"></div>
-                            </div>
-
-                            <div class="message-bubble me">
-                                <div class="message-bubble-inner">
-                                    <div class="message-avatar"><img src="images/user-avatar-small-01.jpg" alt="" /></div>
-                                    <div class="message-text"><p>Ok, I will. 😉</p></div>
-                                </div>
-                                <div class="clearfix"></div>
-                            </div>
-
-                            <!-- Time Sign -->
-                            <div class="message-time-sign">
-                                <span>Yesterday</span>
-                            </div>
-
-                            <div class="message-bubble me">
-                                <div class="message-bubble-inner">
-                                    <div class="message-avatar"><img src="images/user-avatar-small-01.jpg" alt="" /></div>
-                                    <div class="message-text"><p>Hi Sindy, I just wanted to let you know that project is finished and I'm waiting for your approval.</p></div>
-                                </div>
-                                <div class="clearfix"></div>
-                            </div>
-
-                            <div class="message-bubble">
-                                <div class="message-bubble-inner">
-                                    <div class="message-avatar"><img src="images/user-avatar-small-02.jpg" alt="" /></div>
-                                    <div class="message-text"><p>Hi Tom! Hate to break it to you, but I'm actually on vacation 🌴 until Sunday so I can't check it now. 😎</p></div>
-                                </div>
-                                <div class="clearfix"></div>
-                            </div>
-
-                            <div class="message-bubble me">
-                                <div class="message-bubble-inner">
-                                    <div class="message-avatar"><img src="images/user-avatar-small-01.jpg" alt="" /></div>
-                                    <div class="message-text"><p>Ok, no problem. But don't forget about last payment. 🙂</p></div>
-                                </div>
-                                <div class="clearfix"></div>
-                            </div>
-
-                            <div class="message-bubble">
-                                <div class="message-bubble-inner">
-                                    <div class="message-avatar"><img src="images/user-avatar-small-02.jpg" alt="" /></div>
-                                    <div class="message-text">
-                                        <!-- Typing Indicator -->
-                                        <div class="typing-indicator">
-                                            <span></span>
-                                            <span></span>
-                                            <span></span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="clearfix"></div>
-                            </div>
                         </div>
-                        <!-- Message Content Inner / End -->
-                        <!-- Reply Area -->
+                        @*Message Content Inner / End
+                            Reply Area*@
                         <div class="message-reply">
-                            <textarea cols="1" rows="1" placeholder="Your Message" data-autoresize></textarea>
-                            <button class="button ripple-effect">Send</button>
+                            <textarea id="messageInput" cols="1" rows="1" placeholder="Your Message" data-autoresize></textarea>
+                            <button id="sendButton" class="button ripple-effect">Send</button>
                         </div>
-
                     </div>
                     <!-- Message Content -->
 
@@ -195,45 +83,7 @@
     </div>
 </div>
 
-<script>
-
-    function onInputChange() {
-        document.getElementById('search-input').oninput = function (event) {
-            event.preventDefault();
-
-            var queryValue = document.getElementById('search-input').value;
-
-            fetch('https://localhost:44319/Messages', {
-                method: 'POST',
-                body: JSON.stringify(queryValue),
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
-                .then(res => res.json())
-                .then(users => {
-
-                    console.log(users);
-
-                    if (Object.keys(users).length == 0) {
-                        document.getElementById('users').innerHTML = ``;
-                        return;
-                    }
-
-                    if (!_.isEqual(previousObject, users)) {
-                        document.getElementById('users').innerHTML = ``;
-
-                        Object.keys(users).forEach(key => {
-                            console.log(users[key]);
-                            document.getElementById('users').innerHTML += `<li>${users[key].name}</li>`;
-                        })
-
-                        var previousObject = Object.assign(users);
-                    }
-
-                    console.log(previousObject);
-                });
-        }
-    }
-
-</script>
+@section scripts {
+<script src="~/js/signalr/dist/browser/signalr.js"></script>
+<script src="~/js/messages.js"></script>
+}

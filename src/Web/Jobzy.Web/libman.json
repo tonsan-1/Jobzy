@@ -11,20 +11,14 @@
       ]
     },
     {
-      "library": "@microsoft/signalr@5.0.8",
-      "destination": "wwwroot/lib/signalr/",
-      "files": [
-        "dist/browser/signalr.min.js"
-      ]
-    },
-    {
       "library": "bootstrap@4.5.3",
       "destination": "wwwroot/lib/bootstrap/",
       "files": [
         "dist/css/bootstrap.css",
         "dist/css/bootstrap.min.css",
         "dist/js/bootstrap.js",
-        "dist/js/bootstrap.min.js"
+        "dist/js/bootstrap.min.js",
+        "dist/js/bootstrap.bundle.min.js"
       ]
     },
     {
@@ -48,6 +42,15 @@
       "destination": "wwwroot/lib/lodash/",
       "files": [
         "lodash.min.js"
+      ]
+    },
+    {
+      "provider": "unpkg",
+      "library": "@microsoft/signalr@latest",
+      "destination": "wwwroot/js/signalr/",
+      "files": [
+        "dist/browser/signalr.js",
+        "dist/browser/signalr.min.js"
       ]
     }
   ]
