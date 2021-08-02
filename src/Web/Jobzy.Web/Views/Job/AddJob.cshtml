@@ -3,7 +3,13 @@
 @model JobInputModel
 
 @{
-    var categories = ViewData["Categories"];
+    ViewData["Title"] = "Add a Job";
+
+    var categories = Model.Categories.Select(category => new SelectListItem
+    {
+        Text = category.Name,
+        Value = category.Id
+    });
 }
 
 <!-- Dashboard Container -->
@@ -28,7 +34,7 @@
                 <div class="col-xl-12">
                     <div class="dashboard-box margin-top-0">
 
-                        <form method="post" asp-route="/Dashboard/Jobs/Add"> 
+                        <form method="post" asp-route="/Dashboard/Jobs/Add">
                             <!-- Headline -->
                             <div class="headline">
                                 <h3><i class="icon-feather-folder-plus"></i> Job Submission Form</h3>
@@ -36,62 +42,39 @@
 
                             <div class="content with-padding padding-bottom-10">
                                 <div class="row">
-
                                     <div class="col-xl-4">
                                         <div class="submit-field">
                                             <h5>Job Title</h5>
                                             <input asp-for="Title" type="text" class="with-border">
+                                            <span asp-validation-for="Title" class="text-danger"></span>
                                         </div>
-                                        <span asp-validation-for="Title" class="text-danger"></span>
                                     </div>
 
                                     <div class="col-xl-4">
                                         <div class="submit-field">
                                             <h5>Job Category</h5>
-                                            <select asp-for="CategoryId" class="selectpicker with-border" data-size="7" title="Select Category">
-                                                @foreach (var category in Model.Categories)
-                                                {
-                                                    <option value="@category.Id">@category.Name</option>
-                                                }
+                                            <select asp-for="CategoryId" class="location-select dropdown with-border" asp-items="categories" data-size="7" title="Select Category">
                                             </select>
+                                            <span asp-validation-for="CategoryId" class="text-danger"></span>
                                         </div>
-                                        <span asp-validation-for="CategoryId" class="text-danger"></span>
                                     </div>
 
                                     <div class="col-xl-4">
                                         <div class="submit-field">
                                             <h5>Budget</h5>
-                                            <div class="row">
-                                                <div class="col-xl-12">
-                                                    <div class="input-with-icon">
-                                                        <input asp-for="Budget" class="with-border" type="number" placeholder="Budget">
-                                                        <i class="currency">USD</i>
-                                                    </div>
-                                                    <span asp-validation-for="Budget" class="text-danger"></span>
-                                                </div>
+                                            <div class="input-with-icon">
+                                                <input asp-for="Budget" min="10" class="currency with-border" type="number" placeholder="Budget">
+                                                <i class="currency">USD</i>
                                             </div>
+                                            <span asp-validation-for="Budget" class="text-danger"></span>
                                         </div>
                                     </div>
-
-                                    <!--<div class="col-xl-4">
-                                        <div class="submit-field">
-                                            <h5>Tags <span>(optional)</span>  <i class="help-icon" data-tippy-placement="right" title="Maximum of 10 tags"></i></h5>
-                                            <div class="keywords-container">
-                                                <div class="keyword-input-container">
-                                                    <input type="text" class="keyword-input with-border" placeholder="e.g. job title, responsibilites" />
-                                                    <button class="keyword-input-button ripple-effect"><i class="icon-material-outline-add"></i></button>
-                                                </div>
-                                                <div class="keywords-list">--> @*keywords go here*@<!--</div>
-                                                <div class="clearfix"></div>
-                                            </div>
-
-                                        </div>
-                                    </div>-->
 
                                     <div class="col-xl-12">
                                         <div class="submit-field">
                                             <h5>Job Description</h5>
                                             <textarea asp-for="Description" cols="30" rows="5" class="with-border"></textarea>
+                                            <span asp-validation-for="Description" class="text-danger"></span>
                                         </div>
                                     </div>
 
@@ -111,3 +94,82 @@
 
 </div>
 <!-- Dashboard Container / End -->
+
+@section scripts {
+    <!-- Chart.js // documentation: http://www.chartjs.org/docs/latest/ -->
+    <script src="js/chart.min.js"></script>
+    <script>
+        Chart.defaults.global.defaultFontFamily = "Nunito";
+        Chart.defaults.global.defaultFontColor = '#888';
+        Chart.defaults.global.defaultFontSize = '14';
+
+        var ctx = document.getElementById('chart').getContext('2d');
+
+        var chart = new Chart(ctx, {
+            type: 'line',
+
+            // The data for our dataset
+            data: {
+                labels: ["January", "February", "March", "April", "May", "June"],
+                // Information about the dataset
+                datasets: [{
+                    label: "Views",
+                    backgroundColor: 'rgba(42,65,232,0.08)',
+                    borderColor: '#2a41e8',
+                    borderWidth: "3",
+                    data: [196, 132, 215, 362, 210, 252],
+                    pointRadius: 5,
+                    pointHoverRadius: 5,
+                    pointHitRadius: 10,
+                    pointBackgroundColor: "#fff",
+                    pointHoverBackgroundColor: "#fff",
+                    pointBorderWidth: "2",
+                }]
+            },
+
+            // Configuration options
+            options: {
+
+                layout: {
+                    padding: 10,
+                },
+
+                legend: { display: false },
+                title: { display: false },
+
+                scales: {
+                    yAxes: [{
+                        scaleLabel: {
+                            display: false
+                        },
+                        gridLines: {
+                            borderDash: [6, 10],
+                            color: "#d8d8d8",
+                            lineWidth: 1,
+                        },
+                    }],
+                    xAxes: [{
+                        scaleLabel: { display: false },
+                        gridLines: { display: false },
+                    }],
+                },
+
+                tooltips: {
+                    backgroundColor: '#333',
+                    titleFontSize: 13,
+                    titleFontColor: '#fff',
+                    bodyFontColor: '#fff',
+                    bodyFontSize: 13,
+                    displayColors: false,
+                    xPadding: 10,
+                    yPadding: 10,
+                    intersect: false
+                }
+            },
+
+
+        });
+
+    </script>
+
+}

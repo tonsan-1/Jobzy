@@ -74,6 +74,7 @@
             public string Email { get; set; }
 
             [Required]
+            [Range(1, 40, ErrorMessage = "Choose a location.")]
             [Display(Name = "Location")]
             public Country Location { get; set; }
 

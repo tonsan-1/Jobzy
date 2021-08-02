@@ -19,7 +19,6 @@
     
 
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
-    <link rel="stylesheet" href="~/css/site.min.css" />
     <link rel="stylesheet" href="~/css/style.css">
     <link rel="stylesheet" href="~/css/colors/blue.css">
     @RenderSection("css", required: false)
@@ -196,12 +195,9 @@
             </div>
             <!-- Header / End -->
         </header>
-        <div class="clearfix"></div>
 
         <partial name="_CookieConsentPartial" />
         @this.RenderBody()
-
-        <div class="clearfix"></div>
 
         <div id="footer">
             <div class="footer-bottom-section">

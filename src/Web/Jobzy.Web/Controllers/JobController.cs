@@ -69,7 +69,9 @@
         {
             if (!this.ModelState.IsValid)
             {
-                return null;
+                var jobCategories = this.freelancePlatform.CategoryManager.GetAllJobCategories();
+
+                return this.View(new JobInputModel { Categories = jobCategories });
             }
 
             if (!(await this.userManager.GetUserAsync(this.User) is Employer currentUser))
