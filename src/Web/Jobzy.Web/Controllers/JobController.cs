@@ -38,6 +38,11 @@
         {
             var job = this.freelancePlatform.JobManager.GetJobById(id);
 
+            if (job is null)
+            {
+                return this.View("Error");
+            }
+
             return this.View(job);
         }
 
@@ -74,12 +79,9 @@
                 return this.View(new JobInputModel { Categories = jobCategories });
             }
 
-            if (!(await this.userManager.GetUserAsync(this.User) is Employer currentUser))
-            {
-                return this.Forbid();
-            }
+            var user = await this.userManager.GetUserAsync(this.User);
 
-            await this.freelancePlatform.JobManager.AddAsync(input, currentUser);
+            await this.freelancePlatform.JobManager.AddAsync(input, user.Id);
             return this.Redirect("/");
         }
     }

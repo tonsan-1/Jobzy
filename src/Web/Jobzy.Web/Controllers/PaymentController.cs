@@ -16,6 +16,12 @@
         public IActionResult Checkout(string id)
         {
             var contract = this.freelancePlatform.ContractManager.GetContractById(id);
+
+            if (contract is null)
+            {
+                return this.View("Error");
+            }
+
             var recipientId = contract.FreelancerId;
             var paymentAmount = (int)contract.OfferFixedPrice * 100;
             var intent = this.freelancePlatform.StripeManager.CreatePaymentIntent(paymentAmount, recipientId, contract.Id);

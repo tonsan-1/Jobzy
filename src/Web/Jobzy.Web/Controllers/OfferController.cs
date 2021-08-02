@@ -1,10 +1,12 @@
 ﻿namespace Jobzy.Web.Controllers
 {
+    using System.Linq;
     using System.Threading.Tasks;
 
     using Jobzy.Common;
     using Jobzy.Data.Models;
     using Jobzy.Services.Interfaces;
+    using Jobzy.Web.ViewModels.Offers;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
@@ -28,6 +30,11 @@
         {
             var offers = this.freelancePlatform.OfferManager.GetJobOffers(id);
 
+            if (offers.Count() == 0)
+            {
+                return this.View("Error");
+            }
+
             return this.View(offers);
         }
 
@@ -35,11 +42,17 @@
         [Route("/Job/")]
         [Authorize(Roles = "Administrator, Freelancer")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddOffer(string jobId, int fixedPrice, int deliveryDays)
+        public async Task<IActionResult> AddOffer(OfferInputModel offer)
         {
-            var user = await this.userManager.GetUserAsync(this.User);
+            if (!this.ModelState.IsValid)
+            {
+                return this.RedirectToAction("GetJob", "Job");
+            }
 
-            await this.freelancePlatform.OfferManager.AddAsync(jobId, user.Id, fixedPrice, deliveryDays);
+            var user = await this.userManager.GetUserAsync(this.User);
+            offer.UserId = user.Id;
+
+            await this.freelancePlatform.OfferManager.AddAsync(offer);
 
             return this.Redirect("/");
         }

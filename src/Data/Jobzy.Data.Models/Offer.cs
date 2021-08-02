@@ -14,7 +14,7 @@
         public bool IsAccepted { get; set; }
 
         [Range(1, double.MaxValue)]
-        public decimal FixedPrice { get; set; }
+        public int FixedPrice { get; set; }
 
         [Range(1, 365)]
         public int DeliveryDays { get; set; }

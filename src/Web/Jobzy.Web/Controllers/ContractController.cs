@@ -28,14 +28,18 @@
         {
             var contract = this.freelancePlatform.ContractManager.GetContractById(id);
 
+            if (contract is null)
+            {
+                return this.View("Error");
+            }
+
             return this.View(contract);
         }
 
         [HttpPost]
         [Route("/Contract/")]
         [Authorize(Roles = "Administrator, Employer")]
-        public async Task<IActionResult> ContractActions(
-            string action, string contractId, string jobId)
+        public async Task<IActionResult> ContractActions(string action, string contractId, string jobId)
         {
             if (action == "cancel")
             {
@@ -43,7 +47,7 @@
                 await this.freelancePlatform.JobManager.SetJobStatus(JobStatus.Open, jobId);
 
                 // TODO:notify both parties that the contract is canceled
-                return this.RedirectToAction("GetMyContracts", "ContractController");
+                return this.RedirectToAction("GetMyContracts", "Contract");
             }
 
             return this.Redirect($"/Checkout?id={contractId}");

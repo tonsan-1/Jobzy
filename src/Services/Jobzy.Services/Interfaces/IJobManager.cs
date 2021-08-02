@@ -4,14 +4,13 @@
     using System.Threading.Tasks;
 
     using Jobzy.Common;
-    using Jobzy.Data.Models;
     using Jobzy.Web.ViewModels.Jobs;
 
     public interface IJobManager
     {
         SingleJobViewModel GetJobById(string id);
 
-        Task AddAsync(JobInputModel model, Employer employer);
+        Task AddAsync(JobInputModel model, string userId);
 
         Task SetJobStatus(JobStatus status, string jobId);
 

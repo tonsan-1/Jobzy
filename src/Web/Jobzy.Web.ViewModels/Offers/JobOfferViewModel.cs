@@ -10,7 +10,7 @@
     {
         public string Id { get; set; }
 
-        public decimal FixedPrice { get; set; }
+        public int FixedPrice { get; set; }
 
         public int DeliveryDays { get; set; }
 

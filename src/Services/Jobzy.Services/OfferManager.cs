@@ -32,14 +32,14 @@
             await this.repository.SaveChangesAsync();
         }
 
-        public async Task AddAsync(string jobId, string userId, decimal fixedPrice, int deliveryDays)
+        public async Task AddAsync(OfferInputModel input)
         {
             var offer = new Offer
             {
-                JobId = jobId,
-                FreelancerId = userId,
-                FixedPrice = fixedPrice,
-                DeliveryDays = deliveryDays,
+                JobId = input.JobId,
+                FreelancerId = input.UserId,
+                FixedPrice = input.FixedPrice,
+                DeliveryDays = input.DeliveryDays,
             };
 
             await this.repository.AddAsync(offer);

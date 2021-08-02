@@ -20,12 +20,12 @@
             this.repository = repository;
         }
 
-        public async Task AddAsync(JobInputModel model, Employer employer)
+        public async Task AddAsync(JobInputModel model, string userId)
         {
             var job = new Job
             {
                 Status = JobStatus.Open,
-                Employer = employer,
+                EmployerId = userId,
                 Title = model.Title,
                 CategoryId = model.CategoryId,
                 Budget = model.Budget,

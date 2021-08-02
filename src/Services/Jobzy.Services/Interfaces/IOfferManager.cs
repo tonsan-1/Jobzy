@@ -7,7 +7,7 @@
 
     public interface IOfferManager
     {
-        Task AddAsync(string jobId, string userId, decimal fixedPrice, int deliveryDays);
+        Task AddAsync(OfferInputModel input);
 
         Task AcceptOffer(string offerId);
 
