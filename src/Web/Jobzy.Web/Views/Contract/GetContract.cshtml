@@ -1,5 +1,4 @@
 ﻿@model Jobzy.Web.ViewModels.Contracts.SingleContractViewModel
-
 <!-- Titlebar
 ================================================== -->
 <div class="single-page-header" data-background-image="/images/single-task.jpg">
@@ -75,6 +74,14 @@
                     <a href="#cancel-contract" class="button popup-with-zoom-anim apply-now-button bg-danger ripple-effect move-on-hover full-width"><span>Cancel</span></a>
                 </div>
             }
+            else if (this.User.IsInRole("Freelancer") && Model.StatusToString == "Ongoing")
+            {
+                <!-- Buttons -->
+                <div class="bidding-signup d-flex flex-column margin-bottom-10">
+                    <a href="#upload-work" class="button popup-with-zoom-anim apply-now-button ripple-effect move-on-hover full-width margin-bottom-20"><span>Upload Work</span></a>
+                </div>
+            }
+
 
             <div class="sidebar-container">
                 <div class="sidebar-widget">
@@ -122,6 +129,7 @@
 
 <partial name="/Views/Shared/CompleteContractPartial.cshtml" model="@Model" />
 <partial name="/Views/Shared/CancelContractPartial.cshtml" model="@Model" />
+<partial name="/Views/Shared/UploadContractWorkPartial.cshtml" model="@Model" />
 
 @if (Model.StatusToString == "Ongoing")
 {

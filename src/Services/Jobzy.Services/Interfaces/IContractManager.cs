@@ -2,12 +2,13 @@
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
+
     using Jobzy.Common;
     using Jobzy.Web.ViewModels.Contracts;
 
     public interface IContractManager
     {
-        Task<string> AddAsync(string offerId);
+        Task<string> AddContractAsync(string offerId);
 
         SingleContractViewModel GetContractById(string id);
 

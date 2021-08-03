@@ -1,0 +1,38 @@
+﻿@model Jobzy.Web.ViewModels.Contracts.SingleContractViewModel
+
+<div id="upload-work" class="zoom-anim-dialog mfp-hide small-dialog-1">
+
+    <!--Tabs -->
+    <div class="sign-in-form">
+
+        <ul class="popup-tabs-nav">
+            <li><a href="#tab1">Upload Work</a></li>
+        </ul>
+
+        <div class="popup-tabs-container">
+
+            <!-- Tab -->
+            <div class="popup-tab-content" id="tab">
+
+                <!-- Welcome Text -->
+                <div class="welcome-text">
+                    <h3>Choose a file you want to upload and click send.</h3>
+                </div>
+
+                <form id="upload-work-form" enctype="multipart/form-data" asp-action="UploadFile" asp-controller="Contract">
+                    <!-- Upload Button -->
+                    <div class="uploadButton margin-top-0">
+                        <input class="uploadButton-input" name="file" type="file" accept="image/*, application/pdf" id="upload" multiple />
+                        <label class="uploadButton-button ripple-effect" for="upload">Upload File</label>
+                        <span class="uploadButton-file-name">You can only upload jpeg and pdf formats.</span>
+                    </div>
+
+                </form>
+
+                <!-- Button -->
+                <button class="margin-top-15 button w-100 button-sliding-icon ripple-effect" type="submit" form="upload-work-form">Send <i class="icon-material-outline-arrow-right-alt"></i></button>
+
+            </div>
+        </div>
+    </div>
+</div>

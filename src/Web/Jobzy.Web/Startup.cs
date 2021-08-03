@@ -1,7 +1,7 @@
 ﻿namespace Jobzy.Web
 {
     using System.Reflection;
-
+    using CloudinaryDotNet;
     using Jobzy.Data;
     using Jobzy.Data.Common;
     using Jobzy.Data.Common.Repositories;
@@ -79,6 +79,7 @@
             services.AddTransient<IStripeManager, StripeManager>();
             services.AddTransient<ICategoryManager, CategoryManager>();
             services.AddTransient<IMessageManager, MessageManager>();
+            services.AddTransient<IFileManager, FileManager>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -86,7 +87,10 @@
         {
             AutoMapperConfig.RegisterMappings(typeof(ErrorViewModel).GetTypeInfo().Assembly);
 
+            // Stripe setup
             StripeConfiguration.ApiKey = this.configuration.GetSection("Stripe")["ApiKey"];
+
+            
 
             // Seed data on application startup
             using (var serviceScope = app.ApplicationServices.CreateScope())

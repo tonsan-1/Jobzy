@@ -124,6 +124,7 @@
                 user.UserName = this.Input.Username;
                 user.Email = this.Input.Email;
                 user.Location = this.Input.Location;
+                user.ProfileImageUrl = "https://res.cloudinary.com/jobzy/image/upload/v1627979027/user-avatar-placeholder_kkhpst.png";
                 user.Balance = new Data.Models.Balance();
 
                 var result = await this._userManager.CreateAsync(user, this.Input.Password);

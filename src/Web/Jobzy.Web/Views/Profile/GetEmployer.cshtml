@@ -77,7 +77,7 @@
                 @if (Model.OpenJobs.Count > 0)
                 {
                     <div class="boxed-list-headline">
-                        <h3><i class="icon-material-outline-business-center"></i> Open Positions</h3>
+                        <h3><i class="icon-material-outline-business-center"></i> @Model.OpenJobs.Count Open Positions</h3>
                     </div>
 
                     <div class="listings-container compact-list-layout">
@@ -98,7 +98,7 @@
                                             <ul>
                                                 <li><i class="icon-material-outline-location-on"></i> @job.EmployerLocation</li>
                                                 <li><i class="icon-material-outline-business-center"></i> @job.JobType</li>
-                                                <li><i class="icon-material-outline-access-time"></i> @job.DateFormatted</li>
+                                                <li><i class="icon-material-outline-access-time"></i>Posted @job.DateFormatted</li>
                                             </ul>
                                         </div>
                                     </div>
@@ -121,12 +121,13 @@
             <!-- Boxed List / End -->
             <!-- Boxed List -->
             <div class="boxed-list margin-bottom-60">
-                <div class="boxed-list-headline">
-                    <h3><i class="icon-material-outline-thumb-up"></i> Reviews</h3>
-                </div>
-                <ul class="boxed-list-ul">
-                    @if (Model.Reviews.Count > 0)
-                    {
+                @if (Model.Reviews.Count > 0)
+                {
+                    <div class="boxed-list-headline">
+                        <h3><i class="icon-material-outline-thumb-up"></i> @Model.Reviews.Count Reviews</h3>
+                    </div>
+                    <ul class="boxed-list-ul">
+
                         @foreach (var review in Model.Reviews)
                         {
                             <li>
@@ -145,12 +146,16 @@
                                 </div>
                             </li>
                         }
-                    }
-                    else
-                    {
 
-                    }
-                </ul>
+                    </ul>
+                }
+
+                else
+                {
+                    <div class="boxed-list-headline">
+                        <h3><i class="icon-material-outline-thumb-up"></i> 0 Reviews</h3>
+                    </div>
+                }
 
                 @if (Model.Id != user.Id)
                 {

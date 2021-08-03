@@ -12,7 +12,8 @@
             IProfileManager profileManager,
             IStripeManager stripeManager,
             ICategoryManager categoryManager,
-            IMessageManager messageManager)
+            IMessageManager messageManager,
+            IFileManager fileManager)
         {
             this.JobManager = jobManager;
             this.BalanceManager = balanceManager;
@@ -22,6 +23,7 @@
             this.StripeManager = stripeManager;
             this.CategoryManager = categoryManager;
             this.MessageManager = messageManager;
+            this.FileManager = fileManager;
         }
 
         public IJobManager JobManager { get; }
@@ -39,5 +41,7 @@
         public ICategoryManager CategoryManager { get; }
 
         public IMessageManager MessageManager { get; }
+
+        public IFileManager FileManager { get; }
     }
 }

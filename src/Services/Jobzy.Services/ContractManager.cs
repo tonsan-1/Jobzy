@@ -25,7 +25,7 @@
             this.contractRepository = contractRepository;
         }
 
-        public async Task<string> AddAsync(string offerId)
+        public async Task<string> AddContractAsync(string offerId)
         {
             var offer = this.offerRepository.All()
                 .FirstOrDefault(x => x.Id == offerId);

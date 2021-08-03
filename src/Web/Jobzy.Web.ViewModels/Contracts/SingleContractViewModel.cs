@@ -22,7 +22,7 @@
 
         public string OfferJobDescription { get; set; }
 
-        public decimal OfferFixedPrice { get; set; }
+        public int OfferFixedPrice { get; set; }
 
         public int OfferDeliveryDays { get; set; }
 

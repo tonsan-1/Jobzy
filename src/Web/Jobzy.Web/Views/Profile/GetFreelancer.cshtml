@@ -77,7 +77,7 @@
                 @if (Model.Reviews.Count > 0)
                 {
                     <div class="boxed-list-headline">
-                        <h3><i class="icon-material-outline-thumb-up"></i> Reviews</h3>
+                        <h3><i class="icon-material-outline-thumb-up"></i> @Model.Reviews.Count Reviews</h3>
                     </div>
                     <ul class="boxed-list-ul">
 
@@ -111,7 +111,7 @@
                 else
                 {
                     <div class="boxed-list-headline">
-                        <h3><i class="icon-material-outline-thumb-up"></i>No Reviews</h3>
+                        <h3><i class="icon-material-outline-thumb-up"></i> 0 Reviews</h3>
                     </div>
                 }
             </div>

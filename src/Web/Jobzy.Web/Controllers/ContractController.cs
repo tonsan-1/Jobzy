@@ -6,6 +6,7 @@
     using Jobzy.Data.Models;
     using Jobzy.Services.Interfaces;
     using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
 
@@ -26,6 +27,8 @@
         [Authorize(Roles = "Administrator, Freelancer, Employer")]
         public IActionResult GetContract(string id)
         {
+            // validate if current user is in the contract
+
             var contract = this.freelancePlatform.ContractManager.GetContractById(id);
 
             if (contract is null)
@@ -37,10 +40,9 @@
         }
 
         [HttpPost]
-        [Route("/Contract/")]
         [Authorize(Roles = "Administrator, Employer")]
         public async Task<IActionResult> ContractActions(string action, string contractId, string jobId)
-        {
+        { // use input model insted of strings
             if (action == "cancel")
             {
                 await this.freelancePlatform.ContractManager.SetContractStatus(ContractStatus.Canceled, contractId);
@@ -61,6 +63,17 @@
             var contracts = this.freelancePlatform.ContractManager.GetAllUserContracts(user.Id);
 
             return this.View(contracts);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Administrator, Freelancer")]
+        public async Task<IActionResult> UploadFile([FromForm]IFormFile file)
+        {
+            // some validations of the file size and type
+
+            var uploadedFileUrl = await this.freelancePlatform.FileManager.UploadFile(file);
+
+            return this.Redirect("/");
         }
     }
 }

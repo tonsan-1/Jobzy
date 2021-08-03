@@ -20,7 +20,7 @@
 
         public int OfferDeliveryDays { get; set; }
 
-        public decimal OfferFixedPrice { get; set; }
+        public int OfferFixedPrice { get; set; }
 
         public string StatusToString => this.Status.ToString();
 

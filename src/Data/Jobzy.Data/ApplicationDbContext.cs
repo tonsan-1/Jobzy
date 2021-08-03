@@ -26,6 +26,8 @@
 
         public DbSet<Administrator> Administrator { get; set; }
 
+        public DbSet<Attachment> Attachments { get; set; }
+
         public DbSet<Job> Jobs { get; set; }
 
         public DbSet<Category> Categories { get; set; }

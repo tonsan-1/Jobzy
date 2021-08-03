@@ -17,5 +17,7 @@
         IStripeManager StripeManager { get; }
 
         IMessageManager MessageManager { get; }
+
+        IFileManager FileManager { get; }
     }
 }

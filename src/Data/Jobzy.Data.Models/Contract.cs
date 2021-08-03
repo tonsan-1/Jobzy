@@ -1,6 +1,7 @@
 ﻿namespace Jobzy.Data.Models
 {
     using System;
+    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
     using Jobzy.Common;
@@ -34,5 +35,7 @@
         public string JobId { get; set; }
 
         public virtual Job Job { get; set; }
+
+        public virtual ICollection<Attachment> Attachments { get; set; } = new List<Attachment>();
     }
 }
