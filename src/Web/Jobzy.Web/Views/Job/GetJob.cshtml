@@ -29,7 +29,7 @@
                             <h3>@Model.Title</h3>
                             <h5>About the Employer</h5>
                             <ul>
-                                <li><a href="single-company-profile.html"><i class="icon-material-outline-business"></i>@Model.EmployerName</a></li>
+                                <li><a href="single-company-profile.html"><i class="icon-material-outline-business"></i>@Model.EmployerFirstName @Model.EmployerLastName</a></li>
                                 <li><div class="star-rating" data-rating="@Model.EmployerRating"></div></li>
                                 <li><img class="flag" src="/images/flags/@(Model.EmployerLocation.ToString().ToLower()).svg" alt="">@Model.EmployerLocationToString</li>
                             </ul>

@@ -120,7 +120,7 @@
             payment_method: {
                 card: card,
                 billing_details: {
-                    name: '@Model.EmployerName'
+                    name: '@Model.EmployerFirstName @Model.EmployerLastName'
                 }
             },
         }).then(function (result) {

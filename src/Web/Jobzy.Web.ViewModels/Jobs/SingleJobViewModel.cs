@@ -17,7 +17,9 @@
 
         public string EmployerId { get; set; }
 
-        public string EmployerName { get; set; }
+        public string EmployerFirstName { get; set; }
+
+        public string EmployerLastName{ get; set; }
 
         public double EmployerRating { get; set; }
 

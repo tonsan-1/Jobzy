@@ -27,11 +27,15 @@
 
         public int OfferDeliveryDays { get; set; }
 
-        public string EmployerName { get; set; }
+        public string EmployerFirstName { get; set; }
+
+        public string EmployerLastName { get; set; }
 
         public string FreelancerId { get; set; }
 
-        public string FreelancerName { get; set; }
+        public string FreelancerFirstName { get; set; }
+
+        public string FreelancerLastName { get; set; }
 
         public string StatusToString => this.Status.ToString();
 
