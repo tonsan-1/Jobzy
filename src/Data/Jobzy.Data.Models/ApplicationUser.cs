@@ -21,14 +21,15 @@ namespace Jobzy.Data.Models
         }
 
         [Required]
-        [MaxLength(100)]
-        public string Name { get; set; }
-
-        [MaxLength(100)]
-        public string TagName { get; set; }
+        [MaxLength(25)]
+        public string FirstName { get; set; }
 
         [Required]
-        public virtual Balance Balance { get; set; }
+        [MaxLength(25)]
+        public string LastName { get; set; }
+
+        [MaxLength(50)]
+        public string TagName { get; set; }
 
         [MaxLength(4096)]
         public string Description { get; set; }

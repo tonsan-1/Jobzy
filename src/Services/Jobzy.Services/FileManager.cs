@@ -14,11 +14,15 @@
 
     public class FileManager : IFileManager
     {
-        private readonly IRepository<Attachment> repository;
+        private readonly IRepository<Attachment> attachmentRepository;
+        private readonly IRepository<ApplicationUser> userRepository;
 
-        public FileManager(IRepository<Attachment> repository)
+        public FileManager(
+            IRepository<Attachment> attachmentRepository,
+            IRepository<ApplicationUser> userRepository)
         {
-            this.repository = repository;
+            this.attachmentRepository = attachmentRepository;
+            this.userRepository = userRepository;
         }
 
         public async Task AddAttachmentToContract(IFormFile file, string contractId)
@@ -33,11 +37,23 @@
                 Extension = file.FileName.Split(".").Last().ToUpper(),
             };
 
-            await this.repository.AddAsync(attachment);
-            await this.repository.SaveChangesAsync();
+            await this.attachmentRepository.AddAsync(attachment);
+            await this.attachmentRepository.SaveChangesAsync();
         }
 
-        private async Task<string> UploadAttachment(IFormFile attachment)
+        public async Task UpdateProfilePicture(IFormFile picture, string userId)
+        {
+            var pictureUrl = await this.UploadAttachment(picture);
+
+            var user = this.userRepository.All().FirstOrDefault(x => x.Id == userId);
+
+            user.ProfileImageUrl = pictureUrl;
+
+            this.userRepository.Update(user);
+            await this.userRepository.SaveChangesAsync();
+        }
+
+        public async Task<string> UploadAttachment(IFormFile attachment)
         {
             // Cloudinary setup
             Account account = new Account(

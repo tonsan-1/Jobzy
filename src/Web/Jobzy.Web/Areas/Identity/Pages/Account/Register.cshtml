@@ -39,14 +39,20 @@
                         </select>
                     </div>
 
-                    <span asp-validation-for="Input.Name" class="text-danger"></span>
+                    <span asp-validation-for="Input.FirstName" class="text-danger"></span>
                     <div class="input-with-icon-left">
                         <i class="icon-material-outline-account-circle"></i>
-                        <input asp-for="Input.Name" type="text" class="input-text with-border" placeholder="Full Name" required />
+                        <input asp-for="Input.FirstName" type="text" class="input-text with-border" placeholder="First Name" required />
+                    </div>
+
+                    <span asp-validation-for="Input.LastName" class="text-danger"></span>
+                    <div class="input-with-icon-left">
+                        <i class="icon-material-outline-account-circle"></i>
+                        <input asp-for="Input.LastName" type="text" class="input-text with-border" placeholder="Last Name" required />
                     </div>
 
 
-                        <span asp-validation-for="Input.Username" class="text-danger"></span>
+                    <span asp-validation-for="Input.Username" class="text-danger"></span>
                     <div class="input-with-icon-left">
                         <i class="icon-material-outline-account-circle"></i>
                         <input asp-for="Input.Username" type="text" class="input-text with-border" placeholder="Username" required />

@@ -24,11 +24,11 @@
             {
                 var admin = new Administrator
                 {
-                    Name = "Stoyan Kostadinov",
+                    FirstName = "Stoyan",
+                    LastName = "Kostadinov",
                     UserName = "tonsan1",
                     Email = "admin@admin.com",
                     Location = Country.BG,
-                    Balance = new Balance(),
                 };
 
                 var result = await userManager.CreateAsync(admin, "123456");

@@ -26,7 +26,7 @@
         public IEnumerable<UsersListViewModel> GetMatchingUsers(string query)
         {
             var users = this.repository.All()
-                .Where(x => x.Name.StartsWith(query))
+                .Where(x => x.FirstName.StartsWith(query))
                 .To<UsersListViewModel>()
                 .ToList();
 

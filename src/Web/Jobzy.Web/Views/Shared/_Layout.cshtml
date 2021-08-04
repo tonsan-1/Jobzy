@@ -125,7 +125,8 @@
                     <div class="right-side">
                         @if (this.signInManager.IsSignedIn(User))
                         {
-                            var fullName = user.Name;
+                            var firstName = user.FirstName;
+                            var lastName = user.LastName;
                             var username = user.UserName;
                             var role = User.IsInRole("Freelancer") ? "Freelancer" : "Employer";
 
@@ -148,9 +149,8 @@
                                             <div class="user-details ">
                                                 <div class="user-avatar status-invisible"><img src="@user.ProfileImageUrl" alt=""></div>
                                                 <div class="user-name d-flex flex-column align-items-center">
-                                                    @fullName
+                                                    @firstName @lastName
                                                     <span class="dashboard-status-button green margin-top-10 margin-right-10">
-                                                        $@user.Balance.Money
                                                     </span>
                                                 </div>
                                             </div>

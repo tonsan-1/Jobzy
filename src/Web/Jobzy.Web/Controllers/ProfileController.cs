@@ -4,7 +4,9 @@
 
     using Jobzy.Data.Models;
     using Jobzy.Services.Interfaces;
+    using Jobzy.Web.ViewModels.Profiles;
     using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
 
@@ -61,6 +63,46 @@
             var freelancer = this.freelancePlatform.ProfileManager.GetFreelancer(user.Id);
 
             return this.View(freelancer);
+        }
+
+        [Authorize(Roles = "Administrator, Freelancer, Employer")]
+        public IActionResult Settings()
+        {
+            var userId = this.userManager.GetUserId(this.User);
+
+            var user = this.freelancePlatform.ProfileManager.GetUserSettings(userId);
+
+            var model = new ProfileSettingsViewModel { ProfileViewModel = user };
+
+            return this.View(model);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Administrator, Freelancer, Employer")]
+        public async Task<IActionResult> UpdateProfileInfo(
+            [Bind(Prefix = "ProfileInfoInputModel")]ProfileInfoInputModel input,
+            IFormFile profilePicture)
+        {
+            var user = await this.userManager.GetUserAsync(this.User);
+
+            if (!this.ModelState.IsValid)
+            {
+                var userViewModel = this.freelancePlatform.ProfileManager.GetUserSettings(user.Id);
+
+                return this.View("Settings", new ProfileSettingsViewModel
+                {
+                    ProfileViewModel = userViewModel,
+                });
+            }
+
+            if (profilePicture is not null && profilePicture.ContentType == "image/jpeg")
+            {
+                await this.freelancePlatform.FileManager.UpdateProfilePicture(profilePicture, user.Id);
+            }
+
+            await this.freelancePlatform.ProfileManager.UpdateUserInfo(input, user.Id);
+
+            return this.Redirect("/");
         }
     }
 }

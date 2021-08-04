@@ -38,8 +38,6 @@
 
         public DbSet<Offer> Offers { get; set; }
 
-        public DbSet<Balance> Balances { get; set; }
-
         public DbSet<Contract> Contracts { get; set; }
 
         public DbSet<Review> Reviews { get; set; }

@@ -1,0 +1,189 @@
+﻿@using Jobzy.Common
+@model Jobzy.Web.ViewModels.Profiles.ProfileSettingsViewModel
+    <!-- Dashboard Container -->
+<div class="dashboard-container">
+
+    <partial name="DashboardPartial" />
+
+    <!-- Dashboard Content
+        ================================================== -->
+    <div class="dashboard-content-container" data-simplebar>
+        <div class="dashboard-content-inner">
+
+            <!-- Row -->
+            <div class="row">
+                <form id="update-user-info-form" enctype="multipart/form-data" method="post" asp-action="UpdateProfileInfo" asp-controller="Profile">
+
+                    <!-- Dashboard Box -->
+                    <div class="col-xl-12">
+                        <div class="dashboard-box margin-top-0">
+
+                            <!-- Headline -->
+                            <div class="headline">
+                                <h3><i class="icon-material-outline-account-circle"></i> My Account</h3>
+                            </div>
+
+                            <div class="content with-padding padding-bottom-0">
+
+                                <div class="row">
+
+                                    <div class="col-auto">
+                                        <div class="avatar-wrapper" data-tippy-placement="bottom" title="Change Avatar">
+                                            <img class="profile-pic" src="@Model.ProfileViewModel.ProfileImageUrl" alt="" />
+                                            <div class="upload-button"></div>
+                                            <input name="profilePicture" class="file-upload" type="file" accept="image/*" />
+                                        </div>
+                                    </div>
+
+                                    <div class="col">
+                                        <div class="row">
+                                            <div class="col-xl-6">
+                                                <div class="submit-field">
+                                                    <h5>First Name</h5>
+                                                    <input asp-for="ProfileInfoInputModel.FirstName" type="text" class="with-border" value="@Model.ProfileViewModel.FirstName">
+                                                    <span asp-validation-for="ProfileInfoInputModel.FirstName" class="text-danger"></span>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-xl-6">
+                                                <div class="submit-field">
+                                                    <h5>Last Name</h5>
+                                                    <input asp-for="ProfileInfoInputModel.LastName" type="text" class="with-border" value="@Model.ProfileViewModel.LastName">
+                                                    <span asp-validation-for="ProfileInfoInputModel.LastName" class="text-danger"></span>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-xl-6">
+                                                @*Account Type*@
+                                                <div class="submit-field">
+                                                    <h5>Account Type</h5>
+                                                    <div class="account-type">
+                                                        @if (User.IsInRole("Freelancer"))
+                                                        {
+                                                            <div>
+                                                                <input disabled type="radio" name="account-type-radio" id="freelancer-radio" class="account-type-radio" checked />
+                                                                <label for="freelancer-radio"><i class="icon-material-outline-account-circle"></i> Freelancer</label>
+                                                            </div>
+                                                        }
+                                                        @if (User.IsInRole("Employer"))
+                                                        {
+                                                            <div>
+                                                                <input disabled type="radio" name="account-type-radio" id="employer-radio" class="account-type-radio" checked />
+                                                                <label for="employer-radio"><i class="icon-material-outline-business-center"></i> Employer</label>
+                                                            </div>
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-xl-6">
+                                                <div class="submit-field">
+                                                    <h5>Nationality</h5>
+                                                    <div class="input-with-icon-left">
+                                                        <select asp-for="ProfileInfoInputModel.Location" asp-items="Html.GetEnumSelectList<Country>()" class="location-select dropdown with-border" data-size="5">
+                                                            <option selected value="@Model.ProfileViewModel.Location">@Model.ProfileViewModel.LocationToString</option>
+                                                        </select>
+                                                        <span asp-validation-for="ProfileInfoInputModel.Location" class="text-danger"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Dashboard Box -->
+                    <div class="col-xl-12">
+                        <div class="dashboard-box">
+
+                            <!-- Headline -->
+                            <div class="headline">
+                                <h3><i class="icon-material-outline-face"></i> My Profile</h3>
+                            </div>
+
+                            <div class="content">
+                                <ul class="fields-ul">
+                                    <li>
+                                        <div class="row">
+                                            <div class="col-xl-6">
+                                                <div class="submit-field">
+                                                    <h5>Tagline</h5>
+                                                    <input asp-for="ProfileInfoInputModel.TagName" type="text" class="with-border" placeholder="Add a Tagline" value="@Model.ProfileViewModel.TagName">
+                                                    <span asp-validation-for="ProfileInfoInputModel.TagName" class="text-danger"></span>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-xl-12">
+                                                <div class="submit-field">
+                                                    <h5>Introduce Yourself</h5>
+                                                    <textarea asp-for="ProfileInfoInputModel.Description" cols="30" placeholder="Add a Description" rows="5" class="with-border">@Model.ProfileViewModel.Description</textarea>
+                                                    <span asp-validation-for="ProfileInfoInputModel.Description" class="text-danger"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                <!-- Button -->
+                <div class="col-xl-12">
+                    <button type="submit" form="update-user-info-form" class="button ripple-effect big margin-top-30">Update Profile</button>
+                </div>
+
+                <!-- Dashboard Box -->
+                <div class="col-xl-12">
+                    <div id="test1" class="dashboard-box">
+
+                        <!-- Headline -->
+                        <div class="headline">
+                            <h3><i class="icon-material-outline-lock"></i> Password</h3>
+                        </div>
+
+                        <form method="post" id="update-user-password-form" asp-action="ChangePassword" asp-controller="Profile">
+                            <div class="content with-padding">
+                                <div class="row">
+                                    <div class="col-xl-4">
+                                        <div class="submit-field">
+                                            <h5>Current Password</h5>
+                                            <input asp-for="ProfilePasswordInputModel.CurrentPassword" type="password" class="with-border">
+                                            <span asp-validation-for="ProfilePasswordInputModel.CurrentPassword" class="text-danger"></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xl-4">
+                                        <div class="submit-field">
+                                            <h5>New Password</h5>
+                                            <input asp-for="ProfilePasswordInputModel.NewPassword" type="password" class="with-border">
+                                            <span asp-validation-for="ProfilePasswordInputModel.NewPassword" class="text-danger"></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xl-4">
+                                        <div class="submit-field">
+                                            <h5>Repeat New Password</h5>
+                                            <input asp-for="ProfilePasswordInputModel.RepeatNewPassword" type="password" class="with-border">
+                                            <span asp-validation-for="ProfilePasswordInputModel.RepeatNewPassword" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+
+                <!-- Button -->
+                <div class="col-xl-12">
+                    <button type="submit" form="update-user-password-form" class="button ripple-effect big margin-top-30">Change Password</button>
+                </div>
+            </div>
+            <!-- Row / End -->
+        </div>
+    </div>
+</div>

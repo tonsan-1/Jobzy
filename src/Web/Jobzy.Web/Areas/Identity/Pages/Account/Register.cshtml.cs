@@ -59,12 +59,17 @@
             public UserType UserType { get; set; }
 
             [Required]
-            [StringLength(24, MinimumLength = 3, ErrorMessage = "The {0} must be between {2} and {1} characters long.")]
-            [Display(Name = "Full Name")]
-            public string Name { get; set; }
+            [StringLength(25, MinimumLength = 3, ErrorMessage = "The {0} must be between {2} and {1} characters long.")]
+            [Display(Name = "First Name")]
+            public string FirstName { get; set; }
 
             [Required]
-            [StringLength(24, MinimumLength = 3, ErrorMessage = "The {0} must be between {2} and {1} characters long.")]
+            [StringLength(25, MinimumLength = 3, ErrorMessage = "The {0} must be between {2} and {1} characters long.")]
+            [Display(Name = "Last Name")]
+            public string LastName { get; set; }
+
+            [Required]
+            [StringLength(25, MinimumLength = 3, ErrorMessage = "The {0} must be between {2} and {1} characters long.")]
             [Display(Name = "Username")]
             public string Username { get; set; }
 
@@ -117,15 +122,15 @@
                 }
 
                 var account =
-                    this.freelancePlatform.StripeManager.CreateAccount(this.Input.Name, this.Input.Email);
+                    this.freelancePlatform.StripeManager.CreateAccount(this.Input.FirstName, this.Input.Email);
 
                 user.Id = account.Id;
-                user.Name = this.Input.Name;
+                user.FirstName = this.Input.FirstName;
+                user.LastName = this.Input.LastName;
                 user.UserName = this.Input.Username;
                 user.Email = this.Input.Email;
                 user.Location = this.Input.Location;
                 user.ProfileImageUrl = "https://res.cloudinary.com/jobzy/image/upload/v1627979027/user-avatar-placeholder_kkhpst.png";
-                user.Balance = new Data.Models.Balance();
 
                 var result = await this._userManager.CreateAsync(user, this.Input.Password);
 

@@ -6,7 +6,6 @@
     {
         public FreelancePlatform(
             IJobManager jobManager,
-            IBalanceManager balanceManager,
             IOfferManager offerManager,
             IContractManager contractManager,
             IProfileManager profileManager,
@@ -16,7 +15,6 @@
             IFileManager fileManager)
         {
             this.JobManager = jobManager;
-            this.BalanceManager = balanceManager;
             this.OfferManager = offerManager;
             this.ContractManager = contractManager;
             this.ProfileManager = profileManager;
@@ -27,8 +25,6 @@
         }
 
         public IJobManager JobManager { get; }
-
-        public IBalanceManager BalanceManager { get; }
 
         public IOfferManager OfferManager { get; }
 
