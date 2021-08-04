@@ -42,7 +42,7 @@
         [HttpPost]
         [Authorize(Roles = "Administrator, Employer")]
         public async Task<IActionResult> ContractActions(string action, string contractId, string jobId)
-        { // use input model insted of strings
+        { // use input model insted of strings and separate the logic in two separate methods
             if (action == "cancel")
             {
                 await this.freelancePlatform.ContractManager.SetContractStatus(ContractStatus.Canceled, contractId);
@@ -67,13 +67,13 @@
 
         [HttpPost]
         [Authorize(Roles = "Administrator, Freelancer")]
-        public async Task<IActionResult> UploadFile([FromForm]IFormFile file)
+        public async Task<IActionResult> UploadWork([FromForm]IFormFile attachment, string contractId)
         {
             // some validations of the file size and type
 
-            var uploadedFileUrl = await this.freelancePlatform.FileManager.UploadFile(file);
+            await this.freelancePlatform.FileManager.AddAttachmentToContract(attachment, contractId);
 
-            return this.Redirect("/");
+            return this.Redirect($"/Contract?id={contractId}");
         }
     }
 }

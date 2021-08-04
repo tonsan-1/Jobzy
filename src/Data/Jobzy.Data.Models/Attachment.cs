@@ -12,6 +12,10 @@
         public string Name { get; set; }
 
         [Required]
+        [FileExtensions]
+        public string Extension { get; set; }
+
+        [Required]
         [Url]
         public string Url { get; set; }
 

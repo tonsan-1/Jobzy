@@ -2,19 +2,45 @@
 {
     using System;
     using System.IO;
+    using System.Linq;
     using System.Threading.Tasks;
 
     using CloudinaryDotNet;
     using CloudinaryDotNet.Actions;
+    using Jobzy.Data.Common.Repositories;
+    using Jobzy.Data.Models;
     using Jobzy.Services.Interfaces;
     using Microsoft.AspNetCore.Http;
 
     public class FileManager : IFileManager
     {
-        public async Task<string> UploadFile(IFormFile file)
+        private readonly IRepository<Attachment> repository;
+
+        public FileManager(IRepository<Attachment> repository)
+        {
+            this.repository = repository;
+        }
+
+        public async Task AddAttachmentToContract(IFormFile file, string contractId)
+        {
+            var attachmentUrl = await this.UploadAttachment(file);
+
+            var attachment = new Attachment
+            {
+                Url = attachmentUrl,
+                ContractId = contractId,
+                Name = file.FileName.Split(".").First().ToUpper(),
+                Extension = file.FileName.Split(".").Last().ToUpper(),
+            };
+
+            await this.repository.AddAsync(attachment);
+            await this.repository.SaveChangesAsync();
+        }
+
+        private async Task<string> UploadAttachment(IFormFile attachment)
         {
             // Cloudinary setup
-            CloudinaryDotNet.Account account = new CloudinaryDotNet.Account(
+            Account account = new Account(
                 "jobzy",
                 "239537293495227",
                 "cPHTXZ86-9xLH7UkZccX4_XnlFw");
@@ -25,17 +51,20 @@
             using (var stream = new MemoryStream())
             {
                 stream.Flush();
-                await file.CopyToAsync(stream);
+                await attachment.CopyToAsync(stream);
                 stream.Position = 0;
 
                 var uploadParams = new ImageUploadParams()
                 {
-                    File = new FileDescription(Guid.NewGuid().ToString(), stream),
+                    File = new FileDescription(attachment.FileName.Split(".").First(), stream),
                 };
 
                 var uploadResult = cloudinary.Upload(uploadParams);
 
-                return uploadResult.SecureUrl.AbsolutePath;
+                var downloadableUrl = "https://res.cloudinary.com/jobzy/image/upload/fl_attachment/v" +
+                                      $"{uploadResult.Version}/{uploadResult.PublicId}.{uploadResult.Format}";
+
+                return downloadableUrl;
             }
         }
     }

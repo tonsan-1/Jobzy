@@ -65,7 +65,7 @@
             await this.freelancePlatform.OfferManager.AcceptOffer(offerId);
             await this.freelancePlatform.JobManager.SetJobStatus(JobStatus.InContract, jobId);
             var contractId =
-                await this.freelancePlatform.ContractManager.AddAsync(offerId);
+                await this.freelancePlatform.ContractManager.AddContractAsync(offerId);
 
             return this.Redirect($"/Contract?id={contractId}");
         }

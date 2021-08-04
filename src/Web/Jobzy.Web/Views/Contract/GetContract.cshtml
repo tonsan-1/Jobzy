@@ -55,8 +55,12 @@
             <!-- Atachments -->
             <div class="single-page-section">
                 <h3>Attachments</h3>
+                <h5 class="margin-bottom-30 text-secondary font-italic">Download an attachment by right-clicking on the file.</h5>
                 <div class="attachments-container">
-                    <a href="#" class="attachment-box ripple-effect"><span>Project Brief</span><i>PDF</i></a>
+                    @foreach (var attachment in Model.Attachments)
+                    {
+                        <a href="@attachment.Url" download="asd.jpg" target="_blank" class="attachment-box ripple-effect"><span>@attachment.ShortenedName</span><i>@attachment.Extension</i></a>
+                    }
                 </div>
             </div>
 

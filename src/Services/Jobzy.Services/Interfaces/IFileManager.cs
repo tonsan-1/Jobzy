@@ -6,6 +6,6 @@
 
     public interface IFileManager
     {
-        Task<string> UploadFile(IFormFile file);
+        Task AddAttachmentToContract(IFormFile attachment, string contractId);
     }
 }

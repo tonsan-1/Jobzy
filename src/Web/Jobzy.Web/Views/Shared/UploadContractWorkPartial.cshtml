@@ -19,13 +19,15 @@
                     <h3>Choose a file you want to upload and click send.</h3>
                 </div>
 
-                <form id="upload-work-form" enctype="multipart/form-data" asp-action="UploadFile" asp-controller="Contract">
+                <form id="upload-work-form" enctype="multipart/form-data" asp-action="UploadWork" asp-controller="Contract">
                     <!-- Upload Button -->
                     <div class="uploadButton margin-top-0">
-                        <input class="uploadButton-input" name="file" type="file" accept="image/*, application/pdf" id="upload" multiple />
+                        <input class="uploadButton-input" name="attachment" type="file" accept="image/*, application/pdf" id="upload" multiple />
                         <label class="uploadButton-button ripple-effect" for="upload">Upload File</label>
                         <span class="uploadButton-file-name">You can only upload jpeg and pdf formats.</span>
                     </div>
+
+                    <input hidden name="contractId" value="@Model.Id"/>
 
                 </form>
 

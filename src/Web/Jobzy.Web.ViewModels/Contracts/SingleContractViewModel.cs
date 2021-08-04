@@ -1,6 +1,7 @@
 ﻿namespace Jobzy.Web.ViewModels.Contracts
 {
     using System;
+    using System.Collections.Generic;
 
     using Jobzy.Common;
     using Jobzy.Data.Models;
@@ -48,5 +49,7 @@
         public string StatusName => this.StatusToString == "Ongoing" && this.TimeLeft > 0 ? "Ongoing" :
                                     this.StatusToString == "Ongoing" && this.TimeLeft < 0 ? "Expired" :
                                     this.StatusToString == "Canceled" ? "Canceled" : "Finished";
+
+        public List<AttachmentListViewModel> Attachments { get; set; }
     }
 }
