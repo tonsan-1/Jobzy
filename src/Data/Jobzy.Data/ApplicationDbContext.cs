@@ -74,6 +74,18 @@
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            builder
+                .Entity<Message>()
+                .HasOne(m => m.Recipient)
+                .WithMany(x => x.ReceivedMessages)
+                .HasForeignKey(x => x.RecipientId);
+
+            builder
+                .Entity<Message>()
+                .HasOne(m => m.Sender)
+                .WithMany(x => x.SentMessages)
+                .HasForeignKey(x => x.SenderId);
+
             // Needed for Identity models configuration
             base.OnModelCreating(builder);
 

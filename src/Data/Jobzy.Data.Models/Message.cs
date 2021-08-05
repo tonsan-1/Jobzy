@@ -2,7 +2,6 @@
 {
     using System;
     using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
 
     public class Message
     {
@@ -16,16 +15,13 @@
         [Required]
         public string RecipientId { get; set; }
 
+        public virtual ApplicationUser Recipient { get; set; }
+
         [Required]
         public string SenderId { get; set; }
 
-        [NotMapped]
-        public bool IsMine { get; set; }
-
-        [NotMapped]
         public virtual ApplicationUser Sender { get; set; }
 
-        [NotMapped]
-        public virtual ApplicationUser Recipient { get; set; }
+        public bool IsRead { get; set; }
     }
 }

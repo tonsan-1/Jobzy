@@ -15,10 +15,10 @@
         {
             var userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
 
-            await SeedDefaultUserAsync(userManager);
+            await SeedDefaultUserAsync(dbContext, userManager);
         }
 
-        private static async Task SeedDefaultUserAsync(UserManager<ApplicationUser> userManager)
+        private static async Task SeedDefaultUserAsync(ApplicationDbContext db, UserManager<ApplicationUser> userManager)
         {
             if (userManager.FindByEmailAsync("admin@admin.com").Result == null)
             {
@@ -31,12 +31,9 @@
                     Location = Country.BG,
                 };
 
-                var result = await userManager.CreateAsync(admin, "123456");
-
-                if (result.Succeeded)
-                {
-                   await userManager.AddToRoleAsync(admin, "Administrator");
-                }
+                await db.Users.AddAsync(admin);
+                await db.SaveChangesAsync();
+                await userManager.AddToRoleAsync(admin, "Administrator");
             }
         }
     }
