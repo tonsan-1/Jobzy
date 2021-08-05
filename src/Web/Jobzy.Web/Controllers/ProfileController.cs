@@ -104,5 +104,40 @@
 
             return this.Redirect("/");
         }
+
+        [HttpPost]
+        [Authorize(Roles = "Administrator, Freelancer, Employer")]
+        public async Task<IActionResult> ChangePassword(
+            [Bind(Prefix = "ProfilePasswordInputModel")] ProfilePasswordInputModel input)
+        {
+            var user = await this.userManager.GetUserAsync(this.User);
+            var userViewModel = this.freelancePlatform.ProfileManager.GetUserSettings(user.Id);
+
+            if (!this.ModelState.IsValid)
+            {
+                return this.View("Settings", new ProfileSettingsViewModel
+                {
+                    ProfileViewModel = userViewModel,
+                });
+            }
+
+            var result = await this.userManager.ChangePasswordAsync(
+                user, input.CurrentPassword, input.NewPassword);
+
+            if (!result.Succeeded)
+            {
+                foreach (var error in result.Errors)
+                {
+                    this.ModelState.AddModelError("input.CurrentPassword", error.Description);
+                }
+
+                return this.View("Settings", new ProfileSettingsViewModel
+                {
+                    ProfileViewModel = userViewModel,
+                });
+            }
+
+            return this.Redirect("/");
+        }
     }
 }

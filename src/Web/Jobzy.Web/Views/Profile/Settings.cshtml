@@ -119,7 +119,7 @@
                                             <div class="col-xl-12">
                                                 <div class="submit-field">
                                                     <h5>Introduce Yourself</h5>
-                                                    <textarea asp-for="ProfileInfoInputModel.Description" cols="30" placeholder="Add a Description" rows="5" class="with-border">@Model.ProfileViewModel.Description</textarea>
+                                                    <textarea asp-for="ProfileInfoInputModel.Description" cols="30" placeholder="@(Model.ProfileViewModel.Description is null ? "Add a Description" : Model.ProfileViewModel.Description)" rows="5" class="with-border"></textarea>
                                                     <span asp-validation-for="ProfileInfoInputModel.Description" class="text-danger"></span>
                                                 </div>
                                             </div>
