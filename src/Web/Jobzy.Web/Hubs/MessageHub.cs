@@ -33,7 +33,9 @@
 
             await this.freelancePlatform.MessageManager.CreateAsync(currentUser.Id, receiverId, message);
 
-            await this.Clients.All.SendAsync("ReceiveMessage", new
+            await this.Clients
+                .Users(new string[] { currentUser.Id, receiverId })
+                .SendAsync("ReceiveMessage", new
             {
                 Content = message,
                 SenderId = currentUser.Id,
