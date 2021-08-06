@@ -22,7 +22,7 @@
 
                 <div class="messages-container-inner">
 
-                    <vc:all-user-conversations  ></vc:all-user-conversations>
+                    <vc:all-user-conversations></vc:all-user-conversations>
 
                     <!-- Message Content -->
                     <div class="message-content">
@@ -99,22 +99,28 @@
 
             var bubble = message.senderId == currentUserId ? 'me' : '';
 
-            document.getElementById("message-field").innerHTML +=
-                `<div class="message-bubble ${bubble}">
-                 <div class="message-bubble-inner">
-                     <div class="message-avatar"><img src="${message.senderProfileImageUrl}" alt="" /></div>
-                     <div class="message-text"><p>${message.content}</p></div>
-             </div>
-                 <div class="clearfix"></div>
-             </div>`;
+            if (currentUserId == message.senderId || currentUserId == message.receiverId) {
+                document.getElementById("message-field").innerHTML +=
+                    `<div class="message-bubble ${bubble}">
+                        <div class="message-bubble-inner">
+                            <div class="message-avatar"><img src="${message.senderProfileImageUrl}" alt="" /></div>
+                            <div class="message-text"><p>${message.content}</p></div>
+                        </div>
+                    <div class="clearfix"></div>
+                    </div>`;
 
-            document.getElementById('message-field').scrollTop = document.getElementById('message-field').scrollHeight;
+                document.getElementById('message-field').scrollTop = document.getElementById('message-field').scrollHeight;
 
-            var li = document.getElementById(message.receiverId);
-            console.log(li);
+                if (message.senderId == currentUserId) {
+                    var li = document.getElementById(message.receiverId);
 
-            li.querySelector('span').innerHTML = 'just now';
-            li.querySelector('p').innerHTML = message.content;
+                } else {
+                    var li = document.getElementById(message.senderId);
+                }
+
+                li.querySelector('span').innerHTML = 'just now';
+                li.querySelector('p').innerHTML = message.content;
+            }
         });
 
         connection.start().then(function () {
