@@ -1,0 +1,24 @@
+﻿@model IEnumerable<Jobzy.Web.ViewModels.Messages.AllConversations.AllUserConversationsViewModel>
+<!-- Messages -->
+<div class="messages-inbox">
+    <ul>
+        @foreach (var conversation in Model)
+        {
+            <li id="@conversation.Id">
+                <a asp-action="Conversation" asp-controller="Message" asp-route-id="@conversation.Id">
+                    <div class="message-avatar"><i class="status-icon status-online"></i><img src="@conversation.ProfileImageUrl" alt="" /></div>
+
+                    <div class="message-by">
+                        <div class="message-by-headline">
+                            <h5>@conversation.FirstName @conversation.LastName</h5>
+                            <span id="receivedDate" >@conversation.ReceivedDateTimeAgo</span>
+                        </div>
+                        <p id="lastMessage">@conversation.LastMessage</p>
+                    </div>
+                </a>
+            </li>
+        }
+    </ul>
+</div>
+<!-- Messages / End -->
+

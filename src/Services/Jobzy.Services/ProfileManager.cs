@@ -2,6 +2,7 @@
 {
     using System.Linq;
     using System.Threading.Tasks;
+
     using Jobzy.Data.Common.Repositories;
     using Jobzy.Data.Models;
     using Jobzy.Services.Interfaces;
@@ -9,6 +10,7 @@
     using Jobzy.Web.ViewModels.Profiles;
     using Jobzy.Web.ViewModels.Profiles.Employers;
     using Jobzy.Web.ViewModels.Profiles.Freelancers;
+    using Microsoft.EntityFrameworkCore;
 
     public class ProfileManager : IProfileManager
     {
@@ -25,6 +27,13 @@
             this.freelancerRepository = freelancerRepository;
             this.baseUserRepository = baseUserRepository;
         }
+
+        public async Task<T> GetUserById<T>(string id)
+            => await this.baseUserRepository
+                .All()
+                .Where(x => x.Id == id)
+                .To<T>()
+                .FirstOrDefaultAsync();
 
         public EmployerViewModel GetEmployer(string userId)
         {

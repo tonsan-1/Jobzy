@@ -1,0 +1,30 @@
+﻿<!-- Dashboard Container -->
+<div class="dashboard-container">
+    <partial name="DashboardPartial" />
+
+
+    <!-- Dashboard Content
+    ================================================== -->
+    <div class="dashboard-content-container" data-simplebar>
+        <div class="dashboard-content-inner">
+            <!-- Dashboard Headline -->
+
+            <div class="dashboard-headline">
+                <a href="#small-dialog-2" class="popup-with-zoom-anim button big ripple-effect">New Message</a>
+            </div>
+
+            <vc:all-user-conversations></vc:all-user-conversations>
+
+            <!-- Spacer -->
+            <div class="margin-top-70"></div>
+            <!-- Spacer / End-->
+        </div>
+    </div>
+</div>
+
+<partial name="SendNewMessagePartial" />
+
+@section scripts {
+    <script src="~/js/signalr/dist/browser/signalr.js"></script>
+    <script src="~/js/messages.js"></script>
+}

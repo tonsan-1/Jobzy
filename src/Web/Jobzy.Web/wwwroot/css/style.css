@@ -15841,8 +15841,8 @@ ul.dashboard-box-list > li:hover {
 
 
 /* Scrollbar Adjustments */
-.messages-inbox ul { max-height: 875px; }
-.message-content-inner { max-height: 750px; }
+.messages-inbox ul { max-height: 400px !important; }
+.message-content-inner { max-height: 400px !important; }
 
 .message-content,
 .messages-container-inner .messages-inbox { overflow: hidden; }

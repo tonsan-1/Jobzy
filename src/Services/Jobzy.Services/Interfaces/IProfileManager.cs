@@ -8,6 +8,8 @@
 
     public interface IProfileManager
     {
+        Task<T> GetUserById<T>(string id);
+
         EmployerViewModel GetEmployer(string userId);
 
         FreelancerViewModel GetFreelancer(string userId);

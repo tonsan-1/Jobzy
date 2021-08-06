@@ -1,0 +1,143 @@
+﻿@using Jobzy.Data.Models
+@using Microsoft.AspNetCore.Identity
+
+@inject UserManager<ApplicationUser> userManager
+
+@model Jobzy.Web.ViewModels.Messages.UserConversationViewModel
+
+@{
+
+}
+
+<!-- Dashboard Container -->
+<div class="dashboard-container">
+    <partial name="DashboardPartial" />
+
+    <!-- Dashboard Content
+    ================================================== -->
+    <div class="dashboard-content-container" data-simplebar>
+        <div class="dashboard-content-inner">
+
+            <div class="messages-container margin-top-0">
+
+                <div class="messages-container-inner">
+
+                    <vc:all-user-conversations  ></vc:all-user-conversations>
+
+                    <!-- Message Content -->
+                    <div class="message-content">
+
+                        <div class="messages-headline">
+                            <h4>@Model.User.FirstName @Model.User.LastName</h4>
+                        </div>
+
+                        <!-- Message Content Inner -->
+                        <div id="message-field" class="message-content-inner">
+
+                            @foreach (var message in Model.Messages)
+                            {
+                                var isMyMessage = message.SenderId == this.userManager.GetUserId(this.User) ? "me" : string.Empty;
+
+                                @if (!message.IsDateReceivedToday)
+                                {
+                                    <!-- Time Sign -->
+                                    <div class="message-time-sign">
+                                        <span>@message.DateReceivedToString</span>
+                                    </div>
+                                }
+
+                                <div class="message-bubble @isMyMessage">
+                                    <div class="message-bubble-inner">
+                                        <div class="message-avatar"><img src="@message.SenderProfileImageUrl" alt="" /></div>
+                                        <div class="message-text"><p>@message.Content</p></div>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                            }
+
+                        </div>
+                        <!-- Message Content Inner / End -->
+                        <!-- Reply Area -->
+                        <div class="message-reply">
+                            <textarea id="messageInput" cols="1" rows="1" placeholder="Your Message" data-autoresize></textarea>
+                            <button id="sendButton" class="button ripple-effect">Send</button>
+                        </div>
+
+                    </div>
+                    <!-- Message Content -->
+
+                </div>
+            </div>
+            <!-- Messages Container / End -->
+            <!-- Footer -->
+            <div class="dashboard-footer-spacer"></div>
+            <div class="small-footer margin-top-15">
+                <div class="small-footer-copyrights">
+                    © 2019 <strong>Hireo</strong>. All Rights Reserved.
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <!-- Footer / End -->
+
+        </div>
+    </div>
+    <!-- Dashboard Content / End -->
+</div>
+
+@section scripts {
+    <script>
+        var connection = new signalR.HubConnectionBuilder().withUrl("/MessageHub").build();
+
+        //Disable send button until connection is established
+        document.getElementById("sendButton").disabled = true;
+
+        connection.on("ReceiveMessage", function (message) {
+
+            console.log(message);
+
+            var currentUserId = '@this.userManager.GetUserId(this.User)';
+
+            var bubble = message.senderId == currentUserId ? 'me' : '';
+
+            document.getElementById("message-field").innerHTML +=
+                `<div class="message-bubble ${bubble}">
+                 <div class="message-bubble-inner">
+                     <div class="message-avatar"><img src="${message.senderProfileImageUrl}" alt="" /></div>
+                     <div class="message-text"><p>${message.content}</p></div>
+             </div>
+                 <div class="clearfix"></div>
+             </div>`;
+
+            document.getElementById('message-field').scrollTop = document.getElementById('message-field').scrollHeight;
+
+            var li = document.getElementById(message.receiverId);
+            console.log(li);
+
+            li.querySelector('span').innerHTML = 'just now';
+            li.querySelector('p').innerHTML = message.content;
+        });
+
+        connection.start().then(function () {
+            document.getElementById("sendButton").disabled = false;
+            document.getElementById('message-field').scrollTop = document.getElementById('message-field').scrollHeight;
+
+            console.log('THE CONNECTION HAS BEEN ESTABLISHED.');
+        }).catch(function (err) {
+            return console.error(err.toString());
+        });
+
+        document.getElementById("sendButton").addEventListener("click", function (event) {
+            var message = document.getElementById("messageInput").value;
+            var receiverId = '@Model.User.Id';
+
+            connection.invoke("SendMessageToUser", receiverId, message).catch(function (err) {
+                return console.error(err.toString());
+            });
+
+            document.getElementById("messageInput").value = '';
+            event.preventDefault();
+        });
+
+    </script>
+}
+

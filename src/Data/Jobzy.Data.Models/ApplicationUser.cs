@@ -12,11 +12,6 @@ namespace Jobzy.Data.Models
 
     public class ApplicationUser : IdentityUser, IAuditInfo, IDeletableEntity
     {
-        public ApplicationUser()
-        {
-            
-        }
-
         [Required]
         [MaxLength(25)]
         public string FirstName { get; set; }

@@ -10,7 +10,7 @@
         [Required]
         public string Content { get; set; }
 
-        public DateTime DateReceived { get; set; }
+        public DateTime DateReceived { get; set; } = DateTime.UtcNow;
 
         [Required]
         public string RecipientId { get; set; }
