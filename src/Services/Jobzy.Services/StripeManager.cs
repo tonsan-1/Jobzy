@@ -2,7 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
-
+    using System.Linq;
     using Jobzy.Common;
     using Jobzy.Services.Interfaces;
     using Stripe;
@@ -103,6 +103,21 @@
             var account = service.Get(accountId);
 
             return account;
+        }
+
+        public long GetFreelancerBalanceAmount(string userId)
+        {
+            StripeConfiguration.ApiKey = GlobalConstants.StripeConfigurationKey;
+
+            var requestOptions = new RequestOptions();
+            requestOptions.StripeAccount = userId;
+            var service = new BalanceService();
+            Balance balance = service.Get(requestOptions);
+
+            return balance.Available
+                .Where(x => x.Currency == "usd")
+                .Select(x => x.Amount)
+                .FirstOrDefault();
         }
     }
 }

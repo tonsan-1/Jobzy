@@ -66,6 +66,13 @@
             return job;
         }
 
+        public int GetPostedJobsCount(string userId)
+        {
+            return this.repository.All()
+                .Where(x => x.EmployerId == userId)
+                .Count();
+        }
+
         public async Task SetJobStatus(JobStatus status, string jobId)
         {
             var job = this.repository.All().FirstOrDefault(x => x.Id == jobId);

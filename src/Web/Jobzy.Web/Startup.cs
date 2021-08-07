@@ -79,6 +79,7 @@
             services.AddTransient<ICategoryManager, CategoryManager>();
             services.AddTransient<IMessageManager, MessageManager>();
             services.AddTransient<IFileManager, FileManager>();
+            services.AddTransient<IReviewManager, ReviewManager>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -88,8 +89,6 @@
 
             // Stripe setup
             StripeConfiguration.ApiKey = this.configuration.GetSection("Stripe")["ApiKey"];
-
-            
 
             // Seed data on application startup
             using (var serviceScope = app.ApplicationServices.CreateScope())

@@ -17,5 +17,7 @@
         IEnumerable<UserJobsListViewModel> GetAllUserJobPosts(string userId);
 
         IEnumerable<AllJobsListViewModel> GetAllJobPosts();
+
+        int GetPostedJobsCount(string userId);
     }
 }

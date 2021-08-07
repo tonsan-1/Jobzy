@@ -15,5 +15,9 @@
         IEnumerable<UserContractsListViewModel> GetAllUserContracts(string userId);
 
         Task SetContractStatus(ContractStatus status, string contractId);
+
+        int GetFinishedContractsCount(string userId);
+
+        int GetOngoingContractsCount(string userId);
     }
 }

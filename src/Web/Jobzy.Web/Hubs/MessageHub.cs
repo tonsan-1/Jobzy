@@ -1,11 +1,9 @@
 ﻿namespace Jobzy.Web.Hubs
 {
-    using System;
     using System.Threading.Tasks;
-    using Jobzy.Common;
+
     using Jobzy.Data.Models;
     using Jobzy.Services.Interfaces;
-    using Jobzy.Web.ViewModels.Messages;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.SignalR;
 

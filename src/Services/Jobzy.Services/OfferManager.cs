@@ -55,5 +55,12 @@
 
             return offers;
         }
+
+        public int GetSentOffersCount(string userId)
+        {
+            return this.repository.All()
+                .Where(x => x.FreelancerId == userId)
+                .Count();
+        }
     }
 }

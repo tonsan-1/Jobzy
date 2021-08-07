@@ -17,5 +17,7 @@
         IMessageManager MessageManager { get; }
 
         IFileManager FileManager { get; }
+
+        IReviewManager ReviewManager { get; }
     }
 }

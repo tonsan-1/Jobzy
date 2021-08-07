@@ -85,5 +85,21 @@
 
             return contracts;
         }
+
+        public int GetFinishedContractsCount(string userId)
+        {
+            return this.contractRepository.All()
+                .Where(x => (x.Status == ContractStatus.Finished && x.FreelancerId == userId) ||
+                            (x.Status == ContractStatus.Finished && x.EmployerId == userId))
+                .Count();
+        }
+
+        public int GetOngoingContractsCount(string userId)
+        {
+            return this.contractRepository.All()
+                .Where(x => (x.Status == ContractStatus.Ongoing && x.FreelancerId == userId) ||
+                            (x.Status == ContractStatus.Ongoing && x.EmployerId == userId))
+                .Count();
+        }
     }
 }

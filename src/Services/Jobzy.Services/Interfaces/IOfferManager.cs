@@ -12,5 +12,7 @@
         Task AcceptOffer(string offerId);
 
         IEnumerable<JobOfferViewModel> GetJobOffers(string jobId);
+
+        int GetSentOffersCount(string userId);
     }
 }
