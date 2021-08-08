@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Jobzy.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210808101029_AddNotificationEntity")]
+    [Migration("20210808101826_AddNotificationEntity")]
     partial class AddNotificationEntity
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -361,6 +361,10 @@ namespace Jobzy.Data.Migrations
 
                     b.Property<bool>("IsRead")
                         .HasColumnType("bit");
+
+                    b.Property<string>("RedirectUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Text")
                         .IsRequired()

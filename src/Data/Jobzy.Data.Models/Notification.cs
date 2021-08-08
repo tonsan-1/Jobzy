@@ -16,6 +16,9 @@
         [Required]
         public string Icon { get; set; }
 
+        [Required]
+        public string RedirectUrl { get; set; }
+
         public bool IsRead { get; set; }
 
         public virtual ICollection<ApplicationUser> Users { get; set; } = new HashSet<ApplicationUser>();

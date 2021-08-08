@@ -6,18 +6,18 @@ namespace Jobzy.Data.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<bool>(
-                name: "IsRead",
+            migrationBuilder.AddColumn<string>(
+                name: "RedirectUrl",
                 table: "Notifications",
-                type: "bit",
+                type: "nvarchar(max)",
                 nullable: false,
-                defaultValue: false);
+                defaultValue: "");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "IsRead",
+                name: "RedirectUrl",
                 table: "Notifications");
         }
     }
