@@ -51,6 +51,9 @@ namespace Jobzy.Data.Models
         public virtual ICollection<Message> ReceivedMessages { get; set; }
             = new HashSet<Message>();
 
+        public virtual ICollection<Notification> Notifications { get; set; }
+            = new HashSet<Notification>();
+
         public virtual ICollection<IdentityUserRole<string>> Roles { get; set; }
             = new HashSet<IdentityUserRole<string>>();
 
