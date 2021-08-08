@@ -3,11 +3,15 @@
     using System;
     using System.ComponentModel.DataAnnotations;
 
-    public class Offer
-    {
-        public string Id { get; set; } = Guid.NewGuid().ToString();
+    using Jobzy.Data.Common.Models;
 
-        public DateTime SentDate => DateTime.UtcNow;
+    public class Offer : BaseDeletableModel<string>
+    {
+        public Offer()
+        {
+            this.Id = Guid.NewGuid().ToString();
+            this.CreatedOn = DateTime.UtcNow;
+        }
 
         public DateTime AcceptedDate { get; set; }
 

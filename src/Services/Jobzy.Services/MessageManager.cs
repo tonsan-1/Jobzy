@@ -38,14 +38,14 @@
             var sentMessagesToUser = this.repository
                 .All()
                 .Where(x => x.SenderId == userId || x.RecipientId == userId)
-                .OrderByDescending(x => x.DateReceived)
+                .OrderByDescending(x => x.CreatedOn)
                 .Include(x => x.Sender)
                 .Select(x => x.Sender);
 
             var receivedMessageFromUser = this.repository
                 .All()
                 .Where(x => x.SenderId == userId || x.RecipientId == userId)
-                .OrderByDescending(x => x.DateReceived)
+                .OrderByDescending(x => x.CreatedOn)
                 .Include(x => x.Recipient)
                 .Select(x => x.Recipient);
 
@@ -65,7 +65,7 @@
                 .All()
                 .Where(x => (x.RecipientId == currentUserId && x.SenderId == userId) ||
                             (x.RecipientId == userId && x.SenderId == currentUserId))
-                .OrderByDescending(x => x.DateReceived)
+                .OrderByDescending(x => x.CreatedOn)
                 .Select(x => x.Content)
                 .FirstOrDefaultAsync();
         }
@@ -76,8 +76,8 @@
                 .All()
                 .Where(x => (x.RecipientId == currentUserId && x.SenderId == userId) ||
                             (x.RecipientId == userId && x.SenderId == currentUserId))
-                .OrderByDescending(x => x.DateReceived)
-                .Select(x => x.DateReceived)
+                .OrderByDescending(x => x.CreatedOn)
+                .Select(x => x.CreatedOn)
                 .FirstOrDefaultAsync();
         }
 
@@ -87,7 +87,7 @@
                 .All()
                 .Where(x => (x.RecipientId == recipientId && x.SenderId == userId) ||
                             (x.RecipientId == userId && x.SenderId == recipientId))
-                .OrderBy(x => x.DateReceived)
+                .OrderBy(x => x.CreatedOn)
                 .To<T>()
                 .ToListAsync();
 

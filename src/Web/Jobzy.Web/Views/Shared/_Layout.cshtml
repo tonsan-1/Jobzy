@@ -16,7 +16,7 @@
     <title>@this.ViewData["Title"] - @GlobalConstants.SystemName</title>
 
     <script src="https://js.stripe.com/v3/"></script>
-    
+
 
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
     <link rel="stylesheet" href="~/css/style.css">
@@ -123,6 +123,12 @@
                     <!-- Right Side Content / End -->
 
                     <div class="right-side">
+
+                        <div class="header-widget hide-on-mobile">
+                            <vc:all-user-notifications></vc:all-user-notifications>
+                            <vc:all-user-messages></vc:all-user-messages>
+                        </div>
+
                         @if (this.signInManager.IsSignedIn(User))
                         {
                             var firstName = user.FirstName;
@@ -222,7 +228,7 @@
     <script src="~/js/signalr/dist/browser/signalr.js"></script>
 
     <script>
-        
+
 
     </script>
 

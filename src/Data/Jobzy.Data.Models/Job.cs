@@ -5,10 +5,15 @@
     using System.ComponentModel.DataAnnotations;
 
     using Jobzy.Common;
+    using Jobzy.Data.Common.Models;
 
-    public class Job
+    public class Job : BaseDeletableModel<string>
     {
-        public string Id { get; set; } = Guid.NewGuid().ToString();
+        public Job()
+        {
+            this.Id = Guid.NewGuid().ToString();
+            this.CreatedOn = DateTime.UtcNow;
+        }
 
         [Required]
         public string EmployerId { get; set; }
@@ -34,11 +39,6 @@
         [Required]
         [MaxLength(4096)]
         public string Description { get; set; }
-
-        [DataType(DataType.DateTime)]
-        public DateTime DatePosted { get; set; } = DateTime.UtcNow;
-
-        public bool IsDeleted { get; set; }
 
         public virtual List<Contract> Contracts { get; set; } = new List<Contract>();
 

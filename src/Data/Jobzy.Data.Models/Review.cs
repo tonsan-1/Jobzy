@@ -3,9 +3,16 @@
     using System;
     using System.ComponentModel.DataAnnotations;
 
-    public class Review
+    using Jobzy.Data.Common.Models;
+
+    public class Review : BaseDeletableModel<string>
     {
-        public string Id { get; set; }
+
+        public Review()
+        {
+            this.Id = Guid.NewGuid().ToString();
+            this.CreatedOn = DateTime.UtcNow;
+        }
 
         [Required]
         [MaxLength(30)]
@@ -13,8 +20,6 @@
 
         [Required]
         public string Description { get; set; }
-
-        public DateTime DatePosted { get; set; }
 
         [Range(1, 5)]
         public double Rating { get; set; }

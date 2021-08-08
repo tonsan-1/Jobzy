@@ -5,14 +5,17 @@
     using System.ComponentModel.DataAnnotations;
 
     using Jobzy.Common;
+    using Jobzy.Data.Common.Models;
 
-    public class Contract
+    public class Contract : BaseDeletableModel<string>
     {
-        public string Id { get; set; } = Guid.NewGuid().ToString();
+        public Contract()
+        {
+            this.Id = Guid.NewGuid().ToString();
+            this.CreatedOn = DateTime.UtcNow;
+        }
 
         public ContractStatus Status { get; set; }
-
-        public DateTime CreatedOn { get; set; } = DateTime.UtcNow;
 
         public DateTime CompletedOn { get; set; }
 

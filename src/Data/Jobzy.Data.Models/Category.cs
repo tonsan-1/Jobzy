@@ -4,10 +4,15 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
-    public class Category
+    using Jobzy.Data.Common.Models;
+
+    public class Category : BaseDeletableModel<string>
     {
-        [Key]
-        public string Id { get; set; } = Guid.NewGuid().ToString();
+        public Category()
+        {
+            this.Id = Guid.NewGuid().ToString();
+            this.CreatedOn = DateTime.UtcNow;
+        }
 
         [Required]
         public string Name { get; set; }

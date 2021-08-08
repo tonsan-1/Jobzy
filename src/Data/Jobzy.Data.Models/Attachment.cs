@@ -3,10 +3,15 @@
     using System;
     using System.ComponentModel.DataAnnotations;
 
-    public class Attachment
+    using Jobzy.Data.Common.Models;
+
+    public class Attachment : BaseDeletableModel<string>
     {
-        [Key]
-        public string Id { get; set; } = Guid.NewGuid().ToString();
+        public Attachment()
+        {
+            this.Id = Guid.NewGuid().ToString();
+            this.CreatedOn = DateTime.UtcNow;
+        }
 
         [Required]
         public string Name { get; set; }

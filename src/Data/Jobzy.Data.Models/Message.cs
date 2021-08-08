@@ -3,14 +3,18 @@
     using System;
     using System.ComponentModel.DataAnnotations;
 
-    public class Message
+    using Jobzy.Data.Common.Models;
+
+    public class Message : BaseDeletableModel<string>
     {
-        public string Id { get; set; } = Guid.NewGuid().ToString();
+        public Message()
+        {
+            this.Id = Guid.NewGuid().ToString();
+            this.CreatedOn = DateTime.UtcNow;
+        }
 
         [Required]
         public string Content { get; set; }
-
-        public DateTime DateReceived { get; set; } = DateTime.UtcNow;
 
         [Required]
         public string RecipientId { get; set; }

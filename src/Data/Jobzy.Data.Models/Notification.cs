@@ -4,10 +4,15 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
-    public class Notification
+    using Jobzy.Data.Common.Models;
+
+    public class Notification : BaseDeletableModel<string>
     {
-        [Key]
-        public string Id { get; set; } = Guid.NewGuid().ToString();
+        public Notification()
+        {
+            this.Id = Guid.NewGuid().ToString();
+            this.CreatedOn = DateTime.UtcNow;
+        }
 
         [Required]
         [StringLength(100, MinimumLength = 10, ErrorMessage = "Notification must be between {2} and {1} characters long.")]
