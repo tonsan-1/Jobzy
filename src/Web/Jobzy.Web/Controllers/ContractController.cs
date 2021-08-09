@@ -6,6 +6,7 @@
     using Jobzy.Data.Models;
     using Jobzy.Services.Interfaces;
     using Jobzy.Web.ViewModels.Contracts;
+    using Jobzy.Web.ViewModels.Notifications;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Identity;
@@ -44,14 +45,27 @@
         [Authorize(Roles = "Administrator, Employer")]
         public async Task<IActionResult> ContractActions(string action, string contractId, string jobId)
         { // use input model insted of strings and separate the logic in two separate methods
+            var contract = await this.freelancePlatform.ContractManager
+                .GetContractByIdAsync<ContractNotificationViewModel>(contractId);
+
             if (action == "cancel")
             {
                 await this.freelancePlatform.ContractManager.SetContractStatus(ContractStatus.Canceled, contractId);
                 await this.freelancePlatform.JobManager.SetJobStatus(JobStatus.Open, jobId);
+                await this.freelancePlatform.NotificationsManager.CreateAsync(
+                contract.FreelancerId,
+                GlobalConstants.ContractCancelationIcon,
+                $"{contract.EmployerFirstName} {contract.EmployerLastName} canceled your contract for job {contract.JobTitle}",
+                $"/Contract?id={contract.Id}");
 
-                // TODO:notify both parties that the contract is canceled
                 return this.RedirectToAction("GetMyContracts", "Contract");
             }
+
+            await this.freelancePlatform.NotificationsManager.CreateAsync(
+                contract.FreelancerId,
+                GlobalConstants.ContractCompletetionIcon,
+                $"{contract.EmployerFirstName} {contract.EmployerLastName} completed your contract for job {contract.JobTitle}",
+                $"/Contract?id={contract.Id}");
 
             return this.Redirect($"/Checkout?id={contractId}");
         }
@@ -73,6 +87,14 @@
             // some validations of the file size and type
 
             await this.freelancePlatform.FileManager.AddAttachmentToContract(attachment, contractId);
+            var contract = await this.freelancePlatform.ContractManager
+                .GetContractByIdAsync<ContractNotificationViewModel>(contractId);
+
+            await this.freelancePlatform.NotificationsManager.CreateAsync(
+                contract.EmployerId,
+                GlobalConstants.ContractAttachmentIcon,
+                $"{contract.FreelancerFirstName} {contract.FreelancerLastName} uploaded an attachment to your contract for {contract.JobTitle}",
+                $"/Contract?id={contract.Id}");
 
             return this.Redirect($"/Contract?id={contractId}");
         }

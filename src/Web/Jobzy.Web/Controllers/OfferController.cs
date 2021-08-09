@@ -76,9 +76,7 @@
                 .ContractManager
                 .GetContractByIdAsync<ContractNotificationViewModel>(contractId);
 
-            await this.freelancePlatform
-                .NotificationsManager
-                .CreateAsync(
+            await this.freelancePlatform.NotificationsManager.CreateAsync(
                 contract.FreelancerId,
                 GlobalConstants.ContractIcon,
                 $"{contract.EmployerFirstName} {contract.EmployerLastName} accepted your offer for job {contract.JobTitle} and a contract has been created.",

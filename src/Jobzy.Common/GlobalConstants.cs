@@ -18,7 +18,9 @@
         // notification icons
         public const string OfferIcon = "icon-material-outline-gavel";
         public const string ContractIcon = "icon-material-outline-library-books";
+        public const string ContractAttachmentIcon = "icon-material-outline-attach-file";
+        public const string ContractCompletetionIcon = "icon-feather-dollar-sign";
+        public const string ContractCancelationIcon = "icon-line-awesome-close";
         public const string JobIcon = "icon-material-outline-business-center";
-        public const string PaymentIcon = "icon-feather-dollar-sign";
     }
 }
