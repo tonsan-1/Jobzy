@@ -6,6 +6,7 @@
 
     using Jobzy.Common;
     using Jobzy.Services.Interfaces;
+    using Jobzy.Web.ViewModels.Contracts;
     using Microsoft.AspNetCore.Mvc;
     using Stripe;
 
@@ -34,7 +35,7 @@
                     var paymentIntent = stripeEvent.Data.Object as PaymentIntent;
                     var connectedAccountId = stripeEvent.Account;
                     var contractId = paymentIntent.Metadata["contractId"];
-                    var contract = this.freelancePlatform.ContractManager.GetContractById(contractId);
+                    var contract = await this.freelancePlatform.ContractManager.GetContractByIdAsync<SingleContractViewModel>(contractId);
 
                     await this.freelancePlatform.ContractManager.SetContractStatus(ContractStatus.Finished, contractId);
                     await this.freelancePlatform.JobManager.SetJobStatus(JobStatus.Closed, contract.OfferJobId);

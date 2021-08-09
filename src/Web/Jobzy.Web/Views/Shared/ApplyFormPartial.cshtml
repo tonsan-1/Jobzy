@@ -1,4 +1,11 @@
-﻿<!-- Apply for a job popup
+﻿@using Microsoft.AspNetCore.Identity
+@using Jobzy.Data.Models
+@inject UserManager<ApplicationUser> userManager; 
+
+@{
+    var userId = this.userManager.GetUserId(this.User);
+}
+<!-- Apply for a job popup
 ================================================== -->
 <div id="small-dialog" class="zoom-anim-dialog mfp-hide dialog-with-tabs">
 
@@ -32,7 +39,7 @@
                     </div>
 
                     <input type="text" hidden name="jobId" value="@ViewData["jobId"]" />
-
+                    <input type="text" hidden name="userId" value="@userId"/>
                 </form>
 
                 <!-- Button -->

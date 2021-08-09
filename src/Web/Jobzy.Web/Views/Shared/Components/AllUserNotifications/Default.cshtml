@@ -1,9 +1,15 @@
-﻿<!-- Notifications -->
+﻿@model IEnumerable<Jobzy.Web.ViewModels.Notifications.UserNotificationViewModel>
+
+@{
+    var notificationsCount = (int)ViewData["NotificationsCount"];
+}
+
+<!-- Notifications -->
 <div class="header-notifications">
 
     <!-- Trigger -->
     <div class="header-notifications-trigger">
-        <a href="#"><i class="icon-feather-bell"></i><span>4</span></a>
+        <a role="button"><i class="icon-feather-bell"></i><span id="notifications-count">@notificationsCount</span></a>
     </div>
 
     <!-- Dropdown -->
@@ -11,27 +17,62 @@
 
         <div class="header-notifications-headline">
             <h4>Notifications</h4>
-            <button class="mark-as-read ripple-effect-dark" title="Mark all as read" data-tippy-placement="left">
-                <i class="icon-feather-check-square"></i>
-            </button>
+            @if (notificationsCount > 0)
+            {
+                <button type="submit" form="mark-all-form" class="mark-as-read ripple-effect-dark" title="Mark all as read" data-tippy-placement="left">
+                    <i class="icon-feather-check-square"></i>
+                </button>
+            }
         </div>
 
         <div class="header-notifications-content">
             <div class="header-notifications-scroll" data-simplebar>
                 <ul>
-                    <!-- Notification -->
-                    <li class="notifications-not-read">
-                        <a href="dashboard-manage-candidates.html">
-                            <span class="notification-icon"><i class="icon-material-outline-group"></i></span>
-                            <span class="notification-text">
-                                <strong>Michael Shannah</strong> applied for a job <span class="color">Full Stack Software Engineer</span>
-                            </span>
-                        </a>
-                    </li>
-
+                    @if (notificationsCount > 0)
+                    {
+                        @foreach (var notification in Model)
+                        {
+                            <!-- Notification -->
+                            <li class="notifications-not-read">
+                                <a id="notification-link" onclick="MarkNotificationAsRead('@notification.Id');" href="@notification.RedirectUrl">
+                                    <span class="notification-icon"><i class="@notification.Icon"></i></span>
+                                    <span class="notification-text">
+                                        <span>@notification.Text</span>
+                                    </span>
+                                </a>
+                            </li>
+                        }
+                    }
+                    else
+                    {
+                        <!-- Notification -->
+                        <li class="notifications-not-read">
+                            <a>
+                                <span class="notification-text">
+                                    <span>There are currently no new notifications.</span>
+                                </span>
+                            </a>
+                        </li>
+                    }
                 </ul>
             </div>
         </div>
-
     </div>
 </div>
+
+<script>
+    function MarkNotificationAsRead(id) {
+        fetch('https://localhost:44319/MarkNotificationAsRead', {
+            method: 'POST',
+            body: JSON.stringify(id),
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        })
+            .then(res => res.json())
+            .then(obj => {
+                document.getElementById('notifications-count').innerHTML = obj.count;
+            })
+            .catch(error => console.log(error));
+    }
+</script>

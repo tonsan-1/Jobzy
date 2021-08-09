@@ -1,44 +1,93 @@
 ﻿namespace Jobzy.Services
 {
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
 
     using Jobzy.Data.Common.Repositories;
     using Jobzy.Data.Models;
     using Jobzy.Services.Interfaces;
+    using Jobzy.Services.Mapping;
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.EntityFrameworkCore;
 
     public class NotificationsManager : INotificationsManager
     {
         private readonly IDeletableEntityRepository<Notification> repository;
+        private readonly UserManager<ApplicationUser> userManager;
 
-        public NotificationsManager(IDeletableEntityRepository<Notification> repository)
+        public NotificationsManager(
+            IDeletableEntityRepository<Notification> repository,
+            UserManager<ApplicationUser> userManager)
         {
             this.repository = repository;
+            this.userManager = userManager;
         }
 
-        public Task CreateAsync(string userId, string text, string redirectUrl)
+        public async Task CreateAsync(string userId, string icon, string text, string redirectUrl)
         {
-            throw new System.NotImplementedException();
+            var notification = new Notification
+            {
+                Text = text,
+                Icon = icon,
+                RedirectUrl = redirectUrl,
+            };
+
+            var user = await this.userManager.FindByIdAsync(userId);
+
+            notification.Users.Add(user);
+
+            await this.repository.AddAsync(notification);
+            await this.repository.SaveChangesAsync();
         }
 
-        public Task<IEnumerable<T>> GetAllUserNotifications<T>(string userId)
+        public async Task<IEnumerable<T>> GetAllUserNotifications<T>(string userId)
         {
-            throw new System.NotImplementedException();
+            var notificatons = await this.repository
+                .All()
+                .Where(x => x.Users.Any(x => x.Id == userId) && !x.IsRead)
+                .Include(x => x.Users)
+                .OrderByDescending(x => x.CreatedOn)
+                .To<T>()
+                .ToListAsync();
+
+            return notificatons;
         }
 
-        public Task MarkAllNotificationsAsRead(string userId)
+        public async Task MarkAllNotificationsAsRead(string userId)
         {
-            throw new System.NotImplementedException();
+            var notifications = await this.repository
+                .All()
+                .Where(x => x.Users.Any(x => x.Id == userId))
+                .ToListAsync();
+
+            foreach (var notification in notifications)
+            {
+                notification.IsRead = true;
+
+                this.repository.Update(notification);
+                await this.repository.SaveChangesAsync();
+            }
         }
 
-        public Task MarkNotificationAsRead(string notificationId)
+        public async Task MarkNotificationAsRead(string notificationId)
         {
-            throw new System.NotImplementedException();
+            var notification = await this.repository
+                .All()
+                .FirstOrDefaultAsync(x => x.Id == notificationId);
+
+            notification.IsRead = true;
+
+            this.repository.Update(notification);
+            await this.repository.SaveChangesAsync();
         }
 
         public int GetNotificationsCount(string userId)
         {
-            throw new System.NotImplementedException();
+            return this.repository
+                .All()
+                .Where(x => x.Users.Any(x => x.Id == userId) && !x.IsRead)
+                .Count();
         }
     }
 }

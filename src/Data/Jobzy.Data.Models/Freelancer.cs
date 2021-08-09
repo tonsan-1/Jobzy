@@ -7,8 +7,5 @@
         public virtual List<Contract> Contracts { get; set; } = new List<Contract>();
 
         public virtual List<Offer> Offers { get; set; } = new List<Offer>();
-
-        // implement more properties such as
-        // Jobs Done, Job Success, Recommendation percentage, Skills, Attachments, Work History
     }
 }

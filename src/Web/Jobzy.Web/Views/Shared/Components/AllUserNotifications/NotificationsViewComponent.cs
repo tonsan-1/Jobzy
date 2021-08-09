@@ -1,9 +1,11 @@
 ﻿namespace Jobzy.Web.Views.Shared.Components.AllUserNotifications
 {
+    using System.Linq;
     using System.Threading.Tasks;
 
     using Jobzy.Data.Models;
     using Jobzy.Services.Interfaces;
+    using Jobzy.Web.ViewModels.Notifications;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
 
@@ -25,7 +27,13 @@
         {
             var userId = this.userManager.GetUserId(this.UserClaimsPrincipal);
 
-            return this.View();;
+            var notifications = await this.freelancePlatform
+                                            .NotificationsManager
+                                                .GetAllUserNotifications<UserNotificationViewModel>(userId);
+
+            this.ViewData["NotificationsCount"] = notifications.Count();
+
+            return this.View(notifications);
         }
     }
 }

@@ -11,6 +11,7 @@
     using Jobzy.Services.Interfaces;
     using Jobzy.Services.Mapping;
     using Jobzy.Web.ViewModels.Contracts;
+    using Microsoft.EntityFrameworkCore;
 
     public class ContractManager : IContractManager
     {
@@ -66,14 +67,12 @@
             await this.contractRepository.SaveChangesAsync();
         }
 
-        public SingleContractViewModel GetContractById(string id)
+        public async Task<T> GetContractByIdAsync<T>(string id)
         {
-            var contract = this.contractRepository.All()
+            return await this.contractRepository.All()
                 .Where(x => x.Id == id)
-                .To<SingleContractViewModel>()
-                .FirstOrDefault();
-
-            return contract;
+                .To<T>()
+                .FirstOrDefaultAsync();
         }
 
         public IEnumerable<UserContractsListViewModel> GetAllUserContracts(string userId)

@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
+    using Jobzy.Data.Models;
     using Jobzy.Web.ViewModels.Offers;
 
     public interface IOfferManager

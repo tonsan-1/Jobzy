@@ -13,7 +13,8 @@
             ICategoryManager categoryManager,
             IMessageManager messageManager,
             IFileManager fileManager,
-            IReviewManager reviewManager)
+            IReviewManager reviewManager,
+            INotificationsManager notificationsManager)
         {
             this.JobManager = jobManager;
             this.OfferManager = offerManager;
@@ -24,6 +25,7 @@
             this.MessageManager = messageManager;
             this.FileManager = fileManager;
             this.ReviewManager = reviewManager;
+            this.NotificationsManager = notificationsManager;
         }
 
         public IJobManager JobManager { get; }
@@ -43,5 +45,7 @@
         public IFileManager FileManager { get; }
 
         public IReviewManager ReviewManager { get; }
+
+        public INotificationsManager NotificationsManager { get; }
     }
 }

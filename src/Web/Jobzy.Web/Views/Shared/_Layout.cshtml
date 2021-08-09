@@ -124,17 +124,18 @@
 
                     <div class="right-side">
 
-                        <div class="header-widget hide-on-mobile">
-                            <vc:all-user-notifications></vc:all-user-notifications>
-                            <vc:all-user-messages></vc:all-user-messages>
-                        </div>
-
                         @if (this.signInManager.IsSignedIn(User))
                         {
                             var firstName = user.FirstName;
                             var lastName = user.LastName;
                             var username = user.UserName;
                             var role = User.IsInRole("Freelancer") ? "Freelancer" : "Employer";
+
+                            <div class="header-widget hide-on-mobile">
+                                <vc:all-user-notifications></vc:all-user-notifications>
+
+                                <vc:all-user-messages></vc:all-user-messages>
+                            </div>
 
                             <!-- User Menu -->
                             <div class="header-widget">
@@ -201,6 +202,7 @@
             </div>
             <!-- Header / End -->
         </header>
+        <div class="clearfix"></div>
 
         <partial name="_CookieConsentPartial" />
         @this.RenderBody()

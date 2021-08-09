@@ -5,6 +5,7 @@
     using Jobzy.Common;
     using Jobzy.Data.Models;
     using Jobzy.Services.Interfaces;
+    using Jobzy.Web.ViewModels.Contracts;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Identity;
@@ -25,11 +26,11 @@
 
         [Route("/Contract/")]
         [Authorize(Roles = "Administrator, Freelancer, Employer")]
-        public IActionResult GetContract(string id)
+        public async Task<IActionResult> GetContract(string id)
         {
             // validate if current user is in the contract
 
-            var contract = this.freelancePlatform.ContractManager.GetContractById(id);
+            var contract = await this.freelancePlatform.ContractManager.GetContractByIdAsync<SingleContractViewModel>(id);
 
             if (contract is null)
             {

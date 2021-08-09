@@ -19,5 +19,7 @@
         IFileManager FileManager { get; }
 
         IReviewManager ReviewManager { get; }
+
+        INotificationsManager NotificationsManager { get; }
     }
 }

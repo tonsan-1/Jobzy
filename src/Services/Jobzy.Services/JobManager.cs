@@ -10,6 +10,7 @@
     using Jobzy.Data.Models;
     using Jobzy.Services.Mapping;
     using Jobzy.Web.ViewModels.Jobs;
+    using Microsoft.EntityFrameworkCore;
 
     public class JobManager : IJobManager
     {
@@ -56,14 +57,12 @@
             return jobs;
         }
 
-        public SingleJobViewModel GetJobById(string id)
+        public async Task<T> GetJobByIdAsync<T>(string id)
         {
-            var job = this.repository.All()
+            return await this.repository.All()
                 .Where(x => x.Id == id)
-                .To<SingleJobViewModel>()
-                .FirstOrDefault();
-
-            return job;
+                .To<T>()
+                .FirstOrDefaultAsync();
         }
 
         public int GetPostedJobsCount(string userId)

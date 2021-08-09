@@ -13,9 +13,9 @@
 
     public class OfferManager : IOfferManager
     {
-        private readonly IRepository<Offer> repository;
+        private readonly IDeletableEntityRepository<Offer> repository;
 
-        public OfferManager(IRepository<Offer> repository)
+        public OfferManager(IDeletableEntityRepository<Offer> repository)
         {
             this.repository = repository;
         }

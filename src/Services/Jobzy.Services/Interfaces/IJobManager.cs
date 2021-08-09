@@ -8,7 +8,7 @@
 
     public interface IJobManager
     {
-        SingleJobViewModel GetJobById(string id);
+        Task<T> GetJobByIdAsync<T>(string id);
 
         Task AddAsync(JobInputModel model, string userId);
 

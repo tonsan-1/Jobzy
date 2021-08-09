@@ -1,6 +1,9 @@
 ﻿namespace Jobzy.Web.Controllers
 {
+    using System.Threading.Tasks;
+
     using Jobzy.Services.Interfaces;
+    using Jobzy.Web.ViewModels.Contracts;
     using Microsoft.AspNetCore.Mvc;
 
     public class PaymentController : BaseController
@@ -13,9 +16,9 @@
         }
 
         [Route("/Checkout/")]
-        public IActionResult Checkout(string id)
+        public async Task<IActionResult> Checkout(string id)
         {
-            var contract = this.freelancePlatform.ContractManager.GetContractById(id);
+            var contract = await this.freelancePlatform.ContractManager.GetContractByIdAsync<SingleContractViewModel>(id);
 
             if (contract is null)
             {

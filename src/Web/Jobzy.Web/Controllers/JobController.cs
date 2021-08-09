@@ -34,9 +34,9 @@
 
         [Route("/Job/")]
         [Authorize(Roles = "Administrator, Freelancer, Employer")]
-        public IActionResult GetJob(string id)
+        public async Task<IActionResult> GetJob(string id)
         {
-            var job = this.freelancePlatform.JobManager.GetJobById(id);
+            var job = await this.freelancePlatform.JobManager.GetJobByIdAsync<SingleJobViewModel>(id);
 
             if (job is null)
             {

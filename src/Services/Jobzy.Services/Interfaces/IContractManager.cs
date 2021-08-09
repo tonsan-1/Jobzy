@@ -10,7 +10,7 @@
     {
         Task<string> AddContractAsync(string offerId);
 
-        SingleContractViewModel GetContractById(string id);
+        Task<T> GetContractByIdAsync<T>(string id);
 
         IEnumerable<UserContractsListViewModel> GetAllUserContracts(string userId);
 

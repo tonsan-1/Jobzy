@@ -5,7 +5,7 @@
 
     public interface INotificationsManager
     {
-        Task CreateAsync(string userId, string text, string redirectUrl);
+        Task CreateAsync(string userId, string icon, string text, string redirectUrl);
 
         Task<IEnumerable<T>> GetAllUserNotifications<T>(string userId);
 
