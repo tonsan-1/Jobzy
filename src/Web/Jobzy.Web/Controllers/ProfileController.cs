@@ -87,6 +87,11 @@
 
             if (!this.ModelState.IsValid)
             {
+                if (profilePicture is not null && profilePicture.ContentType == "image/jpeg")
+                {
+                    await this.freelancePlatform.FileManager.UpdateProfilePicture(profilePicture, user.Id);
+                }
+
                 var userViewModel = this.freelancePlatform.ProfileManager.GetUserSettings(user.Id);
 
                 return this.View("Settings", new ProfileSettingsViewModel
@@ -95,7 +100,7 @@
                 });
             }
 
-            if (profilePicture is not null && profilePicture.ContentType == "image/jpeg")
+            if (profilePicture is not null || profilePicture.ContentType == "image/jpeg" || profilePicture.ContentType == "image/png")
             {
                 await this.freelancePlatform.FileManager.UpdateProfilePicture(profilePicture, user.Id);
             }

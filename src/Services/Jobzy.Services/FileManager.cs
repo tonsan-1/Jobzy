@@ -77,7 +77,7 @@
 
                 var uploadResult = cloudinary.Upload(uploadParams);
 
-                var downloadableUrl = "https://res.cloudinary.com/jobzy/image/upload/fl_attachment/v" +
+                var downloadableUrl = "https://res.cloudinary.com/jobzy/image/upload/h_150,w_150/fl_attachment/v" +
                                       $"{uploadResult.Version}/{uploadResult.PublicId}.{uploadResult.Format}";
 
                 return downloadableUrl;

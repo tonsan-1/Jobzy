@@ -70,5 +70,18 @@
 
             return this.View(conversation);
         }
+
+        [HttpPost]
+        [Route("/MarkAllMessagesAsRead")]
+        [IgnoreAntiforgeryToken]
+        public async Task<IActionResult> MarkAllMessagesAsRead([FromBody]string userId)
+        {
+            var currentUserId = this.userManager.GetUserId(this.User);
+            await this.freelancePlatform.MessageManager.MarkAllMessagesAsRead(currentUserId, userId);
+
+            var messagesCount = this.freelancePlatform.MessageManager.GetUnreadMessagesCount(currentUserId);
+
+            return this.Json(new { count = messagesCount });
+        }
     }
 }

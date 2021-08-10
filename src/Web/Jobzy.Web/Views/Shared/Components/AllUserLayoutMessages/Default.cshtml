@@ -1,0 +1,55 @@
+﻿@model IEnumerable<Jobzy.Web.ViewModels.Messages.AllConversations.AllUserConversationsViewModel>
+
+@{
+    var messagesCount = (int)ViewData["MessagesCount"];
+}
+<!-- Messages -->
+<div class="header-notifications">
+    <div class="header-notifications-trigger">
+        <a role="button"><i class="icon-feather-mail"></i><span id="messages-count">@messagesCount</span></a>
+    </div>
+
+    <!-- Dropdown -->
+    <div class="header-notifications-dropdown">
+
+        <div class="header-notifications-headline">
+            <h4>Messages</h4>
+        </div>
+
+        <div class="header-notifications-content">
+            <div class="header-notifications-scroll" data-simplebar>
+                <ul>
+                    @if (Model.Count() > 0)
+                    {
+                        @foreach (var user in Model)
+                        {
+                            <!-- Notification -->
+                            <li class="notifications-not-read">
+                                <a asp-action="Conversation" asp-controller="Message" asp-route-id="@user.Id">
+                                    <span class="notification-avatar status-online"><img src="@user.ProfileImageUrl" alt=""></span>
+                                    <div class="notification-text">
+                                        <strong>@user.FirstName @user.LastName</strong><br />
+                                        <p id="lastMessage" class="notification-msg-text">@user.ShortenedLastMessage</p><br />
+                                        <span id="receivedDate" class="color">@user.ReceivedDateTimeAgo</span>
+                                    </div>
+                                </a>
+                            </li>
+                        }
+                    }
+                    else
+                    {
+                        <li class="notifications-not-read">
+                            <a>
+                                <div class="notification-text">
+                                    <p class="notification-msg-text">There are currently no new messages.</p><br />
+                                </div>
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+
+        <a asp-action="All" asp-controller="Message" class="header-notifications-button ripple-effect button-sliding-icon">View All Messages<i class="icon-material-outline-arrow-right-alt"></i></a>
+    </div>
+</div>

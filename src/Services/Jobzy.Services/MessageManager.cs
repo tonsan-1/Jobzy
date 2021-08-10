@@ -13,9 +13,9 @@
 
     public class MessageManager : IMessageManager
     {
-        private readonly IRepository<Message> repository;
+        private readonly IDeletableEntityRepository<Message> repository;
 
-        public MessageManager(IRepository<Message> repository)
+        public MessageManager(IDeletableEntityRepository<Message> repository)
         {
             this.repository = repository;
         }
@@ -53,6 +53,7 @@
                 .Concat(receivedMessageFromUser)
                 .Where(x => x.Id != userId)
                 .Distinct()
+                .OrderByDescending(x => x.CreatedOn)
                 .To<T>()
                 .ToListAsync();
 
@@ -66,7 +67,7 @@
                 .Where(x => (x.RecipientId == currentUserId && x.SenderId == userId) ||
                             (x.RecipientId == userId && x.SenderId == currentUserId))
                 .OrderByDescending(x => x.CreatedOn)
-                .Select(x => x.Content)
+                .Select(x => x.Sender.Id == currentUserId ? $"You: {x.Content}" : x.Content)
                 .FirstOrDefaultAsync();
         }
 
@@ -92,6 +93,31 @@
                 .ToListAsync();
 
             return messages;
+        }
+
+        public int GetUnreadMessagesCount(string userId)
+        {
+            return this.repository
+                .All()
+                .Where(x => x.RecipientId == userId && !x.IsRead)
+                .GroupBy(x => x.SenderId)
+                .Count();
+        }
+
+        public async Task MarkAllMessagesAsRead(string currentUserId, string userId)
+        {
+            var messages = await this.repository
+                .All()
+                .Where(x => x.RecipientId == currentUserId && x.SenderId == userId)
+                .ToListAsync();
+
+            foreach (var message in messages)
+            {
+                message.IsRead = true;
+
+                this.repository.Update(message);
+                await this.repository.SaveChangesAsync();
+            }
         }
     }
 }

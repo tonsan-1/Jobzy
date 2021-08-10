@@ -19,5 +19,7 @@
         Task UpdateUserProfilePicture(string pictureUrl, string userId);
 
         Task UpdateUserInfo(ProfileInfoInputModel input, string userId);
+
+        Task UpdateUserOnlineStatus(string status, string userId);
     }
 }

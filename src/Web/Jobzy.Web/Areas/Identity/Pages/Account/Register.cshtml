@@ -6,9 +6,11 @@
     ViewData["Title"] = "Register";
 }
 
+<div class="margin-top-30"></div>
+
 <div class="container">
     <div class="row">
-        <div class="col-xl-5 offset-xl-3">
+        <div class="col-xl-6 offset-xl-3">
             <div class="login-register-page">
                 <!-- Welcome Text -->
                 <div class="welcome-text">
@@ -86,23 +88,27 @@
     </div>
 </div>
 
-<script>
-    let freelancerInput = document.getElementById("freelancer-radio");
-    let employerInput = document.getElementById("employer-radio");
+<div class="margin-bottom-100"></div>
 
-    freelancerInput.setAttribute("checked", true);
-
-    employerInput.addEventListener("click", () => {
-        freelancerInput.removeAttribute("checked");
-        employerInput.setAttribute("checked", true);
-    })
-
-    freelancerInput.addEventListener("click", () => {
-        employerInput.removeAttribute("checked");
-        freelancerInput.setAttribute("checked", true);
-    })
-</script>
+<partial name="BigFooterPartial"/>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        let freelancerInput = document.getElementById("freelancer-radio");
+        let employerInput = document.getElementById("employer-radio");
+
+        freelancerInput.setAttribute("checked", true);
+
+        employerInput.addEventListener("click", () => {
+            freelancerInput.removeAttribute("checked");
+            employerInput.setAttribute("checked", true);
+        })
+
+        freelancerInput.addEventListener("click", () => {
+            employerInput.removeAttribute("checked");
+            freelancerInput.setAttribute("checked", true);
+        })
+    </script>
 }

@@ -5,9 +5,11 @@
     ViewData["Title"] = "Log in";
 }
 
+<div class="margin-top-100"></div>
+
 <div class="container">
     <div class="row">
-        <div class="col-xl-5 offset-xl-3">
+        <div class="col-xl-6 offset-xl-3">
 
             <div class="login-register-page">
                 <div class="welcome-text">
@@ -39,11 +41,15 @@
                 </form>
 
                 <button class="button full-width button-sliding-icon ripple-effect margin-top-10" form="login-form" type="submit">Log In <i class="icon-material-outline-arrow-right-alt"></i></button>
-                
+
             </div>
         </div>
     </div>
 </div>
+
+<div class="margin-bottom-100"></div>
+
+<partial name="BigFooterPartial" />
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

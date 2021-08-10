@@ -30,19 +30,21 @@
             <!-- Header -->
             <div id="header">
                 <div class="container">
-                    <!-- Left Side Content -->
-                    <div class="left-side">
+                    @if (this.signInManager.IsSignedIn(User))
+                    {
+                        <!-- Left Side Content -->
+                        <div class="left-side">
 
-                        <!-- Logo -->
-                        <div id="logo">
-                            <a href="/"><img src="~/images/logo.png" alt=""></a>
-                        </div>
+                            <!-- Logo -->
+                            <div id="logo">
+                                <a href="/"><img src="~/images/logo.png" alt=""></a>
+                            </div>
 
-                        <!-- Main Navigation -->
-                        <nav id="navigation">
-                            <ul id="responsive">
-                                @if (this.signInManager.IsSignedIn(User))
-                                {
+
+                            <!-- Main Navigation -->
+                            <nav id="navigation">
+                                <ul id="responsive">
+
                                     @if (this.User.IsInRole("Freelancer"))
                                     {
                                         <li>
@@ -102,39 +104,28 @@
                                             </ul>
                                         </li>
                                     }
-                                }
-                                @if (!this.signInManager.IsSignedIn(User))
-                                {
-                                    <li>
-                                        <a href="/Login">Login</a>
-                                    </li>
+                                </ul>
+                            </nav>
 
-                                    <li>
-                                        <a href="/Register">Sign up</a>
-                                    </li>
-                                }
-                            </ul>
-                        </nav>
-                        <div class="clearfix"></div>
-                        <!-- Main Navigation / End -->
+                            <div class="clearfix"></div>
+                            <!-- Main Navigation / End -->
+                        </div>
+                        <!-- Left Side Content / End -->
+                        <!-- Right Side Content / End -->
 
-                    </div>
-                    <!-- Left Side Content / End -->
-                    <!-- Right Side Content / End -->
+                        <div class="right-side">
 
-                    <div class="right-side">
-
-                        @if (this.signInManager.IsSignedIn(User))
-                        {
-                            var firstName = user.FirstName;
-                            var lastName = user.LastName;
-                            var username = user.UserName;
-                            var role = User.IsInRole("Freelancer") ? "Freelancer" : "Employer";
+                            @{
+                                var firstName = user.FirstName;
+                                var lastName = user.LastName;
+                                var username = user.UserName;
+                                var role = User.IsInRole("Freelancer") ? "Freelancer" : "Employer";
+                                var onlineStatus = user.IsOnline ? "status-online" : "status-invisible";
+                            }
 
                             <div class="header-widget hide-on-mobile">
                                 <vc:all-user-notifications></vc:all-user-notifications>
-
-                                <vc:all-user-messages></vc:all-user-messages>
+                                <vc:all-user-layout-messages></vc:all-user-layout-messages>
                             </div>
 
                             <!-- User Menu -->
@@ -143,7 +134,7 @@
                                 <!-- Messages -->
                                 <div class="header-notifications user-menu">
                                     <div class="header-notifications-trigger">
-                                        <a href="#"><div class="user-avatar status-invisible"><img src="@user.ProfileImageUrl" alt=""></div></a>
+                                        <a href="#"><div class="user-avatar @onlineStatus"><img src="@user.ProfileImageUrl" alt=""></div></a>
                                     </div>
 
                                     <!-- Dropdown -->
@@ -154,26 +145,17 @@
 
                                             <!-- User Name / Avatar -->
                                             <div class="user-details ">
-                                                <div class="user-avatar status-invisible"><img src="@user.ProfileImageUrl" alt=""></div>
-                                                <div class="user-name d-flex flex-column align-items-center">
+                                                <div class="user-avatar @onlineStatus"><img src="@user.ProfileImageUrl" alt=""></div>
+                                                <div class="user-name">
                                                     @firstName @lastName
-                                                    <span class="dashboard-status-button green margin-top-10 margin-right-10">
-                                                    </span>
+                                                    <span>@role</span>
                                                 </div>
-                                            </div>
-
-                                            <!-- User Status Switcher -->
-                                            <div class="status-switch" id="snackbar-user-status">
-                                                <label class="user-online">Online</label>
-                                                <label class="user-invisible current-status">Invisible</label>
-                                                <!-- Status Indicator -->
-                                                <span class="status-indicator" aria-hidden="true"></span>
                                             </div>
                                         </div>
 
                                         <ul class="user-menu-small-nav">
-                                            <li><a href="dashboard.html"><i class="icon-material-outline-dashboard"></i> Dashboard</a></li>
-                                            <li><a href="dashboard-settings.html"><i class="icon-material-outline-settings"></i> Settings</a></li>
+                                            <li><a asp-action="Index" asp-controller="Dashboard"><i class="icon-material-outline-dashboard"></i> Dashboard</a></li>
+                                            <li><a asp-action="Settings" asp-controller="Profile"><i class="icon-material-outline-settings"></i> Settings</a></li>
 
                                             <li>
                                                 <form id="logout" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" method="post">
@@ -186,18 +168,40 @@
                                 </div>
 
                             </div>
-                        }
 
-                        <!-- Mobile Navigation Button -->
-                        <span class="mmenu-trigger">
-                            <button class="hamburger hamburger--collapse" type="button">
-                                <span class="hamburger-box">
-                                    <span class="hamburger-inner"></span>
-                                </span>
-                            </button>
-                        </span>
-                    </div>
-                    <!-- Right Side Content / End -->
+                            <!-- Mobile Navigation Button -->
+                            <span class="mmenu-trigger">
+                                <button class="hamburger hamburger--collapse" type="button">
+                                    <span class="hamburger-box">
+                                        <span class="hamburger-inner"></span>
+                                    </span>
+                                </button>
+                            </span>
+                        </div>
+                        <!-- Right Side Content / End -->
+                    }
+                    else
+                    {
+                        <div class="left-side">
+                            <!-- Logo -->
+                            <div id="logo">
+                                <a asp-action="Index" asp-controller="Home"><img src="images/logo.png" alt=""></a>
+                            </div>
+                        </div>
+                        <div class="right-side">
+                            <!-- Main Navigation -->
+                            <nav id="navigation">
+                                <ul id="responsive">
+                                    <li>
+                                        <a href="/Login">Login</a>
+                                    </li>
+                                    <li>
+                                        <a href="/Register">Sign up</a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    }
                 </div>
             </div>
             <!-- Header / End -->
@@ -206,6 +210,7 @@
 
         <partial name="_CookieConsentPartial" />
         @this.RenderBody()
+
 
     </div>
 
@@ -229,10 +234,19 @@
     <script src="~/lib/lodash/lodash.min.js"></script>
     <script src="~/js/signalr/dist/browser/signalr.js"></script>
 
-    <script>
+    @if (this.signInManager.IsSignedIn(this.User))
+    {
+        <script>
+            var connection = new signalR.HubConnectionBuilder().withUrl("/OnlineHub").build();
 
+            connection.start().then(function () {
+                console.log('THE CONNECTION FOR ONLINE HUB HAS BEEN ESTABLISHED.');
+            }).catch(function (err) {
+                return console.error(err.toString());
+            });
+        </script>
+    }
 
-    </script>
 
     <!-- Snackbar // documentation: https://www.polonel.com/snackbar/ -->
     <script>

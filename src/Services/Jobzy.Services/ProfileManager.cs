@@ -84,5 +84,24 @@
         {
             throw new System.NotImplementedException();
         }
+
+        public async Task UpdateUserOnlineStatus(string status, string userId)
+        {
+            var user = await this.baseUserRepository
+                .All()
+                .FirstOrDefaultAsync(x => x.Id == userId);
+
+            if (status == "online")
+            {
+                user.IsOnline = true;
+            }
+            else if (status == "offline")
+            {
+                user.IsOnline = false;
+            }
+
+            this.baseUserRepository.Update(user);
+            await this.baseUserRepository.SaveChangesAsync();
+        }
     }
 }

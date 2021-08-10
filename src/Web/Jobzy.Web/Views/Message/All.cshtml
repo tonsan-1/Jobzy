@@ -13,7 +13,12 @@
                 <a href="#small-dialog-2" class="popup-with-zoom-anim button big ripple-effect">New Message</a>
             </div>
 
-            <vc:all-user-conversations></vc:all-user-conversations>
+            <div class="messages-container margin-top-0">
+                <!-- Messages -->
+                <div class="messages-inbox">
+                    <vc:all-user-messages></vc:all-user-messages>
+                </div>
+            </div>
 
             <!-- Spacer -->
             <div class="margin-top-70"></div>
@@ -23,8 +28,3 @@
 </div>
 
 <partial name="SendNewMessagePartial" />
-
-@section scripts {
-    <script src="~/js/signalr/dist/browser/signalr.js"></script>
-    <script src="~/js/messages.js"></script>
-}

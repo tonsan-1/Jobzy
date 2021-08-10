@@ -31,7 +31,7 @@
                                             .NotificationsManager
                                                 .GetAllUserNotifications<UserNotificationViewModel>(userId);
 
-            this.ViewData["NotificationsCount"] = notifications.Count();
+            this.ViewData["NotificationsCount"] = this.freelancePlatform.NotificationsManager.GetNotificationsCount(userId);
 
             return this.View(notifications);
         }

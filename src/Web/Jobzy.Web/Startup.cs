@@ -125,6 +125,7 @@
                         endpoints.MapControllerRoute("areaRoute", "{area:exists}/{controller=Home}/{action=Index}/{id?}");
                         endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
                         endpoints.MapHub<MessageHub>("/MessageHub");
+                        endpoints.MapHub<OnlineUsersHub>("/OnlineHub");
                         endpoints.MapRazorPages();
                     });
         }

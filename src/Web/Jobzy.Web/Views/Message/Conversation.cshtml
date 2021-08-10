@@ -5,10 +5,6 @@
 
 @model Jobzy.Web.ViewModels.Messages.UserConversationViewModel
 
-@{
-
-}
-
 <!-- Dashboard Container -->
 <div class="dashboard-container">
     <partial name="DashboardPartial" />
@@ -21,9 +17,11 @@
             <div class="messages-container margin-top-0">
 
                 <div class="messages-container-inner">
-
-                    <vc:all-user-conversations></vc:all-user-conversations>
-
+                    <!-- Messages -->
+                    <div class="messages-inbox">
+                        <vc:all-user-messages></vc:all-user-messages>
+                    </div>
+                    <!-- Messages / End -->
                     <!-- Message Content -->
                     <div class="message-content">
 
@@ -92,9 +90,6 @@
         document.getElementById("sendButton").disabled = true;
 
         connection.on("ReceiveMessage", function (message) {
-
-            console.log(message);
-
             var currentUserId = '@this.userManager.GetUserId(this.User)';
 
             var bubble = message.senderId == currentUserId ? 'me' : '';
@@ -111,19 +106,51 @@
 
                 document.getElementById('message-field').scrollTop = document.getElementById('message-field').scrollHeight;
 
-                if (message.senderId == currentUserId) {
-                    var li = document.getElementById(message.receiverId);
+                document.querySelectorAll("div.messages-inbox ul > li").forEach(id => {
+                    /*if (id.getAttribute('id') == message.senderId || id.getAttribute('id') == message.receiverId) {*/
+                    //} else {
+                    //    document.querySelector("div.messages-inbox ul").innerHTML +=
+                    //        `<li class="notifications-not-read">
+                    //        <a href="/Messages?id=${message.senderId}">
+                    //            <span class="notification-avatar status-online"><img src="${message.senderProfileImageUrl}" alt=""></span>
+                    //            <div class="notification-text">
+                    //                <strong>${message.senderName}</strong><br />
+                    //                <p id="lastMessage" class="notification-msg-text">${message.content}</p><br />
+                    //                <span id="receivedDate" class="color">just now</span>
+                    //            </div>
+                    //        </a>
+                    //    </li>`;
+                    //}
 
-                } else {
-                    var li = document.getElementById(message.senderId);
-                }
+                    if (message.senderId == currentUserId) {
+                        var li = document.getElementById(message.receiverId);
+                        li.querySelector('p').innerHTML = `You: ${message.content}`;
 
-                li.querySelector('span').innerHTML = 'just now';
-                li.querySelector('p').innerHTML = message.content;
+                    } else {
+                        var li = document.getElementById(message.senderId);
+                        li.querySelector('p').innerHTML = message.content;
+                    }
+
+                    li.querySelector('span').innerHTML = 'just now';
+                });
             }
         });
 
         connection.start().then(function () {
+            fetch('https://localhost:44319/MarkAllMessagesAsRead', {
+                method: 'POST',
+                body: JSON.stringify('@(Model.User.Id)'),
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            })
+                .then(res => res.json())
+                .then(obj => {
+                    console.log('success');
+                    document.getElementById('messages-count').innerHTML = obj.count;
+                })
+                .catch(error => console.log(error));
+
             document.getElementById("sendButton").disabled = false;
             document.getElementById('message-field').scrollTop = document.getElementById('message-field').scrollHeight;
 
