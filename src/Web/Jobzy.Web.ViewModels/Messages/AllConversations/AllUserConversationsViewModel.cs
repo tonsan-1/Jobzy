@@ -18,6 +18,8 @@
 
         public string LastMessage { get; set; }
 
+        public bool IsOnline { get; set; }
+
         public string ShortenedLastMessage => this.LastMessage.Length > 30 ? this.LastMessage.Substring(0, 30) : this.LastMessage;
 
         public DateTime ReceivedDate { get; set; }

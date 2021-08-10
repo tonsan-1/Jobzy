@@ -23,10 +23,12 @@
                     {
                         @foreach (var user in Model)
                         {
+                            var onlineStatus = user.IsOnline ? "status-online" : "status-invisible";
+
                             <!-- Notification -->
                             <li class="notifications-not-read">
                                 <a asp-action="Conversation" asp-controller="Message" asp-route-id="@user.Id">
-                                    <span class="notification-avatar status-online"><img src="@user.ProfileImageUrl" alt=""></span>
+                                    <span class="notification-avatar @onlineStatus"><img src="@user.ProfileImageUrl" alt=""></span>
                                     <div class="notification-text">
                                         <strong>@user.FirstName @user.LastName</strong><br />
                                         <p id="lastMessage" class="notification-msg-text">@user.ShortenedLastMessage</p><br />

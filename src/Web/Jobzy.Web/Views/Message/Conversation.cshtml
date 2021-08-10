@@ -107,21 +107,6 @@
                 document.getElementById('message-field').scrollTop = document.getElementById('message-field').scrollHeight;
 
                 document.querySelectorAll("div.messages-inbox ul > li").forEach(id => {
-                    /*if (id.getAttribute('id') == message.senderId || id.getAttribute('id') == message.receiverId) {*/
-                    //} else {
-                    //    document.querySelector("div.messages-inbox ul").innerHTML +=
-                    //        `<li class="notifications-not-read">
-                    //        <a href="/Messages?id=${message.senderId}">
-                    //            <span class="notification-avatar status-online"><img src="${message.senderProfileImageUrl}" alt=""></span>
-                    //            <div class="notification-text">
-                    //                <strong>${message.senderName}</strong><br />
-                    //                <p id="lastMessage" class="notification-msg-text">${message.content}</p><br />
-                    //                <span id="receivedDate" class="color">just now</span>
-                    //            </div>
-                    //        </a>
-                    //    </li>`;
-                    //}
-
                     if (message.senderId == currentUserId) {
                         var li = document.getElementById(message.receiverId);
                         li.querySelector('p').innerHTML = `You: ${message.content}`;

@@ -134,7 +134,7 @@
                                 <!-- Messages -->
                                 <div class="header-notifications user-menu">
                                     <div class="header-notifications-trigger">
-                                        <a href="#"><div class="user-avatar @onlineStatus"><img src="@user.ProfileImageUrl" alt=""></div></a>
+                                        <a href="#"><div id="user-online-status" class="user-avatar @onlineStatus"><img src="@user.ProfileImageUrl" alt=""></div></a>
                                     </div>
 
                                     <!-- Dropdown -->
@@ -145,7 +145,7 @@
 
                                             <!-- User Name / Avatar -->
                                             <div class="user-details ">
-                                                <div class="user-avatar @onlineStatus"><img src="@user.ProfileImageUrl" alt=""></div>
+                                                <div id="dropdown-user-online-status" class="user-avatar @onlineStatus"><img src="@user.ProfileImageUrl" alt=""></div>
                                                 <div class="user-name">
                                                     @firstName @lastName
                                                     <span>@role</span>
@@ -240,7 +240,8 @@
             var connection = new signalR.HubConnectionBuilder().withUrl("/OnlineHub").build();
 
             connection.start().then(function () {
-                console.log('THE CONNECTION FOR ONLINE HUB HAS BEEN ESTABLISHED.');
+                document.getElementById('user-online-status').setAttribute('class', "user-avatar status-online");
+                document.getElementById('dropdown-user-online-status').setAttribute('class', "user-avatar status-online");
             }).catch(function (err) {
                 return console.error(err.toString());
             });
