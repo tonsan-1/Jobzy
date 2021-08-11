@@ -3,7 +3,6 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
-    using Jobzy.Data.Models;
     using Jobzy.Web.ViewModels.Offers;
 
     public interface IOfferManager
@@ -12,7 +11,11 @@
 
         Task AcceptOffer(string offerId);
 
+        Task DeleteOffer(string offerId);
+
         IEnumerable<JobOfferViewModel> GetJobOffers(string jobId);
+
+        Task<IEnumerable<T>> GetUserJobOffers<T>(string userId);
 
         int GetSentOffersCount(string userId);
     }

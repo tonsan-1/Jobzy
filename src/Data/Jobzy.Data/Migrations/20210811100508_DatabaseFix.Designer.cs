@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Jobzy.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210808111324_RefactorEntitiesToUseBaseModel")]
-    partial class RefactorEntitiesToUseBaseModel
+    [Migration("20210811100508_DatabaseFix")]
+    partial class DatabaseFix
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

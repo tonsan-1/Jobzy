@@ -38,6 +38,18 @@
             return this.View(offers);
         }
 
+        [Authorize(Roles = "Freelancer")]
+        public async Task<IActionResult> MyOffers()
+        {
+            var user = await this.userManager.GetUserAsync(this.User);
+            var offers = await this.freelancePlatform.OfferManager.GetUserJobOffers<UserOffersViewModel>(user.Id);
+            var offersCount = this.freelancePlatform.OfferManager.GetSentOffersCount(user.Id);
+
+            this.ViewData["OffersCount"] = offersCount;
+
+            return this.View(offers);
+        }
+
         [HttpPost]
         [Authorize(Roles = "Freelancer")]
         [ValidateAntiForgeryToken]
@@ -80,6 +92,15 @@
                 $"/Contracts/Index/{contract.Id}");
 
             return this.RedirectToAction("Index", "Contracts", new { id = contractId });
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Freelancer")]
+        public async Task<IActionResult> DeleteOffer(string offerId)
+        {
+            await this.freelancePlatform.OfferManager.DeleteOffer(offerId);
+
+            return this.RedirectToAction("MyOffers", "Offers");
         }
     }
 }

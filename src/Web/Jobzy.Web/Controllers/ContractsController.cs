@@ -41,10 +41,10 @@
         }
 
         [Authorize(Roles = "Employer, Freelancer")]
-        public async Task<IActionResult> All()
+        public async Task<IActionResult> MyContracts()
         {
             var user = await this.userManager.GetUserAsync(this.User);
-            var contracts = this.freelancePlatform.ContractManager.GetAllUserContracts(user.Id);
+            var contracts = this.freelancePlatform.ContractManager.GetAllUserContracts<UserContractsListViewModel>(user.Id);
 
             return this.View(contracts);
         }

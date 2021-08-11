@@ -10,7 +10,6 @@
     using Jobzy.Data.Models;
     using Jobzy.Services.Interfaces;
     using Jobzy.Services.Mapping;
-    using Jobzy.Web.ViewModels.Contracts;
     using Microsoft.EntityFrameworkCore;
 
     public class ContractManager : IContractManager
@@ -75,12 +74,14 @@
                 .FirstOrDefaultAsync();
         }
 
-        public IEnumerable<UserContractsListViewModel> GetAllUserContracts(string userId)
+        public async Task<IEnumerable<T>> GetAllUserContracts<T>(string userId)
         {
-            var contracts = this.contractRepository.All()
-                .Where(x => x.EmployerId == userId || x.FreelancerId == userId)
-                .To<UserContractsListViewModel>()
-                .ToList();
+            var contracts = await this.contractRepository
+                .All()
+                .Where(x => x.FreelancerId == userId || x.EmployerId == userId)
+                .OrderByDescending(x => x.CreatedOn)
+                .To<T>()
+                .ToListAsync();
 
             return contracts;
         }

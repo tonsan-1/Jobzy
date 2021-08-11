@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Jobzy.Data.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class DatabaseFix : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -30,8 +30,9 @@ namespace Jobzy.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    TagName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    FirstName = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
+                    TagName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", maxLength: 4096, nullable: true),
                     Location = table.Column<int>(type: "int", nullable: false),
                     ProfileImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -66,11 +67,34 @@ namespace Jobzy.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Categories", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Notifications",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Text = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Icon = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    RedirectUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsRead = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Notifications", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -198,41 +222,31 @@ namespace Jobzy.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Balances",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Money = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Balances", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Balances_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Messages",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DateReceived = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ContactId = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    InitiatorId = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    RecipientId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    SenderId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    IsRead = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Messages", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Messages_AspNetUsers_ApplicationUserId",
-                        column: x => x.ApplicationUserId,
+                        name: "FK_Messages_AspNetUsers_RecipientId",
+                        column: x => x.RecipientId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Messages_AspNetUsers_SenderId",
+                        column: x => x.SenderId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -245,10 +259,13 @@ namespace Jobzy.Data.Migrations
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Title = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DatePosted = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Rating = table.Column<double>(type: "float", nullable: false),
                     ReviewerName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -272,8 +289,10 @@ namespace Jobzy.Data.Migrations
                     CategoryId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Budget = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", maxLength: 4096, nullable: false),
-                    DatePosted = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -293,16 +312,44 @@ namespace Jobzy.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ApplicationUserNotification",
+                columns: table => new
+                {
+                    NotificationsId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    UsersId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ApplicationUserNotification", x => new { x.NotificationsId, x.UsersId });
+                    table.ForeignKey(
+                        name: "FK_ApplicationUserNotification_AspNetUsers_UsersId",
+                        column: x => x.UsersId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_ApplicationUserNotification_Notifications_NotificationsId",
+                        column: x => x.NotificationsId,
+                        principalTable: "Notifications",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Offers",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     AcceptedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IsAccepted = table.Column<bool>(type: "bit", nullable: false),
-                    FixedPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    FixedPrice = table.Column<int>(type: "int", nullable: false),
                     DeliveryDays = table.Column<int>(type: "int", nullable: false),
                     FreelancerId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    JobId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    JobId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -327,12 +374,15 @@ namespace Jobzy.Data.Migrations
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Status = table.Column<int>(type: "int", nullable: false),
-                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CompletedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     FreelancerId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     EmployerId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     OfferId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    JobId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    JobId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -362,6 +412,36 @@ namespace Jobzy.Data.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
+
+            migrationBuilder.CreateTable(
+                name: "Attachments",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Extension = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Url = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ContractId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Attachments", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Attachments_Contracts_ContractId",
+                        column: x => x.ContractId,
+                        principalTable: "Contracts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ApplicationUserNotification_UsersId",
+                table: "ApplicationUserNotification",
+                column: "UsersId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -413,10 +493,19 @@ namespace Jobzy.Data.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Balances_UserId",
-                table: "Balances",
-                column: "UserId",
-                unique: true);
+                name: "IX_Attachments_ContractId",
+                table: "Attachments",
+                column: "ContractId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Attachments_IsDeleted",
+                table: "Attachments",
+                column: "IsDeleted");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Categories_IsDeleted",
+                table: "Categories",
+                column: "IsDeleted");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Contracts_EmployerId",
@@ -427,6 +516,11 @@ namespace Jobzy.Data.Migrations
                 name: "IX_Contracts_FreelancerId",
                 table: "Contracts",
                 column: "FreelancerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Contracts_IsDeleted",
+                table: "Contracts",
+                column: "IsDeleted");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Contracts_JobId",
@@ -449,9 +543,29 @@ namespace Jobzy.Data.Migrations
                 column: "EmployerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Messages_ApplicationUserId",
+                name: "IX_Jobs_IsDeleted",
+                table: "Jobs",
+                column: "IsDeleted");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Messages_IsDeleted",
                 table: "Messages",
-                column: "ApplicationUserId");
+                column: "IsDeleted");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Messages_RecipientId",
+                table: "Messages",
+                column: "RecipientId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Messages_SenderId",
+                table: "Messages",
+                column: "SenderId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Notifications_IsDeleted",
+                table: "Notifications",
+                column: "IsDeleted");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Offers_FreelancerId",
@@ -459,9 +573,19 @@ namespace Jobzy.Data.Migrations
                 column: "FreelancerId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Offers_IsDeleted",
+                table: "Offers",
+                column: "IsDeleted");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Offers_JobId",
                 table: "Offers",
                 column: "JobId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Reviews_IsDeleted",
+                table: "Reviews",
+                column: "IsDeleted");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Reviews_UserId",
@@ -476,6 +600,9 @@ namespace Jobzy.Data.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "ApplicationUserNotification");
+
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
@@ -492,10 +619,7 @@ namespace Jobzy.Data.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Balances");
-
-            migrationBuilder.DropTable(
-                name: "Contracts");
+                name: "Attachments");
 
             migrationBuilder.DropTable(
                 name: "Messages");
@@ -507,7 +631,13 @@ namespace Jobzy.Data.Migrations
                 name: "Settings");
 
             migrationBuilder.DropTable(
+                name: "Notifications");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "Contracts");
 
             migrationBuilder.DropTable(
                 name: "Offers");

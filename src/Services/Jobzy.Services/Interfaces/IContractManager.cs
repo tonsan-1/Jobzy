@@ -12,7 +12,7 @@
 
         Task<T> GetContractByIdAsync<T>(string id);
 
-        IEnumerable<UserContractsListViewModel> GetAllUserContracts(string userId);
+        Task<IEnumerable<T>> GetAllUserContracts<T>(string userId);
 
         Task SetContractStatus(ContractStatus status, string contractId);
 

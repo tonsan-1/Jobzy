@@ -10,6 +10,7 @@
     using Jobzy.Services.Interfaces;
     using Jobzy.Services.Mapping;
     using Jobzy.Web.ViewModels.Offers;
+    using Microsoft.EntityFrameworkCore;
 
     public class OfferManager : IOfferManager
     {
@@ -46,6 +47,16 @@
             await this.repository.SaveChangesAsync();
         }
 
+        public async Task DeleteOffer(string offerId)
+        {
+            var offer = await this.repository
+                .All()
+                .FirstOrDefaultAsync(x => x.Id == offerId);
+
+            this.repository.Delete(offer);
+            await this.repository.SaveChangesAsync();
+        }
+
         public IEnumerable<JobOfferViewModel> GetJobOffers(string jobId)
         {
             var offers = this.repository.All()
@@ -59,9 +70,22 @@
 
         public int GetSentOffersCount(string userId)
         {
-            return this.repository.All()
+            return this.repository
+                .All()
                 .Where(x => x.FreelancerId == userId)
                 .Count();
+        }
+
+        public async Task<IEnumerable<T>> GetUserJobOffers<T>(string userId)
+        {
+            var offers = await this.repository
+                .All()
+                .Where(x => x.FreelancerId == userId)
+                .OrderByDescending(x => x.CreatedOn)
+                .To<T>()
+                .ToListAsync();
+
+            return offers;
         }
     }
 }

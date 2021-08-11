@@ -26,19 +26,31 @@
             <div class="dashboard-nav">
                 <div class="dashboard-nav-inner">
                     <ul data-submenu-title="Main">
-                        <li><a href="dashboard.html"><i class="icon-material-outline-dashboard"></i> Dashboard</a></li>
-                        <li><a href="dashboard-messages.html"><i class="icon-material-outline-question-answer"></i> Messages</a></li>
-                        <li><a href="dashboard-reviews.html"><i class="icon-material-outline-rate-review"></i> Reviews</a></li>
+                        <li><a asp-action="Index" asp-controller="Dashboard"><i class="icon-material-outline-dashboard"></i> Dashboard</a></li>
+                        <li><a asp-action="All" asp-controller="Messages"><i class="icon-material-outline-question-answer"></i> Messages</a></li>
+                        <li><a asp-action="All" asp-controller="Reviews"><i class="icon-material-outline-rate-review"></i> Reviews</a></li>
                     </ul>
 
                     <ul data-submenu-title="Manage">
-                        <li class="active-submenu">
-                            <a href="javascript:void(0);"><i class="icon-material-outline-business-center"></i> Jobs</a>
-                            <ul>
-                                <li><a asp-action="MyJobs" asp-controller="Jobs">My Jobs</a></li>
-                                <li><a asp-action="AddJob" asp-controller="Jobs">Add a Job</a></li>
-                            </ul>
-                        </li>
+                        @if (this.User.IsInRole("Freelancer"))
+                        {
+                            <li class="active-submenu">
+                                <a href="javascript:void(0);"><i class="icon-material-outline-business-center"></i> Offers</a>
+                                <ul>
+                                    <li><a asp-action="MyOffers" asp-controller="Offers">My Offers</a></li>
+                                </ul>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="active-submenu">
+                                <a href="javascript:void(0);"><i class="icon-material-outline-business-center"></i> Jobs</a>
+                                <ul>
+                                    <li><a asp-action="MyJobs" asp-controller="Jobs">My Jobs</a></li>
+                                    <li><a asp-action="AddJob" asp-controller="Jobs">Add a Job</a></li>
+                                </ul>
+                            </li>
+                        }
                         <li class="active-submenu">
                             <a href="javascript:void(0);"><i class="icon-material-outline-business-center"></i> Contracts</a>
                             <ul>
@@ -48,10 +60,12 @@
                     </ul>
 
                     <ul data-submenu-title="Account">
-                        <li><a href="dashboard-settings.html"><i class="icon-material-outline-settings"></i> Settings</a></li>
-                        <li><a href="index-logged-out.html"><i class="icon-material-outline-power-settings-new"></i> Logout</a></li>
+                        <li><a asp-action="Settings" asp-controller="Profile"><i class="icon-material-outline-settings"></i> Settings</a></li>
+                        <li>
+                            <a role="button" href="javascript:void(0)" aria-label="logout" onclick="document.getElementById('logout').submit()"><i class="icon-material-outline-power-settings-new"></i>Logout</a>
+                        </li>
                     </ul>
-
+                    <form id="logout" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" method="post"></form>
                 </div>
             </div>
             <!-- Navigation / End -->

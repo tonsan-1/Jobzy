@@ -1,0 +1,79 @@
+﻿@model IEnumerable<Jobzy.Web.ViewModels.Offers.UserOffersViewModel>
+
+@{
+    ViewData["Title"] = "My Offers";
+
+    var offersCount = (int)ViewData["OffersCount"];
+}
+<!-- Dashboard Container -->
+<div class="dashboard-container">
+    <partial name="DashboardPartial" />
+    <!-- Dashboard Content
+        ================================================== -->
+    <div class="dashboard-content-container" data-simplebar>
+        <div class="dashboard-content-inner">
+
+            <!-- Dashboard Headline -->
+            <div class="dashboard-headline">
+                <h3>My Offers</h3>
+            </div>
+
+            <!-- Row -->
+            <div class="row">
+
+                <!-- Dashboard Box -->
+                <div class="col-xl-12">
+                    <div class="dashboard-box margin-top-0">
+
+                        <!-- Headline -->
+                        <div class="headline">
+                            <h3><i class="icon-material-outline-gavel"></i> @offersCount Active Offers</h3>
+                        </div>
+
+                        <div class="content">
+                            <ul class="dashboard-box-list">
+                                @foreach (var offer in Model)
+                                {
+                                    <li>
+                                        <!-- Job Listing -->
+                                        <div class="job-listing width-adjustment">
+
+                                            <!-- Job Listing Details -->
+                                            <div class="job-listing-details">
+
+                                                <!-- Details -->
+                                                <div class="job-listing-description">
+                                                    <h3 class="job-listing-title">
+                                                        <a asp-action="Index" asp-controller="Jobs" asp-route-id="@offer.JobId">@offer.JobTitle</a>
+                                                    </h3>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Task Details -->
+                                        <ul class="dashboard-task-info">
+                                            <li><strong>$@offer.FixedPrice</strong><span>Fixed Price</span></li>
+                                            <li><strong>@offer.DeliveryDays Days</strong><span>Delivery Time</span></li>
+                                        </ul>
+
+                                        <!-- Buttons -->
+                                        <div class="buttons-to-right always-visible">
+                                            <form method="post" id="delete-offer-form" asp-action="DeleteOffer" asp-controller="Offers">
+                                                <input type="hidden" name="offerId" value="@offer.Id" />
+                                                <button type="submit" form="delete-offer-form" class="button red ripple-effect ico" title="Delete Offer" data-tippy-placement="top"><i class="icon-feather-trash-2"></i></button>
+                                            </form>
+                                        </div>
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- Row / End -->
+            <partial name="SmallFooterPartial" />
+        </div>
+    </div>
+    <!-- Dashboard Content / End -->
+</div>
