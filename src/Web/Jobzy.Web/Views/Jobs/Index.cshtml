@@ -136,7 +136,7 @@
                 {
                     if (Model.Status == JobStatus.InContract && Model.ContractsFreelancerIds.Contains(user.Id))
                     {
-                        <a asp-action="GetContract" asp-controller="Contract" asp-route-id="@Model.ContractId" class="apply-now-button">Contract<i class="icon-material-outline-arrow-right-alt"></i></a>
+                        <a asp-action="Index" asp-controller="Contracts" asp-route-id="@Model.ContractId" class="apply-now-button">Contract<i class="icon-material-outline-arrow-right-alt"></i></a>
                     }
                     else if (Model.Status == JobStatus.Open && !Model.OffersFreelancerIds.Contains(user.Id))
                     {
@@ -156,11 +156,11 @@
                 {
                     if (Model.Status == JobStatus.InContract && Model.EmployerId == user.Id)
                     {
-                        <a asp-action="GetContract" asp-controller="Contract" asp-route-id="@Model.ContractId" class="apply-now-button">Contract<i class="icon-material-outline-arrow-right-alt"></i></a>
+                        <a asp-action="Index" asp-controller="Contracts" asp-route-id="@Model.ContractId" class="apply-now-button">Contract<i class="icon-material-outline-arrow-right-alt"></i></a>
                     }
                     else if (Model.Status != JobStatus.InContract && Model.EmployerId == user.Id)
                     {
-                        <a asp-action="MyJobs" asp-controller="Job" class="apply-now-button">My Jobs<i class="icon-material-outline-arrow-right-alt"></i></a>
+                        <a asp-action="MyJobs" asp-controller="Jobs" class="apply-now-button">My Jobs<i class="icon-material-outline-arrow-right-alt"></i></a>
                     }
                     else
                     {

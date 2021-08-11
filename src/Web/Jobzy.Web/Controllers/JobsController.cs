@@ -1,6 +1,5 @@
 ﻿namespace Jobzy.Web.Controllers
 {
-    using System;
     using System.Threading.Tasks;
 
     using Jobzy.Data.Models;
@@ -10,12 +9,12 @@
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
 
-    public class JobController : BaseController
+    public class JobsController : BaseController
     {
         private readonly IFreelancePlatform freelancePlatform;
         private readonly UserManager<ApplicationUser> userManager;
 
-        public JobController(
+        public JobsController(
             IFreelancePlatform freelancePlatform,
             UserManager<ApplicationUser> userManager)
         {
@@ -23,18 +22,8 @@
             this.userManager = userManager;
         }
 
-        [Route("/Job/All")]
-        [Authorize(Roles = "Administrator, Freelancer")]
-        public IActionResult GetAllJobs()
-        {
-            var jobs = this.freelancePlatform.JobManager.GetAllJobPosts();
-
-            return this.View(jobs);
-        }
-
-        [Route("/Job/")]
-        [Authorize(Roles = "Administrator, Freelancer, Employer")]
-        public async Task<IActionResult> GetJob(string id)
+        [Authorize(Roles = "Freelancer, Employer")]
+        public async Task<IActionResult> Index(string id)
         {
             var job = await this.freelancePlatform.JobManager.GetJobByIdAsync<SingleJobViewModel>(id);
 
@@ -46,9 +35,16 @@
             return this.View(job);
         }
 
-        [Route("/Job/MyJobs")]
-        [Authorize(Roles = "Administrator, Employer")]
-        public async Task<IActionResult> GetMyJobs()
+        [Authorize(Roles = "Freelancer")]
+        public IActionResult All()
+        {
+            var jobs = this.freelancePlatform.JobManager.GetAllJobPosts();
+
+            return this.View(jobs);
+        }
+
+        [Authorize(Roles = "Employer")]
+        public async Task<IActionResult> MyJobs()
         {
             var user = await this.userManager.GetUserAsync(this.User);
 
@@ -57,8 +53,7 @@
             return this.View(jobs);
         }
 
-        [Route("/Job/Add")]
-        [Authorize(Roles = "Administrator, Employer")]
+        [Authorize(Roles = "Employer")]
         public IActionResult AddJob()
         {
             var jobCategories = this.freelancePlatform.CategoryManager.GetAllJobCategories();
@@ -67,8 +62,7 @@
         }
 
         [HttpPost]
-        [Route("/Job/Add")]
-        [Authorize(Roles = "Administrator, Employer")]
+        [Authorize(Roles = "Employer")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddJob(JobInputModel input)
         {
@@ -82,7 +76,7 @@
             var user = await this.userManager.GetUserAsync(this.User);
 
             await this.freelancePlatform.JobManager.AddAsync(input, user.Id);
-            return this.Redirect("/");
+            return this.RedirectToAction("MyJobs", "Jobs");
         }
     }
 }

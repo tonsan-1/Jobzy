@@ -50,6 +50,7 @@
         {
             var offers = this.repository.All()
                 .Where(x => x.JobId == jobId && !x.IsAccepted)
+                .OrderByDescending(x => x.CreatedOn)
                 .To<JobOfferViewModel>()
                 .ToList();
 

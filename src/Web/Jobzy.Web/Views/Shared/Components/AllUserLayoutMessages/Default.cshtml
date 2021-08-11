@@ -27,7 +27,7 @@
 
                             <!-- Notification -->
                             <li class="notifications-not-read">
-                                <a asp-action="Conversation" asp-controller="Message" asp-route-id="@user.Id">
+                                <a asp-action="Conversation" asp-controller="Messages" asp-route-id="@user.Id">
                                     <span class="notification-avatar @onlineStatus"><img src="@user.ProfileImageUrl" alt=""></span>
                                     <div class="notification-text">
                                         <strong>@user.FirstName @user.LastName</strong><br />

@@ -23,7 +23,6 @@
         }
 
         [HttpPost]
-        [Route("/MarkNotificationAsRead")]
         [IgnoreAntiforgeryToken]
         public async Task<IActionResult> MarkNotificationAsRead([FromBody]string id)
         {

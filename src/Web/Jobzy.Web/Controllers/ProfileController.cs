@@ -23,9 +23,8 @@
             this.userManager = userManager;
         }
 
-        [Route("/Profile/Employer/")]
-        [Authorize(Roles = "Administrator, Freelancer, Employer")]
-        public async Task<IActionResult> GetEmployer(string id)
+        [Authorize(Roles = "Freelancer, Employer")]
+        public async Task<IActionResult> Employer(string id)
         {
             if (id is null)
             {
@@ -36,7 +35,7 @@
 
             if (await this.userManager.IsInRoleAsync(user, "Freelancer"))
             {
-                return this.Redirect($"/Profile/Freelancer?id={id}");
+                return this.RedirectToAction("Freelancer", "Profile", new { id = id });
             }
 
             var employer = this.freelancePlatform.ProfileManager.GetEmployer(user.Id);
@@ -44,9 +43,8 @@
             return this.View(employer);
         }
 
-        [Route("/Profile/Freelancer/")]
-        [Authorize(Roles = "Administrator, Freelancer, Employer")]
-        public async Task<IActionResult> GetFreelancer(string id)
+        [Authorize(Roles = "Freelancer, Employer")]
+        public async Task<IActionResult> Freelancer(string id)
         {
             if (id is null)
             {
@@ -57,7 +55,7 @@
 
             if (await this.userManager.IsInRoleAsync(user, "Employer"))
             {
-                return this.Redirect($"/Profile/Employer?id={id}");
+                return this.RedirectToAction("Employer", "Profile", new { id = id });
             }
 
             var freelancer = this.freelancePlatform.ProfileManager.GetFreelancer(user.Id);
@@ -65,7 +63,7 @@
             return this.View(freelancer);
         }
 
-        [Authorize(Roles = "Administrator, Freelancer, Employer")]
+        [Authorize(Roles = "Freelancer, Employer")]
         public IActionResult Settings()
         {
             var userId = this.userManager.GetUserId(this.User);
@@ -78,9 +76,9 @@
         }
 
         [HttpPost]
-        [Authorize(Roles = "Administrator, Freelancer, Employer")]
+        [Authorize(Roles = "Freelancer, Employer")]
         public async Task<IActionResult> UpdateProfileInfo(
-            [Bind(Prefix = "ProfileInfoInputModel")]ProfileInfoInputModel input,
+            [Bind(Prefix = "ProfileInfoInputModel")] ProfileInfoInputModel input,
             IFormFile profilePicture)
         {
             var user = await this.userManager.GetUserAsync(this.User);
@@ -107,11 +105,16 @@
 
             await this.freelancePlatform.ProfileManager.UpdateUserInfo(input, user.Id);
 
-            return this.Redirect("/");
+            if (this.User.IsInRole("Freelancer"))
+            {
+                return this.RedirectToAction("Freelancer", "Profile", new { id = user.Id });
+            }
+
+            return this.RedirectToAction("Employer", "Profile", new { id = user.Id });
         }
 
         [HttpPost]
-        [Authorize(Roles = "Administrator, Freelancer, Employer")]
+        [Authorize(Roles = "Freelancer, Employer")]
         public async Task<IActionResult> ChangePassword(
             [Bind(Prefix = "ProfilePasswordInputModel")] ProfilePasswordInputModel input)
         {
@@ -142,7 +145,12 @@
                 });
             }
 
-            return this.Redirect("/");
+            if (this.User.IsInRole("Freelancer"))
+            {
+                return this.RedirectToAction("Freelancer", "Profile", new { id = user.Id });
+            }
+
+            return this.RedirectToAction("Employer", "Profile", new { id = user.Id });
         }
     }
 }

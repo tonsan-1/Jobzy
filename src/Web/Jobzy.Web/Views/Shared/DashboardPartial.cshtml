@@ -27,24 +27,22 @@
                 <div class="dashboard-nav-inner">
                     <ul data-submenu-title="Main">
                         <li><a href="dashboard.html"><i class="icon-material-outline-dashboard"></i> Dashboard</a></li>
-                        <li><a href="dashboard.html"><i class="icon-material-outline-account-balance-wallet"></i> Add Funds</a></li>
                         <li><a href="dashboard-messages.html"><i class="icon-material-outline-question-answer"></i> Messages</a></li>
-                        <li><a href="dashboard-bookmarks.html"><i class="icon-material-outline-star-border"></i> Bookmarks</a></li>
                         <li><a href="dashboard-reviews.html"><i class="icon-material-outline-rate-review"></i> Reviews</a></li>
                     </ul>
 
                     <ul data-submenu-title="Manage">
                         <li class="active-submenu">
-                            <a asp-controller="Job"><i class="icon-material-outline-business-center"></i> Jobs</a>
+                            <a href="javascript:void(0);"><i class="icon-material-outline-business-center"></i> Jobs</a>
                             <ul>
-                                <li><a asp-action="MyJobs" asp-controller="Job">My Jobs</a></li>
-                                <li><a asp-action="Add" asp-controller="Job">Add a Job</a></li>
+                                <li><a asp-action="MyJobs" asp-controller="Jobs">My Jobs</a></li>
+                                <li><a asp-action="AddJob" asp-controller="Jobs">Add a Job</a></li>
                             </ul>
                         </li>
                         <li class="active-submenu">
-                            <a asp-controller="Contract"><i class="icon-material-outline-business-center"></i> Contracts</a>
+                            <a href="javascript:void(0);"><i class="icon-material-outline-business-center"></i> Contracts</a>
                             <ul>
-                                <li><a asp-action="MyContracts" asp-controller="Contract">My Contracts</a></li>
+                                <li><a asp-action="MyContracts" asp-controller="Contracts">My Contracts</a></li>
                             </ul>
                         </li>
                     </ul>

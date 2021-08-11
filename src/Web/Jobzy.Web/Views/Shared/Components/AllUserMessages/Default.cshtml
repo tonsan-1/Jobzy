@@ -5,7 +5,7 @@
         var onlineStatus = user.IsOnline ? "status-online" : "status-invisible";
 
         <li id="@user.Id">
-            <a asp-action="Conversation" asp-controller="Message" asp-route-id="@user.Id">
+            <a asp-action="Conversation" asp-controller="Messages" asp-route-id="@user.Id">
                 <div class="message-avatar"><i class="status-icon @onlineStatus"></i><img src="@user.ProfileImageUrl" alt="" /></div>
 
                 <div class="message-by">

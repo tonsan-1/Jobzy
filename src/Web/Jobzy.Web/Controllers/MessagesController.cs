@@ -9,13 +9,13 @@
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
 
-    [Authorize(Roles = "Administrator, Freelancer, Employer")]
-    public class MessageController : BaseController
+    [Authorize(Roles = "Freelancer, Employer")]
+    public class MessagesController : BaseController
     {
         private readonly IFreelancePlatform freelancePlatform;
         private readonly UserManager<ApplicationUser> userManager;
 
-        public MessageController(
+        public MessagesController(
             IFreelancePlatform freelancePlatform,
             UserManager<ApplicationUser> userManager)
         {
@@ -23,7 +23,24 @@
             this.userManager = userManager;
         }
 
-        [HttpGet]
+        public async Task<IActionResult> Conversation(string id)
+        {
+            if (id is null)
+            {
+                return this.View("Error");
+            }
+
+            var userId = this.userManager.GetUserId(this.User);
+
+            var conversation = new UserConversationViewModel
+            {
+                User = await this.freelancePlatform.ProfileManager.GetUserById<UserViewModel>(id),
+                Messages = await this.freelancePlatform.MessageManager.GetMessages<UserMessageViewModel>(userId, id),
+            };
+
+            return this.View(conversation);
+        }
+
         public IActionResult All()
         {
             return this.View();
@@ -52,29 +69,9 @@
             return this.RedirectToAction("Conversation", new { id = recipient.Id });
         }
 
-        [HttpGet("/Messages/")]
-        public async Task<IActionResult> Conversation(string id)
-        {
-            if (id is null)
-            {
-                return this.View("Error");
-            }
-
-            var userId = this.userManager.GetUserId(this.User);
-
-            var conversation = new UserConversationViewModel
-            {
-                User = await this.freelancePlatform.ProfileManager.GetUserById<UserViewModel>(id),
-                Messages = await this.freelancePlatform.MessageManager.GetMessages<UserMessageViewModel>(userId, id),
-            };
-
-            return this.View(conversation);
-        }
-
         [HttpPost]
-        [Route("/MarkAllMessagesAsRead")]
         [IgnoreAntiforgeryToken]
-        public async Task<IActionResult> MarkAllMessagesAsRead([FromBody]string userId)
+        public async Task<IActionResult> MarkAllMessagesAsRead([FromBody] string userId)
         {
             var currentUserId = this.userManager.GetUserId(this.User);
             await this.freelancePlatform.MessageManager.MarkAllMessagesAsRead(currentUserId, userId);

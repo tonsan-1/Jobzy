@@ -41,7 +41,7 @@
                                                 <!-- Details -->
                                                 <div class="job-listing-description">
 
-                                                    <h3 class="job-listing-title"><a asp-controller="Job" asp-action="GetJob" asp-route-id="@job.Id">@job.Title</a> <span class="dashboard-status-button @job.TagColor">@job.TagName</span></h3>
+                                                    <h3 class="job-listing-title"><a asp-controller="Jobs" asp-action="Index" asp-route-id="@job.Id">@job.Title</a> <span class="dashboard-status-button @job.TagColor">@job.TagName</span></h3>
 
                                                     <!-- Job Listing Footer -->
                                                     <div class="job-listing-footer">
@@ -59,7 +59,7 @@
                                             <div class="buttons-to-right always-visible">
                                                 @if (job.OffersCount > 0)
                                                 {
-                                                    <a asp-action="GetJobOffers" asp-controller="Offer" asp-route-id="@job.Id" class="button ripple-effect"><i class="icon-material-outline-supervisor-account"></i> Manage Offers <span class="button-info">@job.OffersCount</span></a>
+                                                    <a asp-action="All" asp-controller="Offers" asp-route-id="@job.Id" class="button ripple-effect"><i class="icon-material-outline-supervisor-account"></i> Manage Offers <span class="button-info">@job.OffersCount</span></a>
                                                 }
                                                 else
                                                 {

@@ -4,18 +4,19 @@
 
     using Jobzy.Services.Interfaces;
     using Jobzy.Web.ViewModels.Contracts;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
-    public class PaymentController : BaseController
+    [Authorize(Roles = "Freelancer, Employer")]
+    public class PaymentsController : BaseController
     {
         private readonly IFreelancePlatform freelancePlatform;
 
-        public PaymentController(IFreelancePlatform freelancePlatform)
+        public PaymentsController(IFreelancePlatform freelancePlatform)
         {
             this.freelancePlatform = freelancePlatform;
         }
 
-        [Route("/Checkout/")]
         public async Task<IActionResult> Checkout(string id)
         {
             var contract = await this.freelancePlatform.ContractManager.GetContractByIdAsync<SingleContractViewModel>(id);

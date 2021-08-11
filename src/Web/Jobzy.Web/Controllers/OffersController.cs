@@ -12,12 +12,12 @@
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
 
-    public class OfferController : BaseController
+    public class OffersController : BaseController
     {
         private readonly IFreelancePlatform freelancePlatform;
         private readonly UserManager<ApplicationUser> userManager;
 
-        public OfferController(
+        public OffersController(
             IFreelancePlatform freelancePlatform,
             UserManager<ApplicationUser> userManager)
         {
@@ -25,9 +25,8 @@
             this.userManager = userManager;
         }
 
-        [Route("/Job/Offers")]
-        [Authorize(Roles = "Administrator, Employer")]
-        public IActionResult GetJobOffers(string id)
+        [Authorize(Roles = "Employer")]
+        public IActionResult All(string id)
         {
             var offers = this.freelancePlatform.OfferManager.GetJobOffers(id);
 
@@ -40,8 +39,7 @@
         }
 
         [HttpPost]
-        [Route("/Job/")]
-        [Authorize(Roles = "Administrator, Freelancer")]
+        [Authorize(Roles = "Freelancer")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddOffer(OfferInputModel input)
         {
@@ -58,14 +56,13 @@
                 job.EmployerId,
                 GlobalConstants.OfferIcon,
                 $"{user.FirstName} {user.LastName} applied for a job {job.Title}.",
-                $"/Job/Offers?id={job.Id}");
+                $"Offers/All/{job.Id}");
 
-            return this.Redirect("/");
+            return this.RedirectToAction("MyOffers", "Offers");
         }
 
         [HttpPost]
-        [Route("/Job/Offers")]
-        [Authorize(Roles = "Administrator, Employer")]
+        [Authorize(Roles = "Employer")]
         public async Task<IActionResult> AcceptOffer(string offerId, string jobId)
         {
             await this.freelancePlatform.OfferManager.AcceptOffer(offerId);
@@ -80,9 +77,9 @@
                 contract.FreelancerId,
                 GlobalConstants.ContractIcon,
                 $"{contract.EmployerFirstName} {contract.EmployerLastName} accepted your offer for job {contract.JobTitle} and a contract has been created.",
-                $"/Contract?id={contract.Id}");
+                $"/Contracts/Index/{contract.Id}");
 
-            return this.Redirect($"/Contract?id={contractId}");
+            return this.RedirectToAction("Index", "Contracts", new { id = contractId });
         }
     }
 }

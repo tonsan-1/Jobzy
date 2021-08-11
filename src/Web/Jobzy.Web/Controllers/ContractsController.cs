@@ -12,12 +12,12 @@
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
 
-    public class ContractController : BaseController
+    public class ContractsController : BaseController
     {
         private readonly IFreelancePlatform freelancePlatform;
         private readonly UserManager<ApplicationUser> userManager;
 
-        public ContractController(
+        public ContractsController(
             IFreelancePlatform freelancePlatform,
             UserManager<ApplicationUser> userManager)
         {
@@ -25,9 +25,8 @@
             this.userManager = userManager;
         }
 
-        [Route("/Contract/")]
         [Authorize(Roles = "Administrator, Freelancer, Employer")]
-        public async Task<IActionResult> GetContract(string id)
+        public async Task<IActionResult> Index(string id)
         {
             // validate if current user is in the contract
 
@@ -39,6 +38,15 @@
             }
 
             return this.View(contract);
+        }
+
+        [Authorize(Roles = "Employer, Freelancer")]
+        public async Task<IActionResult> All()
+        {
+            var user = await this.userManager.GetUserAsync(this.User);
+            var contracts = this.freelancePlatform.ContractManager.GetAllUserContracts(user.Id);
+
+            return this.View(contracts);
         }
 
         [HttpPost]
@@ -56,32 +64,22 @@
                 contract.FreelancerId,
                 GlobalConstants.ContractCancelationIcon,
                 $"{contract.EmployerFirstName} {contract.EmployerLastName} canceled your contract for job {contract.JobTitle}",
-                $"/Contract?id={contract.Id}");
+                $"/Contracts/Index/{contract.Id}");
 
-                return this.RedirectToAction("GetMyContracts", "Contract");
+                return this.RedirectToAction("All", "Contracts");
             }
 
             await this.freelancePlatform.NotificationsManager.CreateAsync(
                 contract.FreelancerId,
                 GlobalConstants.ContractCompletetionIcon,
                 $"{contract.EmployerFirstName} {contract.EmployerLastName} completed your contract for job {contract.JobTitle}",
-                $"/Contract?id={contract.Id}");
+                $"/Contracts/Index/{contract.Id}");
 
-            return this.Redirect($"/Checkout?id={contractId}");
-        }
-
-        [Route("/Contract/MyContracts")]
-        [Authorize(Roles = "Administrator, Employer, Freelancer")]
-        public async Task<IActionResult> GetMyContracts()
-        {
-            var user = await this.userManager.GetUserAsync(this.User);
-            var contracts = this.freelancePlatform.ContractManager.GetAllUserContracts(user.Id);
-
-            return this.View(contracts);
+            return this.RedirectToAction("Checkout", "Payments", new { id = contractId });
         }
 
         [HttpPost]
-        [Authorize(Roles = "Administrator, Freelancer")]
+        [Authorize(Roles = "Freelancer")]
         public async Task<IActionResult> UploadWork([FromForm]IFormFile attachment, string contractId)
         {
             // some validations of the file size and type
@@ -93,10 +91,10 @@
             await this.freelancePlatform.NotificationsManager.CreateAsync(
                 contract.EmployerId,
                 GlobalConstants.ContractAttachmentIcon,
-                $"{contract.FreelancerFirstName} {contract.FreelancerLastName} uploaded an attachment to your contract for {contract.JobTitle}",
-                $"/Contract?id={contract.Id}");
+                $"{contract.FreelancerFirstName} {contract.FreelancerLastName} uploaded work to your contract for {contract.JobTitle}",
+                $"/Contracts/Index/{contract.Id}");
 
-            return this.Redirect($"/Contract?id={contractId}");
+            return this.RedirectToAction("Index", "Contracts", new { id = contractId });
         }
     }
 }

@@ -51,7 +51,7 @@
                                             <a href="#">Find Work</a>
                                             <ul class="dropdown-nav">
                                                 <li>
-                                                    <a asp-controller="Job" asp-action="All">Browse Jobs</a>
+                                                    <a asp-controller="Jobs" asp-action="All">Browse Jobs</a>
                                                 </li>
 
                                                 <li>
@@ -64,7 +64,7 @@
                                             <a href="#">Profile</a>
                                             <ul class="dropdown-nav">
                                                 <li>
-                                                    <a asp-action="GetFreelancer" asp-controller="Profile" asp-route-id="@user.Id">My Profile</a>
+                                                    <a asp-action="Freelancer" asp-controller="Profile" asp-route-id="@user.Id">My Profile</a>
                                                 </li>
                                                 <li>
                                                     <a asp-action="Settings" asp-controller="Profile">Settings</a>
@@ -75,28 +75,42 @@
                                     @if (this.User.IsInRole("Employer"))
                                     {
                                         <li>
-                                            <a href="#">Find Talent</a>
+                                            <a role="button">Find Talent</a>
                                             <ul class="dropdown-nav">
                                                 <li>
-                                                    <a href="#">Find a Freelancer</a>
-                                                    <ul class="dropdown-nav">
-                                                        <li><a href="freelancers-grid-layout-full-page.html">Full Page Grid</a></li>
-                                                        <li><a href="freelancers-grid-layout.html">Grid Layout</a></li>
-                                                        <li><a href="freelancers-list-layout-1.html">List Layout 1</a></li>
-                                                        <li><a href="freelancers-list-layout-2.html">List Layout 2</a></li>
-                                                    </ul>
-                                                </li>
-                                                <li>
-                                                    <a asp-action="Add" asp-controller="Job">Add a Job</a>
+                                                    <a href="#">Browse for Freelancers</a>
                                                 </li>
                                             </ul>
                                         </li>
 
                                         <li>
-                                            <a href="#">Profile</a>
+                                            <a role="button">Jobs</a>
                                             <ul class="dropdown-nav">
                                                 <li>
-                                                    <a asp-action="GetEmployer" asp-controller="Profile" asp-route-id="@user.Id">My Profile</a>
+                                                    <a asp-action="MyJobs" asp-controller="Jobs">My Jobs</a>
+                                                </li>
+
+                                                <li>
+                                                    <a asp-action="AddJob" asp-controller="Jobs">Add a Job</a>
+                                                </li>
+                                            </ul>
+                                        </li>
+
+                                        <li>
+                                            <a role="button">Contracts</a>
+                                            <ul class="dropdown-nav">
+                                                <li>
+                                                    <a asp-action="All" asp-controller="Contracts">My Contracts</a>
+                                                </li>
+
+                                            </ul>
+                                        </li>
+
+                                        <li>
+                                            <a role="button">Profile</a>
+                                            <ul class="dropdown-nav">
+                                                <li>
+                                                    <a asp-action="Employer" asp-controller="Profile" asp-route-id="@user.Id">My Profile</a>
                                                 </li>
                                                 <li>
                                                     <a asp-action="Settings" asp-controller="Profile">Settings</a>

@@ -38,7 +38,7 @@
                     ReviewsCount = this.freelancePlatform.ReviewManager.GetReviewsCount(user.Id),
                 };
 
-                return this.View("EmployerDashboard", employer);
+                return this.View("Employer", employer);
             }
 
             var freelancer = new FreelancerDashboardViewModel
@@ -50,7 +50,7 @@
                 SentOffersCount = this.freelancePlatform.OfferManager.GetSentOffersCount(user.Id),
             };
 
-            return this.View("FreelancerDashboard", freelancer);
+            return this.View("Freelancer", freelancer);
         }
     }
 }

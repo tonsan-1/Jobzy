@@ -1,4 +1,8 @@
 ﻿@model List<Jobzy.Web.ViewModels.Contracts.UserContractsListViewModel>
+
+@{
+    ViewData["Title"] = "My Contracts";
+}
 <!-- Dashboard Container -->
 <div class="dashboard-container">
     <partial name="DashboardPartial" />
@@ -41,7 +45,7 @@
                                                 <!-- Details -->
                                                 <div class="job-listing-description">
 
-                                                    <h3 class="job-listing-title"><a asp-controller="Contract" asp-action="GetContract" asp-route-id="@contract.Id">Contract #@contract.ShortId</a> <span class="dashboard-status-button @contract.TagColor">@contractStatus</span></h3>
+                                                    <h3 class="job-listing-title"><a asp-controller="Contracts" asp-action="Index" asp-route-id="@contract.Id">Contract #@contract.ShortId</a> <span class="dashboard-status-button @contract.TagColor">@contractStatus</span></h3>
 
                                                     <!-- Job Listing Footer -->
                                                     <div class="job-listing-footer">

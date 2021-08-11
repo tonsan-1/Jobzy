@@ -18,7 +18,11 @@
 
         public string JobId { get; set; }
 
-        public string FreelancerName { get; set; }
+        public string FreelancerId { get; set; }
+
+        public string FreelancerFirstName { get; set; }
+
+        public string FreelancerLastName{ get; set; }
 
         public string FreelancerEmail { get; set; }
 

@@ -17,20 +17,15 @@
 
                 <!-- Welcome Text -->
                 <div class="welcome-text">
-                   <h3>Accept Offer From @Model.FreelancerName</h3>
+                   <h3>Accept Offer From @Model.FreelancerFirstName @Model.FreelancerLastName for</h3>
                    
-                    <div class="bid-acceptance margin-top-15">
+                    <div class="bid-acceptance margin-top-30">
                         $@Model.FixedPrice
                     </div>
 
                 </div>
 
-                <form id="accept-offer-form" asp-action="AcceptOffer" asp-controller="Offer">
-                    <div class="radio">
-                        <input id="radio-1" name="radio" type="radio" required>
-                        <label for="radio-1"><span class="radio-label"></span>  I have read and agree to the Terms and Conditions</label>
-                    </div>
-                    
+                <form id="accept-offer-form" asp-action="AcceptOffer" asp-controller="Offers">
                     <input type="text" hidden name="offerId" value="@Model.Id"/>
                     <input type="text" hidden name="jobId" value="@Model.JobId"/>
                 </form>
