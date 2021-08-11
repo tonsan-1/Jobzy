@@ -17,6 +17,8 @@
 
         Task<IEnumerable<T>> GetUserJobOffers<T>(string userId);
 
+        int GetActiveOffersCount(string userId);
+
         int GetSentOffersCount(string userId);
     }
 }

@@ -11,6 +11,10 @@
 
         public string Icon { get; set; }
 
-        public string RedirectUrl { get; set; }
+        public string RedirectAction { get; set; }
+
+        public string RedirectController { get; set; }
+
+        public string RedirectId { get; set; }
     }
 }

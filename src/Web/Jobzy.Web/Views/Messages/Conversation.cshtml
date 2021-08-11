@@ -1,9 +1,14 @@
 ﻿@using Jobzy.Data.Models
 @using Microsoft.AspNetCore.Identity
-
+@using Microsoft.AspNetCore.Antiforgery
+@inject IAntiforgery antiforgery
 @inject UserManager<ApplicationUser> userManager
 
 @model Jobzy.Web.ViewModels.Messages.UserConversationViewModel
+
+@{
+    var tokenSet = antiforgery.GetAndStoreTokens(this.Context);
+}
 
 <!-- Dashboard Container -->
 <div class="dashboard-container">
@@ -122,11 +127,12 @@
         });
 
         connection.start().then(function () {
-            fetch('https://localhost:44319/MarkAllMessagesAsRead', {
+            fetch('https://localhost:44319/Messages/MarkAllMessagesAsRead', {
                 method: 'POST',
                 body: JSON.stringify('@(Model.User.Id)'),
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    '@tokenSet.HeaderName': '@tokenSet.RequestToken'
                 },
             })
                 .then(res => res.json())

@@ -68,24 +68,32 @@
             return offers;
         }
 
+        public async Task<IEnumerable<T>> GetUserJobOffers<T>(string userId)
+        {
+            var offers = await this.repository
+                .All()
+                .Where(x => x.FreelancerId == userId && !x.IsAccepted)
+                .OrderByDescending(x => x.CreatedOn)
+                .To<T>()
+                .ToListAsync();
+
+            return offers;
+        }
+
+        public int GetActiveOffersCount(string userId)
+        {
+            return this.repository
+                .All()
+                .Where(x => x.FreelancerId == userId && !x.IsAccepted)
+                .Count();
+        }
+
         public int GetSentOffersCount(string userId)
         {
             return this.repository
                 .All()
                 .Where(x => x.FreelancerId == userId)
                 .Count();
-        }
-
-        public async Task<IEnumerable<T>> GetUserJobOffers<T>(string userId)
-        {
-            var offers = await this.repository
-                .All()
-                .Where(x => x.FreelancerId == userId)
-                .OrderByDescending(x => x.CreatedOn)
-                .To<T>()
-                .ToListAsync();
-
-            return offers;
         }
     }
 }

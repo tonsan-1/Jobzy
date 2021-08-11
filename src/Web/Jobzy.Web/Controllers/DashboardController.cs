@@ -46,6 +46,7 @@
                 Name = user.FirstName,
                 TotalMoneyEarned = this.freelancePlatform.StripeManager.GetFreelancerBalanceAmount(user.Id),
                 OngoingContractsCount = this.freelancePlatform.ContractManager.GetOngoingContractsCount(user.Id),
+                FinishedContractsCount = this.freelancePlatform.ContractManager.GetFinishedContractsCount(user.Id),
                 ReviewsCount = this.freelancePlatform.ReviewManager.GetReviewsCount(user.Id),
                 SentOffersCount = this.freelancePlatform.OfferManager.GetSentOffersCount(user.Id),
             };

@@ -106,7 +106,7 @@
             return account;
         }
 
-        public long GetFreelancerBalanceAmount(string userId)
+        public string GetFreelancerBalanceAmount(string userId)
         {
             StripeConfiguration.ApiKey = GlobalConstants.StripeConfigurationKey;
 
@@ -115,10 +115,25 @@
             var service = new BalanceService();
             Balance balance = service.Get(requestOptions);
 
-            return balance.Available
-                .Where(x => x.Currency == "usd")
-                .Select(x => x.Amount)
-                .FirstOrDefault();
+            long allFunds = 0;
+
+            if (balance.Pending.Any(x => x.Currency == "usd" && x.Amount > 0))
+            {
+                allFunds += balance.Pending
+                     .Where(x => x.Currency == "usd")
+                     .Select(x => x.Amount)
+                     .FirstOrDefault() / 100;
+            }
+
+            if (balance.Available.Any(x => x.Currency == "usd" && x.Amount > 0))
+            {
+                allFunds += balance.Available
+                    .Where(x => x.Currency == "usd")
+                    .Select(x => x.Amount)
+                    .FirstOrDefault() / 100;
+            }
+
+            return allFunds.ToString("N0");
         }
     }
 }

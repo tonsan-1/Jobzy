@@ -43,7 +43,7 @@
         {
             var user = await this.userManager.GetUserAsync(this.User);
             var offers = await this.freelancePlatform.OfferManager.GetUserJobOffers<UserOffersViewModel>(user.Id);
-            var offersCount = this.freelancePlatform.OfferManager.GetSentOffersCount(user.Id);
+            var offersCount = this.freelancePlatform.OfferManager.GetActiveOffersCount(user.Id);
 
             this.ViewData["OffersCount"] = offersCount;
 
@@ -64,11 +64,16 @@
             var job = await this.freelancePlatform.JobManager.GetJobByIdAsync<JobNotificationViewModel>(input.JobId);
 
             await this.freelancePlatform.OfferManager.AddAsync(input);
-            await this.freelancePlatform.NotificationsManager.CreateAsync(
-                job.EmployerId,
-                GlobalConstants.OfferIcon,
-                $"{user.FirstName} {user.LastName} applied for a job {job.Title}.",
-                $"Offers/All/{job.Id}");
+
+            var notification = new Notification
+            {
+                Icon = GlobalConstants.OfferIcon,
+                Text = $"{user.FirstName} {user.LastName} sent you an offer for job {job.Title}.",
+                RedirectAction = "MyJobs",
+                RedirectController = "Jobs",
+            };
+
+            await this.freelancePlatform.NotificationsManager.CreateAsync(notification, job.EmployerId);
 
             return this.RedirectToAction("MyOffers", "Offers");
         }
@@ -85,11 +90,16 @@
                 .ContractManager
                 .GetContractByIdAsync<ContractNotificationViewModel>(contractId);
 
-            await this.freelancePlatform.NotificationsManager.CreateAsync(
-                contract.FreelancerId,
-                GlobalConstants.ContractIcon,
-                $"{contract.EmployerFirstName} {contract.EmployerLastName} accepted your offer for job {contract.JobTitle} and a contract has been created.",
-                $"/Contracts/Index/{contract.Id}");
+            var notification = new Notification
+            {
+                Icon = GlobalConstants.ContractIcon,
+                Text = $"{contract.EmployerFirstName} {contract.EmployerLastName} has accepted your offer for {contract.JobTitle} and a contract has been generated.",
+                RedirectAction = "Index",
+                RedirectController = "Contracts",
+                RedirectId = contract.Id,
+            };
+
+            await this.freelancePlatform.NotificationsManager.CreateAsync(notification, contract.FreelancerId);
 
             return this.RedirectToAction("Index", "Contracts", new { id = contractId });
         }

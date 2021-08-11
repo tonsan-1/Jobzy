@@ -70,7 +70,7 @@
         }
 
         [HttpPost]
-        [IgnoreAntiforgeryToken]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> MarkAllMessagesAsRead([FromBody] string userId)
         {
             var currentUserId = this.userManager.GetUserId(this.User);

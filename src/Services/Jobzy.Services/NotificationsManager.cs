@@ -24,15 +24,8 @@
             this.userManager = userManager;
         }
 
-        public async Task CreateAsync(string userId, string icon, string text, string redirectUrl)
+        public async Task CreateAsync(Notification notification, string userId)
         {
-            var notification = new Notification
-            {
-                Text = text,
-                Icon = icon,
-                RedirectUrl = redirectUrl,
-            };
-
             var user = await this.userManager.FindByIdAsync(userId);
 
             notification.Users.Add(user);

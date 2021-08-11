@@ -58,6 +58,7 @@
                     }).AddRazorRuntimeCompilation();
             services.AddRazorPages();
             services.AddSignalR();
+            services.AddAntiforgery();
             services.AddDatabaseDeveloperPageExceptionFilter();
 
             services.AddSingleton(this.configuration);

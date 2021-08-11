@@ -3,9 +3,11 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
+    using Jobzy.Data.Models;
+
     public interface INotificationsManager
     {
-        Task CreateAsync(string userId, string icon, string text, string redirectUrl);
+        Task CreateAsync(Notification notification, string userId);
 
         Task<IEnumerable<T>> GetAllUserNotifications<T>(string userId);
 

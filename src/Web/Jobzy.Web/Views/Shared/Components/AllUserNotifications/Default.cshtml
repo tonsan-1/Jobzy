@@ -1,7 +1,11 @@
-﻿@model IEnumerable<Jobzy.Web.ViewModels.Notifications.UserNotificationViewModel>
+﻿@using Microsoft.AspNetCore.Antiforgery
+@inject IAntiforgery antiforgery
+
+@model IEnumerable<Jobzy.Web.ViewModels.Notifications.UserNotificationViewModel>
 
 @{
     var notificationsCount = (int)ViewData["NotificationsCount"];
+    var tokenSet = antiforgery.GetAndStoreTokens(this.Context);
 }
 
 <!-- Notifications -->
@@ -34,7 +38,7 @@
                         {
                             <!-- Notification -->
                             <li class="notifications-not-read">
-                                <a id="notification-link" onclick="MarkNotificationAsRead('@notification.Id');" href="@notification.RedirectUrl">
+                                <a id="notification-link" onclick="MarkNotificationAsRead('@notification.Id');" asp-action="@notification.RedirectAction" asp-controller="@notification.RedirectController" asp-route-id="@notification.RedirectId">
                                     <span class="notification-icon"><i class="@notification.Icon"></i></span>
                                     <span class="notification-text">
                                         <span>@notification.Text</span>
@@ -62,11 +66,12 @@
 
 <script>
     function MarkNotificationAsRead(id) {
-        fetch('https://localhost:44319/MarkNotificationAsRead', {
+        fetch('https://localhost:44319/Notifications/MarkNotificationAsRead', {
             method: 'POST',
             body: JSON.stringify(id),
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                '@tokenSet.HeaderName': '@tokenSet.RequestToken'
             },
         })
             .then(res => res.json())

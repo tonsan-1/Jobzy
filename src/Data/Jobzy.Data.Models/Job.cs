@@ -37,7 +37,7 @@
         public decimal Budget { get; set; }
 
         [Required]
-        [MaxLength(4096)]
+        [MaxLength(1000)]
         public string Description { get; set; }
 
         public virtual List<Contract> Contracts { get; set; } = new List<Contract>();

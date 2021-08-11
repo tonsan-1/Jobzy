@@ -5,8 +5,9 @@
     using System.Threading.Tasks;
 
     using Jobzy.Common;
+    using Jobzy.Data.Models;
     using Jobzy.Services.Interfaces;
-    using Jobzy.Web.ViewModels.Contracts;
+    using Jobzy.Web.ViewModels.Notifications;
     using Microsoft.AspNetCore.Mvc;
     using Stripe;
 
@@ -35,12 +36,20 @@
                     var paymentIntent = stripeEvent.Data.Object as PaymentIntent;
                     var connectedAccountId = stripeEvent.Account;
                     var contractId = paymentIntent.Metadata["contractId"];
-                    var contract = await this.freelancePlatform.ContractManager.GetContractByIdAsync<SingleContractViewModel>(contractId);
+                    var contract = await this.freelancePlatform.ContractManager.GetContractByIdAsync<ContractNotificationViewModel>(contractId);
 
                     await this.freelancePlatform.ContractManager.SetContractStatus(ContractStatus.Finished, contractId);
-                    await this.freelancePlatform.JobManager.SetJobStatus(JobStatus.Closed, contract.OfferJobId);
+                    await this.freelancePlatform.JobManager.SetJobStatus(JobStatus.Closed, contract.JobId);
 
-                    // TODO:notify both parties that the contract is succesfully completed
+                    var completionNotification = new Notification
+                    {
+                        Icon = GlobalConstants.ContractCompletetionIcon,
+                        Text = $"{contract.EmployerFirstName} {contract.EmployerLastName} completed your contract for job {contract.JobTitle}",
+                        RedirectAction = "MyContracts",
+                        RedirectController = "Contracts",
+                    };
+
+                    await this.freelancePlatform.NotificationsManager.CreateAsync(completionNotification, contract.FreelancerId);
                 }
                 else
                 {

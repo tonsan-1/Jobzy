@@ -1,5 +1,6 @@
 ﻿namespace Jobzy.Web.Controllers
 {
+    using System.Linq;
     using System.Threading.Tasks;
 
     using Jobzy.Common;
@@ -44,43 +45,75 @@
         public async Task<IActionResult> MyContracts()
         {
             var user = await this.userManager.GetUserAsync(this.User);
-            var contracts = this.freelancePlatform.ContractManager.GetAllUserContracts<UserContractsListViewModel>(user.Id);
+            var contracts = await this.freelancePlatform.ContractManager.GetAllUserContracts<UserContractsListViewModel>(user.Id);
+
+            this.ViewData["ContractsCount"] = contracts.Count();
 
             return this.View(contracts);
         }
 
         [HttpPost]
         [Authorize(Roles = "Administrator, Employer")]
-        public async Task<IActionResult> ContractActions(string action, string contractId, string jobId)
+        [ValidateAntiForgeryToken]
+        public IActionResult ContractActions(string action, string contractId)
         { // use input model insted of strings and separate the logic in two separate methods
-            var contract = await this.freelancePlatform.ContractManager
-                .GetContractByIdAsync<ContractNotificationViewModel>(contractId);
-
             if (action == "cancel")
             {
-                await this.freelancePlatform.ContractManager.SetContractStatus(ContractStatus.Canceled, contractId);
-                await this.freelancePlatform.JobManager.SetJobStatus(JobStatus.Open, jobId);
-                await this.freelancePlatform.NotificationsManager.CreateAsync(
-                contract.FreelancerId,
-                GlobalConstants.ContractCancelationIcon,
-                $"{contract.EmployerFirstName} {contract.EmployerLastName} canceled your contract for job {contract.JobTitle}",
-                $"/Contracts/Index/{contract.Id}");
-
-                return this.RedirectToAction("All", "Contracts");
+                return this.RedirectToAction("CancelContract", "Contracts");
             }
-
-            await this.freelancePlatform.NotificationsManager.CreateAsync(
-                contract.FreelancerId,
-                GlobalConstants.ContractCompletetionIcon,
-                $"{contract.EmployerFirstName} {contract.EmployerLastName} completed your contract for job {contract.JobTitle}",
-                $"/Contracts/Index/{contract.Id}");
 
             return this.RedirectToAction("Checkout", "Payments", new { id = contractId });
         }
 
         [HttpPost]
+        [Authorize(Roles = "Employer")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CompleteContract([FromBody] string contractId)
+        {
+            var contract = await this.freelancePlatform.ContractManager
+                .GetContractByIdAsync<ContractNotificationViewModel>(contractId);
+
+            await this.freelancePlatform.ContractManager.SetContractStatus(ContractStatus.Finished, contractId);
+
+            var completionNotification = new Notification
+            {
+                Icon = GlobalConstants.ContractCompletetionIcon,
+                Text = $"{contract.EmployerFirstName} {contract.EmployerLastName} completed your contract for job {contract.JobTitle}",
+                RedirectAction = "MyContracts",
+                RedirectController = "Contracts",
+            };
+
+            await this.freelancePlatform.NotificationsManager.CreateAsync(completionNotification, contract.FreelancerId);
+
+            return this.RedirectToAction("MyContracts", "Contracts");
+        }
+
+        [Authorize(Roles = "Employer")]
+        public async Task<IActionResult> CancelContract([FromBody] string contractId)
+        {
+            var contract = await this.freelancePlatform.ContractManager
+                .GetContractByIdAsync<ContractNotificationViewModel>(contractId);
+
+            await this.freelancePlatform.ContractManager.SetContractStatus(ContractStatus.Canceled, contractId);
+            await this.freelancePlatform.JobManager.SetJobStatus(JobStatus.Open, contract.JobId);
+
+            var cancellationNotification = new Notification
+            {
+                Icon = GlobalConstants.ContractCancelationIcon,
+                Text = $"{contract.EmployerFirstName} {contract.EmployerLastName} has cancelled your contract for job {contract.JobTitle}.",
+                RedirectAction = "MyContracts",
+                RedirectController = "Contracts",
+            };
+
+            await this.freelancePlatform.NotificationsManager.CreateAsync(cancellationNotification, contract.FreelancerId);
+
+            return this.RedirectToAction("MyContracts", "Contracts");
+        }
+
+        [HttpPost]
         [Authorize(Roles = "Freelancer")]
-        public async Task<IActionResult> UploadWork([FromForm]IFormFile attachment, string contractId)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UploadWork([FromForm] IFormFile attachment, string contractId)
         {
             // some validations of the file size and type
 
@@ -88,11 +121,16 @@
             var contract = await this.freelancePlatform.ContractManager
                 .GetContractByIdAsync<ContractNotificationViewModel>(contractId);
 
-            await this.freelancePlatform.NotificationsManager.CreateAsync(
-                contract.EmployerId,
-                GlobalConstants.ContractAttachmentIcon,
-                $"{contract.FreelancerFirstName} {contract.FreelancerLastName} uploaded work to your contract for {contract.JobTitle}",
-                $"/Contracts/Index/{contract.Id}");
+            var notification = new Notification
+            {
+                Icon = GlobalConstants.ContractAttachmentIcon,
+                Text = $"{contract.FreelancerFirstName} {contract.FreelancerLastName} uploaded an attachment to your contract for job {contract.JobTitle}",
+                RedirectAction = "Index",
+                RedirectController = "Contracts",
+                RedirectId = contract.Id,
+            };
+
+            await this.freelancePlatform.NotificationsManager.CreateAsync(notification, contract.EmployerId);
 
             return this.RedirectToAction("Index", "Contracts", new { id = contractId });
         }

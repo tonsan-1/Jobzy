@@ -10,6 +10,6 @@
 
         PaymentIntent CreatePaymentIntent(int amount, string accountId, string contractId);
 
-        long GetFreelancerBalanceAmount(string userId);
+        string GetFreelancerBalanceAmount(string userId);
     }
 }

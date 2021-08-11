@@ -23,7 +23,7 @@
         }
 
         [HttpPost]
-        [IgnoreAntiforgeryToken]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> MarkNotificationAsRead([FromBody]string id)
         {
             var userId = this.userManager.GetUserId(this.User);

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Jobzy.Data.Migrations
 {
-    public partial class DatabaseFix : Migration
+    public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -83,9 +83,11 @@ namespace Jobzy.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Text = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Text = table.Column<string>(type: "nvarchar(300)", maxLength: 300, nullable: false),
                     Icon = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    RedirectUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    RedirectAction = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    RedirectController = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    RedirectId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     IsRead = table.Column<bool>(type: "bit", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -288,7 +290,7 @@ namespace Jobzy.Data.Migrations
                     Status = table.Column<int>(type: "int", nullable: false),
                     CategoryId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Budget = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", maxLength: 4096, nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),

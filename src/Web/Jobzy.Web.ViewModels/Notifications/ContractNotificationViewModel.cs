@@ -19,6 +19,8 @@
 
         public string EmployerLastName { get; set; }
 
+        public string JobId { get; set; }
+
         public string JobTitle { get; set; }
     }
 }
