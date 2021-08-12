@@ -285,7 +285,7 @@ img { max-width: 100%; }
 }
 
 #logo img {
-	height: 42px;
+	height: 65px;
 	width: auto;
 	top: 50%;
 	position: relative;
@@ -14044,7 +14044,6 @@ text-overflow: ellipsis; */
 	height: 60px;
 	border-radius: 4px;
 	box-shadow: 0 0 10px rgba(0,0,0,0.1);
-	padding: 10px;
 	margin-right: 25px;
 	position: relative;
 	top: -2px;

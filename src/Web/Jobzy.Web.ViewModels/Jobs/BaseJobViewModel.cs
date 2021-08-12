@@ -14,9 +14,9 @@
 
         public JobStatus Status { get; set; }
 
-        public DateTime DatePosted { get; set; }
+        public DateTime CreatedOn { get; set; }
 
-        public string JobType { get; set; }
+        public string CategoryName { get; set; }
 
         public decimal Budget { get; set; }
 

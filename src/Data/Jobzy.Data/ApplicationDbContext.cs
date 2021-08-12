@@ -88,6 +88,18 @@
                 .WithMany(x => x.SentMessages)
                 .HasForeignKey(x => x.SenderId);
 
+            builder
+                .Entity<Review>()
+                .HasOne(m => m.Recipient)
+                .WithMany(x => x.ReceivedReviews)
+                .HasForeignKey(x => x.RecipientId);
+
+            builder
+                .Entity<Review>()
+                .HasOne(m => m.Sender)
+                .WithMany(x => x.SentReviews)
+                .HasForeignKey(x => x.SenderId);
+
             // Needed for Identity models configuration
             base.OnModelCreating(builder);
 

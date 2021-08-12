@@ -1,4 +1,6 @@
-﻿<!-- Leave a Review Popup
+﻿@model Jobzy.Web.ViewModels.Reviews.ReviewInputModel
+
+<!-- Leave a Review Popup
 ================================================== -->
 <div id="small-dialog" class="zoom-anim-dialog mfp-hide dialog-with-tabs">
 
@@ -15,58 +17,52 @@
             <div class="popup-tab-content" id="tab">
 
                 <!-- Form -->
-                <form method="post" id="leave-company-review-form">
+                <form method="post" id="leave-company-review-form" asp-action="LeaveReview" asp-controller="Reviews">
                     <!-- Welcome Text -->
                     <div class="welcome-text">
-                        <h3>What is it like to work at Acodia?</h3>
+                        <h3>What is it like to work with @Model.RecipientFirstName @Model.RecipientLastName?</h3>
 
                         <!-- Leave Rating -->
                         <div class="clearfix"></div>
                         <div class="leave-rating-container">
                             <div class="leave-rating margin-bottom-5">
-                                <input type="radio" name="rating" id="rating-1" value="1" required>
-                                <label for="rating-1" class="icon-material-outline-star"></label>
-                                <input type="radio" name="rating" id="rating-2" value="2" required>
-                                <label for="rating-2" class="icon-material-outline-star"></label>
-                                <input type="radio" name="rating" id="rating-3" value="3" required>
+                                <input onclick="SelectRatingValue('5')" type="radio" id="rating-1" value="1" required>
+                                <label  for="rating-1" class="icon-material-outline-star"></label>
+                                <input onclick="SelectRatingValue('4')" type="radio" id="rating-2" value="2" required>
+                                <label  for="rating-2" class="icon-material-outline-star"></label>
+                                <input onclick="SelectRatingValue('3')" type="radio" id="rating-3" value="3" required>
                                 <label for="rating-3" class="icon-material-outline-star"></label>
-                                <input type="radio" name="rating" id="rating-4" value="4" required>
-                                <label for="rating-4" class="icon-material-outline-star"></label>
-                                <input type="radio" name="rating" id="rating-5" value="5" required>
-                                <label for="rating-5" class="icon-material-outline-star"></label>
+                                <input onclick="SelectRatingValue('2')" type="radio" id="rating-4" value="4" required>
+                                <label  for="rating-4" class="icon-material-outline-star"></label>
+                                <input onclick="SelectRatingValue('1')" type="radio" id="rating-5" value="5" required>
+                                <label  for="rating-5" class="icon-material-outline-star"></label>
                             </div>
                         </div>
                         <div class="clearfix"></div>
                         <!-- Leave Rating / End-->
-
                     </div>
 
-                    <div class="row">
-                        <div class="col-xl-12">
-                            <div class="input-with-icon-left" title="Leave blank to add review anonymously" data-tippy-placement="bottom">
-                                <i class="icon-material-outline-account-circle"></i>
-                                <input type="text" class="input-text with-border" name="name" id="name" placeholder="First and Last Name" />
-                            </div>
-                        </div>
-
-                        <div class="col-xl-12">
-                            <div class="input-with-icon-left">
-                                <i class="icon-material-outline-rate-review"></i>
-                                <input type="text" class="input-text with-border" name="reviewtitle" id="reviewtitle" placeholder="Review Title" required />
-                            </div>
-                        </div>
-                    </div>
-
-                    <textarea class="with-border" placeholder="Review" name="message" id="message" cols="7" required></textarea>
-
+                    <textarea asp-for="Text" class="with-border" placeholder="Review" id="message" cols="7" required></textarea>
+                    <input id="ratingInput" type="hidden" asp-for="Rating" value="0"/>
+                    <input type="hidden" asp-for="RecipientId" value="@Model.RecipientId"/>
                 </form>
 
                 <!-- Button -->
                 <button class="button margin-top-35 full-width button-sliding-icon ripple-effect" type="submit" form="leave-company-review-form">Leave a Review <i class="icon-material-outline-arrow-right-alt"></i></button>
 
             </div>
-
         </div>
     </div>
 </div>
 <!-- Leave a Review Popup / End -->
+
+<script>
+    function SelectRatingValue(rating) {
+        console.log(rating);
+        var inputName = `rating-${rating}`;
+
+        console.log(inputName);
+
+        document.getElementById('ratingInput').setAttribute('value', +rating);
+    }
+</script>

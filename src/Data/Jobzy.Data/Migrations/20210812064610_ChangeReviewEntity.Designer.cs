@@ -4,14 +4,16 @@ using Jobzy.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Jobzy.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210812064610_ChangeReviewEntity")]
+    partial class ChangeReviewEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -512,6 +514,10 @@ namespace Jobzy.Data.Migrations
                     b.Property<DateTime?>("DeletedOn")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
@@ -521,25 +527,23 @@ namespace Jobzy.Data.Migrations
                     b.Property<int>("Rating")
                         .HasColumnType("int");
 
-                    b.Property<string>("RecipientId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("SenderId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Text")
-                        .IsRequired()
+                    b.Property<string>("ReviewerName")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("IsDeleted");
 
-                    b.HasIndex("RecipientId");
-
-                    b.HasIndex("SenderId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Reviews");
                 });
@@ -821,21 +825,13 @@ namespace Jobzy.Data.Migrations
 
             modelBuilder.Entity("Jobzy.Data.Models.Review", b =>
                 {
-                    b.HasOne("Jobzy.Data.Models.ApplicationUser", "Recipient")
-                        .WithMany("ReceivedReviews")
-                        .HasForeignKey("RecipientId")
+                    b.HasOne("Jobzy.Data.Models.ApplicationUser", "User")
+                        .WithMany("Reviews")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("Jobzy.Data.Models.ApplicationUser", "Sender")
-                        .WithMany("SentReviews")
-                        .HasForeignKey("SenderId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Recipient");
-
-                    b.Navigation("Sender");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -897,13 +893,11 @@ namespace Jobzy.Data.Migrations
 
                     b.Navigation("ReceivedMessages");
 
-                    b.Navigation("ReceivedReviews");
+                    b.Navigation("Reviews");
 
                     b.Navigation("Roles");
 
                     b.Navigation("SentMessages");
-
-                    b.Navigation("SentReviews");
                 });
 
             modelBuilder.Entity("Jobzy.Data.Models.Category", b =>

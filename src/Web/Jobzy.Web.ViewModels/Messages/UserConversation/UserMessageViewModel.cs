@@ -13,10 +13,10 @@
 
         public string SenderProfileImageUrl { get; set; }
 
-        public DateTime DateReceived { get; set; }
+        public DateTime CreatedOn { get; set; }
 
-        public string DateReceivedToString => this.DateReceived.ToLongDateString();
+        public string DateReceivedToString => this.CreatedOn.ToLongDateString();
 
-        public bool IsDateReceivedToday => this.DateReceived.Date == DateTime.Today;
+        public bool IsDateReceivedToday => this.CreatedOn.Date == DateTime.Today;
     }
 }

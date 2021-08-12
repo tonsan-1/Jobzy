@@ -46,7 +46,7 @@
                                                     <!-- Job Listing Footer -->
                                                     <div class="job-listing-footer">
                                                         <ul>
-                                                            <li><i class="icon-material-outline-date-range"></i>Posted on @job.DatePosted.ToLongDateString()</li>
+                                                            <li><i class="icon-material-outline-date-range"></i>Posted on @job.CreatedOn.ToLongDateString()</li>
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -77,6 +77,8 @@
                 </div>
             </div>
             <!-- Row / End -->
+            <partial name="SmallFooterPartial" />
+
         </div>
     </div>
     <!-- Dashboard Content / End -->

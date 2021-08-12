@@ -18,13 +18,13 @@
 
 <!-- Titlebar
 ================================================== -->
-<div class="single-page-header" data-background-image="/images/single-job.jpg">
+<div class="single-page-header freelancer-header" data-background-image="/images/single-job.jpg">
     <div class="container">
         <div class="row">
             <div class="col-md-12">
                 <div class="single-page-header-inner">
                     <div class="left-side">
-                        <div class="header-image"><a href="single-company-profile.html"><img src="/images/company-logo-03a.png" alt=""></a></div>
+                        <div class="header-image freelancer-avatar"><a asp-action="Employer" asp-controller="Profile" asp-route-id="@Model.EmployerId"><img src="@Model.EmployerProfileImageUrl" alt=""></a></div>
                         <div class="header-details">
                             <h3>@Model.Title</h3>
                             <h5>About the Employer</h5>
@@ -38,7 +38,7 @@
                     <div class="right-side">
                         <div class="salary-box">
                             <div class="salary-type">Budget</div>
-                            <div class="salary-amount">$@Model.Budget</div>
+                            <div class="salary-amount">$@Model.Budget.ToString("N2")</div>
                         </div>
                     </div>
                 </div>
@@ -54,12 +54,10 @@
 
         <!-- Content -->
         <div class="col-xl-8 col-lg-8 content-right-offset">
-
             <div class="single-page-section">
                 <h3 class="margin-bottom-25">Job Description</h3>
                 <p>@Model.Description</p>
             </div>
-
             <div class="single-page-section">
                 <h3 class="margin-bottom-25">Similar Jobs</h3>
 
@@ -181,13 +179,13 @@
                                 </li>
                                 <li>
                                     <i class="icon-material-outline-business-center"></i>
-                                    <span>Job Type</span>
-                                    <h5>@Model.JobType</h5>
+                                    <span>Job Category</span>
+                                    <h5>@Model.CategoryName</h5>
                                 </li>
                                 <li>
                                     <i class="icon-material-outline-local-atm"></i>
                                     <span>Budget</span>
-                                    <h5>$@Model.Budget</h5>
+                                    <h5>$@Model.Budget.ToString("N2")</h5>
                                 </li>
                                 <li>
                                     <i class="icon-material-outline-access-time"></i>
@@ -198,22 +196,13 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- Sidebar Widget -->
-                <div class="sidebar-widget">
-                    <h3>Bookmark</h3>
-
-                    <!-- Bookmark Button -->
-                    <button class="bookmark-button margin-bottom-25">
-                        <span class="bookmark-icon"></span>
-                        <span class="bookmark-text">Bookmark</span>
-                        <span class="bookmarked-text">Bookmarked</span>
-                    </button>
-
-                </div>
             </div>
         </div>
     </div>
 </div>
+
+<div class="padding-bottom-100"></div>
+
+<partial name="BigFooterPartial" />
 
 <partial name="~/Views/Shared/ApplyFormPartial.cshtml" view-data="ViewData" />

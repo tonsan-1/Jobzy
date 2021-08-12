@@ -26,6 +26,8 @@
 
         public string EmployerProfileImageUrl { get; set; }
 
-        public string EmployerName { get; set; }
+        public string EmployerFirstName{ get; set; }
+
+        public string EmployerLastName { get; set; }
     }
 }

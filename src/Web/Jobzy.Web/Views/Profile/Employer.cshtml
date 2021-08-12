@@ -1,4 +1,5 @@
 ﻿@using Jobzy.Web.ViewModels.Profiles.Employers
+@using Jobzy.Web.ViewModels.Reviews
 @using Jobzy.Data.Models
 @using Microsoft.AspNetCore.Identity
 @inject SignInManager<ApplicationUser> signInManager
@@ -32,7 +33,7 @@
                                 }
                             </h3>
                             <ul>
-                                @if (Model.Reviews.Count > 0)
+                                @if (Model.Reviews.Count() > 0)
                                 {
                                     <li><div class="star-rating" data-rating="@Model.AverageRating"></div></li>
                                 }
@@ -104,9 +105,6 @@
                                     </div>
 
                                 </div>
-
-                                <!-- Bookmark -->
-                                <span class="bookmark-icon"></span>
                             </a>
                         }
                     </div>
@@ -114,17 +112,17 @@
                 else
                 {
                     <div class="boxed-list-headline">
-                        <h3><i class="icon-material-outline-business-center"></i>No Open Positions</h3>
+                        <h3><i class="icon-material-outline-business-center"></i>0 Open Positions</h3>
                     </div>
                 }
             </div>
             <!-- Boxed List / End -->
             <!-- Boxed List -->
             <div class="boxed-list margin-bottom-60">
-                @if (Model.Reviews.Count > 0)
+                @if (Model.Reviews.Count() > 0)
                 {
                     <div class="boxed-list-headline">
-                        <h3><i class="icon-material-outline-thumb-up"></i> @Model.Reviews.Count Reviews</h3>
+                        <h3><i class="icon-material-outline-thumb-up"></i> @Model.Reviews.Count() Reviews</h3>
                     </div>
                     <ul class="boxed-list-ul">
 
@@ -134,13 +132,13 @@
                                 <div class="boxed-list-item">
                                     <!-- Content -->
                                     <div class="item-content">
-                                        <h4>@review.Title <span>@(review.ReviewerName is null ? "Annonymous" : review.ReviewerName)</span></h4>
+                                        <h4><span>@review.SenderFirstName @review.SenderLastName</span></h4>
                                         <div class="item-details margin-top-10">
                                             <div class="star-rating" data-rating="@review.Rating"></div>
                                             <div class="detail-item"><i class="icon-material-outline-date-range"></i> @review.DateFormatted</div>
                                         </div>
                                         <div class="item-description">
-                                            <p>@review.Description</p>
+                                            <p>@review.Text</p>
                                         </div>
                                     </div>
                                 </div>
@@ -155,6 +153,19 @@
                     <div class="boxed-list-headline">
                         <h3><i class="icon-material-outline-thumb-up"></i> 0 Reviews</h3>
                     </div>
+
+                    <ul class="boxed-list-ul">
+                        <li>
+                            <div class="boxed-list-item">
+                                <!-- Content -->
+                                <div class="item-content">
+                                    <div class="item-description">
+                                        <p>Be the first one to leave a review.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
                 }
 
                 @if (Model.Id != user.Id)
@@ -190,32 +201,6 @@
                         </ul>
                     </div>
                 </div>
-
-                <!-- Sidebar Widget -->
-                <div class="sidebar-widget">
-                    <h3>Bookmark or Share</h3>
-
-                    <!-- Bookmark Button -->
-                    <button class="bookmark-button margin-bottom-25">
-                        <span class="bookmark-icon"></span>
-                        <span class="bookmark-text">Bookmark</span>
-                        <span class="bookmarked-text">Bookmarked</span>
-                    </button>
-
-                    <!-- Share Buttons -->
-                    <div class="share-buttons margin-top-25">
-                        <div class="share-buttons-trigger"><i class="icon-feather-share-2"></i></div>
-                        <div class="share-buttons-content">
-                            <span>Interesting? <strong>Share It!</strong></span>
-                            <ul class="share-buttons-icons">
-                                <li><a href="#" data-button-color="#3b5998" title="Share on Facebook" data-tippy-placement="top"><i class="icon-brand-facebook-f"></i></a></li>
-                                <li><a href="#" data-button-color="#1da1f2" title="Share on Twitter" data-tippy-placement="top"><i class="icon-brand-twitter"></i></a></li>
-                                <li><a href="#" data-button-color="#dd4b39" title="Share on Google Plus" data-tippy-placement="top"><i class="icon-brand-google-plus-g"></i></a></li>
-                                <li><a href="#" data-button-color="#0077b5" title="Share on LinkedIn" data-tippy-placement="top"><i class="icon-brand-linkedin-in"></i></a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
@@ -226,5 +211,7 @@
 <div class="margin-top-15"></div>
 <!-- Spacer / End-->
 
+<div class="padding-bottom-100"></div>
 
-<partial name="/Views/Shared/LeaveReviewPartial.cshtml" />
+<partial name="BigFooterPartial" />
+<partial name="LeaveReviewPartial" model="new ReviewInputModel { RecipientFirstName = Model.FirstName, RecipientLastName = Model.LastName, RecipientId = Model.Id }" />

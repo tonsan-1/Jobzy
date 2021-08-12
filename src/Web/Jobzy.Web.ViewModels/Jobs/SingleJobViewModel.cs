@@ -23,6 +23,8 @@
 
         public double EmployerRating { get; set; }
 
+        public string EmployerProfileImageUrl { get; set; }
+
         public Country EmployerLocation { get; set; }
 
         public List<string> OffersFreelancerIds { get; set; }
@@ -31,7 +33,7 @@
 
         public string EmployerLocationToString => this.EmployerLocation.GetAttribute<DisplayAttribute>().Name;
 
-        public string DateFormatted => TimeCalculator.GetTimeAgo(this.DatePosted);
+        public string DateFormatted => TimeCalculator.GetTimeAgo(this.CreatedOn);
 
         public void CreateMappings(IProfileExpression configuration)
         {

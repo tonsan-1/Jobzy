@@ -7,7 +7,6 @@
 
     public class Review : BaseDeletableModel<string>
     {
-
         public Review()
         {
             this.Id = Guid.NewGuid().ToString();
@@ -15,20 +14,19 @@
         }
 
         [Required]
-        [MaxLength(30)]
-        public string Title { get; set; }
-
-        [Required]
-        public string Description { get; set; }
+        public string Text { get; set; }
 
         [Range(1, 5)]
-        public double Rating { get; set; }
-
-        public string ReviewerName { get; set; }
+        public int Rating { get; set; }
 
         [Required]
-        public string UserId { get; set; }
+        public string RecipientId { get; set; }
 
-        public virtual ApplicationUser User { get; set; }
+        public virtual ApplicationUser Recipient { get; set; }
+
+        [Required]
+        public string SenderId { get; set; }
+
+        public virtual ApplicationUser Sender { get; set; }
     }
 }

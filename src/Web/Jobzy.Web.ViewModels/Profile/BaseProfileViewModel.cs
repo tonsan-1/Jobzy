@@ -1,5 +1,6 @@
 ﻿namespace Jobzy.Web.ViewModels.Profiles
 {
+    using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.Linq;
@@ -7,6 +8,7 @@
     using Jobzy.Common;
     using Jobzy.Data.Models;
     using Jobzy.Services.Mapping;
+    using Jobzy.Web.ViewModels.Reviews;
 
     public class BaseProfileViewModel : IMapFrom<ApplicationUser>
     {
@@ -23,7 +25,7 @@
         public string Email { get; set; }
 
         public double AverageRating
-            => this.Reviews.Any() ? this.Reviews.Select(x => x.Rating).Average() : 0;
+            => this.Reviews.Any() ? Math.Round(this.Reviews.Select(x => x.Rating).Average(), 2) : 0;
 
         public Country Location { get; set; }
 
@@ -31,6 +33,6 @@
 
         public string ProfileImageUrl { get; set; }
 
-        public List<ReviewsListViewModel> Reviews { get; set; } = new List<ReviewsListViewModel>();
+        public IEnumerable<ReviewsListViewModel> Reviews { get; set; } = new HashSet<ReviewsListViewModel>();
     }
 }

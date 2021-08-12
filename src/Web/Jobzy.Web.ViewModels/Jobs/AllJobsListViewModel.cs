@@ -14,6 +14,6 @@
 
         public string EmployerProfileImageUrl { get; set; }
 
-        public string DatePostedFormatted => TimeCalculator.GetTimeAgo(this.DatePosted);
+        public string DatePostedFormatted => TimeCalculator.GetTimeAgo(this.CreatedOn);
     }
 }

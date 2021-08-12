@@ -123,24 +123,13 @@
 
                     li.querySelector('span').innerHTML = 'just now';
                 });
+
+                MarkAllMessagesAsRead();
             }
         });
 
         connection.start().then(function () {
-            fetch('https://localhost:44319/Messages/MarkAllMessagesAsRead', {
-                method: 'POST',
-                body: JSON.stringify('@(Model.User.Id)'),
-                headers: {
-                    'Content-Type': 'application/json',
-                    '@tokenSet.HeaderName': '@tokenSet.RequestToken'
-                },
-            })
-                .then(res => res.json())
-                .then(obj => {
-                    console.log('success');
-                    document.getElementById('messages-count').innerHTML = obj.count;
-                })
-                .catch(error => console.log(error));
+            MarkAllMessagesAsRead();
 
             document.getElementById("sendButton").disabled = false;
             document.getElementById('message-field').scrollTop = document.getElementById('message-field').scrollHeight;
@@ -161,6 +150,23 @@
             document.getElementById("messageInput").value = '';
             event.preventDefault();
         });
+
+        function MarkAllMessagesAsRead() {
+            fetch('https://localhost:44319/Messages/MarkAllMessagesAsRead', {
+                method: 'POST',
+                body: JSON.stringify('@(Model.User.Id)'),
+                headers: {
+                    'Content-Type': 'application/json',
+                    '@tokenSet.HeaderName': '@tokenSet.RequestToken'
+                },
+            })
+                .then(res => res.json())
+                .then(obj => {
+                    console.log('success');
+                    document.getElementById('messages-count').innerHTML = obj.count;
+                })
+                .catch(error => console.log(error));
+        }
 
     </script>
 }

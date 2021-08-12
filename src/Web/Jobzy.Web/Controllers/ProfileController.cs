@@ -5,6 +5,7 @@
     using Jobzy.Data.Models;
     using Jobzy.Services.Interfaces;
     using Jobzy.Web.ViewModels.Profiles;
+    using Jobzy.Web.ViewModels.Reviews;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Identity;
@@ -33,12 +34,19 @@
 
             var user = await this.userManager.FindByIdAsync(id);
 
+            if (user is null)
+            {
+                return this.View("Error");
+            }
+
             if (await this.userManager.IsInRoleAsync(user, "Freelancer"))
             {
                 return this.RedirectToAction("Freelancer", "Profile", new { id = id });
             }
 
             var employer = this.freelancePlatform.ProfileManager.GetEmployer(user.Id);
+
+            employer.Reviews = await this.freelancePlatform.ReviewManager.GetAllUserReviews<ReviewsListViewModel>(employer.Id);
 
             return this.View(employer);
         }
@@ -53,12 +61,19 @@
 
             var user = await this.userManager.FindByIdAsync(id);
 
+            if (user is null)
+            {
+                return this.View("Error");
+            }
+
             if (await this.userManager.IsInRoleAsync(user, "Employer"))
             {
                 return this.RedirectToAction("Employer", "Profile", new { id = id });
             }
 
             var freelancer = this.freelancePlatform.ProfileManager.GetFreelancer(user.Id);
+
+            freelancer.Reviews = await this.freelancePlatform.ReviewManager.GetAllUserReviews<ReviewsListViewModel>(freelancer.Id);
 
             return this.View(freelancer);
         }

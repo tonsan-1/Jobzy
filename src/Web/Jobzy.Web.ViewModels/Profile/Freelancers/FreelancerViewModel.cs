@@ -12,7 +12,7 @@
     {
         public int OffersCount { get; set; }
 
-        public List<ContractsListViewModel> Contracts { get; set; } = new List<ContractsListViewModel>();
+        public IEnumerable<ContractsListViewModel> Contracts { get; set; } = new HashSet<ContractsListViewModel>();
 
         public int TotalContractsCount => this.Contracts.Count();
 

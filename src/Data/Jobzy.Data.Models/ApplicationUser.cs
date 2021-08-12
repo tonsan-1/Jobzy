@@ -42,7 +42,10 @@ namespace Jobzy.Data.Models
 
         public DateTime? DeletedOn { get; set; }
 
-        public virtual ICollection<Review> Reviews { get; set; }
+        public virtual ICollection<Review> SentReviews { get; set; }
+            = new HashSet<Review>();
+
+        public virtual ICollection<Review> ReceivedReviews { get; set; }
             = new HashSet<Review>();
 
         public virtual ICollection<Message> SentMessages { get; set; }
