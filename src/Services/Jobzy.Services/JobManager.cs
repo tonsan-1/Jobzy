@@ -14,6 +14,7 @@
 
     public class JobManager : IJobManager
     {
+        public const int JobsPerPage = 8;
         private readonly IRepository<Job> repository;
 
         public JobManager(IRepository<Job> repository)
@@ -37,12 +38,40 @@
             await this.repository.SaveChangesAsync();
         }
 
-        public IEnumerable<AllJobsListViewModel> GetAllJobPosts()
+        public async Task<IEnumerable<T>> GetAllJobPosts<T>(
+            string category = null,
+            string jobTitle = null,
+            JobSorting sorting = JobSorting.Newest,
+            int currentPage = 1)
         {
-            var jobs = this.repository.All()
-                .Where(x => !x.IsDeleted && x.Status == JobStatus.Open)
-                .To<AllJobsListViewModel>()
-                .ToList();
+
+            var jobsQuery = this.repository
+                .All()
+                .Where(x => x.Status == JobStatus.Open)
+                .AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(category))
+            {
+                jobsQuery = jobsQuery.Where(x => x.Category.Name.ToLower() == category.ToLower());
+            }
+
+            if (!string.IsNullOrWhiteSpace(jobTitle))
+            {
+                jobsQuery = jobsQuery.Where(x => x.Title.ToLower().Contains(jobTitle.ToLower()));
+            }
+
+            jobsQuery = sorting switch
+            {
+                JobSorting.Budget => jobsQuery.OrderByDescending(x => x.Budget),
+                JobSorting.Oldest => jobsQuery.OrderBy(x => x.CreatedOn),
+                JobSorting.Newest or _ => jobsQuery.OrderByDescending(x => x.CreatedOn),
+            };
+
+            var jobs = await jobsQuery
+                .Skip((currentPage - 1) * JobsPerPage)
+                .Take(JobsPerPage)
+                .To<T>()
+                .ToListAsync();
 
             return jobs;
         }

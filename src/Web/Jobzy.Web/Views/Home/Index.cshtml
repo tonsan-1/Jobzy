@@ -1,11 +1,245 @@
 ﻿@using Jobzy.Common
+@using Jobzy.Data.Models
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> signInManager
 @{
     this.ViewData["Title"] = "Home Page";
 }
 
-@*<div class="text-center">
-    <h1 class="display-4">Welcome to @GlobalConstants.SystemName!</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>*@
+<!-- Intro Banner
+================================================== -->
+<!-- add class "disable-gradient" to enable consistent background overlay -->
+<div class="intro-banner" data-background-image="/images/home-background.jpg">
+    <div class="container">
 
+        @if (!this.signInManager.IsSignedIn(this.User))
+        {
+            <!-- Intro Headline -->
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="banner-headline">
+                        <h3>
+                            <strong>Hire freelancers or be hired for any job, any time.</strong>
+                            <br>
+                            <span>Thousands of small businesses use <strong class="color">Jobzy</strong> to turn their ideas into reality.</span>
+                        </h3>
+                    </div>
+                </div>
+            </div>
+        }
+
+        <!-- Stats -->
+        <div class="row">
+            <div class="col-md-12">
+                <ul class="intro-stats margin-top-45 hide-under-992px">
+                    <li>
+                        <strong class="counter">1,586</strong>
+                        <span>Jobs Posted</span>
+                    </li>
+                    <li>
+                        <strong class="counter">3,543</strong>
+                        <span>Tasks Posted</span>
+                    </li>
+                    <li>
+                        <strong class="counter">1,232</strong>
+                        <span>Freelancers</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@if (!this.signInManager.IsSignedIn(this.User))
+{
+    <!-- Icon Boxes -->
+    <div class="section padding-top-65 padding-bottom-65">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-xl-12">
+                    <!-- Section Headline -->
+                    <div class="section-headline centered margin-top-0 margin-bottom-5">
+                        <h3>How It Works?</h3>
+                    </div>
+                </div>
+
+                <div class="col-xl-4 col-md-4">
+                    <!-- Icon Box -->
+                    <div class="icon-box with-line">
+                        <!-- Icon -->
+                        <div class="icon-box-circle">
+                            <div class="icon-box-circle-inner">
+                                <i class="icon-line-awesome-lock"></i>
+                                <div class="icon-box-check"><i class="icon-material-outline-check"></i></div>
+                            </div>
+                        </div>
+                        <h3>Create an Account</h3>
+                        <p>Bring to the table win-win survival strategies to ensure proactive domination going forward.</p>
+                    </div>
+                </div>
+
+                <div class="col-xl-4 col-md-4">
+                    <!-- Icon Box -->
+                    <div class="icon-box with-line">
+                        <!-- Icon -->
+                        <div class="icon-box-circle">
+                            <div class="icon-box-circle-inner">
+                                <i class="icon-line-awesome-legal"></i>
+                                <div class="icon-box-check"><i class="icon-material-outline-check"></i></div>
+                            </div>
+                        </div>
+                        <h3>Post a Task</h3>
+                        <p>Efficiently unleash cross-media information without. Quickly maximize return on investment.</p>
+                    </div>
+                </div>
+
+                <div class="col-xl-4 col-md-4">
+                    <!-- Icon Box -->
+                    <div class="icon-box">
+                        <!-- Icon -->
+                        <div class="icon-box-circle">
+                            <div class="icon-box-circle-inner">
+                                <i class=" icon-line-awesome-trophy"></i>
+                                <div class="icon-box-check"><i class="icon-material-outline-check"></i></div>
+                            </div>
+                        </div>
+                        <h3>Choose an Expert</h3>
+                        <p>Nanotechnology immersion along the information highway will close the loop on focusing solely.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- Icon Boxes / End -->
+    <div class="padding-bottom-10"></div>
+}
+else
+{
+    if (this.User.IsInRole("Employer"))
+    {
+        <!-- Highest Rated Freelancers -->
+        <div class="section gray padding-top-65 padding-bottom-70 full-width-carousel-fix">
+            <div class="container">
+                <div class="row">
+
+                    <div class="col-xl-12">
+                        <!-- Section Headline -->
+                        <div class="section-headline margin-top-0 margin-bottom-25">
+                            <h3>Highest Rated Freelancers</h3>
+                            <a href="freelancers-grid-layout.html" class="headline-link">Browse All Freelancers</a>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-12">
+                        <div class="default-slick-carousel freelancers-container freelancers-grid-layout">
+
+                            <!--Freelancer -->
+                            <div class="freelancer">
+
+                                <!-- Overview -->
+                                <div class="freelancer-overview">
+                                    <div class="freelancer-overview-inner">
+
+                                        <!-- Bookmark Icon -->
+                                        <span class="bookmark-icon"></span>
+
+                                        <!-- Avatar -->
+                                        <div class="freelancer-avatar">
+                                            <div class="verified-badge"></div>
+                                            <a href="single-freelancer-profile.html"><img src="images/user-avatar-big-01.jpg" alt=""></a>
+                                        </div>
+
+                                        <!-- Name -->
+                                        <div class="freelancer-name">
+                                            <h4><a href="single-freelancer-profile.html">Tom Smith <img class="flag" src="images/flags/gb.svg" alt="" title="United Kingdom" data-tippy-placement="top"></a></h4>
+                                            <span>UI/UX Designer</span>
+                                        </div>
+
+                                        <!-- Rating -->
+                                        <div class="freelancer-rating">
+                                            <div class="star-rating" data-rating="5.0"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Details -->
+                                <div class="freelancer-details">
+                                    <div class="freelancer-details-list">
+                                        <ul>
+                                            <li>Location <strong><i class="icon-material-outline-location-on"></i> London</strong></li>
+                                            <li>Rate <strong>$60 / hr</strong></li>
+                                            <li>Job Success <strong>95%</strong></li>
+                                        </ul>
+                                    </div>
+                                    <a href="single-freelancer-profile.html" class="button button-sliding-icon ripple-effect">View Profile <i class="icon-material-outline-arrow-right-alt"></i></a>
+                                </div>
+                            </div>
+                            <!-- Freelancer / End -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Highest Rated Freelancers / End-->
+    }
+    else if (this.User.IsInRole("Freelancer"))
+    {
+        <!-- Features Jobs -->
+        <div class="section gray margin-top-45 padding-top-65 padding-bottom-75">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-12">
+
+                        <!-- Section Headline -->
+                        <div class="section-headline margin-top-0 margin-bottom-35">
+                            <h3>Featured Jobs</h3>
+                            <a href="jobs-list-layout-full-page-map.html" class="headline-link">Browse All Jobs</a>
+                        </div>
+
+                        <!-- Jobs Container -->
+                        <div class="listings-container compact-list-layout margin-top-35">
+
+                            <!-- Job Listing -->
+                            <a href="single-job-page.html" class="job-listing with-apply-button">
+
+                                <!-- Job Listing Details -->
+                                <div class="job-listing-details">
+
+                                    <!-- Logo -->
+                                    <div class="job-listing-company-logo">
+                                        <img src="images/company-logo-01.png" alt="">
+                                    </div>
+
+                                    <!-- Details -->
+                                    <div class="job-listing-description">
+                                        <h3 class="job-listing-title">Bilingual Event Support Specialist</h3>
+
+                                        <!-- Job Listing Footer -->
+                                        <div class="job-listing-footer">
+                                            <ul>
+                                                <li><i class="icon-material-outline-business"></i> Hexagon <div class="verified-badge" title="Verified Employer" data-tippy-placement="top"></div></li>
+                                                <li><i class="icon-material-outline-location-on"></i> San Francissco</li>
+                                                <li><i class="icon-material-outline-business-center"></i> Full Time</li>
+                                                <li><i class="icon-material-outline-access-time"></i> 2 days ago</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                    <!-- Apply Button -->
+                                    <span class="list-apply-button ripple-effect">Apply Now</span>
+                                </div>
+                            </a>
+                        </div>
+                        <!-- Jobs Container / End -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Featured Jobs / End -->
+    }
+}
+<div class="margin-bottom-100"></div>
 <partial name="BigFooterPartial" />

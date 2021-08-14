@@ -1,10 +1,10 @@
-﻿@using Jobzy.Web.ViewModels.Profiles.Employers
+﻿@using Jobzy.Web.ViewModels.Users.Freelancers
 @using Jobzy.Web.ViewModels.Reviews
 @using Jobzy.Data.Models
 @using Microsoft.AspNetCore.Identity
 @inject SignInManager<ApplicationUser> signInManager
 @inject UserManager<ApplicationUser> userManager
-@model EmployerViewModel
+@model FreelancerViewModel
 
 @{
     var user = await userManager.GetUserAsync(this.User);
@@ -12,7 +12,7 @@
 
 <!-- Titlebar
 ================================================== -->
-<div class="single-page-header freelancer-header" data-background-image="/images/single-company.jpg">
+<div class="single-page-header freelancer-header" data-background-image="/images/single-freelancer.jpg">
     <div class="container">
         <div class="row">
             <div class="col-md-12">
@@ -25,7 +25,7 @@
 
                                 @if (Model.TagName is null && Model.Id == user.Id)
                                 {
-                                    <span><a asp-action="Settings" asp-controller="Profile">Add</a> a tag name</span>
+                                    <span><a asp-action="Settings" asp-controller="Users">Add</a> a tag name</span>
                                 }
                                 else
                                 {
@@ -60,9 +60,9 @@
         <!-- Content -->
         <div class="col-xl-8 col-lg-8 content-right-offset">
 
+            <!-- Page Content -->
             <div class="single-page-section">
-                <h3 class="margin-bottom-25">About The Employer</h3>
-
+                <h3 class="margin-bottom-25">About Me</h3>
                 @if (Model.Description is null && Model.Id == user.Id)
                 {
                     <p class="not-verified-badge"><a asp-action="Settings" asp-controller="Profile">Add</a> a description.</p>
@@ -73,50 +73,6 @@
                 }
             </div>
 
-            <!-- Boxed List -->
-            <div class="boxed-list margin-bottom-60">
-                @if (Model.OpenJobs.Count > 0)
-                {
-                    <div class="boxed-list-headline">
-                        <h3><i class="icon-material-outline-business-center"></i> @Model.OpenJobs.Count Open Positions</h3>
-                    </div>
-
-                    <div class="listings-container compact-list-layout">
-                        @foreach (var job in Model.OpenJobs)
-                        {
-                            <!-- Job Listing -->
-                            <a asp-action="GetJob" asp-controller="Job" asp-route-id="@job.Id" class="job-listing">
-
-                                <!-- Job Listing Details -->
-                                <div class="job-listing-details">
-
-                                    <!-- Details -->
-                                    <div class="job-listing-description">
-                                        <h3 class="job-listing-title">@job.Title</h3>
-
-                                        <!-- Job Listing Footer -->
-                                        <div class="job-listing-footer">
-                                            <ul>
-                                                <li><i class="icon-material-outline-location-on"></i> @job.EmployerLocation</li>
-                                                <li><i class="icon-material-outline-business-center"></i> @job.JobType</li>
-                                                <li><i class="icon-material-outline-access-time"></i>Posted @job.DateFormatted</li>
-                                            </ul>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </a>
-                        }
-                    </div>
-                }
-                else
-                {
-                    <div class="boxed-list-headline">
-                        <h3><i class="icon-material-outline-business-center"></i>0 Open Positions</h3>
-                    </div>
-                }
-            </div>
-            <!-- Boxed List / End -->
             <!-- Boxed List -->
             <div class="boxed-list margin-bottom-60">
                 @if (Model.Reviews.Count() > 0)
@@ -144,10 +100,8 @@
                                 </div>
                             </li>
                         }
-
                     </ul>
                 }
-
                 else
                 {
                     <div class="boxed-list-headline">
@@ -175,6 +129,48 @@
                     </div>
                 }
             </div>
+
+            <!-- Boxed List / End -->
+            <!-- Boxed List -->
+            <div class="boxed-list margin-bottom-60">
+                @if (Model.Contracts.Count() > 0)
+                {
+                    <div class="boxed-list-headline">
+                        <h3><i class="icon-material-outline-business"></i> Employment History</h3>
+                    </div>
+                    <ul class="boxed-list-ul">
+                        @foreach (var contract in Model.Contracts)
+                        {
+                            <li>
+                                <div class="boxed-list-item">
+                                    <!-- Avatar -->
+                                    <div class="item-image">
+                                        <img src="@contract.EmployerProfileImageUrl" alt="">
+                                    </div>
+
+                                    <!-- Content -->
+                                    <div class="item-content">
+                                        <h4>@contract.JobTitle</h4>
+                                        <div class="item-details margin-top-7">
+                                            <div class="detail-item"><a asp-action="Employer" asp-controller="Profile" asp-route-id="@contract.EmployerId"><i class="icon-material-outline-business"></i> @contract.EmployerFirstName @contract.EmployerLastName</a></div>
+                                            <div class="detail-item"><i class="icon-material-outline-date-range"></i> @contract.CreatedOnFormatted - @contract.CompletedOnFormatted</div>
+                                        </div>
+                                        <div class="item-description">
+                                            <p>@contract.JobDescription</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        }
+                    </ul>
+                }
+                else
+                {
+                    <div class="boxed-list-headline">
+                        <h3><i class="icon-material-outline-business"></i>No Employment History</h3>
+                    </div>
+                }
+            </div>
             <!-- Boxed List / End -->
 
         </div>
@@ -183,11 +179,32 @@
         <!-- Sidebar -->
         <div class="col-xl-4 col-lg-4">
             <div class="sidebar-container">
+
+                <!-- Profile Overview -->
+                <div class="profile-overview">
+                    <div class="overview-item"><strong>@Model.JobsDone</strong><span>Jobs Done</span></div>
+                    <div class="overview-item"><strong>@Model.OffersCount</strong><span>Offers Sent</span></div>
+                </div>
+
                 @if (Model.Id == user.Id)
                 {
-                    <!-- Button -->
                     <a asp-action="Settings" asp-controller="Profile" class="apply-now-button text-white">Settings</a>
                 }
+
+                <!-- Freelancer Indicators -->
+                <div class="sidebar-widget">
+                    <div class="freelancer-indicators ">
+
+                        <!-- Indicator -->
+                        <div class="indicator">
+                            <strong>@Model.JobSuccess%</strong>
+                            <div class="indicator-bar" data-indicator-percentage="@Model.JobSuccess"><span></span></div>
+                            <span>Job Success</span>
+                        </div>
+
+                    </div>
+                </div>
+
                 <!-- Widget -->
                 <div class="sidebar-widget">
                     <h3>Social Profiles</h3>
@@ -214,4 +231,4 @@
 <div class="padding-bottom-100"></div>
 
 <partial name="BigFooterPartial" />
-<partial name="LeaveReviewPartial" model="new ReviewInputModel { RecipientFirstName = Model.FirstName, RecipientLastName = Model.LastName, RecipientId = Model.Id }" />
+<partial name="LeaveReviewPartial" model="new ReviewInputModel { RecipientFirstName = Model.FirstName, RecipientLastName = Model.LastName, RecipientId = Model.Id }"/>

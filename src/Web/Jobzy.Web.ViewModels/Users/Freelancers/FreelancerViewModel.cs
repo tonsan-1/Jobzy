@@ -1,4 +1,4 @@
-﻿namespace Jobzy.Web.ViewModels.Profiles.Freelancers
+﻿namespace Jobzy.Web.ViewModels.Users.Freelancers
 {
     using System.Collections.Generic;
     using System.Linq;
@@ -8,7 +8,7 @@
     using Jobzy.Data.Models;
     using Jobzy.Services.Mapping;
 
-    public class FreelancerViewModel : BaseProfileViewModel, IMapFrom<Freelancer>, IHaveCustomMappings
+    public class FreelancerViewModel : BaseUserViewModel, IMapFrom<Freelancer>, IHaveCustomMappings
     {
         public int OffersCount { get; set; }
 

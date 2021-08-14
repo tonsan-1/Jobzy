@@ -8,7 +8,7 @@
             IJobManager jobManager,
             IOfferManager offerManager,
             IContractManager contractManager,
-            IProfileManager profileManager,
+            IUserManager userManager,
             IStripeManager stripeManager,
             ICategoryManager categoryManager,
             IMessageManager messageManager,
@@ -19,7 +19,7 @@
             this.JobManager = jobManager;
             this.OfferManager = offerManager;
             this.ContractManager = contractManager;
-            this.ProfileManager = profileManager;
+            this.UserManager = userManager;
             this.StripeManager = stripeManager;
             this.CategoryManager = categoryManager;
             this.MessageManager = messageManager;
@@ -34,7 +34,7 @@
 
         public IContractManager ContractManager { get; }
 
-        public IProfileManager ProfileManager { get; }
+        public IUserManager UserManager { get; }
 
         public IStripeManager StripeManager { get; }
 

@@ -30,11 +30,6 @@
         {
             var offers = this.freelancePlatform.OfferManager.GetJobOffers(id);
 
-            if (offers.Count() == 0)
-            {
-                return this.View("Error");
-            }
-
             return this.View(offers);
         }
 
@@ -69,8 +64,9 @@
             {
                 Icon = GlobalConstants.OfferIcon,
                 Text = $"{user.FirstName} {user.LastName} sent you an offer for job {job.Title}.",
-                RedirectAction = "MyJobs",
-                RedirectController = "Jobs",
+                RedirectAction = "All",
+                RedirectController = "Offers",
+                RedirectId = job.Id,
             };
 
             await this.freelancePlatform.NotificationsManager.CreateAsync(notification, job.EmployerId);
@@ -105,12 +101,17 @@
         }
 
         [HttpPost]
-        [Authorize(Roles = "Freelancer")]
+        [Authorize(Roles = "Freelancer, Employer")]
         public async Task<IActionResult> DeleteOffer(string offerId)
         {
             await this.freelancePlatform.OfferManager.DeleteOffer(offerId);
 
-            return this.RedirectToAction("MyOffers", "Offers");
+            if (this.User.IsInRole("Freelancer"))
+            {
+                return this.RedirectToAction("MyOffers", "Offers");
+            }
+
+            return this.RedirectToAction("MyJobs", "Jobs");
         }
     }
 }

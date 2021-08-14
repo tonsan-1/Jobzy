@@ -1,213 +1,154 @@
-﻿@model List<Jobzy.Web.ViewModels.Jobs.AllJobsListViewModel>
-<!-- Spacer -->
-<div class="margin-top-90"></div>
-<!-- Spacer / End-->
+﻿@using Jobzy.Common
+@model Jobzy.Web.ViewModels.Jobs.AllJobsQueryModel
+
+@{
+    var categories = Model.Categories.Select(category => new SelectListItem
+    {
+        Text = category.Name,
+        Value = category.Id
+    });
+}
 <!-- Page Content
 ================================================== -->
-<div class="container">
-    <div class="row">
-        <div class="col-xl-3 col-lg-4">
+<div class="full-page-container">
+
+    <div class="full-page-sidebar">
+        <div class="full-page-sidebar-inner" data-simplebar>
             <div class="sidebar-container">
-
-                <!-- Location -->
-                <div class="sidebar-widget">
-                    <h3>Location</h3>
-                    <div class="input-with-icon">
-                        <div id="autocomplete-container">
-                            <input id="autocomplete-input" type="text" placeholder="Location">
-                        </div>
-                        <i class="icon-material-outline-location-on"></i>
+                <form id="search-query-form" method="get" asp-action="All" asp-controller="Jobs">
+                    <!-- Sort by -->
+                    <div class="sidebar-widget">
+                        <h3>Sort by</h3>
+                        <select asp-for="Sorting" class="location-select dropdown" asp-items="Html.GetEnumSelectList<JobSorting>()" data-size="7">
+                        </select>
                     </div>
-                </div>
 
-
-                <!-- Keywords -->
-                <div class="sidebar-widget">
-                    <h3>Keywords</h3>
-                    <div class="keywords-container">
-                        <div class="keyword-input-container">
-                            <input type="text" class="keyword-input" placeholder="e.g. job title" />
-                            <button class="keyword-input-button ripple-effect"><i class="icon-material-outline-add"></i></button>
-                        </div>
-                        <div class="keywords-list"><!-- keywords go here --></div>
-                        <div class="clearfix"></div>
-                    </div>
-                </div>
-
-                <!-- Category -->
-                <div class="sidebar-widget">
-                    <h3>Category</h3>
-                    <select class="selectpicker default" multiple data-selected-text-format="count" data-size="7" title="All Categories">
-                        <option>Admin Support</option>
-                        <option>Customer Service</option>
-                        <option>Data Analytics</option>
-                        <option>Design & Creative</option>
-                        <option>Legal</option>
-                        <option>Software Developing</option>
-                        <option>IT & Networking</option>
-                        <option>Writing</option>
-                        <option>Translation</option>
-                        <option>Sales & Marketing</option>
-                    </select>
-                </div>
-
-                <!-- Job Types -->
-                <div class="sidebar-widget">
-                    <h3>Job Type</h3>
-
-                    <div class="switches-list">
-                        <div class="switch-container">
-                            <label class="switch"><input type="checkbox"><span class="switch-button"></span> Freelance</label>
-                        </div>
-
-                        <div class="switch-container">
-                            <label class="switch"><input type="checkbox"><span class="switch-button"></span> Full Time</label>
-                        </div>
-
-                        <div class="switch-container">
-                            <label class="switch"><input type="checkbox"><span class="switch-button"></span> Part Time</label>
-                        </div>
-
-                        <div class="switch-container">
-                            <label class="switch"><input type="checkbox"><span class="switch-button"></span> Internship</label>
-                        </div>
-                        <div class="switch-container">
-                            <label class="switch"><input type="checkbox"><span class="switch-button"></span> Temporary</label>
+                    <!-- Keywords -->
+                    <div class="sidebar-widget">
+                        <h3>Job Title</h3>
+                        <div class="keywords-container">
+                            <div class="keyword-input-container">
+                                <input asp-for="JobTitle" type="text" class="keyword-input" placeholder="Search by job title" />
+                            </div>
+                            <div class="clearfix"></div>
                         </div>
                     </div>
 
-                </div>
-
-                <!-- Salary -->
-                <div class="sidebar-widget">
-                    <h3>Salary</h3>
-                    <div class="margin-top-55"></div>
-
-                    <!-- Range Slider -->
-                    <input class="range-slider" type="text" value="" data-slider-currency="$" data-slider-min="1500" data-slider-max="15000" data-slider-step="100" data-slider-value="[1500,15000]" />
-                </div>
-
-                <!-- Tags -->
-                <div class="sidebar-widget">
-                    <h3>Tags</h3>
-
-                    <div class="tags-container">
-                        <div class="tag">
-                            <input type="checkbox" id="tag1" />
-                            <label for="tag1">front-end dev</label>
-                        </div>
-                        <div class="tag">
-                            <input type="checkbox" id="tag2" />
-                            <label for="tag2">angular</label>
-                        </div>
-                        <div class="tag">
-                            <input type="checkbox" id="tag3" />
-                            <label for="tag3">react</label>
-                        </div>
-                        <div class="tag">
-                            <input type="checkbox" id="tag4" />
-                            <label for="tag4">vue js</label>
-                        </div>
-                        <div class="tag">
-                            <input type="checkbox" id="tag5" />
-                            <label for="tag5">web apps</label>
-                        </div>
-                        <div class="tag">
-                            <input type="checkbox" id="tag6" />
-                            <label for="tag6">design</label>
-                        </div>
-                        <div class="tag">
-                            <input type="checkbox" id="tag7" />
-                            <label for="tag7">wordpress</label>
-                        </div>
+                    <!-- Category -->
+                    <div class="sidebar-widget">
+                        <h3>Category</h3>
+                        <select asp-for="Category" class="location-select dropdown with-border" data-size="7">
+                            <option value="">Search by Category</option>
+                            @foreach (var category in Model.Categories)
+                            {
+                                <option value="@category.Name">@category.Name</option>
+                            }
+                        </select>
                     </div>
-                    <div class="clearfix"></div>
-                </div>
 
+                    <div class="sidebar-widget d-flex justify-content-center">
+                        <button type="submit" form="search-query-form" class="button big ripple-effect w-100">Search</button>
+                    </div>
+                </form>
             </div>
+            <!-- Sidebar Container / End -->
         </div>
-        <div class="col-xl-9 col-lg-8 content-left-offset">
+    </div>
+    <!-- Full Page Sidebar / End -->
+    <!-- Full Page Content -->
+    <div class="full-page-content-container" data-simplebar>
+        <div class="full-page-content-inner">
 
-            <h3 class="page-title">Search Results</h3>
+            <div class="listings-container grid-layout margin-top-35">
 
-            <div class="notify-box margin-top-15">
-                <div class="switch-container">
-                    <label class="switch"><input type="checkbox"><span class="switch-button"></span><span class="switch-text">Turn on email alerts for this search</span></label>
-                </div>
+                @if (Model.Jobs.Count() == 0)
+                {
+                    <h3 class="page-title">There are no jobs that match your criteria!</h3>
+                }
 
-                <div class="sort-by">
-                    <span>Sort by:</span>
-                    <select class="selectpicker hide-tick">
-                        <option>Relevance</option>
-                        <option>Newest</option>
-                        <option>Oldest</option>
-                        <option>Random</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="listings-container margin-top-35">
-
-                @foreach (var job in Model)
+                @foreach (var job in Model.Jobs)
                 {
                     <!-- Job Listing -->
-                    <a asp-controller="Jobs" asp-action="Index" asp-route-id="@job.Id" class="job-listing">
+                    <a asp-action="Index" asp-controller="Jobs" asp-route-id="@job.Id" class="job-listing">
 
                         <!-- Job Listing Details -->
                         <div class="job-listing-details">
                             <!-- Logo -->
                             <div class="job-listing-company-logo">
-                                <img src="~/images/company-logo-01.png" alt="">
+                                <img src="@job.EmployerProfileImageUrl" alt="">
                             </div>
 
                             <!-- Details -->
                             <div class="job-listing-description">
-                                <h4 class="job-listing-company">@job.EmployerName <span class="verified-badge" title="Verified Employer" data-tippy-placement="top"></span></h4>
+                                <h4 class="job-listing-company">@job.EmployerFirstName @job.EmployerLastName</h4>
                                 <h3 class="job-listing-title">@job.Title</h3>
-                                <p class="job-listing-text">@job.Description</p>
                             </div>
-
-                            <!-- Bookmark -->
-                            <span class="bookmark-icon"></span>
                         </div>
 
                         <!-- Job Listing Footer -->
                         <div class="job-listing-footer">
                             <ul>
-                                <li><i class="icon-material-outline-location-on"></i>@job.EmployerLocation</li>
-                                <li><i class="icon-material-outline-business-center"></i>@job.CategoryName</li>
-                                <li><i class="icon-material-outline-account-balance-wallet"></i>@job.Budget</li>
-                                <li><i class="icon-material-outline-access-time"></i>@job.DatePostedFormatted</li>
+                                <li><i class="icon-material-outline-location-on"></i> @job.EmployerLocationToString</li>
+                                <li><i class="icon-material-outline-business-center"></i> @job.CategoryName</li>
+                                <li><i class="icon-material-outline-account-balance-wallet"></i> $@job.Budget.ToString("N0")</li>
+                                <li><i class="icon-material-outline-access-time"></i>Posted @job.TimeAgo</li>
                             </ul>
                         </div>
                     </a>
                 }
-
-
-                <!-- Pagination -->
-                <div class="clearfix"></div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <!-- Pagination -->
-                        <div class="pagination-container margin-top-30 margin-bottom-60">
-                            <nav class="pagination">
-                                <ul>
-                                    <li class="pagination-arrow"><a href="#"><i class="icon-material-outline-keyboard-arrow-left"></i></a></li>
-                                    <li><a href="#">1</a></li>
-                                    <li><a href="#" class="current-page">2</a></li>
-                                    <li><a href="#">3</a></li>
-                                    <li><a href="#">4</a></li>
-                                    <li class="pagination-arrow"><a href="#"><i class="icon-material-outline-keyboard-arrow-right"></i></a></li>
-                                </ul>
-                            </nav>
-                        </div>
-                    </div>
-                </div>
-                <!-- Pagination / End -->
-
             </div>
+
+            @{
+                var previousPage = Model.CurrentPage - 1;
+
+                if (previousPage < 1)
+                {
+                    previousPage = 1;
+                }
+
+                var maxPage = Math.Ceiling((double)Model.Jobs.Count() / 8);
+
+
+            }
+            <!-- Pagination -->
+            <div class="clearfix"></div>
+            <div class="pagination-container d-flex justify-content-center  margin-top-20 margin-bottom-20">
+                <nav class="pagination">
+                    <ul>
+                        <li class="pagination-arrow">
+                            <a 
+                               asp-action="All"
+                               asp-controller="Jobs"
+                               asp-route-Sorting="@Model.Sorting"
+                               asp-route-JobTitle="@Model.JobTitle"
+                               asp-route-Category="@Model.Category"
+                               asp-route-CurrentPage="@previousPage"
+                               class="ripple-effect @(Model.CurrentPage == 1 ? "disabled" : string.Empty)"
+                               role="button">
+                                <i class="icon-material-outline-keyboard-arrow-left"></i>
+                            </a>
+                        </li>
+                        <li class="pagination-arrow">
+                            <a 
+                               asp-action="All"
+                               asp-controller="Jobs"
+                               asp-route-Sorting="@Model.Sorting"
+                               asp-route-JobTitle="@Model.JobTitle"
+                               asp-route-Category="@Model.Category"
+                               asp-route-CurrentPage="@(Model.CurrentPage + 1)"
+                               class="ripple-effect @(Model.CurrentPage == maxPage ? "disabled" : string.Empty)">
+                                <i class="icon-material-outline-keyboard-arrow-right"></i>
+                            </a>
+                        </li> 
+                    </ul>
+                </nav>
+            </div>
+            <div class="clearfix"></div>
+            <!-- Pagination / End -->
+            <div class="padding-bottom-100"></div>
         </div>
     </div>
+    <!-- Full Page Content / End -->
 </div>
 
 <div class="padding-bottom-100"></div>

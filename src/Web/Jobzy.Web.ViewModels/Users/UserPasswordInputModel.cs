@@ -1,8 +1,8 @@
-﻿namespace Jobzy.Web.ViewModels.Profiles
+﻿namespace Jobzy.Web.ViewModels.Users
 {
     using System.ComponentModel.DataAnnotations;
 
-    public class ProfilePasswordInputModel
+    public class UserPasswordInputModel
     {
         [Required(ErrorMessage = "This field is required.")]
         [StringLength(100, ErrorMessage = "The {0} must be between {2} and {1} characters long.", MinimumLength = 6)]

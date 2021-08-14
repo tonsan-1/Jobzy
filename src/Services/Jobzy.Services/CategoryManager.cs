@@ -2,12 +2,13 @@
 {
     using System.Collections.Generic;
     using System.Linq;
+    using System.Threading.Tasks;
 
     using Jobzy.Data.Common.Repositories;
     using Jobzy.Data.Models;
     using Jobzy.Services.Interfaces;
     using Jobzy.Services.Mapping;
-    using Jobzy.Web.ViewModels.Jobs;
+    using Microsoft.EntityFrameworkCore;
 
     public class CategoryManager : ICategoryManager
     {
@@ -18,12 +19,12 @@
             this.repository = repository;
         }
 
-        public IEnumerable<CategoriesListViewModel> GetAllJobCategories()
+        public async Task<IEnumerable<T>> GetAllJobCategories<T>()
         {
-            var categories = this.repository.All()
-                .To<CategoriesListViewModel>()
+            var categories = await this.repository.All()
                 .OrderBy(x => x.Name)
-                .ToList();
+                .To<T>()
+                .ToListAsync();
 
             return categories;
         }

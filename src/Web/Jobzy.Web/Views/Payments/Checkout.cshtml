@@ -1,4 +1,5 @@
 ﻿@using Microsoft.AspNetCore.Antiforgery
+@using Jobzy.Common
 @inject IAntiforgery antiforgery
 
 @model Jobzy.Web.ViewModels.Contracts.SingleContractViewModel
@@ -13,9 +14,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-
                 <h2>Checkout</h2>
-
             </div>
         </div>
     </div>
@@ -31,6 +30,7 @@
 
             <!-- Hedline -->
             <h3 class="margin-bottom-50">Payment Method</h3>
+            <p class="font-weight-bold">Test card: 4242 4242 4242 4242 with any future Month/Year and random CVC, ZIP</p>
 
             <!-- Payment Methods Accordion -->
             <div class="payment margin-top-30">
@@ -73,18 +73,17 @@
                 </div>
                 <div class="boxed-widget-inner">
                     <ul>
-                        <li>Standard Plan <span>$49.00</span></li>
-                        <li>VAT (20%) <span>$9.80</span></li>
-                        <li class="total-costs">Final Price <span>$58.80</span></li>
+                        @{
+                            var fee = (Model.OfferFixedPrice * GlobalConstants.PlatformFeePercentage) / 100;
+                            var totalPrice = (Model.OfferFixedPrice + fee);
+                        }
+                        <li>@Model.OfferJobTitle<span>$@Model.OfferFixedPrice.ToString("N2")</span></li>
+                        <li>Platform Fee (5%) <span>$@fee.ToString("N2")</span></li>
+                        <li class="total-costs">Final Price <span>$@totalPrice.ToString("N2")</span></li>
                     </ul>
                 </div>
             </div>
             <!-- Summary / End -->
-            <!-- Checkbox -->
-            <div class="checkbox margin-top-30">
-                <input type="checkbox" id="two-step">
-                <label for="two-step"><span class="checkbox-icon"></span>  I agree to the <a href="#">Terms and Conditions</a> and the <a href="#">Automatic Renewal Terms</a></label>
-            </div>
         </div>
 
     </div>

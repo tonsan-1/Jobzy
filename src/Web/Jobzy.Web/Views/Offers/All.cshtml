@@ -3,9 +3,6 @@
 
 
 @{
-    var offerString = Model.Count == 1 ? $"{Model.Count} Offer" : $"{Model.Count} Offers";
-    var jobTitle = Model.Select(x => x.JobTitle).First().ToString();
-    var jobId = Model.Select(x => x.JobId).First().ToString();
     var dialogNumber = 1;
 }
 
@@ -18,11 +15,6 @@
         <div class="dashboard-content-container" data-simplebar>
             <div class="dashboard-content-inner">
 
-                <!-- Dashboard Headline -->
-                <div class="dashboard-headline">
-                    <span class="margin-top-7">Offers for <a asp-action="Index" asp-controller="Job" asp-route-id="@jobId">@jobTitle</a></span>
-                </div>
-
                 <!-- Row -->
                 <div class="row">
 
@@ -32,7 +24,7 @@
 
                             <!-- Headline -->
                             <div class="headline">
-                                <h3><i class="icon-material-outline-supervisor-account"></i>@offerString</h3>
+                                <h3><i class="icon-material-outline-supervisor-account"></i>@Model.Count Offers</h3>
                             </div>
 
                             <div class="content">
@@ -75,10 +67,12 @@
                                                         </ul>
 
                                                         <!-- Buttons -->
-                                                        <div class="buttons-to-right always-visible margin-top-25 margin-bottom-0">
-                                                            <a href="#@(dialogNumber++)" class="popup-with-zoom-anim button ripple-effect"><i class="icon-material-outline-check"></i> Accept Offer</a>
-                                                            <a href="#small-dialog-2" class="popup-with-zoom-anim button dark ripple-effect"><i class="icon-feather-mail"></i> Send Message</a>
-                                                            <a href="#" class="button gray ripple-effect ico" title="Remove Bid" data-tippy-placement="top"><i class="icon-feather-trash-2"></i></a>
+                                                        <div class="buttons-to-right d-flex always-visible margin-top-25 margin-bottom-0">
+                                                            <a href="#@(dialogNumber++)" class="popup-with-zoom-anim button ripple-effect margin-right-5"><i class="icon-material-outline-check"></i> Accept Offer</a>
+                                                            <form method="post" id="delete-offer-form" asp-action="DeleteOffer" asp-controller="Offers">
+                                                                <input type="hidden" name="offerId" value="@offer.Id" />
+                                                                <button type="submit" form="delete-offer-form" class="button red ripple-effect ico" title="Delete Offer" data-tippy-placement="top"><i class="icon-feather-trash-2"></i></button>
+                                                            </form>
                                                         </div>
 
                                                     </div>

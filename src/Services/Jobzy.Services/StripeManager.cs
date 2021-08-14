@@ -82,9 +82,9 @@
                 {
                   "card",
                 },
-                Amount = amount,
+                Amount = amount + (amount * GlobalConstants.PlatformFeePercentage / 100),
                 Currency = "usd",
-                ApplicationFeeAmount = GlobalConstants.PlatformFeeAmount,
+                ApplicationFeeAmount = (amount * GlobalConstants.PlatformFeePercentage) / 100,
                 Metadata = new Dictionary<string, string>()
                 {
                     ["contractId"] = contractId,

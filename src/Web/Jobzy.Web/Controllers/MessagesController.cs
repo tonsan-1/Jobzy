@@ -34,7 +34,7 @@
 
             var conversation = new UserConversationViewModel
             {
-                User = await this.freelancePlatform.ProfileManager.GetUserById<UserViewModel>(id),
+                User = await this.freelancePlatform.UserManager.GetUserById<UserViewModel>(id),
                 Messages = await this.freelancePlatform.MessageManager.GetMessages<UserMessageViewModel>(userId, id),
             };
 

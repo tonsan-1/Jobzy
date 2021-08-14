@@ -39,6 +39,7 @@
             var reviews = await this.repository
                 .All()
                 .Where(x => x.RecipientId == userId)
+                .OrderByDescending(x => x.CreatedOn)
                 .To<T>()
                 .ToListAsync();
 

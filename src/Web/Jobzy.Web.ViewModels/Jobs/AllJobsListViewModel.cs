@@ -1,5 +1,7 @@
 ﻿namespace Jobzy.Web.ViewModels.Jobs
 {
+    using System.ComponentModel.DataAnnotations;
+
     using Jobzy.Common;
     using Jobzy.Data.Models;
     using Jobzy.Services.Mapping;
@@ -8,12 +10,16 @@
     {
         public string Description { get; set; }
 
-        public string EmployerName { get; set; }
+        public string EmployerFirstName { get; set; }
 
-        public string EmployerLocation { get; set; }
+        public string EmployerLastName{ get; set; }
+
+        public Country EmployerLocation { get; set; }
+
+        public string EmployerLocationToString => this.EmployerLocation.GetAttribute<DisplayAttribute>().Name;
 
         public string EmployerProfileImageUrl { get; set; }
 
-        public string DatePostedFormatted => TimeCalculator.GetTimeAgo(this.CreatedOn);
+        public string TimeAgo => TimeCalculator.GetTimeAgo(this.CreatedOn);
     }
 }

@@ -1,11 +1,10 @@
 ﻿namespace Jobzy.Services.Interfaces
 {
     using System.Collections.Generic;
-
-    using Jobzy.Web.ViewModels.Jobs;
+    using System.Threading.Tasks;
 
     public interface ICategoryManager
     {
-        IEnumerable<CategoriesListViewModel> GetAllJobCategories();
+        Task<IEnumerable<T>> GetAllJobCategories<T>();
     }
 }

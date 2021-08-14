@@ -1,5 +1,6 @@
 ﻿namespace Jobzy.Web.ViewModels.Jobs
 {
+    using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.Linq;
@@ -53,7 +54,10 @@
                 .ForMember(x => x.ContractId, options => options
                 .MapFrom(c => c.Contracts
                 .FirstOrDefault(x => x.Status == ContractStatus.Ongoing)
-                .Id));
+                .Id))
+
+                .ForMember(x => x.EmployerRating, options => options
+                .MapFrom(c => Math.Round(c.Employer.ReceivedReviews.Average(x => x.Rating), 2)));
         }
     }
 }

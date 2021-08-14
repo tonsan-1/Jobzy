@@ -24,7 +24,7 @@
     @RenderSection("css", required: false)
 
 </head>
-<body class="gray">
+<body>
     <div id="wrapper">
         <header id="header-container" class="fullwidth">
             <!-- Header -->
@@ -83,10 +83,10 @@
                                             <a href="#">Profile</a>
                                             <ul class="dropdown-nav">
                                                 <li>
-                                                    <a asp-action="Freelancer" asp-controller="Profile" asp-route-id="@user.Id">My Profile</a>
+                                                    <a asp-action="Freelancer" asp-controller="Users" asp-route-id="@user.Id">My Profile</a>
                                                 </li>
                                                 <li>
-                                                    <a asp-action="Settings" asp-controller="Profile">Settings</a>
+                                                    <a asp-action="Settings" asp-controller="Users">Settings</a>
                                                 </li>
                                             </ul>
                                         </li>
@@ -129,10 +129,10 @@
                                             <a role="button">Profile</a>
                                             <ul class="dropdown-nav">
                                                 <li>
-                                                    <a asp-action="Employer" asp-controller="Profile" asp-route-id="@user.Id">My Profile</a>
+                                                    <a asp-action="Employer" asp-controller="Users" asp-route-id="@user.Id">My Profile</a>
                                                 </li>
                                                 <li>
-                                                    <a asp-action="Settings" asp-controller="Profile">Settings</a>
+                                                    <a asp-action="Settings" asp-controller="Users">Settings</a>
                                                 </li>
                                             </ul>
                                         </li>

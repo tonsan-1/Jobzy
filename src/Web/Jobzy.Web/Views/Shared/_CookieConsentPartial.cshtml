@@ -8,11 +8,13 @@
 
 @if (showBanner)
 {
-    <div id="cookieConsent" class="alert alert-info alert-dismissible fade show" role="alert">
-        We use cookies to understand how you use our site and to improve your experience. <a asp-area="" asp-controller="Home" asp-action="Privacy">Learn More</a>.
-        <button type="button" class="accept-policy close" data-dismiss="alert" aria-label="Close" data-cookie-string="@cookieString">
-            <span aria-hidden="true">Accept</span>
-        </button>
+    <div class="header-details">
+        <div id="cookieConsent" class="notification notice alert alert-dismissible fade show d-flex justify-content-between align-items-center" role="alert">
+            We use cookies to understand how you use our site and to improve your experience.
+            <button type="button" class="button ripple-effect " data-dismiss="alert" aria-label="Close" data-cookie-string="@cookieString">
+                <span aria-hidden="true">Accept</span>
+            </button>
+        </div>
     </div>
     <script>
         (function () {

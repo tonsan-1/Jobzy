@@ -16,7 +16,11 @@
 
         IEnumerable<UserJobsListViewModel> GetAllUserJobPosts(string userId);
 
-        IEnumerable<AllJobsListViewModel> GetAllJobPosts();
+        Task<IEnumerable<T>> GetAllJobPosts<T>(
+            string category = null,
+            string jobTitle = null,
+            JobSorting sorting = JobSorting.Newest,
+            int currentPage = 1);
 
         int GetPostedJobsCount(string userId);
     }

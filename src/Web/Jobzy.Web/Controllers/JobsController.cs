@@ -35,12 +35,25 @@
             return this.View(job);
         }
 
-        [Authorize(Roles = "Freelancer")]
-        public IActionResult All()
+        [Authorize(Roles = "Freelancer, Employer")]
+        public async Task<IActionResult> All([FromQuery] AllJobsQueryModel query)
         {
-            var jobs = this.freelancePlatform.JobManager.GetAllJobPosts();
+            var jobs = await this.freelancePlatform
+                .JobManager
+                .GetAllJobPosts<AllJobsListViewModel>(
+                query.Category,
+                query.JobTitle,
+                query.Sorting,
+                query.CurrentPage);
 
-            return this.View(jobs);
+            var categories = await this.freelancePlatform
+                .CategoryManager
+                .GetAllJobCategories<CategoriesListViewModel>();
+
+            query.Jobs = jobs;
+            query.Categories = categories;
+
+            return this.View(query);
         }
 
         [Authorize(Roles = "Employer")]
@@ -54,9 +67,11 @@
         }
 
         [Authorize(Roles = "Employer")]
-        public IActionResult AddJob()
+        public async Task<IActionResult> AddJob()
         {
-            var jobCategories = this.freelancePlatform.CategoryManager.GetAllJobCategories();
+            var jobCategories = await this.freelancePlatform
+                .CategoryManager
+                .GetAllJobCategories<CategoriesListViewModel>();
 
             return this.View(new JobInputModel { Categories = jobCategories });
         }
@@ -68,7 +83,7 @@
         {
             if (!this.ModelState.IsValid)
             {
-                var jobCategories = this.freelancePlatform.CategoryManager.GetAllJobCategories();
+                var jobCategories = await this.freelancePlatform.CategoryManager.GetAllJobCategories<CategoriesListViewModel>();
 
                 return this.View(new JobInputModel { Categories = jobCategories });
             }

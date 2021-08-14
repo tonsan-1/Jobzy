@@ -10,7 +10,7 @@
 
         IContractManager ContractManager { get; }
 
-        IProfileManager ProfileManager { get; }
+        IUserManager UserManager { get; }
 
         IStripeManager StripeManager { get; }
 

@@ -7,18 +7,18 @@
     using Jobzy.Data.Models;
     using Jobzy.Services.Interfaces;
     using Jobzy.Services.Mapping;
-    using Jobzy.Web.ViewModels.Profiles;
-    using Jobzy.Web.ViewModels.Profiles.Employers;
-    using Jobzy.Web.ViewModels.Profiles.Freelancers;
+    using Jobzy.Web.ViewModels.Users;
+    using Jobzy.Web.ViewModels.Users.Employers;
+    using Jobzy.Web.ViewModels.Users.Freelancers;
     using Microsoft.EntityFrameworkCore;
 
-    public class ProfileManager : IProfileManager
+    public class UserManager : IUserManager
     {
         private readonly IRepository<Employer> employerRepository;
         private readonly IRepository<Freelancer> freelancerRepository;
         private readonly IRepository<ApplicationUser> baseUserRepository;
 
-        public ProfileManager(
+        public UserManager(
             IRepository<Employer> employerRepository,
             IRepository<Freelancer> freelancerRepository,
             IRepository<ApplicationUser> baseUserRepository)
@@ -55,17 +55,17 @@
             return freelancer;
         }
 
-        public BaseProfileViewModel GetUserSettings(string userId)
+        public BaseUserViewModel GetUserSettings(string userId)
         {
             var user = this.baseUserRepository.All()
                 .Where(x => x.Id == userId)
-                .To<BaseProfileViewModel>()
+                .To<BaseUserViewModel>()
                 .FirstOrDefault();
 
             return user;
         }
 
-        public async Task UpdateUserInfo(ProfileInfoInputModel input, string userId)
+        public async Task UpdateUserInfo(UserInfoInputModel input, string userId)
         {
             var user = this.baseUserRepository.All()
                 .FirstOrDefault(x => x.Id == userId);

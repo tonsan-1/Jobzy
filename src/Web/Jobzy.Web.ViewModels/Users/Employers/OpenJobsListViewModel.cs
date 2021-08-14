@@ -1,4 +1,4 @@
-﻿namespace Jobzy.Web.ViewModels.Profiles.Employers
+﻿namespace Jobzy.Web.ViewModels.Users.Employers
 {
     using System;
 

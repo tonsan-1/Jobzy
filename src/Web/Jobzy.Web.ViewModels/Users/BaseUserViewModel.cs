@@ -1,4 +1,4 @@
-﻿namespace Jobzy.Web.ViewModels.Profiles
+﻿namespace Jobzy.Web.ViewModels.Users
 {
     using System;
     using System.Collections.Generic;
@@ -10,7 +10,7 @@
     using Jobzy.Services.Mapping;
     using Jobzy.Web.ViewModels.Reviews;
 
-    public class BaseProfileViewModel : IMapFrom<ApplicationUser>
+    public class BaseUserViewModel : IMapFrom<ApplicationUser>
     {
         public string Id { get; set; }
 

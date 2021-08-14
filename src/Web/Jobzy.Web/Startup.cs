@@ -75,7 +75,7 @@
             services.AddTransient<IFreelancePlatform, FreelancePlatform>();
             services.AddTransient<IOfferManager, OfferManager>();
             services.AddTransient<IContractManager, ContractManager>();
-            services.AddTransient<IProfileManager, ProfileManager>();
+            services.AddTransient<IUserManager, UserManager>();
             services.AddTransient<IStripeManager, StripeManager>();
             services.AddTransient<ICategoryManager, CategoryManager>();
             services.AddTransient<IMessageManager, MessageManager>();

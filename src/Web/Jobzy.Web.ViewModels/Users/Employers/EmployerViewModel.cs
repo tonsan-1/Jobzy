@@ -1,4 +1,4 @@
-﻿namespace Jobzy.Web.ViewModels.Profiles.Employers
+﻿namespace Jobzy.Web.ViewModels.Users.Employers
 {
     using System.Collections.Generic;
     using System.Linq;
@@ -7,9 +7,8 @@
     using Jobzy.Common;
     using Jobzy.Data.Models;
     using Jobzy.Services.Mapping;
-    using Jobzy.Web.ViewModels.Profiles;
 
-    public class EmployerViewModel : BaseProfileViewModel, IMapFrom<Employer>, IHaveCustomMappings
+    public class EmployerViewModel : BaseUserViewModel, IMapFrom<Employer>, IHaveCustomMappings
     {
         public List<OpenJobsListViewModel> OpenJobs { get; set; } = new List<OpenJobsListViewModel>();
 

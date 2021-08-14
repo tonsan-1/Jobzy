@@ -1,12 +1,14 @@
 ﻿namespace Jobzy.Web.ViewModels.Offers
 {
+    using System;
     using System.ComponentModel.DataAnnotations;
-
+    using System.Linq;
+    using AutoMapper;
     using Jobzy.Common;
     using Jobzy.Data.Models;
     using Jobzy.Services.Mapping;
 
-    public class JobOfferViewModel : IMapFrom<Offer>
+    public class JobOfferViewModel : IMapFrom<Offer>, IHaveCustomMappings
     {
         public string Id { get; set; }
 
@@ -35,5 +37,14 @@
         public string FreelancerLocationToString => this.FreelancerLocation.GetAttribute<DisplayAttribute>().Name;
 
         public int DialogNumber { get; set; }
+
+        public void CreateMappings(IProfileExpression configuration)
+        {
+            configuration
+                .CreateMap<Offer, JobOfferViewModel>()
+
+                .ForMember(x => x.FreelancerRating, options => options
+                .MapFrom(c => Math.Round(c.Freelancer.ReceivedReviews.Average(x => x.Rating), 2)));
+        }
     }
 }

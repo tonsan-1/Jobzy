@@ -4,19 +4,19 @@
 
     using Jobzy.Data.Models;
     using Jobzy.Services.Interfaces;
-    using Jobzy.Web.ViewModels.Profiles;
     using Jobzy.Web.ViewModels.Reviews;
+    using Jobzy.Web.ViewModels.Users;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
 
-    public class ProfileController : BaseController
+    public class UsersController : BaseController
     {
         private readonly IFreelancePlatform freelancePlatform;
         private readonly UserManager<ApplicationUser> userManager;
 
-        public ProfileController(
+        public UsersController(
             IFreelancePlatform freelancePlatform,
             UserManager<ApplicationUser> userManager)
         {
@@ -44,7 +44,7 @@
                 return this.RedirectToAction("Freelancer", "Profile", new { id = id });
             }
 
-            var employer = this.freelancePlatform.ProfileManager.GetEmployer(user.Id);
+            var employer = this.freelancePlatform.UserManager.GetEmployer(user.Id);
 
             employer.Reviews = await this.freelancePlatform.ReviewManager.GetAllUserReviews<ReviewsListViewModel>(employer.Id);
 
@@ -71,7 +71,7 @@
                 return this.RedirectToAction("Employer", "Profile", new { id = id });
             }
 
-            var freelancer = this.freelancePlatform.ProfileManager.GetFreelancer(user.Id);
+            var freelancer = this.freelancePlatform.UserManager.GetFreelancer(user.Id);
 
             freelancer.Reviews = await this.freelancePlatform.ReviewManager.GetAllUserReviews<ReviewsListViewModel>(freelancer.Id);
 
@@ -83,9 +83,9 @@
         {
             var userId = this.userManager.GetUserId(this.User);
 
-            var user = this.freelancePlatform.ProfileManager.GetUserSettings(userId);
+            var user = this.freelancePlatform.UserManager.GetUserSettings(userId);
 
-            var model = new ProfileSettingsViewModel { ProfileViewModel = user };
+            var model = new UserSettingsViewModel { ProfileViewModel = user };
 
             return this.View(model);
         }
@@ -93,7 +93,7 @@
         [HttpPost]
         [Authorize(Roles = "Freelancer, Employer")]
         public async Task<IActionResult> UpdateProfileInfo(
-            [Bind(Prefix = "ProfileInfoInputModel")] ProfileInfoInputModel input,
+            [Bind(Prefix = "ProfileInfoInputModel")] UserInfoInputModel input,
             IFormFile profilePicture)
         {
             var user = await this.userManager.GetUserAsync(this.User);
@@ -105,9 +105,9 @@
                     await this.freelancePlatform.FileManager.UpdateProfilePicture(profilePicture, user.Id);
                 }
 
-                var userViewModel = this.freelancePlatform.ProfileManager.GetUserSettings(user.Id);
+                var userViewModel = this.freelancePlatform.UserManager.GetUserSettings(user.Id);
 
-                return this.View("Settings", new ProfileSettingsViewModel
+                return this.View("Settings", new UserSettingsViewModel
                 {
                     ProfileViewModel = userViewModel,
                 });
@@ -118,7 +118,7 @@
                 await this.freelancePlatform.FileManager.UpdateProfilePicture(profilePicture, user.Id);
             }
 
-            await this.freelancePlatform.ProfileManager.UpdateUserInfo(input, user.Id);
+            await this.freelancePlatform.UserManager.UpdateUserInfo(input, user.Id);
 
             if (this.User.IsInRole("Freelancer"))
             {
@@ -131,14 +131,14 @@
         [HttpPost]
         [Authorize(Roles = "Freelancer, Employer")]
         public async Task<IActionResult> ChangePassword(
-            [Bind(Prefix = "ProfilePasswordInputModel")] ProfilePasswordInputModel input)
+            [Bind(Prefix = "ProfilePasswordInputModel")] UserPasswordInputModel input)
         {
             var user = await this.userManager.GetUserAsync(this.User);
-            var userViewModel = this.freelancePlatform.ProfileManager.GetUserSettings(user.Id);
+            var userViewModel = this.freelancePlatform.UserManager.GetUserSettings(user.Id);
 
             if (!this.ModelState.IsValid)
             {
-                return this.View("Settings", new ProfileSettingsViewModel
+                return this.View("Settings", new UserSettingsViewModel
                 {
                     ProfileViewModel = userViewModel,
                 });
@@ -154,7 +154,7 @@
                     this.ModelState.AddModelError("input.CurrentPassword", error.Description);
                 }
 
-                return this.View("Settings", new ProfileSettingsViewModel
+                return this.View("Settings", new UserSettingsViewModel
                 {
                     ProfileViewModel = userViewModel,
                 });
