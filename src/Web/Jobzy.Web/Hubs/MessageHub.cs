@@ -34,13 +34,13 @@
             await this.Clients
                 .Users(new string[] { currentUser.Id, receiverId })
                 .SendAsync("ReceiveMessage", new
-            {
-                Content = message,
-                SenderId = currentUser.Id,
-                ReceiverId = receiverId,
-                SenderProfileImageUrl = currentUser.ProfileImageUrl,
-                SenderName = $"{currentUser.FirstName} {currentUser.LastName}",
-            });
+                {
+                    Content = message,
+                    SenderId = currentUser.Id,
+                    ReceiverId = receiverId,
+                    SenderProfileImageUrl = currentUser.ProfileImageUrl,
+                    SenderName = $"{currentUser.FirstName} {currentUser.LastName}",
+                });
         }
     }
 }

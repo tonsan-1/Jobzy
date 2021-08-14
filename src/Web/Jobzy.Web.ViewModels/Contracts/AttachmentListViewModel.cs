@@ -1,7 +1,5 @@
 ﻿namespace Jobzy.Web.ViewModels.Contracts
 {
-    using System;
-
     using Jobzy.Data.Models;
     using Jobzy.Services.Mapping;
 

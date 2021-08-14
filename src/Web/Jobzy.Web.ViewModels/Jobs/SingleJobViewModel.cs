@@ -20,7 +20,7 @@
 
         public string EmployerFirstName { get; set; }
 
-        public string EmployerLastName{ get; set; }
+        public string EmployerLastName { get; set; }
 
         public double EmployerRating { get; set; }
 

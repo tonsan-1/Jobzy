@@ -1,6 +1,5 @@
 ﻿namespace Jobzy.Common
 {
-
     public enum JobStatus
     {
         Open = 1,

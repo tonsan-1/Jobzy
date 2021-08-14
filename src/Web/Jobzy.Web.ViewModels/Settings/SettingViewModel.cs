@@ -1,9 +1,8 @@
 ﻿namespace Jobzy.Web.ViewModels.Settings
 {
+    using AutoMapper;
     using Jobzy.Data.Models;
     using Jobzy.Services.Mapping;
-
-    using AutoMapper;
 
     public class SettingViewModel : IMapFrom<Setting>, IHaveCustomMappings
     {

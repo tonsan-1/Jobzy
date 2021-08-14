@@ -12,11 +12,13 @@
 
         public DateTime CreatedOn { get; set; }
 
-        public string CreatedOnFormatted => this.CreatedOn.ToShortDateString();
+        public string CreatedOnFormatted
+            => this.CreatedOn.ToShortDateString();
 
         public DateTime CompletedOn { get; set; }
 
-        public string CompletedOnFormatted => this.CompletedOn > DateTime.MinValue ? this.CompletedOn.ToShortDateString() : "Present";
+        public string CompletedOnFormatted
+            => this.CompletedOn > DateTime.MinValue ? this.CompletedOn.ToShortDateString() : "Present";
 
         public string JobTitle { get; set; }
 
@@ -26,7 +28,7 @@
 
         public string EmployerProfileImageUrl { get; set; }
 
-        public string EmployerFirstName{ get; set; }
+        public string EmployerFirstName { get; set; }
 
         public string EmployerLastName { get; set; }
     }

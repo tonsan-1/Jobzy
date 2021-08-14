@@ -6,7 +6,6 @@
 
     using Jobzy.Common;
     using Jobzy.Data.Models;
-
     using Microsoft.AspNetCore.Identity;
     using Microsoft.Extensions.DependencyInjection;
 

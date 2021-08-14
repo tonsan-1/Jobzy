@@ -1,6 +1,5 @@
 ﻿namespace Jobzy.Web.Views.Shared.Components.AllUserNotifications
 {
-    using System.Linq;
     using System.Threading.Tasks;
 
     using Jobzy.Data.Models;

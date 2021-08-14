@@ -24,7 +24,7 @@
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> MarkNotificationAsRead([FromBody]string id)
+        public async Task<IActionResult> MarkNotificationAsRead([FromBody] string id)
         {
             var userId = this.userManager.GetUserId(this.User);
             await this.freelancePlatform.NotificationManager.MarkNotificationAsRead(id);

@@ -12,7 +12,7 @@
 
         public string EmployerFirstName { get; set; }
 
-        public string EmployerLastName{ get; set; }
+        public string EmployerLastName { get; set; }
 
         public Country EmployerLocation { get; set; }
 

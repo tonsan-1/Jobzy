@@ -5,7 +5,6 @@
 
     using Jobzy.Data.Common.Models;
     using Jobzy.Data.Common.Repositories;
-
     using Microsoft.EntityFrameworkCore;
 
     public class EfDeletableEntityRepository<TEntity> : EfRepository<TEntity>, IDeletableEntityRepository<TEntity>

@@ -3,6 +3,7 @@
     using System;
     using System.ComponentModel.DataAnnotations;
     using System.Linq;
+
     using AutoMapper;
     using Jobzy.Common;
     using Jobzy.Data.Models;
@@ -24,7 +25,7 @@
 
         public string FreelancerFirstName { get; set; }
 
-        public string FreelancerLastName{ get; set; }
+        public string FreelancerLastName { get; set; }
 
         public string FreelancerEmail { get; set; }
 

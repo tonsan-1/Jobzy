@@ -85,7 +85,7 @@
                         @foreach (var job in Model.OpenJobs)
                         {
                             <!-- Job Listing -->
-                            <a asp-action="GetJob" asp-controller="Job" asp-route-id="@job.Id" class="job-listing">
+                            <a asp-action="Index" asp-controller="Job" asp-route-id="@job.Id" class="job-listing">
 
                                 <!-- Job Listing Details -->
                                 <div class="job-listing-details">
@@ -97,8 +97,8 @@
                                         <!-- Job Listing Footer -->
                                         <div class="job-listing-footer">
                                             <ul>
-                                                <li><i class="icon-material-outline-location-on"></i> @job.EmployerLocation</li>
-                                                <li><i class="icon-material-outline-business-center"></i> @job.JobType</li>
+                                                <li><i class="icon-material-outline-location-on"></i> @job.LocationToString</li>
+                                                <li><i class="icon-material-outline-business-center"></i> @job.CategoryName</li>
                                                 <li><i class="icon-material-outline-access-time"></i>Posted @job.DateFormatted</li>
                                             </ul>
                                         </div>

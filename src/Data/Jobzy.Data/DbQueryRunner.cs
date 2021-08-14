@@ -4,7 +4,6 @@
     using System.Threading.Tasks;
 
     using Jobzy.Data.Common;
-
     using Microsoft.EntityFrameworkCore;
 
     public class DbQueryRunner : IDbQueryRunner

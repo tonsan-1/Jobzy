@@ -8,11 +8,8 @@
     using Jobzy.Data.Common.Repositories;
     using Jobzy.Data.Models;
     using Jobzy.Data.Repositories;
-
     using Microsoft.EntityFrameworkCore;
-
     using Moq;
-
     using Xunit;
 
     public class SettingsServiceTests

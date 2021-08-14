@@ -1,7 +1,7 @@
 ﻿namespace Jobzy.Web
 {
     using System.Reflection;
-    using CloudinaryDotNet;
+
     using Jobzy.Data;
     using Jobzy.Data.Common;
     using Jobzy.Data.Common.Repositories;
@@ -15,7 +15,6 @@
     using Jobzy.Services.Messaging;
     using Jobzy.Web.Hubs;
     using Jobzy.Web.ViewModels;
-
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;

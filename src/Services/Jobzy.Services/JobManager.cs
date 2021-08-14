@@ -45,7 +45,6 @@
             Sorting sorting = Sorting.Newest,
             int currentPage = 1)
         {
-
             var jobsQuery = this.repository
                 .All()
                 .Where(x => x.Status == JobStatus.Open)

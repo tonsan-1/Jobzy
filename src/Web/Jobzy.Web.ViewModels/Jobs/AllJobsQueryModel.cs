@@ -7,7 +7,6 @@
 
     public class AllJobsQueryModel
     {
-
         public string Category { get; set; }
 
         [Display(Name = "Job Title")]

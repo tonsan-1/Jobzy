@@ -4,7 +4,6 @@ namespace Jobzy.Data.Models
     using System;
 
     using Jobzy.Data.Common.Models;
-
     using Microsoft.AspNetCore.Identity;
 
     public class ApplicationRole : IdentityRole, IAuditInfo, IDeletableEntity

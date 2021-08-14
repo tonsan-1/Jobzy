@@ -7,7 +7,6 @@
     using Jobzy.Data.Models;
     using Jobzy.Services.Data;
     using Jobzy.Web.ViewModels.Settings;
-
     using Microsoft.AspNetCore.Mvc;
 
     public class SettingsController : BaseController

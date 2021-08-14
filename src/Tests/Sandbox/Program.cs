@@ -5,6 +5,7 @@
     using System.IO;
     using System.Threading.Tasks;
 
+    using CommandLine;
     using Jobzy.Data;
     using Jobzy.Data.Common;
     using Jobzy.Data.Common.Repositories;
@@ -13,9 +14,6 @@
     using Jobzy.Data.Seeding;
     using Jobzy.Services.Data;
     using Jobzy.Services.Messaging;
-
-    using CommandLine;
-
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;

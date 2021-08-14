@@ -8,7 +8,6 @@
 
     using Jobzy.Data.Common.Models;
     using Jobzy.Data.Models;
-
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
 
