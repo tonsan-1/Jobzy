@@ -60,7 +60,7 @@
 
                 return this.Ok();
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return this.BadRequest();
             }

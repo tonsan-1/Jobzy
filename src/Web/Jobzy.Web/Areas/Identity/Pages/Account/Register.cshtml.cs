@@ -21,7 +21,9 @@
     using Microsoft.Extensions.Logging;
 
     [AllowAnonymous]
+#pragma warning disable SA1649 // File name should match first type name
     public class RegisterModel : PageModel
+#pragma warning restore SA1649 // File name should match first type name
     {
         private readonly SignInManager<ApplicationUser> signInManager;
         private readonly IFreelancePlatform freelancePlatform;
@@ -93,7 +95,9 @@
             public string ConfirmPassword { get; set; }
         }
 
+#pragma warning disable SA1201 // Elements should appear in the correct order
         public async Task OnGetAsync(string code)
+#pragma warning restore SA1201 // Elements should appear in the correct order
         {
             this.ExternalLogins = (await this.signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
@@ -147,7 +151,9 @@
                         protocol: this.Request.Scheme);
 
                     await this.emailSender.SendEmailAsync(this.Input.Email, "Confirm your email",
+#pragma warning disable SA1117 // Parameters should be on same line or separate lines
                         $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+#pragma warning restore SA1117 // Parameters should be on same line or separate lines
 
                     if (this.userManager.Options.SignIn.RequireConfirmedAccount)
                     {

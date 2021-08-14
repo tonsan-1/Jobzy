@@ -9,7 +9,9 @@
     using Microsoft.AspNetCore.Mvc.RazorPages;
 
     [AllowAnonymous]
+#pragma warning disable SA1649 // File name should match first type name
     public class LogoutModel : PageModel
+#pragma warning restore SA1649 // File name should match first type name
     {
         private readonly SignInManager<ApplicationUser> signInManager;
 

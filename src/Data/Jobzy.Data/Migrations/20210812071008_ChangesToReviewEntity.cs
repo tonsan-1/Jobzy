@@ -38,7 +38,7 @@
                 table: "Reviews",
                 type: "nvarchar(450)",
                 nullable: false,
-                defaultValue: "");
+                defaultValue: string.Empty);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Reviews_RecipientId",
@@ -107,7 +107,7 @@
                 type: "nvarchar(30)",
                 maxLength: 30,
                 nullable: false,
-                defaultValue: "");
+                defaultValue: string.Empty);
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Reviews_AspNetUsers_UserId",
