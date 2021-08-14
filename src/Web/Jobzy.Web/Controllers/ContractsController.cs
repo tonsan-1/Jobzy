@@ -83,7 +83,7 @@
                 RedirectController = "Contracts",
             };
 
-            await this.freelancePlatform.NotificationsManager.CreateAsync(completionNotification, contract.FreelancerId);
+            await this.freelancePlatform.NotificationManager.CreateAsync(completionNotification, contract.FreelancerId);
 
             return this.RedirectToAction("MyContracts", "Contracts");
         }
@@ -105,7 +105,7 @@
                 RedirectController = "Contracts",
             };
 
-            await this.freelancePlatform.NotificationsManager.CreateAsync(cancellationNotification, contract.FreelancerId);
+            await this.freelancePlatform.NotificationManager.CreateAsync(cancellationNotification, contract.FreelancerId);
 
             return this.RedirectToAction("MyContracts", "Contracts");
         }
@@ -130,7 +130,7 @@
                 RedirectId = contract.Id,
             };
 
-            await this.freelancePlatform.NotificationsManager.CreateAsync(notification, contract.EmployerId);
+            await this.freelancePlatform.NotificationManager.CreateAsync(notification, contract.EmployerId);
 
             return this.RedirectToAction("Index", "Contracts", new { id = contractId });
         }

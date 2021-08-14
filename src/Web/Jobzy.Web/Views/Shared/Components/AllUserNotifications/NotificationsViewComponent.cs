@@ -28,10 +28,10 @@
             var userId = this.userManager.GetUserId(this.UserClaimsPrincipal);
 
             var notifications = await this.freelancePlatform
-                                            .NotificationsManager
+                                            .NotificationManager
                                                 .GetAllUserNotifications<UserNotificationViewModel>(userId);
 
-            this.ViewData["NotificationsCount"] = this.freelancePlatform.NotificationsManager.GetNotificationsCount(userId);
+            this.ViewData["NotificationsCount"] = this.freelancePlatform.NotificationManager.GetNotificationsCount(userId);
 
             return this.View(notifications);
         }

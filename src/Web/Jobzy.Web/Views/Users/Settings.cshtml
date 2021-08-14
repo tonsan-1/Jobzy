@@ -29,7 +29,7 @@
 
                                     <div class="col-auto">
                                         <div class="avatar-wrapper" data-tippy-placement="bottom" title="Change Avatar">
-                                            <img class="profile-pic" src="@Model.ProfileViewModel.ProfileImageUrl" alt="" />
+                                            <img class="profile-pic" src="@Model.UserViewModel.ProfileImageUrl" alt="" />
                                             <div class="upload-button"></div>
                                             <input name="profilePicture" class="file-upload" type="file" accept="image/*" />
                                         </div>
@@ -40,16 +40,16 @@
                                             <div class="col-xl-6">
                                                 <div class="submit-field">
                                                     <h5>First Name</h5>
-                                                    <input asp-for="ProfileInfoInputModel.FirstName" type="text" class="with-border" value="@Model.ProfileViewModel.FirstName">
-                                                    <span asp-validation-for="ProfileInfoInputModel.FirstName" class="text-danger"></span>
+                                                    <input asp-for="UserInfoInputModel.FirstName" type="text" class="with-border" value="@Model.UserViewModel.FirstName">
+                                                    <span asp-validation-for="UserInfoInputModel.FirstName" class="text-danger"></span>
                                                 </div>
                                             </div>
 
                                             <div class="col-xl-6">
                                                 <div class="submit-field">
                                                     <h5>Last Name</h5>
-                                                    <input asp-for="ProfileInfoInputModel.LastName" type="text" class="with-border" value="@Model.ProfileViewModel.LastName">
-                                                    <span asp-validation-for="ProfileInfoInputModel.LastName" class="text-danger"></span>
+                                                    <input asp-for="UserInfoInputModel.LastName" type="text" class="with-border" value="@Model.UserViewModel.LastName">
+                                                    <span asp-validation-for="UserInfoInputModel.LastName" class="text-danger"></span>
                                                 </div>
                                             </div>
 
@@ -80,10 +80,10 @@
                                                 <div class="submit-field">
                                                     <h5>Nationality</h5>
                                                     <div class="input-with-icon-left">
-                                                        <select asp-for="ProfileInfoInputModel.Location" asp-items="Html.GetEnumSelectList<Country>()" class="location-select dropdown with-border" data-size="5">
-                                                            <option selected value="@Model.ProfileViewModel.Location">@Model.ProfileViewModel.LocationToString</option>
+                                                        <select asp-for="UserInfoInputModel.Location" asp-items="Html.GetEnumSelectList<Country>()" class="location-select dropdown with-border" data-size="5">
+                                                            <option selected value="@Model.UserViewModel.Location">@Model.UserViewModel.LocationToString</option>
                                                         </select>
-                                                        <span asp-validation-for="ProfileInfoInputModel.Location" class="text-danger"></span>
+                                                        <span asp-validation-for="UserInfoInputModel.Location" class="text-danger"></span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -111,16 +111,16 @@
                                             <div class="col-xl-6">
                                                 <div class="submit-field">
                                                     <h5>Tagline</h5>
-                                                    <input asp-for="ProfileInfoInputModel.TagName" type="text" class="with-border" placeholder="Add a Tagline" value="@Model.ProfileViewModel.TagName">
-                                                    <span asp-validation-for="ProfileInfoInputModel.TagName" class="text-danger"></span>
+                                                    <input asp-for="UserInfoInputModel.TagName" type="text" class="with-border" placeholder="Add a Tagline" value="@Model.UserViewModel.TagName">
+                                                    <span asp-validation-for="UserInfoInputModel.TagName" class="text-danger"></span>
                                                 </div>
                                             </div>
 
                                             <div class="col-xl-12">
                                                 <div class="submit-field">
                                                     <h5>Introduce Yourself</h5>
-                                                    <textarea asp-for="ProfileInfoInputModel.Description" cols="30" placeholder="@(Model.ProfileViewModel.Description is null ? "Add a Description" : Model.ProfileViewModel.Description)" rows="5" class="with-border"></textarea>
-                                                    <span asp-validation-for="ProfileInfoInputModel.Description" class="text-danger"></span>
+                                                    <textarea asp-for="UserInfoInputModel.Description" cols="30" placeholder="@(Model.UserViewModel.Description is null ? "Add a Description" : Model.UserViewModel.Description)" rows="5" class="with-border"></textarea>
+                                                    <span asp-validation-for="UserInfoInputModel.Description" class="text-danger"></span>
                                                 </div>
                                             </div>
                                         </div>
@@ -151,24 +151,24 @@
                                     <div class="col-xl-4">
                                         <div class="submit-field">
                                             <h5>Current Password</h5>
-                                            <input asp-for="ProfilePasswordInputModel.CurrentPassword" type="password" class="with-border">
-                                            <span asp-validation-for="ProfilePasswordInputModel.CurrentPassword" class="text-danger"></span>
+                                            <input asp-for="UserPasswordInputModel.CurrentPassword" type="password" class="with-border">
+                                            <span asp-validation-for="UserPasswordInputModel.CurrentPassword" class="text-danger"></span>
                                         </div>
                                     </div>
 
                                     <div class="col-xl-4">
                                         <div class="submit-field">
                                             <h5>New Password</h5>
-                                            <input asp-for="ProfilePasswordInputModel.NewPassword" type="password" class="with-border">
-                                            <span asp-validation-for="ProfilePasswordInputModel.NewPassword" class="text-danger"></span>
+                                            <input asp-for="UserPasswordInputModel.NewPassword" type="password" class="with-border">
+                                            <span asp-validation-for="UserPasswordInputModel.NewPassword" class="text-danger"></span>
                                         </div>
                                     </div>
 
                                     <div class="col-xl-4">
                                         <div class="submit-field">
                                             <h5>Repeat New Password</h5>
-                                            <input asp-for="ProfilePasswordInputModel.RepeatNewPassword" type="password" class="with-border">
-                                            <span asp-validation-for="ProfilePasswordInputModel.RepeatNewPassword" class="text-danger"></span>
+                                            <input asp-for="UserPasswordInputModel.RepeatNewPassword" type="password" class="with-border">
+                                            <span asp-validation-for="UserPasswordInputModel.RepeatNewPassword" class="text-danger"></span>
                                         </div>
                                     </div>
                                 </div>

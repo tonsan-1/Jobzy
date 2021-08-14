@@ -12,14 +12,17 @@
     {
         public int OffersCount { get; set; }
 
-        public IEnumerable<ContractsListViewModel> Contracts { get; set; } = new HashSet<ContractsListViewModel>();
+        public IEnumerable<ContractsListViewModel> Contracts { get; set; }
+            = new HashSet<ContractsListViewModel>();
 
-        public int TotalContractsCount => this.Contracts.Count();
+        public int TotalContractsCount
+            => this.Contracts.Count();
 
-        public int JobsDone => this.Contracts.Count(x => x.Status == ContractStatus.Finished);
+        public int JobsDone
+            => this.Contracts.Count(x => x.Status == ContractStatus.Finished);
 
         public decimal JobSuccess
-            => this.TotalContractsCount > 1 ? (this.TotalContractsCount - this.JobsDone) * 100 : 100;
+            => (this.JobsDone * 100) / this.TotalContractsCount;
 
         public void CreateMappings(IProfileExpression configuration)
         {

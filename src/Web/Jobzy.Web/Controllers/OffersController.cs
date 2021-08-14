@@ -69,7 +69,7 @@
                 RedirectId = job.Id,
             };
 
-            await this.freelancePlatform.NotificationsManager.CreateAsync(notification, job.EmployerId);
+            await this.freelancePlatform.NotificationManager.CreateAsync(notification, job.EmployerId);
 
             return this.RedirectToAction("MyOffers", "Offers");
         }
@@ -95,7 +95,7 @@
                 RedirectId = contract.Id,
             };
 
-            await this.freelancePlatform.NotificationsManager.CreateAsync(notification, contract.FreelancerId);
+            await this.freelancePlatform.NotificationManager.CreateAsync(notification, contract.FreelancerId);
 
             return this.RedirectToAction("Index", "Contracts", new { id = contractId });
         }

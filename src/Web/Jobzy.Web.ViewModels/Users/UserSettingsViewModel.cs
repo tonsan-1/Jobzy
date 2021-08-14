@@ -2,10 +2,10 @@
 {
     public class UserSettingsViewModel
     {
-        public BaseUserViewModel ProfileViewModel { get; set; }
+        public BaseUserViewModel UserViewModel { get; set; }
 
-        public UserInfoInputModel ProfileInfoInputModel { get; set; }
+        public UserInfoInputModel UserInfoInputModel { get; set; }
 
-        public UserPasswordInputModel ProfilePasswordInputModel { get; set; }
+        public UserPasswordInputModel UserPasswordInputModel { get; set; }
     }
 }

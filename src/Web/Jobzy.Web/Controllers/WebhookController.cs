@@ -49,7 +49,7 @@
                         RedirectController = "Contracts",
                     };
 
-                    await this.freelancePlatform.NotificationsManager.CreateAsync(completionNotification, contract.FreelancerId);
+                    await this.freelancePlatform.NotificationManager.CreateAsync(completionNotification, contract.FreelancerId);
                 }
                 else
                 {

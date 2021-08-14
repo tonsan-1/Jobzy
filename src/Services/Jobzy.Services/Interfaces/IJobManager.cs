@@ -23,5 +23,7 @@
             int currentPage = 1);
 
         int GetPostedJobsCount(string userId);
+
+        int GetAllPostedJobs();
     }
 }

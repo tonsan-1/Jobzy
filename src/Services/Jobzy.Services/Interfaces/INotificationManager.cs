@@ -5,7 +5,7 @@
 
     using Jobzy.Data.Models;
 
-    public interface INotificationsManager
+    public interface INotificationManager
     {
         Task CreateAsync(Notification notification, string userId);
 

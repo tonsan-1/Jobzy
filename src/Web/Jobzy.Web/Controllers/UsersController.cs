@@ -85,7 +85,7 @@
 
             var user = this.freelancePlatform.UserManager.GetUserSettings(userId);
 
-            var model = new UserSettingsViewModel { ProfileViewModel = user };
+            var model = new UserSettingsViewModel { UserViewModel = user };
 
             return this.View(model);
         }
@@ -109,7 +109,7 @@
 
                 return this.View("Settings", new UserSettingsViewModel
                 {
-                    ProfileViewModel = userViewModel,
+                    UserViewModel = userViewModel,
                 });
             }
 
@@ -140,7 +140,7 @@
             {
                 return this.View("Settings", new UserSettingsViewModel
                 {
-                    ProfileViewModel = userViewModel,
+                    UserViewModel = userViewModel,
                 });
             }
 
@@ -156,7 +156,7 @@
 
                 return this.View("Settings", new UserSettingsViewModel
                 {
-                    ProfileViewModel = userViewModel,
+                    UserViewModel = userViewModel,
                 });
             }
 

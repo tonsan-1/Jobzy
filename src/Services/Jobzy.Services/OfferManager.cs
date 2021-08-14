@@ -81,19 +81,20 @@
         }
 
         public int GetActiveOffersCount(string userId)
-        {
-            return this.repository
+            => this.repository
                 .All()
                 .Where(x => x.FreelancerId == userId && !x.IsAccepted)
                 .Count();
-        }
 
         public int GetSentOffersCount(string userId)
-        {
-            return this.repository
+            => this.repository
                 .All()
                 .Where(x => x.FreelancerId == userId)
                 .Count();
-        }
+
+        public int GetAllOffersCount()
+            => this.repository
+                .All()
+                .Count();
     }
 }

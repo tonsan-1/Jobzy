@@ -1,5 +1,6 @@
 ﻿namespace Jobzy.Services
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -64,6 +65,7 @@
             {
                 JobSorting.Budget => jobsQuery.OrderByDescending(x => x.Budget),
                 JobSorting.Oldest => jobsQuery.OrderBy(x => x.CreatedOn),
+                JobSorting.Random => jobsQuery.OrderBy(x => Guid.NewGuid()),
                 JobSorting.Newest or _ => jobsQuery.OrderByDescending(x => x.CreatedOn),
             };
 
@@ -86,21 +88,6 @@
             return jobs;
         }
 
-        public async Task<T> GetJobByIdAsync<T>(string id)
-        {
-            return await this.repository.All()
-                .Where(x => x.Id == id)
-                .To<T>()
-                .FirstOrDefaultAsync();
-        }
-
-        public int GetPostedJobsCount(string userId)
-        {
-            return this.repository.All()
-                .Where(x => x.EmployerId == userId)
-                .Count();
-        }
-
         public async Task SetJobStatus(JobStatus status, string jobId)
         {
             var job = this.repository.All().FirstOrDefault(x => x.Id == jobId);
@@ -110,5 +97,21 @@
             this.repository.Update(job);
             await this.repository.SaveChangesAsync();
         }
+
+        public async Task<T> GetJobByIdAsync<T>(string id)
+           => await this.repository.All()
+               .Where(x => x.Id == id)
+               .To<T>()
+               .FirstOrDefaultAsync();
+
+        public int GetPostedJobsCount(string userId)
+            => this.repository.All()
+                .Where(x => x.EmployerId == userId)
+                .Count();
+
+        public int GetAllPostedJobs()
+            => this.repository
+                .All()
+                .Count();
     }
 }

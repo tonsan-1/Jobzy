@@ -1,5 +1,7 @@
 ﻿namespace Jobzy.Services
 {
+    using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -34,6 +36,14 @@
                 .Where(x => x.Id == id)
                 .To<T>()
                 .FirstOrDefaultAsync();
+
+        public async Task<IEnumerable<T>> GetHighestRatedFreelancers<T>()
+            => await this.freelancerRepository
+                .All()
+                .Where(x => Math.Round(x.ReceivedReviews.Select(x => x.Rating).Average()) > 4.0)
+                .To<T>()
+                .Take(6)
+                .ToListAsync();
 
         public EmployerViewModel GetEmployer(string userId)
         {
@@ -103,5 +113,12 @@
             this.baseUserRepository.Update(user);
             await this.baseUserRepository.SaveChangesAsync();
         }
+
+        public int GetAllFreelancersCount()
+            => this.freelancerRepository
+                .All()
+                .Count();
+
+        
     }
 }

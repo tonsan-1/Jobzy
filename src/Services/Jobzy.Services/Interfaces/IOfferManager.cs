@@ -20,5 +20,7 @@
         int GetActiveOffersCount(string userId);
 
         int GetSentOffersCount(string userId);
+
+        int GetAllOffersCount();
     }
 }

@@ -24,15 +24,17 @@
 
         public string Email { get; set; }
 
-        public double AverageRating
-            => this.Reviews.Any() ? Math.Round(this.Reviews.Select(x => x.Rating).Average(), 2) : 0;
-
         public Country Location { get; set; }
-
-        public string LocationToString => this.Location.GetAttribute<DisplayAttribute>().Name;
 
         public string ProfileImageUrl { get; set; }
 
-        public IEnumerable<ReviewsListViewModel> Reviews { get; set; } = new HashSet<ReviewsListViewModel>();
+        public IEnumerable<ReviewsListViewModel> Reviews { get; set; }
+            = new HashSet<ReviewsListViewModel>();
+
+        public double AverageRating
+            => this.Reviews.Any() ? Math.Round(this.Reviews.Select(x => x.Rating).Average(), 2) : 0;
+
+        public string LocationToString
+            => this.Location.GetAttribute<DisplayAttribute>().Name;
     }
 }

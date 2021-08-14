@@ -11,12 +11,12 @@
     using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
 
-    public class NotificationsManager : INotificationsManager
+    public class NotificationManager : INotificationManager
     {
         private readonly IDeletableEntityRepository<Notification> repository;
         private readonly UserManager<ApplicationUser> userManager;
 
-        public NotificationsManager(
+        public NotificationManager(
             IDeletableEntityRepository<Notification> repository,
             UserManager<ApplicationUser> userManager)
         {

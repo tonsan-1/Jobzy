@@ -81,7 +81,7 @@
             services.AddTransient<IMessageManager, MessageManager>();
             services.AddTransient<IFileManager, FileManager>();
             services.AddTransient<IReviewManager, ReviewManager>();
-            services.AddTransient<INotificationsManager, NotificationsManager>();
+            services.AddTransient<INotificationManager, NotificationManager>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

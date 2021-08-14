@@ -20,6 +20,6 @@
 
         IReviewManager ReviewManager { get; }
 
-        INotificationsManager NotificationsManager { get; }
+        INotificationManager NotificationManager { get; }
     }
 }
