@@ -25,7 +25,8 @@
         [Authorize(Roles = "Freelancer, Employer")]
         public async Task<IActionResult> Index(string id)
         {
-            var job = await this.freelancePlatform.JobManager.GetJobByIdAsync<SingleJobViewModel>(id);
+            var job = await this.freelancePlatform.JobManager
+                .GetJobByIdAsync<SingleJobViewModel>(id);
 
             if (job is null)
             {
@@ -38,16 +39,14 @@
         [Authorize(Roles = "Freelancer, Employer")]
         public async Task<IActionResult> All([FromQuery] AllJobsQueryModel query)
         {
-            var jobs = await this.freelancePlatform
-                .JobManager
+            var jobs = await this.freelancePlatform.JobManager
                 .GetAllJobPosts<AllJobsListViewModel>(
                 query.Category,
                 query.JobTitle,
                 query.Sorting,
                 query.CurrentPage);
 
-            var categories = await this.freelancePlatform
-                .CategoryManager
+            var categories = await this.freelancePlatform.CategoryManager
                 .GetAllJobCategories<CategoriesListViewModel>();
 
             query.Jobs = jobs;
@@ -69,8 +68,7 @@
         [Authorize(Roles = "Employer")]
         public async Task<IActionResult> AddJob()
         {
-            var jobCategories = await this.freelancePlatform
-                .CategoryManager
+            var jobCategories = await this.freelancePlatform.CategoryManager
                 .GetAllJobCategories<CategoriesListViewModel>();
 
             return this.View(new JobInputModel { Categories = jobCategories });
@@ -83,7 +81,8 @@
         {
             if (!this.ModelState.IsValid)
             {
-                var jobCategories = await this.freelancePlatform.CategoryManager.GetAllJobCategories<CategoriesListViewModel>();
+                var jobCategories = await this.freelancePlatform.CategoryManager
+                    .GetAllJobCategories<CategoriesListViewModel>();
 
                 return this.View(new JobInputModel { Categories = jobCategories });
             }

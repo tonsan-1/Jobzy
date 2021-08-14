@@ -42,7 +42,7 @@
         public async Task<IEnumerable<T>> GetAllJobPosts<T>(
             string category = null,
             string jobTitle = null,
-            JobSorting sorting = JobSorting.Newest,
+            Sorting sorting = Sorting.Newest,
             int currentPage = 1)
         {
 
@@ -63,10 +63,9 @@
 
             jobsQuery = sorting switch
             {
-                JobSorting.Budget => jobsQuery.OrderByDescending(x => x.Budget),
-                JobSorting.Oldest => jobsQuery.OrderBy(x => x.CreatedOn),
-                JobSorting.Random => jobsQuery.OrderBy(x => Guid.NewGuid()),
-                JobSorting.Newest or _ => jobsQuery.OrderByDescending(x => x.CreatedOn),
+                Sorting.Oldest => jobsQuery.OrderBy(x => x.CreatedOn),
+                Sorting.Random => jobsQuery.OrderBy(x => Guid.NewGuid()),
+                Sorting.Newest or _ => jobsQuery.OrderByDescending(x => x.CreatedOn),
             };
 
             var jobs = await jobsQuery

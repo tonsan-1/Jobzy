@@ -15,10 +15,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>@this.ViewData["Title"] - @GlobalConstants.SystemName</title>
 
+    <script src="~/js/jquery-3.6.0.min.js"></script>
     <script src="https://js.stripe.com/v3/"></script>
 
 
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/style.css">
     <link rel="stylesheet" href="~/css/colors/blue.css">
     @RenderSection("css", required: false)
@@ -52,10 +53,6 @@
                                             <ul class="dropdown-nav">
                                                 <li>
                                                     <a asp-controller="Jobs" asp-action="All">Browse Jobs</a>
-                                                </li>
-
-                                                <li>
-                                                    <a href="browse-companies.html">Browse Companies</a>
                                                 </li>
                                             </ul>
                                         </li>
@@ -97,7 +94,7 @@
                                             <a role="button">Find Talent</a>
                                             <ul class="dropdown-nav">
                                                 <li>
-                                                    <a href="#">Browse for Freelancers</a>
+                                                    <a asp-action="AllFreelancers" asp-controller="Users">Browse for Freelancers</a>
                                                 </li>
                                             </ul>
                                         </li>
@@ -249,7 +246,6 @@
 
     <!-- Scripts
     ================================================== -->
-    <script src="~/js/jquery-3.6.0.min.js"></script>
     <script src="~/js/jquery-migrate-3.3.2.min.js"></script>
     <script src="https://unpkg.com/@@popperjs/core@2/dist/umd/popper.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

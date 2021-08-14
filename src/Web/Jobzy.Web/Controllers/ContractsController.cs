@@ -29,11 +29,12 @@
         [Authorize(Roles = "Administrator, Freelancer, Employer")]
         public async Task<IActionResult> Index(string id)
         {
-            // validate if current user is in the contract
-
+            var userId = this.userManager.GetUserId(this.User);
             var contract = await this.freelancePlatform.ContractManager.GetContractByIdAsync<SingleContractViewModel>(id);
 
-            if (contract is null)
+            if (contract is null ||
+                contract.FreelancerId != userId ||
+                contract.EmployerId != userId)
             {
                 return this.View("Error");
             }
@@ -45,7 +46,8 @@
         public async Task<IActionResult> MyContracts()
         {
             var user = await this.userManager.GetUserAsync(this.User);
-            var contracts = await this.freelancePlatform.ContractManager.GetAllUserContracts<UserContractsListViewModel>(user.Id);
+            var contracts = await this.freelancePlatform.ContractManager
+                .GetAllUserContracts<UserContractsListViewModel>(user.Id);
 
             this.ViewData["ContractsCount"] = contracts.Count();
 
@@ -56,7 +58,7 @@
         [Authorize(Roles = "Administrator, Employer")]
         [ValidateAntiForgeryToken]
         public IActionResult ContractActions(string action, string contractId)
-        { // use input model insted of strings and separate the logic in two separate methods
+        {
             if (action == "cancel")
             {
                 return this.RedirectToAction("CancelContract", "Contracts");
@@ -115,8 +117,6 @@
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> UploadWork([FromForm] IFormFile attachment, string contractId)
         {
-            // some validations of the file size and type
-
             await this.freelancePlatform.FileManager.AddAttachmentToContract(attachment, contractId);
             var contract = await this.freelancePlatform.ContractManager
                 .GetContractByIdAsync<ContractNotificationViewModel>(contractId);

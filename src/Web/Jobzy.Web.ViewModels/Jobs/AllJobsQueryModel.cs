@@ -13,7 +13,7 @@
         [Display(Name = "Job Title")]
         public string JobTitle { get; set; }
 
-        public JobSorting Sorting { get; set; }
+        public Sorting Sorting { get; set; }
 
         public int CurrentPage { get; set; } = 1;
 

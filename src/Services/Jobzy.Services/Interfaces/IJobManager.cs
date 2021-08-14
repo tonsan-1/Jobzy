@@ -19,7 +19,7 @@
         Task<IEnumerable<T>> GetAllJobPosts<T>(
             string category = null,
             string jobTitle = null,
-            JobSorting sorting = JobSorting.Newest,
+            Sorting sorting = Sorting.Newest,
             int currentPage = 1);
 
         int GetPostedJobsCount(string userId);

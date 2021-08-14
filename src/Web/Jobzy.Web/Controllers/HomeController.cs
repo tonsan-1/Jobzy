@@ -2,6 +2,7 @@
 {
     using System.Linq;
     using System.Threading.Tasks;
+
     using Jobzy.Common;
     using Jobzy.Data.Models;
     using Jobzy.Services.Interfaces;
@@ -43,27 +44,24 @@
 
             if (this.User.IsInRole("Employer"))
             {
-                model.Freelancers =
-                    await this.freelancePlatform
-                        .UserManager
-                        .GetHighestRatedFreelancers<FreelancerViewModel>();
+                model.Freelancers = await this.freelancePlatform.UserManager
+                        .GetAllFreelancers<FreelancerViewModel>(rating: 4, sorting: Sorting.Random);
 
                 foreach (var freelancer in model.Freelancers)
                 {
-                    freelancer.Reviews =
-                        await this.freelancePlatform
-                            .ReviewManager
+                    freelancer.Reviews = await this.freelancePlatform.ReviewManager
                             .GetAllUserReviews<ReviewsListViewModel>(freelancer.Id);
                 }
+
+                model.Freelancers = model.Freelancers.Take(6).ToList();
             }
 
             if (this.User.IsInRole("Freelancer"))
             {
-                model.Jobs =
-                    await this.freelancePlatform.JobManager.GetAllJobPosts<AllJobsListViewModel>(
-                        sorting: JobSorting.Random);
+                model.Jobs = await this.freelancePlatform.JobManager
+                    .GetAllJobPosts<AllJobsListViewModel>(sorting: Sorting.Random);
 
-                model.Jobs = model.Jobs.Take(6);
+                model.Jobs = model.Jobs.Take(6).ToList();
             }
 
             return this.View(model);

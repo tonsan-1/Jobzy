@@ -27,6 +27,8 @@
 
         public int OfferDeliveryDays { get; set; }
 
+        public string EmployerId { get; set; }
+
         public string EmployerFirstName { get; set; }
 
         public string EmployerLastName { get; set; }

@@ -1,0 +1,156 @@
+﻿@using Jobzy.Common
+
+@model Jobzy.Web.ViewModels.Users.Freelancers.AllFreelancersQueryModel
+
+<!-- Page Content
+================================================== -->
+<div class="full-page-container">
+
+    <div class="full-page-sidebar">
+        <div class="full-page-sidebar-inner" data-simplebar>
+            <div class="sidebar-container">
+                <form id="search-query-form" method="get" asp-action="AllFreelancers" asp-controller="Users">
+                    <!-- Sort by -->
+                    <div class="sidebar-widget">
+                        <h3>Sort by</h3>
+                        <select asp-for="Sorting" class="location-select dropdown" asp-items="Html.GetEnumSelectList<Sorting>()" data-size="7">
+                        </select>
+                    </div>
+
+                    <!-- Keywords -->
+                    <div class="sidebar-widget">
+                        <h3>Rating</h3>
+                        <div class="keywords-container">
+                            <input asp-for="Rating" id="rangePrimary" type="number" min="1" max="5">
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+
+                    <!-- Keywords -->
+                    <div class="sidebar-widget">
+                        <h3>Name</h3>
+                        <div class="keywords-container">
+                            <div class="keyword-input-container">
+                                <input asp-for="Name" type="text" class="keyword-input" placeholder="Search by name" />
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+
+
+                    <div class="sidebar-widget d-flex justify-content-center">
+                        <button type="submit" form="search-query-form" class="button big ripple-effect w-100">Search</button>
+                    </div>
+                </form>
+            </div>
+            <!-- Sidebar Container / End -->
+        </div>
+    </div>
+    <!-- Full Page Sidebar / End -->
+    <!-- Full Page Content -->
+    <div class="full-page-content-container" data-simplebar>
+        <div class="full-page-content-inner">
+
+            <div class="freelancers-container freelancers-grid-layout margin-top-35">
+                @foreach (var freelancer in Model.Freelancers)
+                {
+                    //!--Freelancer-- >
+                    <div class="freelancer">
+
+                        <!-- Overview -->
+                        <div class="freelancer-overview">
+                            <div class="freelancer-overview-inner">
+
+                                <!-- Avatar -->
+                                <div class="freelancer-avatar">
+                                    <a asp-action="Freelancer" asp-controller="Users" asp-route-id="@freelancer.Id"><img src="@freelancer.ProfileImageUrl" alt=""></a>
+                                </div>
+
+                                <!-- Name -->
+                                <div class="freelancer-name">
+                                    <h4><a asp-action="Freelancer" asp-controller="Users" asp-route-id="@freelancer.Id">@freelancer.FirstName @freelancer.LastName <img class="flag" src="/images/flags/@(freelancer.Location).svg" alt="" data-tippy-placement="top"></a></h4>
+                                    <span>@freelancer.TagName</span>
+                                </div>
+
+                                <!-- Rating -->
+                                <div class="freelancer-rating">
+                                    <div class="star-rating" data-rating="@freelancer.AverageRating"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Details -->
+                        <div class="freelancer-details">
+                            <div class="freelancer-details-list">
+                                <ul>
+                                    <li>Location <strong><i class="icon-material-outline-location-on"></i> @freelancer.LocationToString</strong></li>
+                                    <li>Jobs Done <strong>@freelancer.JobsDone</strong></li>
+                                    <li>Job Success <strong>@freelancer.JobSuccess%</strong></li>
+                                </ul>
+                            </div>
+                            <a asp-action="Freelancer" asp-controller="Users" asp-route-id="@freelancer.Id" class="button button-sliding-icon ripple-effect">View Profile <i class="icon-material-outline-arrow-right-alt"></i></a>
+                        </div>
+                    </div>
+                    <!-- Freelancer / End -->
+                }
+            </div>
+
+            @{
+                var previousPage = Model.CurrentPage - 1;
+                var nextPage = Model.CurrentPage + 1;
+
+                if (previousPage < 1)
+                {
+                    previousPage = 1;
+                }
+
+                var maxPage = (int)Math.Ceiling((double)Model.Freelancers.Count() / 8);
+
+                if (nextPage > maxPage)
+                {
+                    nextPage = maxPage;
+                }
+
+            }
+             @*Pagination*@ 
+            <div class="clearfix"></div>
+            <div class="pagination-container d-flex justify-content-center  margin-top-20 margin-bottom-20">
+                <nav class="pagination">
+                    <ul>
+                        <li class="pagination-arrow">
+                            <a asp-action="AllFreelancers"
+                               asp-controller="Users"
+                               asp-route-Sorting="@Model.Sorting"
+                               asp-route-Rating="@Model.Rating"
+                               asp-route-Name="@Model.Name"
+                               asp-route-CurrentPage="@previousPage"
+                               class="ripple-effect @(Model.CurrentPage == 1 ? "disabled" : string.Empty)"
+                               role="button">
+                                <i class="icon-material-outline-keyboard-arrow-left"></i>
+                            </a>
+                        </li>
+                        <li class="pagination-arrow">
+                            <a asp-action="AllFreelancers"
+                               asp-controller="Users"
+                               asp-route-Sorting="@Model.Sorting"
+                               asp-route-Rating="@Model.Rating"
+                               asp-route-Name="@Model.Name"
+                               asp-route-CurrentPage="@(nextPage)"
+                               class="ripple-effect @(Model.CurrentPage == maxPage ? "disabled" : string.Empty)">
+                                <i class="icon-material-outline-keyboard-arrow-right"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="clearfix"></div>
+            <!-- Pagination / End -->
+            <div class="padding-bottom-100"></div>
+        </div>
+    </div>
+    <!-- Full Page Content / End -->
+</div>
+
+<div class="padding-bottom-100"></div>
+
+<partial name="BigFooterPartial" />

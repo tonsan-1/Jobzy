@@ -6,6 +6,7 @@
     using Jobzy.Services.Interfaces;
     using Jobzy.Web.ViewModels.Reviews;
     using Jobzy.Web.ViewModels.Users;
+    using Jobzy.Web.ViewModels.Users.Freelancers;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Identity;
@@ -46,7 +47,8 @@
 
             var employer = this.freelancePlatform.UserManager.GetEmployer(user.Id);
 
-            employer.Reviews = await this.freelancePlatform.ReviewManager.GetAllUserReviews<ReviewsListViewModel>(employer.Id);
+            employer.Reviews = await this.freelancePlatform.ReviewManager
+                .GetAllUserReviews<ReviewsListViewModel>(employer.Id);
 
             return this.View(employer);
         }
@@ -73,9 +75,31 @@
 
             var freelancer = this.freelancePlatform.UserManager.GetFreelancer(user.Id);
 
-            freelancer.Reviews = await this.freelancePlatform.ReviewManager.GetAllUserReviews<ReviewsListViewModel>(freelancer.Id);
+            freelancer.Reviews = await this.freelancePlatform.ReviewManager
+                .GetAllUserReviews<ReviewsListViewModel>(freelancer.Id);
 
             return this.View(freelancer);
+        }
+
+        [Authorize(Roles = "Employer")]
+        public async Task<IActionResult> AllFreelancers([FromQuery] AllFreelancersQueryModel query)
+        {
+            query.Freelancers = await this.freelancePlatform.UserManager
+                .GetAllFreelancers<FreelancerViewModel>(
+                    query.Rating,
+                    query.Name,
+                    query.Sorting,
+                    query.CurrentPage);
+
+            foreach (var freelancer in query.Freelancers)
+            {
+                freelancer.Reviews =
+                    await this.freelancePlatform
+                        .ReviewManager
+                        .GetAllUserReviews<ReviewsListViewModel>(freelancer.Id);
+            }
+
+            return this.View(query);
         }
 
         [Authorize(Roles = "Freelancer, Employer")]
@@ -113,7 +137,9 @@
                 });
             }
 
-            if (profilePicture is not null || profilePicture.ContentType == "image/jpeg" || profilePicture.ContentType == "image/png")
+            if (profilePicture is not null ||
+                profilePicture.ContentType == "image/jpeg" ||
+                profilePicture.ContentType == "image/png")
             {
                 await this.freelancePlatform.FileManager.UpdateProfilePicture(profilePicture, user.Id);
             }

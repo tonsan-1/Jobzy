@@ -2,9 +2,11 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
     using System.Linq;
     using System.Threading.Tasks;
 
+    using Jobzy.Common;
     using Jobzy.Data.Common.Repositories;
     using Jobzy.Data.Models;
     using Jobzy.Services.Interfaces;
@@ -16,6 +18,7 @@
 
     public class UserManager : IUserManager
     {
+        private const int FreelancersPerPage = 8;
         private readonly IRepository<Employer> employerRepository;
         private readonly IRepository<Freelancer> freelancerRepository;
         private readonly IRepository<ApplicationUser> baseUserRepository;
@@ -37,17 +40,55 @@
                 .To<T>()
                 .FirstOrDefaultAsync();
 
-        public async Task<IEnumerable<T>> GetHighestRatedFreelancers<T>()
-            => await this.freelancerRepository
+        public async Task<IEnumerable<T>> GetAllFreelancers<T>(
+            int rating = 0,
+            string name = null,
+            Sorting sorting = Sorting.Newest,
+            int currentPage = 1)
+        {
+            var freelancersQuery =
+                this.freelancerRepository
                 .All()
-                .Where(x => Math.Round(x.ReceivedReviews.Select(x => x.Rating).Average()) > 4.0)
+                .AsQueryable();
+
+            if (rating > 0 && rating <= 5)
+            {
+                freelancersQuery =
+                    freelancersQuery
+                    .Where(x => Math.Round(x.ReceivedReviews.Average(x => x.Rating)) >= rating);
+            }
+
+            if (!string.IsNullOrWhiteSpace(name))
+            {
+                freelancersQuery =
+                    freelancersQuery
+                    .Where(x =>
+                    x.FirstName.ToLower().Contains(name.ToLower()) ||
+                    x.LastName.ToLower().Contains(name.ToLower()));
+            }
+
+            freelancersQuery = sorting switch
+            {
+                Sorting.Oldest => freelancersQuery.OrderBy(x => x.CreatedOn),
+                Sorting.Random => freelancersQuery.OrderBy(x => Guid.NewGuid()),
+                Sorting.Newest or _ => freelancersQuery.OrderByDescending(x => x.CreatedOn),
+            };
+
+            var freelancers =
+                await freelancersQuery
+                .Skip((currentPage - 1) * FreelancersPerPage)
+                .Take(FreelancersPerPage)
                 .To<T>()
-                .Take(6)
                 .ToListAsync();
+
+            return freelancers;
+        }
 
         public EmployerViewModel GetEmployer(string userId)
         {
-            var employer = this.employerRepository.All()
+            var employer =
+                this.employerRepository
+                .All()
                 .Where(x => x.Id == userId)
                 .To<EmployerViewModel>()
                 .FirstOrDefault();
@@ -57,7 +98,9 @@
 
         public FreelancerViewModel GetFreelancer(string userId)
         {
-            var freelancer = this.freelancerRepository.All()
+            var freelancer =
+                this.freelancerRepository
+                .All()
                 .Where(x => x.Id == userId)
                 .To<FreelancerViewModel>()
                 .FirstOrDefault();
@@ -67,7 +110,9 @@
 
         public BaseUserViewModel GetUserSettings(string userId)
         {
-            var user = this.baseUserRepository.All()
+            var user =
+                this.baseUserRepository
+                .All()
                 .Where(x => x.Id == userId)
                 .To<BaseUserViewModel>()
                 .FirstOrDefault();
@@ -77,7 +122,9 @@
 
         public async Task UpdateUserInfo(UserInfoInputModel input, string userId)
         {
-            var user = this.baseUserRepository.All()
+            var user =
+                this.baseUserRepository
+                .All()
                 .FirstOrDefault(x => x.Id == userId);
 
             user.FirstName = input.FirstName;
@@ -97,7 +144,8 @@
 
         public async Task UpdateUserOnlineStatus(string status, string userId)
         {
-            var user = await this.baseUserRepository
+            var user =
+                await this.baseUserRepository
                 .All()
                 .FirstOrDefaultAsync(x => x.Id == userId);
 
@@ -118,7 +166,5 @@
             => this.freelancerRepository
                 .All()
                 .Count();
-
-        
     }
 }

@@ -1,10 +1,9 @@
 ﻿namespace Jobzy.Common
 {
-    public enum JobSorting
+    public enum Sorting
     {
         Newest = 1,
         Oldest = 2,
-        Budget = 3,
         Random = 4,
     }
 }
