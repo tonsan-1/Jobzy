@@ -16,14 +16,14 @@
     public class JobManager : IJobManager
     {
         public const int JobsPerPage = 8;
-        private readonly IRepository<Job> repository;
+        private readonly IDeletableEntityRepository<Job> repository;
 
-        public JobManager(IRepository<Job> repository)
+        public JobManager(IDeletableEntityRepository<Job> repository)
         {
             this.repository = repository;
         }
 
-        public async Task AddAsync(JobInputModel model, string userId)
+        public async Task CreateAsync(JobInputModel model, string userId)
         {
             var job = new Job
             {
@@ -39,7 +39,7 @@
             await this.repository.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<T>> GetAllJobPosts<T>(
+        public async Task<IEnumerable<T>> GetAllJobPostsAsync<T>(
             string category = null,
             string jobTitle = null,
             Sorting sorting = Sorting.Newest,
@@ -76,19 +76,11 @@
             return jobs;
         }
 
-        public IEnumerable<UserJobsListViewModel> GetAllUserJobPosts(string userId)
+        public async Task SetJobStatusAsync(JobStatus status, string jobId)
         {
-            var jobs = this.repository.All()
-                .Where(x => x.Employer.Id == userId)
-                 .To<UserJobsListViewModel>()
-                .ToList();
-
-            return jobs;
-        }
-
-        public async Task SetJobStatus(JobStatus status, string jobId)
-        {
-            var job = this.repository.All().FirstOrDefault(x => x.Id == jobId);
+            var job = await this.repository
+                .All()
+                .FirstOrDefaultAsync(x => x.Id == jobId);
 
             job.Status = status;
 
@@ -96,18 +88,27 @@
             await this.repository.SaveChangesAsync();
         }
 
+        public async Task<IEnumerable<T>> GetAllUserJobPostsAsync<T>(string userId)
+            => await this.repository
+                .All()
+                .Where(x => x.Employer.Id == userId)
+                .To<T>()
+                .ToListAsync();
+
         public async Task<T> GetJobByIdAsync<T>(string id)
-           => await this.repository.All()
+           => await this.repository
+               .All()
                .Where(x => x.Id == id)
                .To<T>()
                .FirstOrDefaultAsync();
 
         public int GetPostedJobsCount(string userId)
-            => this.repository.All()
+            => this.repository
+                .All()
                 .Where(x => x.EmployerId == userId)
                 .Count();
 
-        public int GetAllPostedJobs()
+        public int GetAllPostedJobsCount()
             => this.repository
                 .All()
                 .Count();

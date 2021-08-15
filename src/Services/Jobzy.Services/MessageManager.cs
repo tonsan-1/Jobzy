@@ -33,7 +33,7 @@
             await this.repository.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<T>> GetAllUserConversations<T>(string userId)
+        public async Task<IEnumerable<T>> GetAllUserConversationsAsync<T>(string userId)
         {
             var sentMessagesToUser = this.repository
                 .All()
@@ -60,51 +60,7 @@
             return allUserConversations;
         }
 
-        public async Task<string> GetConversationLastMessage(string currentUserId, string userId)
-        {
-            return await this.repository
-                .All()
-                .Where(x => (x.RecipientId == currentUserId && x.SenderId == userId) ||
-                            (x.RecipientId == userId && x.SenderId == currentUserId))
-                .OrderByDescending(x => x.CreatedOn)
-                .Select(x => x.Sender.Id == currentUserId ? $"You: {x.Content}" : x.Content)
-                .FirstOrDefaultAsync();
-        }
-
-        public async Task<DateTime> GetConversationLastMessageSentDate(string currentUserId, string userId)
-        {
-            return await this.repository
-                .All()
-                .Where(x => (x.RecipientId == currentUserId && x.SenderId == userId) ||
-                            (x.RecipientId == userId && x.SenderId == currentUserId))
-                .OrderByDescending(x => x.CreatedOn)
-                .Select(x => x.CreatedOn)
-                .FirstOrDefaultAsync();
-        }
-
-        public async Task<IEnumerable<T>> GetMessages<T>(string userId, string recipientId)
-        {
-            var messages = await this.repository
-                .All()
-                .Where(x => (x.RecipientId == recipientId && x.SenderId == userId) ||
-                            (x.RecipientId == userId && x.SenderId == recipientId))
-                .OrderBy(x => x.CreatedOn)
-                .To<T>()
-                .ToListAsync();
-
-            return messages;
-        }
-
-        public int GetUnreadMessagesCount(string userId)
-        {
-            return this.repository
-                .All()
-                .Where(x => x.RecipientId == userId && !x.IsRead)
-                .GroupBy(x => x.SenderId)
-                .Count();
-        }
-
-        public async Task MarkAllMessagesAsRead(string currentUserId, string userId)
+        public async Task MarkAllMessagesAsReadAsync(string currentUserId, string userId)
         {
             var messages = await this.repository
                 .All()
@@ -119,5 +75,39 @@
                 await this.repository.SaveChangesAsync();
             }
         }
+
+        public async Task<string> GetConversationLastMessageAsync(string currentUserId, string userId)
+            => await this.repository
+                .All()
+                .Where(x => (x.RecipientId == currentUserId && x.SenderId == userId) ||
+                            (x.RecipientId == userId && x.SenderId == currentUserId))
+                .OrderByDescending(x => x.CreatedOn)
+                .Select(x => x.Sender.Id == currentUserId ? $"You: {x.Content}" : x.Content)
+                .FirstOrDefaultAsync();
+
+        public async Task<DateTime> GetConversationLastMessageSentDateAsync(string currentUserId, string userId)
+         => await this.repository
+                .All()
+                .Where(x => (x.RecipientId == currentUserId && x.SenderId == userId) ||
+                            (x.RecipientId == userId && x.SenderId == currentUserId))
+                .OrderByDescending(x => x.CreatedOn)
+                .Select(x => x.CreatedOn)
+                .FirstOrDefaultAsync();
+
+        public async Task<IEnumerable<T>> GetMessagesAsync<T>(string userId, string recipientId)
+            => await this.repository
+                .All()
+                .Where(x => (x.RecipientId == recipientId && x.SenderId == userId) ||
+                            (x.RecipientId == userId && x.SenderId == recipientId))
+                .OrderBy(x => x.CreatedOn)
+                .To<T>()
+                .ToListAsync();
+
+        public int GetUnreadMessagesCount(string userId)
+            => this.repository
+                .All()
+                .Where(x => x.RecipientId == userId && !x.IsRead)
+                .GroupBy(x => x.SenderId)
+                .Count();
     }
 }

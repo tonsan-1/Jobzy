@@ -27,7 +27,8 @@
 
             var userId = this.userManager.GetUserId(this.Context.User);
 
-            await this.freelancePlatform.UserManager.UpdateUserOnlineStatus("online", userId);
+            await this.freelancePlatform.UserManager
+                .UpdateUserOnlineStatusAsync("online", userId);
         }
 
         public override async Task OnDisconnectedAsync(Exception exception)
@@ -36,7 +37,8 @@
 
             var userId = this.userManager.GetUserId(this.Context.User);
 
-            await this.freelancePlatform.UserManager.UpdateUserOnlineStatus("offline", userId);
+            await this.freelancePlatform.UserManager
+                .UpdateUserOnlineStatusAsync("offline", userId);
         }
     }
 }

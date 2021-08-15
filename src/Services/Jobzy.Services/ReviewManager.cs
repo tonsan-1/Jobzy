@@ -34,23 +34,17 @@
             await this.repository.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<T>> GetAllUserReviews<T>(string userId)
-        {
-            var reviews = await this.repository
+        public async Task<IEnumerable<T>> GetAllUserReviewsAsync<T>(string userId)
+            => await this.repository
                 .All()
                 .Where(x => x.RecipientId == userId)
                 .OrderByDescending(x => x.CreatedOn)
                 .To<T>()
                 .ToListAsync();
 
-            return reviews;
-        }
-
         public int GetReviewsCount(string userId)
-        {
-            return this.repository.All()
+            => this.repository.All()
                 .Where(x => x.RecipientId == userId)
                 .Count();
-        }
     }
 }

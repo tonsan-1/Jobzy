@@ -25,10 +25,11 @@
             this.contractRepository = contractRepository;
         }
 
-        public async Task<string> AddContractAsync(string offerId)
+        public async Task<string> CreateAsync(string offerId)
         {
-            var offer = this.offerRepository.All()
-                .FirstOrDefault(x => x.Id == offerId);
+            var offer = await this.offerRepository
+                .All()
+                .FirstOrDefaultAsync(x => x.Id == offerId);
 
             if (offer is null)
             {
@@ -50,10 +51,11 @@
             return contract.Id;
         }
 
-        public async Task SetContractStatus(ContractStatus status, string contractId)
+        public async Task SetContractStatusAsync(ContractStatus status, string contractId)
         {
-            var contract = this.contractRepository.All()
-                .FirstOrDefault(x => x.Id == contractId);
+            var contract = await this.contractRepository
+                .All()
+                .FirstOrDefaultAsync(x => x.Id == contractId);
 
             if (status == ContractStatus.Finished)
             {
@@ -67,39 +69,30 @@
         }
 
         public async Task<T> GetContractByIdAsync<T>(string id)
-        {
-            return await this.contractRepository.All()
+            => await this.contractRepository.All()
                 .Where(x => x.Id == id)
                 .To<T>()
                 .FirstOrDefaultAsync();
-        }
 
-        public async Task<IEnumerable<T>> GetAllUserContracts<T>(string userId)
-        {
-            var contracts = await this.contractRepository
+        public async Task<IEnumerable<T>> GetAllUserContractsAsync<T>(string userId)
+            => await this.contractRepository
                 .All()
                 .Where(x => x.FreelancerId == userId || x.EmployerId == userId)
                 .OrderByDescending(x => x.CreatedOn)
                 .To<T>()
                 .ToListAsync();
 
-            return contracts;
-        }
-
         public int GetFinishedContractsCount(string userId)
-        {
-            return this.contractRepository.All()
+            => this.contractRepository
+                .All()
                 .Where(x => (x.Status == ContractStatus.Finished && x.FreelancerId == userId) ||
                             (x.Status == ContractStatus.Finished && x.EmployerId == userId))
                 .Count();
-        }
 
         public int GetOngoingContractsCount(string userId)
-        {
-            return this.contractRepository.All()
+            => this.contractRepository.All()
                 .Where(x => (x.Status == ContractStatus.Ongoing && x.FreelancerId == userId) ||
                             (x.Status == ContractStatus.Ongoing && x.EmployerId == userId))
                 .Count();
-        }
     }
 }

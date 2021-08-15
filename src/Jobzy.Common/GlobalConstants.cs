@@ -22,5 +22,9 @@
         public const string ContractCompletetionIcon = "icon-feather-dollar-sign";
         public const string ContractCancelationIcon = "icon-line-awesome-close";
         public const string JobIcon = "icon-material-outline-business-center";
+
+        // Cloudinary setup
+        public const string CloudinaryApiKey = "239537293495227";
+        public const string CloudinaryApiSecretKey = "cPHTXZ86-9xLH7UkZccX4_XnlFw";
     }
 }

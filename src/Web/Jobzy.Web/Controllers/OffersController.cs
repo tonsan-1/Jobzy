@@ -27,7 +27,8 @@
         [Authorize(Roles = "Employer")]
         public IActionResult All(string id)
         {
-            var offers = this.freelancePlatform.OfferManager.GetJobOffers(id);
+            var offers = this.freelancePlatform.OfferManager
+                .GetJobOffersAsync<JobOfferViewModel>(id);
 
             return this.View(offers);
         }
@@ -36,7 +37,9 @@
         public async Task<IActionResult> MyOffers()
         {
             var user = await this.userManager.GetUserAsync(this.User);
-            var offers = await this.freelancePlatform.OfferManager.GetUserJobOffers<UserOffersViewModel>(user.Id);
+            var offers = await this.freelancePlatform.OfferManager
+                .GetUserJobOffersAsync<UserOffersViewModel>(user.Id);
+
             var offersCount = this.freelancePlatform.OfferManager.GetActiveOffersCount(user.Id);
 
             this.ViewData["OffersCount"] = offersCount;
@@ -55,9 +58,10 @@
             }
 
             var user = await this.userManager.GetUserAsync(this.User);
-            var job = await this.freelancePlatform.JobManager.GetJobByIdAsync<JobNotificationViewModel>(input.JobId);
+            var job = await this.freelancePlatform.JobManager
+                .GetJobByIdAsync<JobNotificationViewModel>(input.JobId);
 
-            await this.freelancePlatform.OfferManager.AddAsync(input);
+            await this.freelancePlatform.OfferManager.CreateAsync(input);
 
             var notification = new Notification
             {
@@ -77,9 +81,9 @@
         [Authorize(Roles = "Employer")]
         public async Task<IActionResult> AcceptOffer(string offerId, string jobId)
         {
-            await this.freelancePlatform.OfferManager.AcceptOffer(offerId);
-            await this.freelancePlatform.JobManager.SetJobStatus(JobStatus.InContract, jobId);
-            var contractId = await this.freelancePlatform.ContractManager.AddContractAsync(offerId);
+            await this.freelancePlatform.OfferManager.AcceptOfferAsync(offerId);
+            await this.freelancePlatform.JobManager.SetJobStatusAsync(JobStatus.InContract, jobId);
+            var contractId = await this.freelancePlatform.ContractManager.CreateAsync(offerId);
 
             var contract = await this.freelancePlatform
                 .ContractManager
@@ -88,13 +92,15 @@
             var notification = new Notification
             {
                 Icon = GlobalConstants.ContractIcon,
-                Text = $"{contract.EmployerFirstName} {contract.EmployerLastName} has accepted your offer for {contract.JobTitle} and a contract has been generated.",
+                Text = $"{contract.EmployerFirstName} {contract.EmployerLastName} " +
+                $"has accepted your offer for {contract.JobTitle} and a contract has been generated.",
                 RedirectAction = "Index",
                 RedirectController = "Contracts",
                 RedirectId = contract.Id,
             };
 
-            await this.freelancePlatform.NotificationManager.CreateAsync(notification, contract.FreelancerId);
+            await this.freelancePlatform.NotificationManager
+                .CreateAsync(notification, contract.FreelancerId);
 
             return this.RedirectToAction("Index", "Contracts", new { id = contractId });
         }
@@ -103,7 +109,7 @@
         [Authorize(Roles = "Freelancer, Employer")]
         public async Task<IActionResult> DeleteOffer(string offerId)
         {
-            await this.freelancePlatform.OfferManager.DeleteOffer(offerId);
+            await this.freelancePlatform.OfferManager.DeleteOfferAsync(offerId);
 
             if (this.User.IsInRole("Freelancer"))
             {

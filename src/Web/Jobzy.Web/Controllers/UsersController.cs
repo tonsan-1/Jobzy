@@ -6,6 +6,7 @@
     using Jobzy.Services.Interfaces;
     using Jobzy.Web.ViewModels.Reviews;
     using Jobzy.Web.ViewModels.Users;
+    using Jobzy.Web.ViewModels.Users.Employers;
     using Jobzy.Web.ViewModels.Users.Freelancers;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Http;
@@ -45,10 +46,11 @@
                 return this.RedirectToAction("Freelancer", "Users", new { id = id });
             }
 
-            var employer = this.freelancePlatform.UserManager.GetEmployer(user.Id);
+            var employer = await this.freelancePlatform.UserManager
+                .GetEmployerByIdAsync<EmployerViewModel>(user.Id);
 
             employer.Reviews = await this.freelancePlatform.ReviewManager
-                .GetAllUserReviews<ReviewsListViewModel>(employer.Id);
+                .GetAllUserReviewsAsync<ReviewsListViewModel>(employer.Id);
 
             return this.View(employer);
         }
@@ -73,10 +75,11 @@
                 return this.RedirectToAction("Employer", "Users", new { id = id });
             }
 
-            var freelancer = this.freelancePlatform.UserManager.GetFreelancer(user.Id);
+            var freelancer = await this.freelancePlatform.UserManager
+                .GetFreelancerByIdAsync<FreelancerViewModel>(user.Id);
 
             freelancer.Reviews = await this.freelancePlatform.ReviewManager
-                .GetAllUserReviews<ReviewsListViewModel>(freelancer.Id);
+                .GetAllUserReviewsAsync<ReviewsListViewModel>(freelancer.Id);
 
             return this.View(freelancer);
         }
@@ -85,7 +88,7 @@
         public async Task<IActionResult> AllFreelancers([FromQuery] AllFreelancersQueryModel query)
         {
             query.Freelancers = await this.freelancePlatform.UserManager
-                .GetAllFreelancers<FreelancerViewModel>(
+                .GetAllFreelancersAsync<FreelancerViewModel>(
                     query.Rating,
                     query.Name,
                     query.Sorting,
@@ -93,21 +96,20 @@
 
             foreach (var freelancer in query.Freelancers)
             {
-                freelancer.Reviews =
-                    await this.freelancePlatform
-                        .ReviewManager
-                        .GetAllUserReviews<ReviewsListViewModel>(freelancer.Id);
+                freelancer.Reviews = await this.freelancePlatform.ReviewManager
+                        .GetAllUserReviewsAsync<ReviewsListViewModel>(freelancer.Id);
             }
 
             return this.View(query);
         }
 
         [Authorize(Roles = "Freelancer, Employer")]
-        public IActionResult Settings()
+        public async Task<IActionResult> Settings()
         {
             var userId = this.userManager.GetUserId(this.User);
 
-            var user = this.freelancePlatform.UserManager.GetUserSettings(userId);
+            var user = await this.freelancePlatform.UserManager
+                .GetUserByIdAsync<BaseUserViewModel>(userId);
 
             var model = new UserSettingsViewModel { UserViewModel = user };
 
@@ -126,10 +128,14 @@
             {
                 if (profilePicture is not null && profilePicture.ContentType == "image/jpeg")
                 {
-                    await this.freelancePlatform.FileManager.UpdateProfilePicture(profilePicture, user.Id);
+                    var pictureUrl = await this.freelancePlatform.FileManager
+                        .UploadAttachmentAsync(profilePicture);
+                    await this.freelancePlatform.UserManager
+                        .UpdateUserProfilePictureAsync(pictureUrl, user.Id);
                 }
 
-                var userViewModel = this.freelancePlatform.UserManager.GetUserSettings(user.Id);
+                var userViewModel = await this.freelancePlatform.UserManager
+                    .GetUserByIdAsync<BaseUserViewModel>(user.Id);
 
                 return this.View("Settings", new UserSettingsViewModel
                 {
@@ -141,11 +147,14 @@
             {
                 if (profilePicture.ContentType == "image/jpeg" || profilePicture.ContentType == "image/png")
                 {
-                    await this.freelancePlatform.FileManager.UpdateProfilePicture(profilePicture, user.Id);
+                    var pictureUrl = await this.freelancePlatform.FileManager
+                        .UploadAttachmentAsync(profilePicture);
+                    await this.freelancePlatform.UserManager
+                        .UpdateUserProfilePictureAsync(pictureUrl, user.Id);
                 }
             }
 
-            await this.freelancePlatform.UserManager.UpdateUserInfo(input, user.Id);
+            await this.freelancePlatform.UserManager.UpdateUserInfoAsync(input, user.Id);
 
             if (this.User.IsInRole("Freelancer"))
             {
@@ -161,7 +170,8 @@
             [Bind(Prefix = "UserPasswordInputModel")] UserPasswordInputModel input)
         {
             var user = await this.userManager.GetUserAsync(this.User);
-            var userViewModel = this.freelancePlatform.UserManager.GetUserSettings(user.Id);
+            var userViewModel = await this.freelancePlatform.UserManager
+                .GetUserByIdAsync<BaseUserViewModel>(user.Id);
 
             if (!this.ModelState.IsValid)
             {

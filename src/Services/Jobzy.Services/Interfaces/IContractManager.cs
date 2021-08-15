@@ -7,13 +7,13 @@
 
     public interface IContractManager
     {
-        Task<string> AddContractAsync(string offerId);
+        Task<string> CreateAsync(string offerId);
+
+        Task SetContractStatusAsync(ContractStatus status, string contractId);
 
         Task<T> GetContractByIdAsync<T>(string id);
 
-        Task<IEnumerable<T>> GetAllUserContracts<T>(string userId);
-
-        Task SetContractStatus(ContractStatus status, string contractId);
+        Task<IEnumerable<T>> GetAllUserContractsAsync<T>(string userId);
 
         int GetFinishedContractsCount(string userId);
 

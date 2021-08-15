@@ -34,17 +34,14 @@
 
             var conversation = new UserConversationViewModel
             {
-                User = await this.freelancePlatform.UserManager.GetUserById<UserViewModel>(id),
-                Messages = await this.freelancePlatform.MessageManager.GetMessages<UserMessageViewModel>(userId, id),
+                User = await this.freelancePlatform.UserManager.GetUserByIdAsync<UserViewModel>(id),
+                Messages = await this.freelancePlatform.MessageManager.GetMessagesAsync<UserMessageViewModel>(userId, id),
             };
 
             return this.View(conversation);
         }
 
-        public IActionResult All()
-        {
-            return this.View();
-        }
+        public IActionResult All() => this.View();
 
         [HttpPost]
         public async Task<IActionResult> NewMessage(NewMessageInputModel input)
@@ -63,20 +60,17 @@
             }
 
             var senderId = this.userManager.GetUserId(this.User);
-
             await this.freelancePlatform.MessageManager.CreateAsync(senderId, recipient.Id, input.Message);
 
             return this.RedirectToAction("Conversation", new { id = recipient.Id });
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> MarkAllMessagesAsRead([FromBody] string userId)
         {
             var currentUserId = this.userManager.GetUserId(this.User);
-            await this.freelancePlatform.MessageManager.MarkAllMessagesAsRead(currentUserId, userId);
-
             var messagesCount = this.freelancePlatform.MessageManager.GetUnreadMessagesCount(currentUserId);
+            await this.freelancePlatform.MessageManager.MarkAllMessagesAsReadAsync(currentUserId, userId);
 
             return this.Json(new { count = messagesCount });
         }

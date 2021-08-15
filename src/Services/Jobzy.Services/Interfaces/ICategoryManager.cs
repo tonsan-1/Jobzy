@@ -5,6 +5,6 @@
 
     public interface ICategoryManager
     {
-        Task<IEnumerable<T>> GetAllJobCategories<T>();
+        Task<IEnumerable<T>> GetAllJobCategoriesAsync<T>();
     }
 }

@@ -21,7 +21,7 @@
             this.repository = repository;
         }
 
-        public async Task AcceptOffer(string offerId)
+        public async Task AcceptOfferAsync(string offerId)
         {
             var offer = this.repository.All()
                 .FirstOrDefault(x => x.Id == offerId);
@@ -33,7 +33,7 @@
             await this.repository.SaveChangesAsync();
         }
 
-        public async Task AddAsync(OfferInputModel input)
+        public async Task CreateAsync(OfferInputModel input)
         {
             var offer = new Offer
             {
@@ -47,7 +47,7 @@
             await this.repository.SaveChangesAsync();
         }
 
-        public async Task DeleteOffer(string offerId)
+        public async Task DeleteOfferAsync(string offerId)
         {
             var offer = await this.repository
                 .All()
@@ -57,28 +57,27 @@
             await this.repository.SaveChangesAsync();
         }
 
-        public IEnumerable<JobOfferViewModel> GetJobOffers(string jobId)
-        {
-            var offers = this.repository.All()
+        public async Task<IEnumerable<T>> GetJobOffersAsync<T>(string jobId)
+            => await this.repository.All()
                 .Where(x => x.JobId == jobId && !x.IsAccepted)
                 .OrderByDescending(x => x.CreatedOn)
-                .To<JobOfferViewModel>()
-                .ToList();
+                .To<T>()
+                .ToListAsync();
 
-            return offers;
-        }
-
-        public async Task<IEnumerable<T>> GetUserJobOffers<T>(string userId)
-        {
-            var offers = await this.repository
+        public async Task<IEnumerable<T>> GetUserJobOffersAsync<T>(string userId)
+            => await this.repository
                 .All()
                 .Where(x => x.FreelancerId == userId && !x.IsAccepted)
                 .OrderByDescending(x => x.CreatedOn)
                 .To<T>()
                 .ToListAsync();
 
-            return offers;
-        }
+        public async Task<T> GetJobOfferByIdAsync<T>(string offerId)
+            => await this.repository
+                .All()
+                .Where(x => x.Id == offerId)
+                .To<T>()
+                .FirstOrDefaultAsync();
 
         public int GetActiveOffersCount(string userId)
             => this.repository

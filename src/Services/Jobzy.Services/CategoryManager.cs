@@ -19,14 +19,11 @@
             this.repository = repository;
         }
 
-        public async Task<IEnumerable<T>> GetAllJobCategories<T>()
-        {
-            var categories = await this.repository.All()
+        public async Task<IEnumerable<T>> GetAllJobCategoriesAsync<T>()
+            => await this.repository
+                .All()
                 .OrderBy(x => x.Name)
                 .To<T>()
                 .ToListAsync();
-
-            return categories;
-        }
     }
 }

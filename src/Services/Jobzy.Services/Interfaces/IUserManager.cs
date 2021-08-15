@@ -5,30 +5,26 @@
 
     using Jobzy.Common;
     using Jobzy.Web.ViewModels.Users;
-    using Jobzy.Web.ViewModels.Users.Employers;
-    using Jobzy.Web.ViewModels.Users.Freelancers;
 
     public interface IUserManager
     {
-        Task<T> GetUserById<T>(string id);
+        Task UpdateUserProfilePictureAsync(string pictureUrl, string userId);
 
-        Task<IEnumerable<T>> GetAllFreelancers<T>(
+        Task UpdateUserInfoAsync(UserInfoInputModel input, string userId);
+
+        Task UpdateUserOnlineStatusAsync(string status, string userId);
+
+        Task<T> GetUserByIdAsync<T>(string id);
+
+        Task<IEnumerable<T>> GetAllFreelancersAsync<T>(
             int rating = 0,
             string name = null,
             Sorting sorting = Sorting.Newest,
             int currentPage = 1);
 
-        EmployerViewModel GetEmployer(string userId);
+        Task<T> GetEmployerByIdAsync<T>(string userId);
 
-        FreelancerViewModel GetFreelancer(string userId);
-
-        BaseUserViewModel GetUserSettings(string userId);
-
-        Task UpdateUserProfilePicture(string pictureUrl, string userId);
-
-        Task UpdateUserInfo(UserInfoInputModel input, string userId);
-
-        Task UpdateUserOnlineStatus(string status, string userId);
+        Task<T> GetFreelancerByIdAsync<T>(string userId);
 
         int GetAllFreelancersCount();
     }

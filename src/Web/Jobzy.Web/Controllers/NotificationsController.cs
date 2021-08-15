@@ -27,9 +27,8 @@
         public async Task<IActionResult> MarkNotificationAsRead([FromBody] string id)
         {
             var userId = this.userManager.GetUserId(this.User);
-            await this.freelancePlatform.NotificationManager.MarkNotificationAsRead(id);
-
             var notificationsCount = this.freelancePlatform.NotificationManager.GetNotificationsCount(userId);
+            await this.freelancePlatform.NotificationManager.MarkNotificationAsReadAsync(id);
 
             return this.Json(new { count = notificationsCount });
         }

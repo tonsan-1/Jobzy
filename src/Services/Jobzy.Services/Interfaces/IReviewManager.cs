@@ -7,9 +7,9 @@
 
     public interface IReviewManager
     {
-        Task<IEnumerable<T>> GetAllUserReviews<T>(string userId);
-
         Task CreateAsync(ReviewInputModel input);
+
+        Task<IEnumerable<T>> GetAllUserReviewsAsync<T>(string userId);
 
         int GetReviewsCount(string userId);
     }

@@ -24,13 +24,14 @@
 
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            var userId = this.userManager.GetUserId(this.UserClaimsPrincipal);
+            var userId = this.userManager
+                .GetUserId(this.UserClaimsPrincipal);
 
-            var notifications = await this.freelancePlatform
-                                            .NotificationManager
-                                                .GetAllUserNotifications<UserNotificationViewModel>(userId);
+            var notifications = await this.freelancePlatform.NotificationManager
+                .GetAllUserNotificationsAsync<UserNotificationViewModel>(userId);
 
-            this.ViewData["NotificationsCount"] = this.freelancePlatform.NotificationManager.GetNotificationsCount(userId);
+            this.ViewData["NotificationsCount"] = this.freelancePlatform.NotificationManager
+                .GetNotificationsCount(userId);
 
             return this.View(notifications);
         }

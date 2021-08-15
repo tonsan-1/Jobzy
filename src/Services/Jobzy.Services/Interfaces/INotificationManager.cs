@@ -9,12 +9,12 @@
     {
         Task CreateAsync(Notification notification, string userId);
 
-        Task<IEnumerable<T>> GetAllUserNotifications<T>(string userId);
+        Task MarkNotificationAsReadAsync(string notificationId);
+
+        Task MarkAllNotificationsAsReadAsync(string userId);
+
+        Task<IEnumerable<T>> GetAllUserNotificationsAsync<T>(string userId);
 
         int GetNotificationsCount(string userId);
-
-        Task MarkNotificationAsRead(string notificationId);
-
-        Task MarkAllNotificationsAsRead(string userId);
     }
 }

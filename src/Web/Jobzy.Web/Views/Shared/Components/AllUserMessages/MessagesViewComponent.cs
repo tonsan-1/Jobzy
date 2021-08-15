@@ -24,20 +24,19 @@
 
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            var currentUserId = this.userManager.GetUserId(this.UserClaimsPrincipal);
-            var userConversations =
-                await this.freelancePlatform.MessageManager
-                                            .GetAllUserConversations<AllUserConversationsViewModel>(currentUserId);
+            var currentUserId = this.userManager
+                .GetUserId(this.UserClaimsPrincipal);
+            var userConversations = await this.freelancePlatform.MessageManager
+                .GetAllUserConversationsAsync<AllUserConversationsViewModel>(currentUserId);
 
             foreach (var user in userConversations)
             {
-                user.LastMessage =
-                    await this.freelancePlatform.MessageManager
-                                                .GetConversationLastMessage(currentUserId, user.Id);
+                user.LastMessage = await this.freelancePlatform.MessageManager
+                    .GetConversationLastMessageAsync(currentUserId, user.Id);
 
                 user.ReceivedDate =
                     await this.freelancePlatform.MessageManager
-                                                .GetConversationLastMessageSentDate(currentUserId, user.Id);
+                    .GetConversationLastMessageSentDateAsync(currentUserId, user.Id);
             }
 
             return this.View(userConversations);

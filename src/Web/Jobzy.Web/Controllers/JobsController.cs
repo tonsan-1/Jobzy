@@ -40,14 +40,14 @@
         public async Task<IActionResult> All([FromQuery] AllJobsQueryModel query)
         {
             var jobs = await this.freelancePlatform.JobManager
-                .GetAllJobPosts<AllJobsListViewModel>(
+                .GetAllJobPostsAsync<AllJobsListViewModel>(
                 query.Category,
                 query.JobTitle,
                 query.Sorting,
                 query.CurrentPage);
 
             var categories = await this.freelancePlatform.CategoryManager
-                .GetAllJobCategories<CategoriesListViewModel>();
+                .GetAllJobCategoriesAsync<CategoriesListViewModel>();
 
             query.Jobs = jobs;
             query.Categories = categories;
@@ -59,8 +59,8 @@
         public async Task<IActionResult> MyJobs()
         {
             var user = await this.userManager.GetUserAsync(this.User);
-
-            var jobs = this.freelancePlatform.JobManager.GetAllUserJobPosts(user.Id);
+            var jobs = this.freelancePlatform.JobManager
+                .GetAllUserJobPostsAsync<UserJobsListViewModel>(user.Id);
 
             return this.View(jobs);
         }
@@ -69,27 +69,26 @@
         public async Task<IActionResult> AddJob()
         {
             var jobCategories = await this.freelancePlatform.CategoryManager
-                .GetAllJobCategories<CategoriesListViewModel>();
+                .GetAllJobCategoriesAsync<CategoriesListViewModel>();
 
             return this.View(new JobInputModel { Categories = jobCategories });
         }
 
         [HttpPost]
         [Authorize(Roles = "Employer")]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddJob(JobInputModel input)
         {
             if (!this.ModelState.IsValid)
             {
                 var jobCategories = await this.freelancePlatform.CategoryManager
-                    .GetAllJobCategories<CategoriesListViewModel>();
+                    .GetAllJobCategoriesAsync<CategoriesListViewModel>();
 
                 return this.View(new JobInputModel { Categories = jobCategories });
             }
 
             var user = await this.userManager.GetUserAsync(this.User);
+            await this.freelancePlatform.JobManager.CreateAsync(input, user.Id);
 
-            await this.freelancePlatform.JobManager.AddAsync(input, user.Id);
             return this.RedirectToAction("MyJobs", "Jobs");
         }
     }

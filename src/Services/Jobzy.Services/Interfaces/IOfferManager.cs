@@ -7,15 +7,17 @@
 
     public interface IOfferManager
     {
-        Task AddAsync(OfferInputModel input);
+        Task CreateAsync(OfferInputModel input);
 
-        Task AcceptOffer(string offerId);
+        Task AcceptOfferAsync(string offerId);
 
-        Task DeleteOffer(string offerId);
+        Task DeleteOfferAsync(string offerId);
 
-        IEnumerable<JobOfferViewModel> GetJobOffers(string jobId);
+        Task<T> GetJobOfferByIdAsync<T>(string offerId);
 
-        Task<IEnumerable<T>> GetUserJobOffers<T>(string userId);
+        Task<IEnumerable<T>> GetJobOffersAsync<T>(string jobId);
+
+        Task<IEnumerable<T>> GetUserJobOffersAsync<T>(string userId);
 
         int GetActiveOffersCount(string userId);
 

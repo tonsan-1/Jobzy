@@ -47,7 +47,7 @@
         {
             var user = await this.userManager.GetUserAsync(this.User);
             var contracts = await this.freelancePlatform.ContractManager
-                .GetAllUserContracts<UserContractsListViewModel>(user.Id);
+                .GetAllUserContractsAsync<UserContractsListViewModel>(user.Id);
 
             this.ViewData["ContractsCount"] = contracts.Count();
 
@@ -56,7 +56,6 @@
 
         [HttpPost]
         [Authorize(Roles = "Administrator, Employer")]
-        [ValidateAntiForgeryToken]
         public IActionResult ContractActions(string action, string contractId)
         {
             if (action == "cancel")
@@ -69,13 +68,12 @@
 
         [HttpPost]
         [Authorize(Roles = "Employer")]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> CompleteContract([FromBody] string contractId)
         {
             var contract = await this.freelancePlatform.ContractManager
                 .GetContractByIdAsync<ContractNotificationViewModel>(contractId);
 
-            await this.freelancePlatform.ContractManager.SetContractStatus(ContractStatus.Finished, contractId);
+            await this.freelancePlatform.ContractManager.SetContractStatusAsync(ContractStatus.Finished, contractId);
 
             var completionNotification = new Notification
             {
@@ -96,8 +94,8 @@
             var contract = await this.freelancePlatform.ContractManager
                 .GetContractByIdAsync<ContractNotificationViewModel>(contractId);
 
-            await this.freelancePlatform.ContractManager.SetContractStatus(ContractStatus.Canceled, contractId);
-            await this.freelancePlatform.JobManager.SetJobStatus(JobStatus.Open, contract.JobId);
+            await this.freelancePlatform.ContractManager.SetContractStatusAsync(ContractStatus.Canceled, contractId);
+            await this.freelancePlatform.JobManager.SetJobStatusAsync(JobStatus.Open, contract.JobId);
 
             var cancellationNotification = new Notification
             {
@@ -114,10 +112,9 @@
 
         [HttpPost]
         [Authorize(Roles = "Freelancer")]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> UploadWork([FromForm] IFormFile attachment, string contractId)
         {
-            await this.freelancePlatform.FileManager.AddAttachmentToContract(attachment, contractId);
+            await this.freelancePlatform.FileManager.AddFileToContractAsync(attachment, contractId);
             var contract = await this.freelancePlatform.ContractManager
                 .GetContractByIdAsync<ContractNotificationViewModel>(contractId);
 

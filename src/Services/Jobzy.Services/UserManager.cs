@@ -11,8 +11,6 @@
     using Jobzy.Services.Interfaces;
     using Jobzy.Services.Mapping;
     using Jobzy.Web.ViewModels.Users;
-    using Jobzy.Web.ViewModels.Users.Employers;
-    using Jobzy.Web.ViewModels.Users.Freelancers;
     using Microsoft.EntityFrameworkCore;
 
     public class UserManager : IUserManager
@@ -32,14 +30,7 @@
             this.baseUserRepository = baseUserRepository;
         }
 
-        public async Task<T> GetUserById<T>(string id)
-            => await this.baseUserRepository
-                .All()
-                .Where(x => x.Id == id)
-                .To<T>()
-                .FirstOrDefaultAsync();
-
-        public async Task<IEnumerable<T>> GetAllFreelancers<T>(
+        public async Task<IEnumerable<T>> GetAllFreelancersAsync<T>(
             int rating = 0,
             string name = null,
             Sorting sorting = Sorting.Newest,
@@ -83,48 +74,23 @@
             return freelancers;
         }
 
-        public EmployerViewModel GetEmployer(string userId)
+        public async Task UpdateUserProfilePictureAsync(string pictureUrl, string userId)
         {
-            var employer =
-                this.employerRepository
+            var user = await this.baseUserRepository
                 .All()
-                .Where(x => x.Id == userId)
-                .To<EmployerViewModel>()
-                .FirstOrDefault();
+                .FirstOrDefaultAsync(x => x.Id == userId);
 
-            return employer;
+            user.ProfileImageUrl = pictureUrl;
+
+            this.baseUserRepository.Update(user);
+            await this.baseUserRepository.SaveChangesAsync();
         }
 
-        public FreelancerViewModel GetFreelancer(string userId)
+        public async Task UpdateUserInfoAsync(UserInfoInputModel input, string userId)
         {
-            var freelancer =
-                this.freelancerRepository
+            var user = await this.baseUserRepository
                 .All()
-                .Where(x => x.Id == userId)
-                .To<FreelancerViewModel>()
-                .FirstOrDefault();
-
-            return freelancer;
-        }
-
-        public BaseUserViewModel GetUserSettings(string userId)
-        {
-            var user =
-                this.baseUserRepository
-                .All()
-                .Where(x => x.Id == userId)
-                .To<BaseUserViewModel>()
-                .FirstOrDefault();
-
-            return user;
-        }
-
-        public async Task UpdateUserInfo(UserInfoInputModel input, string userId)
-        {
-            var user =
-                this.baseUserRepository
-                .All()
-                .FirstOrDefault(x => x.Id == userId);
+                .FirstOrDefaultAsync(x => x.Id == userId);
 
             user.FirstName = input.FirstName;
             user.LastName = input.LastName;
@@ -136,15 +102,9 @@
             await this.baseUserRepository.SaveChangesAsync();
         }
 
-        public Task UpdateUserProfilePicture(string pictureUrl, string userId)
+        public async Task UpdateUserOnlineStatusAsync(string status, string userId)
         {
-            throw new System.NotImplementedException();
-        }
-
-        public async Task UpdateUserOnlineStatus(string status, string userId)
-        {
-            var user =
-                await this.baseUserRepository
+            var user = await this.baseUserRepository
                 .All()
                 .FirstOrDefaultAsync(x => x.Id == userId);
 
@@ -160,6 +120,27 @@
             this.baseUserRepository.Update(user);
             await this.baseUserRepository.SaveChangesAsync();
         }
+
+        public async Task<T> GetEmployerByIdAsync<T>(string userId)
+            => await this.employerRepository
+                .All()
+                .Where(x => x.Id == userId)
+                .To<T>()
+                .FirstOrDefaultAsync();
+
+        public async Task<T> GetFreelancerByIdAsync<T>(string userId)
+            => await this.freelancerRepository
+                .All()
+                .Where(x => x.Id == userId)
+                .To<T>()
+                .FirstOrDefaultAsync();
+
+        public async Task<T> GetUserByIdAsync<T>(string id)
+            => await this.baseUserRepository
+                .All()
+                .Where(x => x.Id == id)
+                .To<T>()
+                .FirstOrDefaultAsync();
 
         public int GetAllFreelancersCount()
             => this.freelancerRepository

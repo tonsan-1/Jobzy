@@ -6,8 +6,8 @@
 
     public interface IFileManager
     {
-        Task AddAttachmentToContract(IFormFile attachment, string contractId);
+        Task AddFileToContractAsync(IFormFile file, string contractId);
 
-        Task UpdateProfilePicture(IFormFile picture, string userId);
+        Task<string> UploadAttachmentAsync(IFormFile attachment);
     }
 }

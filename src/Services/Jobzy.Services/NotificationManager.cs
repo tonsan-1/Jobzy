@@ -34,20 +34,7 @@
             await this.repository.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<T>> GetAllUserNotifications<T>(string userId)
-        {
-            var notificatons = await this.repository
-                .All()
-                .Where(x => x.Users.Any(x => x.Id == userId) && !x.IsRead)
-                .Include(x => x.Users)
-                .OrderByDescending(x => x.CreatedOn)
-                .To<T>()
-                .ToListAsync();
-
-            return notificatons;
-        }
-
-        public async Task MarkAllNotificationsAsRead(string userId)
+        public async Task MarkAllNotificationsAsReadAsync(string userId)
         {
             var notifications = await this.repository
                 .All()
@@ -63,7 +50,7 @@
             }
         }
 
-        public async Task MarkNotificationAsRead(string notificationId)
+        public async Task MarkNotificationAsReadAsync(string notificationId)
         {
             var notification = await this.repository
                 .All()
@@ -75,12 +62,19 @@
             await this.repository.SaveChangesAsync();
         }
 
+        public async Task<IEnumerable<T>> GetAllUserNotificationsAsync<T>(string userId)
+            => await this.repository
+                .All()
+                .Where(x => x.Users.Any(x => x.Id == userId) && !x.IsRead)
+                .Include(x => x.Users)
+                .OrderByDescending(x => x.CreatedOn)
+                .To<T>()
+                .ToListAsync();
+
         public int GetNotificationsCount(string userId)
-        {
-            return this.repository
+            => this.repository
                 .All()
                 .Where(x => x.Users.Any(x => x.Id == userId) && !x.IsRead)
                 .Count();
-        }
     }
 }

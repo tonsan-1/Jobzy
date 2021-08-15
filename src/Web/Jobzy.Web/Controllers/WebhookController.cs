@@ -31,27 +31,33 @@
 
             try
             {
-                var stripeEvent = EventUtility.ConstructEvent(json, this.Request.Headers["Stripe-Signature"], endpointSecret);
+                var stripeEvent = EventUtility
+                    .ConstructEvent(json, this.Request.Headers["Stripe-Signature"], endpointSecret);
 
                 if (stripeEvent.Type == Events.PaymentIntentSucceeded)
                 {
                     var paymentIntent = stripeEvent.Data.Object as PaymentIntent;
                     var connectedAccountId = stripeEvent.Account;
                     var contractId = paymentIntent.Metadata["contractId"];
-                    var contract = await this.freelancePlatform.ContractManager.GetContractByIdAsync<ContractNotificationViewModel>(contractId);
+                    var contract = await this.freelancePlatform.ContractManager
+                        .GetContractByIdAsync<ContractNotificationViewModel>(contractId);
 
-                    await this.freelancePlatform.ContractManager.SetContractStatus(ContractStatus.Finished, contractId);
-                    await this.freelancePlatform.JobManager.SetJobStatus(JobStatus.Closed, contract.JobId);
+                    await this.freelancePlatform.ContractManager
+                        .SetContractStatusAsync(ContractStatus.Finished, contractId);
+                    await this.freelancePlatform.JobManager
+                        .SetJobStatusAsync(JobStatus.Closed, contract.JobId);
 
                     var completionNotification = new Notification
                     {
                         Icon = GlobalConstants.ContractCompletetionIcon,
-                        Text = $"{contract.EmployerFirstName} {contract.EmployerLastName} completed your contract for job {contract.JobTitle}",
+                        Text = $"{contract.EmployerFirstName} {contract.EmployerLastName} " +
+                        $"completed your contract for job {contract.JobTitle}",
                         RedirectAction = "MyContracts",
                         RedirectController = "Contracts",
                     };
 
-                    await this.freelancePlatform.NotificationManager.CreateAsync(completionNotification, contract.FreelancerId);
+                    await this.freelancePlatform.NotificationManager
+                        .CreateAsync(completionNotification, contract.FreelancerId);
                 }
                 else
                 {

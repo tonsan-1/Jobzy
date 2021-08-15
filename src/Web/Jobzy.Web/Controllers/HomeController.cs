@@ -32,7 +32,7 @@
 
             var model = new HomeViewModel
             {
-                JobsCount = this.freelancePlatform.JobManager.GetAllPostedJobs(),
+                JobsCount = this.freelancePlatform.JobManager.GetAllPostedJobsCount(),
                 FreelancersCount = this.freelancePlatform.UserManager.GetAllFreelancersCount(),
                 OffersCount = this.freelancePlatform.OfferManager.GetAllOffersCount(),
             };
@@ -45,12 +45,12 @@
             if (this.User.IsInRole("Employer"))
             {
                 model.Freelancers = await this.freelancePlatform.UserManager
-                        .GetAllFreelancers<FreelancerViewModel>(rating: 4, sorting: Sorting.Random);
+                        .GetAllFreelancersAsync<FreelancerViewModel>(rating: 4, sorting: Sorting.Random);
 
                 foreach (var freelancer in model.Freelancers)
                 {
                     freelancer.Reviews = await this.freelancePlatform.ReviewManager
-                            .GetAllUserReviews<ReviewsListViewModel>(freelancer.Id);
+                            .GetAllUserReviewsAsync<ReviewsListViewModel>(freelancer.Id);
                 }
 
                 model.Freelancers = model.Freelancers.Take(6).ToList();
@@ -59,7 +59,7 @@
             if (this.User.IsInRole("Freelancer"))
             {
                 model.Jobs = await this.freelancePlatform.JobManager
-                    .GetAllJobPosts<AllJobsListViewModel>(sorting: Sorting.Random);
+                    .GetAllJobPostsAsync<AllJobsListViewModel>(sorting: Sorting.Random);
 
                 model.Jobs = model.Jobs.Take(6).ToList();
             }

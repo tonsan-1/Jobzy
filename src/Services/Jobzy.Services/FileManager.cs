@@ -6,6 +6,7 @@
 
     using CloudinaryDotNet;
     using CloudinaryDotNet.Actions;
+    using Jobzy.Common;
     using Jobzy.Data.Common.Repositories;
     using Jobzy.Data.Models;
     using Jobzy.Services.Interfaces;
@@ -14,19 +15,15 @@
     public class FileManager : IFileManager
     {
         private readonly IRepository<Attachment> attachmentRepository;
-        private readonly IRepository<ApplicationUser> userRepository;
 
-        public FileManager(
-            IRepository<Attachment> attachmentRepository,
-            IRepository<ApplicationUser> userRepository)
+        public FileManager(IRepository<Attachment> attachmentRepository)
         {
             this.attachmentRepository = attachmentRepository;
-            this.userRepository = userRepository;
         }
 
-        public async Task AddAttachmentToContract(IFormFile file, string contractId)
+        public async Task AddFileToContractAsync(IFormFile file, string contractId)
         {
-            var attachmentUrl = await this.UploadAttachment(file);
+            var attachmentUrl = await this.UploadAttachmentAsync(file);
 
             var attachment = new Attachment
             {
@@ -40,25 +37,12 @@
             await this.attachmentRepository.SaveChangesAsync();
         }
 
-        public async Task UpdateProfilePicture(IFormFile picture, string userId)
+        public async Task<string> UploadAttachmentAsync(IFormFile attachment)
         {
-            var pictureUrl = await this.UploadAttachment(picture);
-
-            var user = this.userRepository.All().FirstOrDefault(x => x.Id == userId);
-
-            user.ProfileImageUrl = pictureUrl;
-
-            this.userRepository.Update(user);
-            await this.userRepository.SaveChangesAsync();
-        }
-
-        public async Task<string> UploadAttachment(IFormFile attachment)
-        {
-            // Cloudinary setup
             Account account = new Account(
-                "jobzy",
-                "239537293495227",
-                "cPHTXZ86-9xLH7UkZccX4_XnlFw");
+                GlobalConstants.SystemName.ToLower(),
+                GlobalConstants.CloudinaryApiKey,
+                GlobalConstants.CloudinaryApiSecretKey);
 
             Cloudinary cloudinary = new Cloudinary(account);
             cloudinary.Api.Secure = true;
