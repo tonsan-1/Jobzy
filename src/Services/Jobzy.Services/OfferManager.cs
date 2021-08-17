@@ -82,14 +82,12 @@
         public int GetActiveOffersCount(string userId)
             => this.repository
                 .All()
-                .Where(x => x.FreelancerId == userId && !x.IsAccepted)
-                .Count();
+                .Count(x => x.FreelancerId == userId && !x.IsAccepted);
 
         public int GetSentOffersCount(string userId)
             => this.repository
                 .All()
-                .Where(x => x.FreelancerId == userId)
-                .Count();
+                .Count(x => x.FreelancerId == userId);
 
         public int GetAllOffersCount()
             => this.repository

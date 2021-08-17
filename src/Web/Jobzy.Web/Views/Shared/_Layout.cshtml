@@ -30,209 +30,213 @@
         <header id="header-container" class="fullwidth">
             <!-- Header -->
             <div id="header">
-                <div class="container">
-                    @if (this.signInManager.IsSignedIn(User))
-                    {
-                        <!-- Left Side Content -->
-                        <div class="left-side">
+            <div class="container">
+            @if (this.signInManager.IsSignedIn(User))
+            {
+                <!-- Left Side Content -->
+                <div class="left-side">
 
-                            <!-- Logo -->
-                            <div id="logo">
-                                <a asp-action="Index" asp-controller="Home"><img src="~/images/logo.png" alt=""></a>
-                            </div>
+                    <!-- Logo -->
+                    <div id="logo">
+                        <a asp-action="Index" asp-controller="Home"><img src="~/images/logo.png" alt=""></a>
+                    </div>
 
 
-                            <!-- Main Navigation -->
-                            <nav id="navigation">
-                                <ul id="responsive">
+                    <!-- Main Navigation -->
+                    <nav id="navigation">
+                        <ul id="responsive">
 
-                                    @if (this.User.IsInRole("Freelancer"))
-                                    {
+                            @if (this.User.IsInRole("Freelancer"))
+                            {
+                                <li>
+                                    <a href="#">Find Work</a>
+                                    <ul class="dropdown-nav">
                                         <li>
-                                            <a href="#">Find Work</a>
-                                            <ul class="dropdown-nav">
-                                                <li>
-                                                    <a asp-controller="Jobs" asp-action="All">Browse Jobs</a>
-                                                </li>
-                                            </ul>
+                                            <a asp-controller="Jobs" asp-action="All">Browse Jobs</a>
+                                        </li>
+                                    </ul>
+                                </li>
+
+                                <li>
+                                    <a role="button">Offers</a>
+                                    <ul class="dropdown-nav">
+                                        <li>
+                                            <a asp-action="MyOffers" asp-controller="Offers">My Offers</a>
+                                        </li>
+                                    </ul>
+                                </li>
+
+                                <li>
+                                    <a role="button">Contracts</a>
+                                    <ul class="dropdown-nav">
+                                        <li>
+                                            <a asp-action="MyContracts" asp-controller="Contracts">My Contracts</a>
                                         </li>
 
+                                    </ul>
+                                </li>
+
+                                <li>
+                                    <a href="#">Profile</a>
+                                    <ul class="dropdown-nav">
                                         <li>
-                                            <a role="button">Offers</a>
-                                            <ul class="dropdown-nav">
-                                                <li>
-                                                    <a asp-action="MyOffers" asp-controller="Offers">My Offers</a>
-                                                </li>
-                                            </ul>
+                                            <a asp-action="Freelancer" asp-controller="Users" asp-route-id="@user.Id">My Profile</a>
                                         </li>
-
                                         <li>
-                                            <a role="button">Contracts</a>
-                                            <ul class="dropdown-nav">
-                                                <li>
-                                                    <a asp-action="MyContracts" asp-controller="Contracts">My Contracts</a>
-                                                </li>
-
-                                            </ul>
+                                            <a asp-action="Settings" asp-controller="Users">Settings</a>
                                         </li>
-
-                                        <li>
-                                            <a href="#">Profile</a>
-                                            <ul class="dropdown-nav">
-                                                <li>
-                                                    <a asp-action="Freelancer" asp-controller="Users" asp-route-id="@user.Id">My Profile</a>
-                                                </li>
-                                                <li>
-                                                    <a asp-action="Settings" asp-controller="Users">Settings</a>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                    }
-                                    @if (this.User.IsInRole("Employer"))
-                                    {
-                                        <li>
-                                            <a role="button">Find Talent</a>
-                                            <ul class="dropdown-nav">
-                                                <li>
-                                                    <a asp-action="AllFreelancers" asp-controller="Users">Browse for Freelancers</a>
-                                                </li>
-                                            </ul>
-                                        </li>
-
-                                        <li>
-                                            <a role="button">Jobs</a>
-                                            <ul class="dropdown-nav">
-                                                <li>
-                                                    <a asp-action="MyJobs" asp-controller="Jobs">My Jobs</a>
-                                                </li>
-
-                                                <li>
-                                                    <a asp-action="AddJob" asp-controller="Jobs">Add a Job</a>
-                                                </li>
-                                            </ul>
-                                        </li>
-
-                                        <li>
-                                            <a role="button">Contracts</a>
-                                            <ul class="dropdown-nav">
-                                                <li>
-                                                    <a asp-action="MyContracts" asp-controller="Contracts">My Contracts</a>
-                                                </li>
-
-                                            </ul>
-                                        </li>
-
-                                        <li>
-                                            <a role="button">Profile</a>
-                                            <ul class="dropdown-nav">
-                                                <li>
-                                                    <a asp-action="Employer" asp-controller="Users" asp-route-id="@user.Id">My Profile</a>
-                                                </li>
-                                                <li>
-                                                    <a asp-action="Settings" asp-controller="Users">Settings</a>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                    }
-                                </ul>
-                            </nav>
-
-                            <div class="clearfix"></div>
-                            <!-- Main Navigation / End -->
-                        </div>
-                        <!-- Left Side Content / End -->
-                        <!-- Right Side Content / End -->
-
-                        <div class="right-side">
-
-                            @{
-                                var firstName = user.FirstName;
-                                var lastName = user.LastName;
-                                var username = user.UserName;
-                                var role = User.IsInRole("Freelancer") ? "Freelancer" : "Employer";
-                                var onlineStatus = user.IsOnline ? "status-online" : "status-invisible";
+                                    </ul>
+                                </li>
                             }
+                            @if (this.User.IsInRole("Employer"))
+                            {
+                                <li>
+                                    <a role="button">Find Talent</a>
+                                    <ul class="dropdown-nav">
+                                        <li>
+                                            <a asp-action="AllFreelancers" asp-controller="Users">Browse for Freelancers</a>
+                                        </li>
+                                    </ul>
+                                </li>
 
-                            <div class="header-widget hide-on-mobile">
-                                <vc:all-user-notifications></vc:all-user-notifications>
-                                <vc:all-user-layout-messages></vc:all-user-layout-messages>
+                                <li>
+                                    <a role="button">Jobs</a>
+                                    <ul class="dropdown-nav">
+                                        <li>
+                                            <a asp-action="MyJobs" asp-controller="Jobs">My Jobs</a>
+                                        </li>
+
+                                        <li>
+                                            <a asp-action="AddJob" asp-controller="Jobs">Add a Job</a>
+                                        </li>
+                                    </ul>
+                                </li>
+
+                                <li>
+                                    <a role="button">Contracts</a>
+                                    <ul class="dropdown-nav">
+                                        <li>
+                                            <a asp-action="MyContracts" asp-controller="Contracts">My Contracts</a>
+                                        </li>
+
+                                    </ul>
+                                </li>
+
+                                <li>
+                                    <a role="button">Profile</a>
+                                    <ul class="dropdown-nav">
+                                        <li>
+                                            <a asp-action="Employer" asp-controller="Users" asp-route-id="@user.Id">My Profile</a>
+                                        </li>
+                                        <li>
+                                            <a asp-action="Settings" asp-controller="Users">Settings</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            }
+                        </ul>
+                    </nav>
+
+                    <div class="clearfix"></div>
+                    <!-- Main Navigation / End -->
+                </div>
+                <!-- Left Side Content / End -->
+                <!-- Right Side Content / End -->
+
+                <div class="right-side">
+
+                    @{
+                        var firstName = user.FirstName;
+                        var lastName = user.LastName;
+                        var username = user.UserName;
+                        var role = User.IsInRole("Freelancer") ? "Freelancer" :
+                            User.IsInRole("Employer") ? "Employer" :
+                                "Administrator";
+
+                        var onlineStatus = user.IsOnline ? "status-online" : "status-invisible";
+                    }
+
+                    <div class="header-widget hide-on-mobile">
+                        <vc:all-user-notifications></vc:all-user-notifications>
+                        <vc:all-user-layout-messages></vc:all-user-layout-messages>
+                    </div>
+
+                    <!-- User Menu -->
+                    <div class="header-widget">
+
+                        <!-- Messages -->
+                        <div class="header-notifications user-menu">
+                            <div class="header-notifications-trigger">
+                                <a href="#">
+                                    <div id="user-online-status" class="user-avatar @onlineStatus"><img src="@user.ProfileImageUrl" alt=""></div></a>
                             </div>
 
-                            <!-- User Menu -->
-                            <div class="header-widget">
+                            <!-- Dropdown -->
+                            <div class="header-notifications-dropdown">
 
-                                <!-- Messages -->
-                                <div class="header-notifications user-menu">
-                                    <div class="header-notifications-trigger">
-                                        <a href="#"><div id="user-online-status" class="user-avatar @onlineStatus"><img src="@user.ProfileImageUrl" alt=""></div></a>
-                                    </div>
+                                <!-- User Status -->
+                                <div class="user-status">
 
-                                    <!-- Dropdown -->
-                                    <div class="header-notifications-dropdown">
-
-                                        <!-- User Status -->
-                                        <div class="user-status">
-
-                                            <!-- User Name / Avatar -->
-                                            <div class="user-details ">
-                                                <div id="dropdown-user-online-status" class="user-avatar @onlineStatus"><img src="@user.ProfileImageUrl" alt=""></div>
-                                                <div class="user-name">
-                                                    @firstName @lastName
-                                                    <span>@role</span>
-                                                </div>
-                                            </div>
+                                    <!-- User Name / Avatar -->
+                                    <div class="user-details ">
+                                        <div id="dropdown-user-online-status" class="user-avatar @onlineStatus"><img src="@user.ProfileImageUrl" alt=""></div>
+                                        <div class="user-name">
+                                            @firstName @lastName
+                                            <span>@role</span>
                                         </div>
-
-                                        <ul class="user-menu-small-nav">
-                                            <li><a asp-action="Index" asp-controller="Dashboard"><i class="icon-material-outline-dashboard"></i> Dashboard</a></li>
-                                            <li><a asp-action="Settings" asp-controller="Profile"><i class="icon-material-outline-settings"></i> Settings</a></li>
-
-                                            <li>
-                                                <form id="logout" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" method="post">
-                                                    <a role="button" href="javascript:void(0)" aria-label="logout" onclick="document.getElementById('logout').submit()"><i class="icon-material-outline-power-settings-new"></i>Logout</a>
-                                                </form>
-                                            </li>
-                                        </ul>
-
                                     </div>
                                 </div>
 
-                            </div>
+                                <ul class="user-menu-small-nav">
+                                    <li><a asp-action="Index" asp-controller="Dashboard"><i class="icon-material-outline-dashboard"></i> Dashboard</a></li>
+                                    <li><a asp-action="Settings" asp-controller="Profile"><i class="icon-material-outline-settings"></i> Settings</a></li>
 
-                            <!-- Mobile Navigation Button -->
-                            <span class="mmenu-trigger">
-                                <button class="hamburger hamburger--collapse" type="button">
-                                    <span class="hamburger-box">
-                                        <span class="hamburger-inner"></span>
-                                    </span>
-                                </button>
-                            </span>
-                        </div>
-                        <!-- Right Side Content / End -->
-                    }
-                    else
-                    {
-                        <div class="left-side">
-                            <!-- Logo -->
-                            <div id="logo">
-                                <a asp-action="Index" asp-controller="Home"><img src="~/images/logo.png" alt=""></a>
-                            </div>
-                        </div>
-                        <div class="right-side">
-                            <!-- Main Navigation -->
-                            <nav id="navigation">
-                                <ul id="responsive">
                                     <li>
-                                        <a href="/Login">Login</a>
-                                    </li>
-                                    <li>
-                                        <a href="/Register">Sign up</a>
+                                        <form id="logout" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" method="post">
+                                            <a role="button" href="javascript:void(0)" aria-label="logout" onclick="document.getElementById('logout').submit()"><i class="icon-material-outline-power-settings-new"></i>Logout</a>
+                                        </form>
                                     </li>
                                 </ul>
-                            </nav>
+
+                            </div>
                         </div>
-                    }
+
+                    </div>
+
+                    <!-- Mobile Navigation Button -->
+                    <span class="mmenu-trigger">
+                        <button class="hamburger hamburger--collapse" type="button">
+                            <span class="hamburger-box">
+                                <span class="hamburger-inner"></span>
+                            </span>
+                        </button>
+                    </span>
                 </div>
+                <!-- Right Side Content / End -->
+            }
+            else
+            {
+                <div class="left-side">
+                    <!-- Logo -->
+                    <div id="logo">
+                        <a asp-action="Index" asp-controller="Home"><img src="~/images/logo.png" alt=""></a>
+                    </div>
+                </div>
+                <div class="right-side">
+                    <!-- Main Navigation -->
+                    <nav id="navigation">
+                        <ul id="responsive">
+                            <li>
+                                <a href="/Login">Login</a>
+                            </li>
+                            <li>
+                                <a href="/Register">Sign up</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            }
+            </div>
             </div>
             <!-- Header / End -->
         </header>

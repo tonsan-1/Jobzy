@@ -105,8 +105,7 @@
         public int GetPostedJobsCount(string userId)
             => this.repository
                 .All()
-                .Where(x => x.EmployerId == userId)
-                .Count();
+                .Count(x => x.EmployerId == userId);
 
         public int GetAllPostedJobsCount()
             => this.repository

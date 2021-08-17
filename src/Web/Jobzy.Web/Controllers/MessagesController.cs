@@ -9,7 +9,6 @@
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
 
-    [Authorize(Roles = "Freelancer, Employer")]
     public class MessagesController : BaseController
     {
         private readonly IFreelancePlatform freelancePlatform;
@@ -23,6 +22,7 @@
             this.userManager = userManager;
         }
 
+        [Authorize(Roles = "Freelancer, Employer")]
         public async Task<IActionResult> Conversation(string id)
         {
             if (id is null)
@@ -41,9 +41,11 @@
             return this.View(conversation);
         }
 
+        [Authorize(Roles = "Freelancer, Employer")]
         public IActionResult All() => this.View();
 
         [HttpPost]
+        [Authorize(Roles = "Freelancer, Employer")]
         public async Task<IActionResult> NewMessage(NewMessageInputModel input)
         {
             if (!this.ModelState.IsValid)
@@ -56,7 +58,7 @@
             if (recipient is null)
             {
                 this.ModelState.AddModelError(string.Empty, "Invalid user.");
-                return this.View(input);
+                return this.RedirectToAction("All", "Messages", input);
             }
 
             var senderId = this.userManager.GetUserId(this.User);
@@ -66,6 +68,7 @@
         }
 
         [HttpPost]
+        [Authorize(Roles = "Freelancer, Employer")]
         public async Task<IActionResult> MarkAllMessagesAsRead([FromBody] string userId)
         {
             var currentUserId = this.userManager.GetUserId(this.User);

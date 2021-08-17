@@ -1,4 +1,6 @@
-﻿namespace Jobzy.Web.Controllers
+﻿using System.Security.Claims;
+
+namespace Jobzy.Web.Controllers
 {
     using System.Threading.Tasks;
 
@@ -9,7 +11,6 @@
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
 
-    [Authorize(Roles = "Employer, Freelancer")]
     public class DashboardController : BaseController
     {
         private readonly IFreelancePlatform freelancePlatform;
@@ -23,6 +24,7 @@
             this.userManager = userManager;
         }
 
+        [Authorize(Roles = "Employer, Freelancer")]
         public async Task<IActionResult> Index()
         {
             var user = await this.userManager.GetUserAsync(this.User);

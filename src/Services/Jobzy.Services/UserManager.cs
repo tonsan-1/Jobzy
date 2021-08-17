@@ -45,7 +45,11 @@
             {
                 freelancersQuery =
                     freelancersQuery
-                    .Where(x => Math.Round(x.ReceivedReviews.Average(x => x.Rating)) >= rating);
+                        .Where(
+                            x =>
+                                x.ReceivedReviews.Count == 1
+                                    ? x.ReceivedReviews.FirstOrDefault().Rating >= rating
+                                    : Math.Round(x.ReceivedReviews.Average(x => x.Rating)) >= rating);
             }
 
             if (!string.IsNullOrWhiteSpace(name))
@@ -64,10 +68,16 @@
                 Sorting.Newest or _ => freelancersQuery.OrderByDescending(x => x.CreatedOn),
             };
 
+            if (!freelancersQuery.Any())
+            {
+                return new List<T>();
+            }
+
             var freelancers =
                 await freelancersQuery
                 .Skip((currentPage - 1) * FreelancersPerPage)
                 .Take(FreelancersPerPage)
+                .Include(x => x.ReceivedReviews)
                 .To<T>()
                 .ToListAsync();
 

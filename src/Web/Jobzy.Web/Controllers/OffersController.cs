@@ -1,4 +1,6 @@
-﻿namespace Jobzy.Web.Controllers
+﻿using Jobzy.Web.ViewModels.Jobs;
+
+namespace Jobzy.Web.Controllers
 {
     using System.Threading.Tasks;
 
@@ -25,9 +27,9 @@
         }
 
         [Authorize(Roles = "Employer")]
-        public IActionResult All(string id)
+        public async Task<IActionResult> All(string id)
         {
-            var offers = this.freelancePlatform.OfferManager
+            var offers = await this.freelancePlatform.OfferManager
                 .GetJobOffersAsync<JobOfferViewModel>(id);
 
             return this.View(offers);
@@ -49,17 +51,16 @@
 
         [HttpPost]
         [Authorize(Roles = "Freelancer")]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddOffer(OfferInputModel input)
         {
             if (!this.ModelState.IsValid)
             {
-                return this.RedirectToAction("GetJob", "Job", new { id = input.JobId });
+                return this.RedirectToAction("Index", "Jobs", new { id = input.JobId });
             }
 
             var user = await this.userManager.GetUserAsync(this.User);
             var job = await this.freelancePlatform.JobManager
-                .GetJobByIdAsync<JobNotificationViewModel>(input.JobId);
+                .GetJobByIdAsync<SingleJobViewModel>(input.JobId);
 
             await this.freelancePlatform.OfferManager.CreateAsync(input);
 
@@ -116,7 +117,12 @@
                 return this.RedirectToAction("MyOffers", "Offers");
             }
 
-            return this.RedirectToAction("MyJobs", "Jobs");
+            if (this.User.IsInRole("Employer"))
+            {
+                return this.RedirectToAction("MyJobs", "Jobs");
+            }
+
+            return this.View("Error");
         }
     }
 }

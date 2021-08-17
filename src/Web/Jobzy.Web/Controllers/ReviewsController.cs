@@ -1,4 +1,6 @@
-﻿namespace Jobzy.Web.Controllers
+﻿using Microsoft.AspNetCore.Authorization;
+
+namespace Jobzy.Web.Controllers
 {
     using System.Threading.Tasks;
 
@@ -22,6 +24,7 @@
         }
 
         [HttpPost]
+        [Authorize(Roles = "Freelancer, Employer")]
         public async Task<IActionResult> LeaveReview(ReviewInputModel input)
         {
             var recipient = await this.userManager.FindByIdAsync(input.RecipientId);
@@ -38,10 +41,10 @@
 
             if (this.User.IsInRole("Employer"))
             {
-                return this.RedirectToAction("Employer", "Profile", new { id = recipient.Id });
+                return this.RedirectToAction("Employer", "Users", new { id = recipient.Id });
             }
 
-            return this.RedirectToAction("Freelancer", "Profile", new { id = recipient.Id });
+            return this.RedirectToAction("Freelancer", "Users", new { id = recipient.Id });
         }
     }
 }

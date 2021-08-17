@@ -16,20 +16,14 @@
     public class HomeController : BaseController
     {
         private readonly IFreelancePlatform freelancePlatform;
-        private readonly UserManager<ApplicationUser> userManager;
 
-        public HomeController(
-            IFreelancePlatform freelancePlatform,
-            UserManager<ApplicationUser> userManager)
+        public HomeController(IFreelancePlatform freelancePlatform)
         {
             this.freelancePlatform = freelancePlatform;
-            this.userManager = userManager;
         }
 
         public async Task<IActionResult> Index()
         {
-            var user = await this.userManager.GetUserAsync(this.User);
-
             var model = new HomeViewModel
             {
                 JobsCount = this.freelancePlatform.JobManager.GetAllPostedJobsCount(),
@@ -37,9 +31,14 @@
                 OffersCount = this.freelancePlatform.OfferManager.GetAllOffersCount(),
             };
 
-            if (user is null)
+            if (this.User.Identity.IsAuthenticated == false)
             {
                 return this.View(model);
+            }
+
+            if (this.User.IsInRole("Administrator"))
+            {
+                return this.RedirectToAction("Index", "Dashboard", new { area = "Administration" });
             }
 
             if (this.User.IsInRole("Employer"))
@@ -53,7 +52,10 @@
                             .GetAllUserReviewsAsync<ReviewsListViewModel>(freelancer.Id);
                 }
 
-                model.Freelancers = model.Freelancers.Take(6).ToList();
+                if (model.Freelancers.Any())
+                {
+                    model.Freelancers = model.Freelancers.Take(6).ToList();
+                }
             }
 
             if (this.User.IsInRole("Freelancer"))
@@ -66,5 +68,7 @@
 
             return this.View(model);
         }
+
+        public IActionResult Privacy() => this.View();
     }
 }

@@ -7,7 +7,6 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
-    [Authorize(Roles = "Freelancer, Employer")]
     public class PaymentsController : BaseController
     {
         private readonly IFreelancePlatform freelancePlatform;
@@ -17,6 +16,7 @@
             this.freelancePlatform = freelancePlatform;
         }
 
+        [Authorize(Roles = "Freelancer, Employer")]
         public async Task<IActionResult> Checkout(string id)
         {
             var contract = await this.freelancePlatform.ContractManager.GetContractByIdAsync<SingleContractViewModel>(id);

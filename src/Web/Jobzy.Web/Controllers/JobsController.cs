@@ -36,7 +36,7 @@
             return this.View(job);
         }
 
-        [Authorize(Roles = "Freelancer, Employer")]
+        [Authorize(Roles = "Freelancer")]
         public async Task<IActionResult> All([FromQuery] AllJobsQueryModel query)
         {
             var jobs = await this.freelancePlatform.JobManager
@@ -59,7 +59,7 @@
         public async Task<IActionResult> MyJobs()
         {
             var user = await this.userManager.GetUserAsync(this.User);
-            var jobs = this.freelancePlatform.JobManager
+            var jobs = await this.freelancePlatform.JobManager
                 .GetAllUserJobPostsAsync<UserJobsListViewModel>(user.Id);
 
             return this.View(jobs);

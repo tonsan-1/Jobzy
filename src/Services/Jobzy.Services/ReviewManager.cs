@@ -43,8 +43,8 @@
                 .ToListAsync();
 
         public int GetReviewsCount(string userId)
-            => this.repository.All()
-                .Where(x => x.RecipientId == userId)
-                .Count();
+            => this.repository
+                .All()
+                .Count(x => x.RecipientId == userId);
     }
 }

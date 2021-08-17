@@ -8,7 +8,6 @@
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
 
-    [Authorize(Roles = "Employer, Freelancer")]
     public class NotificationsController : BaseController
     {
         private readonly IFreelancePlatform freelancePlatform;
@@ -23,7 +22,7 @@
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Employer, Freelancer")]
         public async Task<IActionResult> MarkNotificationAsRead([FromBody] string id)
         {
             var userId = this.userManager.GetUserId(this.User);

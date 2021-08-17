@@ -85,14 +85,15 @@
         public int GetFinishedContractsCount(string userId)
             => this.contractRepository
                 .All()
-                .Where(x => (x.Status == ContractStatus.Finished && x.FreelancerId == userId) ||
-                            (x.Status == ContractStatus.Finished && x.EmployerId == userId))
-                .Count();
+                .Count(
+                    x => (x.Status == ContractStatus.Finished && x.FreelancerId == userId) ||
+                         (x.Status == ContractStatus.Finished && x.EmployerId == userId));
 
         public int GetOngoingContractsCount(string userId)
-            => this.contractRepository.All()
-                .Where(x => (x.Status == ContractStatus.Ongoing && x.FreelancerId == userId) ||
-                            (x.Status == ContractStatus.Ongoing && x.EmployerId == userId))
-                .Count();
+            => this.contractRepository
+                .All()
+                .Count(
+                    x => (x.Status == ContractStatus.Ongoing && x.FreelancerId == userId) ||
+                         (x.Status == ContractStatus.Ongoing && x.EmployerId == userId));
     }
 }

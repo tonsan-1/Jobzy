@@ -33,8 +33,7 @@
             var contract = await this.freelancePlatform.ContractManager.GetContractByIdAsync<SingleContractViewModel>(id);
 
             if (contract is null ||
-                contract.FreelancerId != userId ||
-                contract.EmployerId != userId)
+                (contract.FreelancerId != userId && contract.EmployerId != userId))
             {
                 return this.View("Error");
             }
@@ -45,9 +44,9 @@
         [Authorize(Roles = "Employer, Freelancer")]
         public async Task<IActionResult> MyContracts()
         {
-            var user = await this.userManager.GetUserAsync(this.User);
+            var userId = this.userManager.GetUserId(this.User);
             var contracts = await this.freelancePlatform.ContractManager
-                .GetAllUserContractsAsync<UserContractsListViewModel>(user.Id);
+                .GetAllUserContractsAsync<UserContractsListViewModel>(userId);
 
             this.ViewData["ContractsCount"] = contracts.Count();
 
@@ -55,15 +54,15 @@
         }
 
         [HttpPost]
-        [Authorize(Roles = "Administrator, Employer")]
+        [Authorize(Roles = "Employer")]
         public IActionResult ContractActions(string action, string contractId)
         {
-            if (action == "cancel")
+            return action switch
             {
-                return this.RedirectToAction("CancelContract", "Contracts");
-            }
-
-            return this.RedirectToAction("Checkout", "Payments", new { id = contractId });
+                "cancel" => this.RedirectToAction("CancelContract", "Contracts"),
+                "complete" => this.RedirectToAction("Checkout", "Payments", new { id = contractId }),
+                _ => this.View("Error"),
+            };
         }
 
         [HttpPost]
@@ -71,14 +70,14 @@
         public async Task<IActionResult> CompleteContract([FromBody] string contractId)
         {
             var contract = await this.freelancePlatform.ContractManager
-                .GetContractByIdAsync<ContractNotificationViewModel>(contractId);
+                .GetContractByIdAsync<SingleContractViewModel>(contractId);
 
             await this.freelancePlatform.ContractManager.SetContractStatusAsync(ContractStatus.Finished, contractId);
 
             var completionNotification = new Notification
             {
                 Icon = GlobalConstants.ContractCompletetionIcon,
-                Text = $"{contract.EmployerFirstName} {contract.EmployerLastName} completed your contract for job {contract.JobTitle}",
+                Text = $"{contract.EmployerFirstName} {contract.EmployerLastName} completed your contract for job {contract.OfferJobTitle}",
                 RedirectAction = "MyContracts",
                 RedirectController = "Contracts",
             };
@@ -92,15 +91,15 @@
         public async Task<IActionResult> CancelContract([FromBody] string contractId)
         {
             var contract = await this.freelancePlatform.ContractManager
-                .GetContractByIdAsync<ContractNotificationViewModel>(contractId);
+                .GetContractByIdAsync<SingleContractViewModel>(contractId);
 
             await this.freelancePlatform.ContractManager.SetContractStatusAsync(ContractStatus.Canceled, contractId);
-            await this.freelancePlatform.JobManager.SetJobStatusAsync(JobStatus.Open, contract.JobId);
+            await this.freelancePlatform.JobManager.SetJobStatusAsync(JobStatus.Open, contract.OfferJobId);
 
             var cancellationNotification = new Notification
             {
                 Icon = GlobalConstants.ContractCancelationIcon,
-                Text = $"{contract.EmployerFirstName} {contract.EmployerLastName} has cancelled your contract for job {contract.JobTitle}.",
+                Text = $"{contract.EmployerFirstName} {contract.EmployerLastName} has cancelled your contract for job {contract.OfferJobTitle}.",
                 RedirectAction = "MyContracts",
                 RedirectController = "Contracts",
             };
@@ -116,12 +115,12 @@
         {
             await this.freelancePlatform.FileManager.AddFileToContractAsync(attachment, contractId);
             var contract = await this.freelancePlatform.ContractManager
-                .GetContractByIdAsync<ContractNotificationViewModel>(contractId);
+                .GetContractByIdAsync<SingleContractViewModel>(contractId);
 
             var notification = new Notification
             {
                 Icon = GlobalConstants.ContractAttachmentIcon,
-                Text = $"{contract.FreelancerFirstName} {contract.FreelancerLastName} uploaded an attachment to your contract for job {contract.JobTitle}",
+                Text = $"{contract.FreelancerFirstName} {contract.FreelancerLastName} uploaded an attachment to your contract for job {contract.OfferJobTitle}",
                 RedirectAction = "Index",
                 RedirectController = "Contracts",
                 RedirectId = contract.Id,

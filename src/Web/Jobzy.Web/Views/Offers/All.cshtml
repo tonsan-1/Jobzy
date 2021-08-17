@@ -1,5 +1,5 @@
 ﻿@using Jobzy.Web.ViewModels.Offers
-@model List<JobOfferViewModel>
+@model IEnumerable<JobOfferViewModel>
 
 
 @{
@@ -24,7 +24,7 @@
 
                             <!-- Headline -->
                             <div class="headline">
-                                <h3><i class="icon-material-outline-supervisor-account"></i>@Model.Count Offers</h3>
+                                <h3><i class="icon-material-outline-supervisor-account"></i>@Model.Count() Offers</h3>
                             </div>
 
                             <div class="content">
@@ -38,12 +38,12 @@
 
                                                     <!-- Avatar -->
                                                     <div class="freelancer-avatar">
-                                                        <a asp-action="Freelancer" asp-controller="Profile" asp-route-id="@offer.FreelancerId" ><img src="@offer.FreelancerProfileImageUrl" alt=""></a>
+                                                        <a asp-action="Freelancer" asp-controller="Users" asp-route-id="@offer.FreelancerId"><img src="@offer.FreelancerProfileImageUrl" alt=""></a>
                                                     </div>
 
                                                     <!-- Name -->
                                                     <div class="freelancer-name">
-                                                        <h4><a asp-action="Freelancer" asp-controller="Profile" asp-route-id="@offer.FreelancerId">@offer.FreelancerFirstName @offer.FreelancerLastName <img class="flag" src="~/images/flags/@(offer.FreelancerLocation).svg" alt="@offer.FreelancerLocation" title="@offer.FreelancerLocationToString" data-tippy-placement="top"></a></h4>
+                                                        <h4><a asp-action="Freelancer" asp-controller="Users" asp-route-id="@offer.FreelancerId">@offer.FreelancerFirstName @offer.FreelancerLastName <img class="flag" src="~/images/flags/@(offer.FreelancerLocation).svg" alt="@offer.FreelancerLocation" title="@offer.FreelancerLocationToString" data-tippy-placement="top"></a></h4>
 
                                                         <!-- Details -->
                                                         <span class="freelancer-detail-item"><i class="icon-feather-mail"></i> @offer.FreelancerEmail</span>
@@ -79,22 +79,21 @@
                                                 </div>
                                             </div>
                                         </li>
-                                        <partial name="~/Views/Shared/AcceptOfferPartial.cshtml" 
-                                                 model="@new JobOfferViewModel 
-                                                { 
+                                        <partial name="~/Views/Shared/AcceptOfferPartial.cshtml"
+                                                 model="@new JobOfferViewModel
+                                                {
                                                     DialogNumber = dialogNumber,
                                                     Id = offer.Id,
                                                     JobId = offer.JobId,
                                                     FixedPrice = offer.FixedPrice,
                                                     FreelancerFirstName = offer.FreelancerFirstName,
                                                     FreelancerLastName = offer.FreelancerLastName,
-                                                }"/>
+                                                }" />
                                     }
                                 </ul>
                             </div>
                         </div>
                     </div>
-
                 </div>
                 <!-- Row / End -->
                 <div class="dashboard-footer-spacer" style="padding-top: 162px;"></div>
@@ -103,9 +102,3 @@
         <!-- Dashboard Content / End -->
     </div>
 </div>
-<!-- Wrapper / End -->
-
-<script>
-
-</script>
-
