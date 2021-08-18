@@ -143,7 +143,7 @@
         });
 
         function MarkAllMessagesAsRead() {
-            fetch('https://localhost:44319/Messages/MarkAllMessagesAsRead', {
+            fetch('https://jobzy.azurewebsites.net/Messages/MarkAllMessagesAsRead', {
                 method: 'POST',
                 body: JSON.stringify('@(Model.User.Id)'),
                 headers: {

@@ -15,7 +15,7 @@
         public const string StripeConfigurationKey = "sk_test_51JECFYFoZWpnNT9SoQmIQCtE0rIU5ReNiY832f8UtiHsTtX1gMyiSCHTDqI6h8pn04MJ9hVBbouyUyan990c1DiS00VD11M1hR";
         public const string StripeTestOAuthLink = "https://connect.stripe.com/oauth/authorize?response_type=code&client_id=ca_Js11uG0YalpB7BhLIqd3BykfvFtCREI2&scope=read_write";
 
-        public const string StripeWebHookEndpointSecret = "whsec_GOYWZ4l306aUbWSf2Z4sPBb8nRfuSO7P";
+        public const string StripeWebHookEndpointSecret = "whsec_kDXg57gWobYrbAwFfHGDTYfdAc6lI62h";
 
         // notification icons
         public const string OfferIcon = "icon-material-outline-gavel";
