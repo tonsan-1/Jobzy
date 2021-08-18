@@ -108,7 +108,7 @@
                         .WithUser(
                             user => user
                                 .InRole("Employer")))
-                .Calling(x => x.ContractActions(cancel, testId))
+                .Calling(x => x.CancelContract(testId))
                 .ShouldHave()
                 .ActionAttributes(
                     attributes => attributes
@@ -116,59 +116,13 @@
                         .RestrictingForHttpMethod(System.Net.Http.HttpMethod.Post))
                 .AndAlso()
                 .ShouldReturn()
-                .RedirectToAction("CancelContract", "Contracts");
+                .RedirectToAction("MyContracts", "Contracts");
 
         [Theory]
         [InlineData("complete", "testId")]
         public void ContractActionsShouldRedirectToCorrectActionWhenActionIsCompleteAndUserIsEmployer(
             string complete,
             string testId)
-            => MyController<ContractsController>
-                .Instance(
-                    controller => controller
-                        .WithDependencies(
-                            From.Services<IFreelancePlatform>(),
-                            From.Services<UserManager<ApplicationUser>>())
-                        .WithUser(
-                            user => user
-                                .InRole("Employer")))
-                .Calling(x => x.ContractActions(complete, testId))
-                .ShouldHave()
-                .ActionAttributes(
-                    attributes => attributes
-                        .RestrictingForAuthorizedRequests()
-                        .RestrictingForHttpMethod(System.Net.Http.HttpMethod.Post))
-                .AndAlso()
-                .ShouldReturn()
-                .RedirectToAction("Checkout", "Payments", new { id = testId });
-
-        [Theory]
-        [InlineData(null, "testId")]
-        public void ContractActionsShouldRedirectToCorrectActionWhenActionIsNullAndUserIsEmployer(
-            string wrongAction,
-            string testId)
-            => MyController<ContractsController>
-                .Instance(
-                    controller => controller
-                        .WithDependencies(
-                            From.Services<IFreelancePlatform>(),
-                            From.Services<UserManager<ApplicationUser>>())
-                        .WithUser(
-                            user => user
-                                .InRole("Employer")))
-                .Calling(x => x.ContractActions(wrongAction, testId))
-                .ShouldHave()
-                .ActionAttributes(
-                    attributes => attributes
-                        .RestrictingForAuthorizedRequests()
-                        .RestrictingForHttpMethod(System.Net.Http.HttpMethod.Post))
-                .AndAlso()
-                .ShouldReturn()
-                .View("Error");
-
-        [Theory]
-        [InlineData("testId")]
-        public void CompleteContractShouldRedirectToCorrectActionWhenAContractIsValidAndUserIsEmployer(string testId)
             => MyController<ContractsController>
                 .Instance(
                     controller => controller
@@ -186,7 +140,29 @@
                         .RestrictingForHttpMethod(System.Net.Http.HttpMethod.Post))
                 .AndAlso()
                 .ShouldReturn()
-                .RedirectToAction("MyContracts", "Contracts");
+                .RedirectToAction("Checkout", "Payments", new { id = testId });
+
+        [Theory]
+        [InlineData("testId")]
+        public void CompleteContractShouldRedirectToCorrectActionWhenAContractIsValidAndUserIsEmployer(string testId)
+            => MyController<ContractsController>
+                .Instance(
+                    controller => controller
+                        .WithDependencies(
+                            From.Services<IFreelancePlatform>(),
+                            From.Services<UserManager<ApplicationUser>>())
+                        .WithUser(
+                            user => user
+                                .InRole("Employer")))
+                .Calling(x => x.CompleteContract(null))
+                .ShouldHave()
+                .ActionAttributes(
+                    attributes => attributes
+                        .RestrictingForAuthorizedRequests()
+                        .RestrictingForHttpMethod(System.Net.Http.HttpMethod.Post))
+                .AndAlso()
+                .ShouldReturn()
+                .View("Error");
 
         [Theory]
         [InlineData("testId")]

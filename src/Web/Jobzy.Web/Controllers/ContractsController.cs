@@ -72,6 +72,11 @@
             var contract = await this.freelancePlatform.ContractManager
                 .GetContractByIdAsync<SingleContractViewModel>(contractId);
 
+            if (contractId is null)
+            {
+                return this.View("Error");
+            }
+
             await this.freelancePlatform.ContractManager.SetContractStatusAsync(ContractStatus.Canceled, contractId);
             await this.freelancePlatform.JobManager.SetJobStatusAsync(JobStatus.Open, contract.OfferJobId);
 
