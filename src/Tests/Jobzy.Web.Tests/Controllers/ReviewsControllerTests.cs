@@ -1,12 +1,11 @@
-﻿using Jobzy.Web.ViewModels.Reviews;
-
-namespace Jobzy.Web.Tests.Controllers
+﻿namespace Jobzy.Web.Tests.Controllers
 {
     using System.Collections.Generic;
 
     using Jobzy.Data.Models;
     using Jobzy.Services.Interfaces;
     using Jobzy.Web.Controllers;
+    using Jobzy.Web.ViewModels.Reviews;
     using Microsoft.AspNetCore.Identity;
     using MyTested.AspNetCore.Mvc;
     using Xunit;

@@ -47,6 +47,9 @@ namespace Jobzy.Data.Models
         public virtual ICollection<Review> ReceivedReviews { get; set; }
             = new HashSet<Review>();
 
+        public virtual ICollection<Notification> Notifications { get; set; }
+            = new HashSet<Notification>();
+
         public virtual ICollection<Message> SentMessages { get; set; }
             = new HashSet<Message>();
 

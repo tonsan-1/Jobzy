@@ -1,9 +1,8 @@
-﻿using Jobzy.Services.Interfaces;
-
-namespace Jobzy.Web.Tests.Controllers
+﻿namespace Jobzy.Web.Tests.Controllers
 {
     using System.Linq;
 
+    using Jobzy.Services.Interfaces;
     using Jobzy.Web.Controllers;
     using Jobzy.Web.ViewModels.Administration.Dashboard;
     using Jobzy.Web.ViewModels.Home;

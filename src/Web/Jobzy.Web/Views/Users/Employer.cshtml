@@ -154,18 +154,21 @@
                         <h3><i class="icon-material-outline-thumb-up"></i> 0 Reviews</h3>
                     </div>
 
-                    <ul class="boxed-list-ul">
-                        <li>
-                            <div class="boxed-list-item">
-                                <!-- Content -->
-                                <div class="item-content">
-                                    <div class="item-description">
-                                        <p>Be the first one to leave a review.</p>
+                    @if (Model.Id != user.Id)
+                    {
+                        <ul class="boxed-list-ul">
+                            <li>
+                                <div class="boxed-list-item">
+                                    <!-- Content -->
+                                    <div class="item-content">
+                                        <div class="item-description">
+                                            <p>Be the first one to leave a review.</p>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </li>
-                    </ul>
+                            </li>
+                        </ul>
+                    }
                 }
 
                 @if (Model.Id != user.Id)

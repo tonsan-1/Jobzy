@@ -120,72 +120,72 @@
 }
 else
 {
-    if (this.User.IsInRole("Employer"))
+    if (this.User.IsInRole("Employer") && Model.Freelancers.Any())
     {
-        <!-- Highest Rated Freelancers -->
-        <div class="section gray padding-top-65 padding-bottom-70 full-width-carousel-fix">
-            <div class="container">
-                <div class="row">
+            <!-- Highest Rated Freelancers -->
+            <div class="section gray padding-top-65 padding-bottom-70 full-width-carousel-fix">
+                <div class="container">
+                    <div class="row">
 
-                    <div class="col-xl-12">
-                        <!-- Section Headline -->
-                        <div class="section-headline margin-top-0 margin-bottom-25">
-                            <h3>Highest Rated Freelancers</h3>
-                            <a asp-action="AllFreelancers" asp-controller="Users" class="headline-link">Browse All Freelancers</a>
+                        <div class="col-xl-12">
+                            <!-- Section Headline -->
+                            <div class="section-headline margin-top-0 margin-bottom-25">
+                                <h3>Highest Rated Freelancers</h3>
+                                <a asp-action="AllFreelancers" asp-controller="Users" class="headline-link">Browse All Freelancers</a>
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="col-xl-12">
-                        <div class="default-slick-carousel freelancers-container freelancers-grid-layout">
-                            @foreach (var freelancer in Model.Freelancers)
-                            {
-                                <!--Freelancer -->
-                                <div class="freelancer">
+                        <div class="col-xl-12">
+                            <div class="default-slick-carousel freelancers-container freelancers-grid-layout">
+                                @foreach (var freelancer in Model.Freelancers)
+                                {
+                                    <!--Freelancer -->
+                                    <div class="freelancer">
 
-                                    <!-- Overview -->
-                                    <div class="freelancer-overview">
-                                        <div class="freelancer-overview-inner">
+                                        <!-- Overview -->
+                                        <div class="freelancer-overview">
+                                            <div class="freelancer-overview-inner">
 
-                                            <!-- Avatar -->
-                                            <div class="freelancer-avatar">
-                                                <a asp-action="Freelancer" asp-controller="Users" asp-route-id="@freelancer.Id" ><img src="@freelancer.ProfileImageUrl" alt=""></a>
-                                            </div>
+                                                <!-- Avatar -->
+                                                <div class="freelancer-avatar">
+                                                    <a asp-action="Freelancer" asp-controller="Users" asp-route-id="@freelancer.Id"><img src="@freelancer.ProfileImageUrl" alt=""></a>
+                                                </div>
 
-                                            <!-- Name -->
-                                            <div class="freelancer-name">
-                                                <h4><a asp-action="Freelancer" asp-controller="Users" asp-route-id="@freelancer.Id" >@freelancer.FirstName @freelancer.LastName <img class="flag" src="/images/flags/@(freelancer.Location).svg" alt=""  data-tippy-placement="top"></a></h4>
-                                                <span>@freelancer.TagName</span>
-                                            </div>
+                                                <!-- Name -->
+                                                <div class="freelancer-name">
+                                                    <h4><a asp-action="Freelancer" asp-controller="Users" asp-route-id="@freelancer.Id">@freelancer.FirstName @freelancer.LastName <img class="flag" src="/images/flags/@(freelancer.Location).svg" alt="" data-tippy-placement="top"></a></h4>
+                                                    <span>@freelancer.TagName</span>
+                                                </div>
 
-                                            <!-- Rating -->
-                                            <div class="freelancer-rating">
-                                                <div class="star-rating" data-rating="@freelancer.AverageRating"></div>
+                                                <!-- Rating -->
+                                                <div class="freelancer-rating">
+                                                    <div class="star-rating" data-rating="@freelancer.AverageRating"></div>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
 
-                                    <!-- Details -->
-                                    <div class="freelancer-details">
-                                        <div class="freelancer-details-list">
-                                            <ul>
-                                                <li>Location <strong><i class="icon-material-outline-location-on"></i> @freelancer.LocationToString</strong></li>
-                                                <li>Jobs Done <strong>@freelancer.JobsDone</strong></li>
-                                                <li>Job Success <strong>@freelancer.JobSuccess%</strong></li>
-                                            </ul>
+                                        <!-- Details -->
+                                        <div class="freelancer-details">
+                                            <div class="freelancer-details-list">
+                                                <ul>
+                                                    <li>Location <strong><i class="icon-material-outline-location-on"></i> @freelancer.LocationToString</strong></li>
+                                                    <li>Jobs Done <strong>@freelancer.JobsDone</strong></li>
+                                                    <li>Job Success <strong>@freelancer.JobSuccess%</strong></li>
+                                                </ul>
+                                            </div>
+                                            <a asp-action="Freelancer" asp-controller="Users" asp-route-id="@freelancer.Id" class="button button-sliding-icon ripple-effect">View Profile <i class="icon-material-outline-arrow-right-alt"></i></a>
                                         </div>
-                                        <a asp-action="Freelancer" asp-controller="Users" asp-route-id="@freelancer.Id" class="button button-sliding-icon ripple-effect">View Profile <i class="icon-material-outline-arrow-right-alt"></i></a>
                                     </div>
-                                </div>
-                                <!-- Freelancer / End -->
-                            }
+                                    <!-- Freelancer / End -->
+                                }
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <!-- Highest Rated Freelancers / End-->
+            <!-- Highest Rated Freelancers / End-->
     }
-    else if (this.User.IsInRole("Freelancer"))
+    else if (this.User.IsInRole("Freelancer") && Model.Jobs.Any())
     {
         <!-- Features Jobs -->
         <div class="section gray margin-top-45 padding-top-65 padding-bottom-75">
