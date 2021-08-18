@@ -45,7 +45,8 @@
                 .CreateMap<Offer, JobOfferViewModel>()
 
                 .ForMember(x => x.FreelancerRating, options => options
-                .MapFrom(c => Math.Round(c.Freelancer.ReceivedReviews.Average(x => x.Rating), 2)));
+                .MapFrom(c => c.Freelancer.ReceivedReviews.Any() ?
+                                Math.Round(c.Freelancer.ReceivedReviews.Average(x => x.Rating), 2) : 0.0));
         }
     }
 }

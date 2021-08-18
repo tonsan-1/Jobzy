@@ -10,7 +10,7 @@
     using Jobzy.Data.Models;
     using Jobzy.Services.Mapping;
 
-    public class SingleJobViewModel : BaseJobViewModel, IMapFrom<Job>, IHaveCustomMappings
+    public class SingleJobViewModel : BaseJobViewModel, IHaveCustomMappings
     {
         public string Description { get; set; }
 
@@ -41,23 +41,36 @@
             configuration
                 .CreateMap<Job, SingleJobViewModel>()
 
-                .ForMember(x => x.OffersFreelancerIds, options => options
-                .MapFrom(j => j.Offers
-                .Where(o => !o.IsAccepted)
-                .Select(f => f.FreelancerId)))
+                .ForMember(
+                    x => x.OffersFreelancerIds,
+                    options => options
+                        .MapFrom(
+                            j => j.Offers
+                                .Where(o => !o.IsAccepted)
+                                .Select(f => f.FreelancerId)))
 
-                .ForMember(x => x.ContractsFreelancerIds, options => options
-                .MapFrom(c => c.Contracts
-                .Where(x => x.Status == ContractStatus.Ongoing)
-                .Select(i => i.FreelancerId)))
+                .ForMember(
+                    x => x.ContractsFreelancerIds,
+                    options => options
+                        .MapFrom(
+                            c => c.Contracts
+                                .Where(x => x.Status == ContractStatus.Ongoing)
+                                .Select(i => i.FreelancerId)))
 
-                .ForMember(x => x.ContractId, options => options
-                .MapFrom(c => c.Contracts
-                .FirstOrDefault(x => x.Status == ContractStatus.Ongoing)
-                .Id))
+                .ForMember(
+                    x => x.ContractId,
+                    options => options
+                        .MapFrom(
+                            c => c.Contracts
+                                .FirstOrDefault(x => x.Status == ContractStatus.Ongoing)
+                                .Id))
 
-                .ForMember(x => x.EmployerRating, options => options
-                .MapFrom(c => Math.Round(c.Employer.ReceivedReviews.Average(x => x.Rating), 2)));
+                .ForMember(
+                    x => x.EmployerRating,
+                    options => options
+                        .MapFrom(
+                            c => c.Employer.ReceivedReviews.Any() ?
+                                Math.Round(c.Employer.ReceivedReviews.Average(x => x.Rating), 2) : 0.0));
         }
     }
 }

@@ -19,12 +19,9 @@
                     <h3>Are you sure you want to cancel your contract with <br />@Model.FreelancerFirstName @Model.FreelancerLastName?</h3>
                 </div>
 
-                <form id="cancel-contract-form" asp-action="ContractActions" asp-controller="Contracts">
+                <form id="cancel-contract-form" asp-action="CancelContract" asp-controller="Contracts">
                     <input type="text" hidden name="action" value="cancel" />
                     <input type="text" hidden name="contractId" value="@Model.Id" />
-                    <input type="text" hidden name="offerId" value="@Model.OfferId" />
-                    <input type="text" hidden name="freelancerId" value="@Model.FreelancerId" />
-                    <input type="text" hidden name="jobId" value="@Model.OfferJobId" />
                 </form>
 
                 <!-- Button -->

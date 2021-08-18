@@ -16,9 +16,9 @@
     public class JobManager : IJobManager
     {
         public const int JobsPerPage = 8;
-        private readonly IDeletableEntityRepository<Job> repository;
+        private readonly IRepository<Job> repository;
 
-        public JobManager(IDeletableEntityRepository<Job> repository)
+        public JobManager(IRepository<Job> repository)
         {
             this.repository = repository;
         }

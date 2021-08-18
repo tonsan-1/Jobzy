@@ -19,7 +19,5 @@
         public string CategoryName { get; set; }
 
         public decimal Budget { get; set; }
-
-        public int ContractsCount { get; set; }
     }
 }

@@ -75,7 +75,14 @@
 
                                     <!-- Rating -->
                                     <div class="freelancer-rating">
-                                        <div class="star-rating" data-rating="@freelancer.AverageRating"></div>
+                                        @if (freelancer.AverageRating > 0)
+                                        {
+                                            <div class="star-rating" data-rating="@freelancer.AverageRating"></div>
+                                        }
+                                        else
+                                        {
+                                            <span class="company-not-rated">Not rated yet</span>
+                                        }
                                     </div>
                                 </div>
                             </div>

@@ -24,13 +24,22 @@
             <div class="col-md-12">
                 <div class="single-page-header-inner">
                     <div class="left-side">
-                        <div class="header-image freelancer-avatar"><a asp-action="Employer" asp-controller="Profile" asp-route-id="@Model.EmployerId"><img src="@Model.EmployerProfileImageUrl" alt=""></a></div>
+                        <div class="header-image freelancer-avatar"><a asp-action="Employer" asp-controller="Users" asp-route-id="@Model.EmployerId"><img src="@Model.EmployerProfileImageUrl" alt=""></a></div>
                         <div class="header-details">
                             <h3>@Model.Title</h3>
                             <h5>About the Employer</h5>
                             <ul>
-                                <li><a asp-action="Employer" asp-controller="Profile" asp-route-id="@Model.EmployerId"><i class="icon-material-outline-business"></i>@Model.EmployerFirstName @Model.EmployerLastName</a></li>
-                                <li><div class="star-rating" data-rating="@Model.EmployerRating"></div></li>
+                                <li><a asp-action="Employer" asp-controller="Users" asp-route-id="@Model.EmployerId"><i class="icon-material-outline-business"></i>@Model.EmployerFirstName @Model.EmployerLastName</a></li>
+                                <li>
+                                    @if (Model.EmployerRating > 0.0)
+                                    {
+                                        <div class="star-rating" data-rating="@Model.EmployerRating"></div>
+                                    }
+                                    else
+                                    {
+                                        <span class="company-not-rated">Not rated yet</span>
+                                    }
+                                </li>
                                 <li><img class="flag" src="/images/flags/@(Model.EmployerLocation.ToString().ToLower()).svg" alt="">@Model.EmployerLocationToString</li>
                             </ul>
                         </div>
@@ -58,71 +67,7 @@
                 <h3 class="margin-bottom-25">Job Description</h3>
                 <p>@Model.Description</p>
             </div>
-            <div class="single-page-section">
-                <h3 class="margin-bottom-25">Similar Jobs</h3>
-
-                <!-- Listings Container -->
-                <div class="listings-container grid-layout">
-
-                    <!-- Job Listing -->
-                    <a href="#" class="job-listing">
-
-                        <!-- Job Listing Details -->
-                        <div class="job-listing-details">
-                            <!-- Logo -->
-                            <div class="job-listing-company-logo">
-                                <img src="images/company-logo-02.png" alt="">
-                            </div>
-
-                            <!-- Details -->
-                            <div class="job-listing-description">
-                                <h4 class="job-listing-company">Coffee</h4>
-                                <h3 class="job-listing-title">Barista and Cashier</h3>
-                            </div>
-                        </div>
-
-                        <!-- Job Listing Footer -->
-                        <div class="job-listing-footer">
-                            <ul>
-                                <li><i class="icon-material-outline-location-on"></i> San Francisco</li>
-                                <li><i class="icon-material-outline-business-center"></i> Full Time</li>
-                                <li><i class="icon-material-outline-account-balance-wallet"></i> $35000-$38000</li>
-                                <li><i class="icon-material-outline-access-time"></i> 2 days ago</li>
-                            </ul>
-                        </div>
-                    </a>
-
-                    <!-- Job Listing -->
-                    <a href="#" class="job-listing">
-
-                        <!-- Job Listing Details -->
-                        <div class="job-listing-details">
-                            <!-- Logo -->
-                            <div class="job-listing-company-logo">
-                                <img src="images/company-logo-03.png" alt="">
-                            </div>
-
-                            <!-- Details -->
-                            <div class="job-listing-description">
-                                <h4 class="job-listing-company">King <span class="verified-badge" title="Verified Employer" data-tippy-placement="top"></span></h4>
-                                <h3 class="job-listing-title">Restaurant Manager</h3>
-                            </div>
-                        </div>
-
-                        <!-- Job Listing Footer -->
-                        <div class="job-listing-footer">
-                            <ul>
-                                <li><i class="icon-material-outline-location-on"></i> San Francisco</li>
-                                <li><i class="icon-material-outline-business-center"></i> Full Time</li>
-                                <li><i class="icon-material-outline-account-balance-wallet"></i> $35000-$38000</li>
-                                <li><i class="icon-material-outline-access-time"></i> 2 days ago</li>
-                            </ul>
-                        </div>
-                    </a>
-                </div>
-                <!-- Listings Container / End -->
-
-            </div>
+            
         </div>
 
 

@@ -65,7 +65,7 @@
                 <h3 class="margin-bottom-25">About Me</h3>
                 @if (Model.Description is null && Model.Id == user.Id)
                 {
-                    <p class="not-verified-badge"><a asp-action="Settings" asp-controller="Profile">Add</a> a description.</p>
+                    <p class="not-verified-badge"><a asp-action="Settings" asp-controller="Users">Add</a> a description.</p>
                 }
                 else
                 {
@@ -152,7 +152,7 @@
                                     <div class="item-content">
                                         <h4>@contract.JobTitle</h4>
                                         <div class="item-details margin-top-7">
-                                            <div class="detail-item"><a asp-action="Employer" asp-controller="Profile" asp-route-id="@contract.EmployerId"><i class="icon-material-outline-business"></i> @contract.EmployerFirstName @contract.EmployerLastName</a></div>
+                                            <div class="detail-item"><a asp-action="Employer" asp-controller="Users" asp-route-id="@contract.EmployerId"><i class="icon-material-outline-business"></i> @contract.EmployerFirstName @contract.EmployerLastName</a></div>
                                             <div class="detail-item"><i class="icon-material-outline-date-range"></i> @contract.CreatedOnFormatted - @contract.CompletedOnFormatted</div>
                                         </div>
                                         <div class="item-description">
@@ -188,7 +188,7 @@
 
                 @if (Model.Id == user.Id)
                 {
-                    <a asp-action="Settings" asp-controller="Profile" class="apply-now-button text-white">Settings</a>
+                    <a asp-action="Settings" asp-controller="Users" class="apply-now-button text-white">Settings</a>
                 }
 
                 <!-- Freelancer Indicators -->

@@ -22,7 +22,7 @@
             => this.Contracts.Count(x => x.Status == ContractStatus.Finished);
 
         public decimal JobSuccess
-            => (this.JobsDone * 100) / this.TotalContractsCount;
+            => this.TotalContractsCount > 0 ? (this.JobsDone * 100) / this.TotalContractsCount : 0;
 
         public void CreateMappings(IProfileExpression configuration)
         {

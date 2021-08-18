@@ -19,10 +19,9 @@
                     <h3>Are you sure you want to complete your contract with @Model.FreelancerFirstName @Model.FreelancerLastName?</h3>
                 </div>
 
-                <form id="complete-contract-form" asp-action="ContractActions" asp-controller="Contracts">
+                <form id="complete-contract-form" asp-action="CompleteContract" asp-controller="Contracts">
                     <input type="text" hidden name="action" value="complete" />
                     <input type="text" hidden name="contractId" value="@Model.Id" />
-                    <input type="text" hidden name="jobId" value="@Model.OfferJobId" />
                 </form>
 
                 <!-- Button -->

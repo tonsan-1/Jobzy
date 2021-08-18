@@ -55,40 +55,19 @@
 
         [HttpPost]
         [Authorize(Roles = "Employer")]
-        public IActionResult ContractActions(string action, string contractId)
+        public IActionResult CompleteContract(string contractId)
         {
-            return action switch
+            if (contractId == null)
             {
-                "cancel" => this.RedirectToAction("CancelContract", "Contracts"),
-                "complete" => this.RedirectToAction("Checkout", "Payments", new { id = contractId }),
-                _ => this.View("Error"),
-            };
+                return this.View("Error");
+            }
+
+            return this.RedirectToAction("Checkout", "Payments", new { id = contractId });
         }
 
         [HttpPost]
         [Authorize(Roles = "Employer")]
-        public async Task<IActionResult> CompleteContract([FromBody] string contractId)
-        {
-            var contract = await this.freelancePlatform.ContractManager
-                .GetContractByIdAsync<SingleContractViewModel>(contractId);
-
-            await this.freelancePlatform.ContractManager.SetContractStatusAsync(ContractStatus.Finished, contractId);
-
-            var completionNotification = new Notification
-            {
-                Icon = GlobalConstants.ContractCompletetionIcon,
-                Text = $"{contract.EmployerFirstName} {contract.EmployerLastName} completed your contract for job {contract.OfferJobTitle}",
-                RedirectAction = "MyContracts",
-                RedirectController = "Contracts",
-            };
-
-            await this.freelancePlatform.NotificationManager.CreateAsync(completionNotification, contract.FreelancerId);
-
-            return this.RedirectToAction("MyContracts", "Contracts");
-        }
-
-        [Authorize(Roles = "Employer")]
-        public async Task<IActionResult> CancelContract([FromBody] string contractId)
+        public async Task<IActionResult> CancelContract(string contractId)
         {
             var contract = await this.freelancePlatform.ContractManager
                 .GetContractByIdAsync<SingleContractViewModel>(contractId);
