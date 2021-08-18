@@ -20,7 +20,7 @@
             this.freelancePlatform = freelancePlatform;
         }
 
-        [HttpPost("webhook")]
+        [HttpPost("/webhook")]
         [IgnoreAntiforgeryToken]
         public async Task<IActionResult> ProcessWebhookEvent()
         {
