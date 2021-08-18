@@ -27,7 +27,7 @@
             var json = await new StreamReader(this.HttpContext.Request.Body).ReadToEndAsync();
 
             // Validation
-            const string endpointSecret = "whsec_WH8v4S0IVlge4Px1fUCPuMYv4LGbVHCP";
+            const string endpointSecret = GlobalConstants.StripeWebHookEndpointSecret;
 
             try
             {
