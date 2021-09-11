@@ -55,6 +55,7 @@
                     {
                         options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
                     }).AddRazorRuntimeCompilation();
+
             services.AddRazorPages();
             services.AddSignalR();
             services.AddAntiforgery();
