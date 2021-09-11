@@ -48,34 +48,34 @@ Website: https://jobzy.azurewebsites.net/ <br/>
 ## Preview:
 
 ### Database schema
-![Database](https://imgur.com/a/kEfwtaw)
+![Database](https://i.postimg.cc/G3Zsb4hF/Screenshot-51.png)
 
 ### Home Page
-![Home](https://imgur.com/a/jGyX861)
+![Home](https://i.postimg.cc/WpJhYs6h/Screenshot-52.png)
 
 ### Find Work Page
-![Find Work](https://imgur.com/a/QmbW84F)
+![Find Work](https://i.postimg.cc/L8m5sLd1/Screenshot-53.png)
 
 ### My Offers Page
-![My Offers](https://imgur.com/a/fvlRkg3)
+![My Offers](https://i.postimg.cc/J0b7r4Px/Screenshot-54.png)
 
 ### My Contracts Page
-![My Contacts](https://imgur.com/a/jyURIhr)
+![My Contacts](https://i.postimg.cc/gJFfYyQ9/Screenshot-55.png)
 
 ### Contract Details Page
-![Contract Details](https://imgur.com/a/ZJKZ5LH)
+![Contract Details](https://i.postimg.cc/3wMLp8Bm/Screenshot-56.png)
 
 ### Freelancer Profile Page
-![Freelancer Profile](https://imgur.com/vlrar1S)
+![Freelancer Profile](https://i.postimg.cc/cHxBMr8g/Screenshot-57.png)
 
 ### Messages Page 
-![Messages](https://imgur.com/NXmR2PZ)
+![Messages](https://i.postimg.cc/pr7QHCcz/Screenshot-58.png)
 
 ### Dashboard Page 
-![Dashboard](https://imgur.com/728DwXV)
+![Dashboard](https://i.postimg.cc/LsRt2nDC/Screenshot-59.png)
 
 ### 🤝🏻  &nbsp;Connect with Me
 
-<a href="https://tonsan-1.web.app/"><img src="https://img.shields.io/badge/badge-tonsan--1-blue"/></a>
+<a href="https://tonsan-1.web.app/"><img src="https://img.shields.io/badge/portoflio-tonsan--1-blue"/></a>
 <a href="https://www.linkedin.com/in/tonsan1/"><img src="https://img.shields.io/badge/-tonsan--1-0A66C2?style=flat&logo=linkedin&logoColor=white"/></a>
 <a href="mailto:tonsan221@gmail.com"><img src="https://img.shields.io/badge/-tonsan221@gmail.com-EA4335?style=flat&logo=gmail&logoColor=white"/></a>
