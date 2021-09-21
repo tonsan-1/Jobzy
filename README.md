@@ -1,5 +1,5 @@
 # Jobzy
-Easy to use Freelance Marketplace<br/>
+This is a defense project for the ASP.NET course at SoftUni<br>
 
 Jobzy is a freelance marketplace with users an having option to choose between being employers or freelancers. Depending on the created account, users can send offers or post jobs. After successfully accepting an offer by the employers, an automatic contract is generated to ease the communication between both parties. Completing the contract can be done by card payment, by which the freelancer gets paid. <br/>
 
